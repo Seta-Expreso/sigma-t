@@ -99,15 +99,15 @@ export class ClienteController {
     try {
       const body = req.body as ClienteData;
 
-      // Crear objeto Partial<Cliente> explícitamente
-      const clienteData: Partial<Cliente> = {
+      // Crear objeto Partial<Cliente> explícitamente con type assertion
+      const clienteData = {
         nombre_empresa: body.nombre_empresa,
         contacto_nombre: body.contacto_nombre,
         contacto_telefono: body.contacto_telefono,
         contacto_email: body.contacto_email,
         tarifa_preferencial: body.tarifa_preferencial,
         activo: body.activo !== undefined ? body.activo : true,
-      };
+      } as Partial<Cliente>;
 
       const cliente = await clienteService.create(clienteData);
       res.status(201).json({
@@ -142,15 +142,15 @@ export class ClienteController {
 
       const body = req.body as ClienteData;
 
-      // Crear objeto Partial<Cliente> explícitamente
-      const clienteData: Partial<Cliente> = {
+      // Crear objeto Partial<Cliente> explícitamente con type assertion
+      const clienteData = {
         nombre_empresa: body.nombre_empresa,
         contacto_nombre: body.contacto_nombre,
         contacto_telefono: body.contacto_telefono,
         contacto_email: body.contacto_email,
         tarifa_preferencial: body.tarifa_preferencial,
         activo: body.activo,
-      };
+      } as Partial<Cliente>;
 
       const cliente = await clienteService.update(id, clienteData);
       if (!cliente) {
