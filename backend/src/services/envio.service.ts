@@ -4,7 +4,7 @@
  */
 
 import { AppDataSource } from '../config/database.config';
-import { Envio, EstadoEnvio, PrioridadEnvio, EstadoAduana } from '../models/envio.model';
+import { Envio, EstadoEnvio, EstadoAduana } from '../models/envio.model';
 import { Repository, Between, FindOptionsWhere } from 'typeorm';
 
 export class EnvioService {

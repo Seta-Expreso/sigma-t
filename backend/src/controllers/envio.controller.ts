@@ -5,7 +5,7 @@
 
 import { Request, Response } from 'express';
 import { EnvioService } from '../services/envio.service';
-import { EstadoEnvio, PrioridadEnvio, EstadoAduana } from '../models/envio.model';
+import { EstadoEnvio, PrioridadEnvio } from '../models/envio.model';
 import winston from 'winston';
 
 // Configurar logger
@@ -128,7 +128,6 @@ export class EnvioController {
    */
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const body = req.body;
       
       const envioData = {
@@ -181,7 +180,6 @@ export class EnvioController {
         return;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const body = req.body;
       
       const envioData = {
@@ -284,7 +282,6 @@ export class EnvioController {
         return;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { estado, incidencia } = req.body;
 
       if (!estado || !Object.values(EstadoEnvio).includes(estado as EstadoEnvio)) {
