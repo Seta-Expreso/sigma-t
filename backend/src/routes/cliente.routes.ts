@@ -3,22 +3,35 @@
  * @module routes/cliente
  */
 
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { ClienteController } from '../controllers/cliente.controller';
 
 const router = Router();
 
-// Rutas públicas (dentro del módulo)
-// Usamos un wrapper para manejar las promesas correctamente
-const asyncHandler = (fn: Function) => (req: any, res: any, next: any) => {
-  Promise.resolve(fn(req, res, next)).catch(next);
-};
+// Usamos funciones flecha que llaman a los controladores
+// Esto mantiene el contexto y maneja las promesas correctamente
+router.get('/', (req: Request, res: Response) => {
+  void ClienteController.getAll(req, res);
+});
 
-router.get('/', asyncHandler(ClienteController.getAll));
-router.get('/buscar', asyncHandler(ClienteController.search));
-router.get('/:id', asyncHandler(ClienteController.getById));
-router.post('/', asyncHandler(ClienteController.create));
-router.put('/:id', asyncHandler(ClienteController.update));
-router.delete('/:id', asyncHandler(ClienteController.delete));
+router.get('/buscar', (req: Request, res: Response) => {
+  void ClienteController.search(req, res);
+});
+
+router.get('/:id', (req: Request, res: Response) => {
+  void ClienteController.getById(req, res);
+});
+
+router.post('/', (req: Request, res: Response) => {
+  void ClienteController.create(req, res);
+});
+
+router.put('/:id', (req: Request, res: Response) => {
+  void ClienteController.update(req, res);
+});
+
+router.delete('/:id', (req: Request, res: Response) => {
+  void ClienteController.delete(req, res);
+});
 
 export default router;

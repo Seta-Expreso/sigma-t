@@ -22,9 +22,9 @@ const clienteService = new ClienteService();
 
 // Definir tipo para los datos de cliente
 interface ClienteData {
-  nombre_empresa: string;
-  contacto_nombre: string;
-  contacto_telefono: string;
+  nombre_empresa?: string;
+  contacto_nombre?: string;
+  contacto_telefono?: string;
   contacto_email?: string;
   tarifa_preferencial?: number;
   activo?: boolean;
@@ -97,15 +97,16 @@ export class ClienteController {
    */
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const { nombre_empresa, contacto_nombre, contacto_telefono, contacto_email, tarifa_preferencial } = req.body as ClienteData;
+      const body = req.body as ClienteData;
 
+      // Crear objeto Partial<Cliente> explícitamente
       const clienteData: Partial<Cliente> = {
-        nombre_empresa,
-        contacto_nombre,
-        contacto_telefono,
-        contacto_email,
-        tarifa_preferencial,
-        activo: true,
+        nombre_empresa: body.nombre_empresa,
+        contacto_nombre: body.contacto_nombre,
+        contacto_telefono: body.contacto_telefono,
+        contacto_email: body.contacto_email,
+        tarifa_preferencial: body.tarifa_preferencial,
+        activo: body.activo !== undefined ? body.activo : true,
       };
 
       const cliente = await clienteService.create(clienteData);
@@ -139,15 +140,16 @@ export class ClienteController {
         return;
       }
 
-      const { nombre_empresa, contacto_nombre, contacto_telefono, contacto_email, tarifa_preferencial, activo } = req.body as ClienteData;
+      const body = req.body as ClienteData;
 
+      // Crear objeto Partial<Cliente> explícitamente
       const clienteData: Partial<Cliente> = {
-        nombre_empresa,
-        contacto_nombre,
-        contacto_telefono,
-        contacto_email,
-        tarifa_preferencial,
-        activo,
+        nombre_empresa: body.nombre_empresa,
+        contacto_nombre: body.contacto_nombre,
+        contacto_telefono: body.contacto_telefono,
+        contacto_email: body.contacto_email,
+        tarifa_preferencial: body.tarifa_preferencial,
+        activo: body.activo,
       };
 
       const cliente = await clienteService.update(id, clienteData);
