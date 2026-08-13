@@ -35,7 +35,7 @@ La documentación completa del proyecto se encuentra en la carpeta `/docs`.
 ## 🏗️ Setup del Entorno de Desarrollo
 
 ### Prerrequisitos
-- Node.js 20.x
+- Node.js 22.14.0 o superior
 - Docker 24.x+
 - Docker Compose 2.x
 - Flutter SDK 3.x
