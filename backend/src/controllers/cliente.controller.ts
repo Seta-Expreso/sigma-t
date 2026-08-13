@@ -20,6 +20,16 @@ const logger = winston.createLogger({
 
 const clienteService = new ClienteService();
 
+// Definir tipo para los datos de cliente
+interface ClienteData {
+  nombre_empresa: string;
+  contacto_nombre: string;
+  contacto_telefono: string;
+  contacto_email?: string;
+  tarifa_preferencial?: number;
+  activo?: boolean;
+}
+
 export class ClienteController {
   /**
    * Obtiene todos los clientes
@@ -87,7 +97,17 @@ export class ClienteController {
    */
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const clienteData: Partial<Cliente> = req.body;
+      const { nombre_empresa, contacto_nombre, contacto_telefono, contacto_email, tarifa_preferencial } = req.body as ClienteData;
+
+      const clienteData: Partial<Cliente> = {
+        nombre_empresa,
+        contacto_nombre,
+        contacto_telefono,
+        contacto_email,
+        tarifa_preferencial,
+        activo: true,
+      };
+
       const cliente = await clienteService.create(clienteData);
       res.status(201).json({
         success: true,
@@ -119,7 +139,17 @@ export class ClienteController {
         return;
       }
 
-      const clienteData: Partial<Cliente> = req.body;
+      const { nombre_empresa, contacto_nombre, contacto_telefono, contacto_email, tarifa_preferencial, activo } = req.body as ClienteData;
+
+      const clienteData: Partial<Cliente> = {
+        nombre_empresa,
+        contacto_nombre,
+        contacto_telefono,
+        contacto_email,
+        tarifa_preferencial,
+        activo,
+      };
+
       const cliente = await clienteService.update(id, clienteData);
       if (!cliente) {
         res.status(404).json({

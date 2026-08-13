@@ -9,12 +9,16 @@ import { ClienteController } from '../controllers/cliente.controller';
 const router = Router();
 
 // Rutas públicas (dentro del módulo)
-// Usamos funciones flecha para mantener el contexto de `this`
-router.get('/', (req, res) => ClienteController.getAll(req, res));
-router.get('/buscar', (req, res) => ClienteController.search(req, res));
-router.get('/:id', (req, res) => ClienteController.getById(req, res));
-router.post('/', (req, res) => ClienteController.create(req, res));
-router.put('/:id', (req, res) => ClienteController.update(req, res));
-router.delete('/:id', (req, res) => ClienteController.delete(req, res));
+// Usamos un wrapper para manejar las promesas correctamente
+const asyncHandler = (fn: Function) => (req: any, res: any, next: any) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+router.get('/', asyncHandler(ClienteController.getAll));
+router.get('/buscar', asyncHandler(ClienteController.search));
+router.get('/:id', asyncHandler(ClienteController.getById));
+router.post('/', asyncHandler(ClienteController.create));
+router.put('/:id', asyncHandler(ClienteController.update));
+router.delete('/:id', asyncHandler(ClienteController.delete));
 
 export default router;
