@@ -57,6 +57,7 @@ export class ClienteService {
     const cliente = await this.findById(id);
     if (!cliente) return null;
     
+    // Actualizar solo los campos proporcionados
     Object.assign(cliente, data);
     return await this.clienteRepository.save(cliente);
   }
