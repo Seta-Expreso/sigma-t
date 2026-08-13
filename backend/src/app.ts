@@ -14,6 +14,7 @@ import { AppDataSource } from './config/database.config';
 
 // Importar rutas
 import clienteRoutes from './routes/cliente.routes';
+import envioRoutes from './routes/envio.routes';
 
 // Cargar variables de entorno
 dotenv.config();
@@ -47,7 +48,7 @@ app.use('/api', limiter);
 // CORS
 app.use(cors({
   origin: process.env.CORS_ORIGIN || '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
@@ -80,6 +81,9 @@ app.get('/api/test', (req: Request, res: Response) => {
 // Clientes
 app.use('/api/clientes', clienteRoutes);
 
+// Envíos
+app.use('/api/envios', envioRoutes);
+
 // ============================================
 
 // Función para iniciar el servidor
@@ -95,6 +99,7 @@ async function startServer() {
       logger.info(`📊 Health check disponible en http://localhost:${port}/health`);
       logger.info(`🧪 Test endpoint disponible en http://localhost:${port}/api/test`);
       logger.info(`📋 API Clientes disponible en http://localhost:${port}/api/clientes`);
+      logger.info(`📦 API Envíos disponible en http://localhost:${port}/api/envios`);
     });
   } catch (error) {
     logger.error('❌ Error al iniciar el servidor:', error);
