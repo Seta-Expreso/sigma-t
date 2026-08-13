@@ -12,6 +12,9 @@ import dotenv from 'dotenv';
 import winston from 'winston';
 import { AppDataSource } from './config/database.config';
 
+// Importar rutas
+import clienteRoutes from './routes/cliente.routes';
+
 // Cargar variables de entorno
 dotenv.config();
 
@@ -70,6 +73,15 @@ app.get('/api/test', (req: Request, res: Response) => {
   });
 });
 
+// ============================================
+// RUTAS DE LA API
+// ============================================
+
+// Clientes
+app.use('/api/clientes', clienteRoutes);
+
+// ============================================
+
 // Función para iniciar el servidor
 async function startServer() {
   try {
@@ -82,6 +94,7 @@ async function startServer() {
       logger.info(`🚀 Servidor SIGMA-T backend iniciado en puerto ${port}`);
       logger.info(`📊 Health check disponible en http://localhost:${port}/health`);
       logger.info(`🧪 Test endpoint disponible en http://localhost:${port}/api/test`);
+      logger.info(`📋 API Clientes disponible en http://localhost:${port}/api/clientes`);
     });
   } catch (error) {
     logger.error('❌ Error al iniciar el servidor:', error);
