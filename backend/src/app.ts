@@ -3,12 +3,14 @@
  * @module app
  */
 
+import 'reflect-metadata';
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import winston from 'winston';
+import { AppDataSource } from './config/database.config';
 
 // Cargar variables de entorno
 dotenv.config();
@@ -68,11 +70,26 @@ app.get('/api/test', (req: Request, res: Response) => {
   });
 });
 
+// Función para iniciar el servidor
+async function startServer() {
+  try {
+    // Conectar a la base de datos
+    await AppDataSource.initialize();
+    logger.info('📦 Conexión a PostgreSQL establecida correctamente');
+
+    // Iniciar servidor
+    app.listen(port, () => {
+      logger.info(`🚀 Servidor SIGMA-T backend iniciado en puerto ${port}`);
+      logger.info(`📊 Health check disponible en http://localhost:${port}/health`);
+      logger.info(`🧪 Test endpoint disponible en http://localhost:${port}/api/test`);
+    });
+  } catch (error) {
+    logger.error('❌ Error al iniciar el servidor:', error);
+    process.exit(1);
+  }
+}
+
 // Iniciar servidor
-app.listen(port, () => {
-  logger.info(`🚀 Servidor SIGMA-T backend iniciado en puerto ${port}`);
-  logger.info(`📊 Health check disponible en http://localhost:${port}/health`);
-  logger.info(`🧪 Test endpoint disponible en http://localhost:${port}/api/test`);
-});
+startServer();
 
 export default app;
