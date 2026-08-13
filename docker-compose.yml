@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgis/postgis:15-3.4
+    container_name: sigma-t-postgres
+    environment:
+      POSTGRES_DB: sigma_t
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-sigma2026}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - sigma-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: sigma-t-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      - sigma-network
+
+  osrm:
+    image: ghcr.io/project-osrm/osrm-backend:latest
+    container_name: sigma-t-osrm
+    volumes:
+      - ./osrm_data:/data
+    command: "osrm-routed --algorithm mld /data/cuba-latest.osrm"
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    networks:
+      - sigma-network
+
+  backend:
+    build: ./backend
+    container_name: sigma-t-backend
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: admin
+      DB_PASSWORD: ${DB_PASSWORD:-sigma2026}
+      DB_NAME: sigma_t
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: ${JWT_SECRET:-sigma-t-secret-key-2026}
+      OSRM_URL: http://osrm:5000
+      NODE_ENV: development
+      AEROVARADERO_URL: https://www.aerovaradero.com.cu/payment/
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - redis
+      - osrm
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    restart: unless-stopped
+    networks:
+      - sigma-network
+
+  frontend:
+    build: ./frontend
+    container_name: sigma-t-frontend
+    environment:
+      VITE_API_URL: http://localhost:3000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    restart: unless-stopped
+    networks:
+      - sigma-network
+
+volumes:
+  postgres_data:
+
+networks:
+  sigma-network:
+    driver: bridge
