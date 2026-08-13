@@ -5,6 +5,18 @@
 
 import { Request, Response } from 'express';
 import { ClienteService } from '../services/cliente.service';
+import winston from 'winston';
+
+// Configurar logger
+const logger = winston.createLogger({
+  level: 'error',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.Console({
+      format: winston.format.simple(),
+    }),
+  ],
+});
 
 const clienteService = new ClienteService();
 
@@ -22,7 +34,7 @@ export class ClienteController {
         total: clientes.length,
       });
     } catch (error) {
-      console.error('Error al obtener clientes:', error);
+      logger.error('Error al obtener clientes:', error);
       res.status(500).json({
         success: false,
         message: 'Error al obtener los clientes',
@@ -60,7 +72,7 @@ export class ClienteController {
         data: cliente,
       });
     } catch (error) {
-      console.error('Error al obtener cliente:', error);
+      logger.error('Error al obtener cliente:', error);
       res.status(500).json({
         success: false,
         message: 'Error al obtener el cliente',
@@ -75,14 +87,15 @@ export class ClienteController {
    */
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const cliente = await clienteService.create(req.body);
+      const clienteData: Partial<Cliente> = req.body;
+      const cliente = await clienteService.create(clienteData);
       res.status(201).json({
         success: true,
         message: 'Cliente creado exitosamente',
         data: cliente,
       });
     } catch (error) {
-      console.error('Error al crear cliente:', error);
+      logger.error('Error al crear cliente:', error);
       res.status(500).json({
         success: false,
         message: 'Error al crear el cliente',
@@ -106,7 +119,8 @@ export class ClienteController {
         return;
       }
 
-      const cliente = await clienteService.update(id, req.body);
+      const clienteData: Partial<Cliente> = req.body;
+      const cliente = await clienteService.update(id, clienteData);
       if (!cliente) {
         res.status(404).json({
           success: false,
@@ -121,7 +135,7 @@ export class ClienteController {
         data: cliente,
       });
     } catch (error) {
-      console.error('Error al actualizar cliente:', error);
+      logger.error('Error al actualizar cliente:', error);
       res.status(500).json({
         success: false,
         message: 'Error al actualizar el cliente',
@@ -159,7 +173,7 @@ export class ClienteController {
         message: 'Cliente eliminado exitosamente',
       });
     } catch (error) {
-      console.error('Error al eliminar cliente:', error);
+      logger.error('Error al eliminar cliente:', error);
       res.status(500).json({
         success: false,
         message: 'Error al eliminar el cliente',
@@ -190,7 +204,7 @@ export class ClienteController {
         total: clientes.length,
       });
     } catch (error) {
-      console.error('Error al buscar clientes:', error);
+      logger.error('Error al buscar clientes:', error);
       res.status(500).json({
         success: false,
         message: 'Error al buscar clientes',
