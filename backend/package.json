@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Backend API para SIGMA-T - Sistema Integral de Gestión para MiPYME de Transporte",
   "main": "dist/app.js",
+  "type": "module",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
@@ -30,25 +31,24 @@
     "express-rate-limit": "^7.1.5"
   },
   "devDependencies": {
+    "@eslint/js": "^9.22.0",
     "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
-    "@typescript-eslint/eslint-plugin": "^8.26.0",
-    "@typescript-eslint/parser": "^8.26.0",
     "eslint": "^9.22.0",
-    "glob": "^11.0.1",
+    "globals": "^15.14.0",
     "prettier": "^3.1.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.2",
+    "typescript-eslint": "^8.26.0",
     "typedoc": "^0.25.3",
     "jest": "^29.7.0",
     "@types/jest": "^29.5.10",
     "ts-jest": "^29.1.1",
     "supertest": "^6.3.4",
-    "@types/supertest": "^6.0.2",
-    "npmlog": "^7.0.1"
+    "@types/supertest": "^6.0.2"
   },
   "engines": {
     "node": ">=22.14.0"
