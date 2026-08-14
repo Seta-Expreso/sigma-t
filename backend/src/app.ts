@@ -15,6 +15,7 @@ import { AppDataSource } from './config/database.config';
 // Importar rutas
 import clienteRoutes from './routes/cliente.routes';
 import envioRoutes from './routes/envio.routes';
+import importacionRoutes from './routes/importacion.routes';
 
 // Cargar variables de entorno
 dotenv.config();
@@ -83,6 +84,9 @@ app.use('/api/clientes', clienteRoutes);
 
 // Envíos
 app.use('/api/envios', envioRoutes);
+
+// Importaciones
+app.use('/api/importacion', importacionRoutes);
 
 // ============================================
 
