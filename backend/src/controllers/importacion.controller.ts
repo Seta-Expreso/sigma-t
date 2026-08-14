@@ -93,7 +93,7 @@ export class ImportacionController {
    * Obtiene el formato esperado del Excel
    * @route GET /api/importacion/formato
    */
-  static async getFormato(req: Request, res: Response): Promise<void> {
+  static getFormato(req: Request, res: Response): void {
     try {
       const formato = {
         columnas: [

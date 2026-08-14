@@ -16,7 +16,7 @@ export interface ImportResult {
   total: number;
   importados: number;
   errores: ImportError[];
-  envios: any[];
+  envios: unknown[];
 }
 
 export interface ImportError {
@@ -24,6 +24,9 @@ export interface ImportError {
   house: string;
   error: string;
 }
+
+// Definir tipo para una fila del Excel
+type ExcelRow = Record<string, unknown>;
 
 export class ImportacionService {
   /**
@@ -46,7 +49,7 @@ export class ImportacionService {
       const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
-      const data = XLSX.utils.sheet_to_json(worksheet) as any[];
+      const data = XLSX.utils.sheet_to_json<ExcelRow>(worksheet);
 
       resultado.total = data.length;
 
@@ -69,7 +72,7 @@ export class ImportacionService {
         } catch (error) {
           resultado.errores.push({
             fila,
-            house: row['House'] || row['house'] || 'Desconocido',
+            house: (row['House'] as string) || (row['house'] as string) || 'Desconocido',
             error: error instanceof Error ? error.message : 'Error desconocido',
           });
         }
@@ -85,11 +88,11 @@ export class ImportacionService {
 
   /**
    * Mapea una fila del Excel a un objeto Envio
-   * @param {any} row - Fila del Excel
+   * @param {ExcelRow} row - Fila del Excel
    * @param {number} clienteId - ID del cliente
    * @returns {Partial<Envio>} Datos del envío
    */
-  private mapearFila(row: any, clienteId: number): Partial<Envio> {
+  private mapearFila(row: ExcelRow, clienteId: number): Partial<Envio> {
     // Mapeo de columnas según el manifiesto real
     const house = this.getColumnValue(row, ['House', 'house', 'HOUSE']);
     const awb = this.getColumnValue(row, ['AWB', 'awb', 'Master AWB', 'No. de Master AWB']);
@@ -99,7 +102,6 @@ export class ImportacionService {
     const remitente = this.getColumnValue(row, ['Remitente', 'Nombre y Apellidos del REMITENTE', 'remitente']);
     const passport = this.getColumnValue(row, ['Passport', 'pasaporte', 'Identificación Remitente']);
     const destinatario = this.getColumnValue(row, ['Destinatario', 'Nombre y Apellidos del DESTINATARIO', 'destinatario']);
-    const carnet = this.getColumnValue(row, ['Carnet de Identidad', 'carnet', 'Identificación Destinatario']);
     const telefono = this.getColumnValue(row, ['Teléfono del DESTINATARIO', 'telefono', 'Teléfono']);
     const direccion = this.getColumnValue(row, ['Dirección del DESTINATARIO', 'direccion', 'Dirección']);
     const cobrado = this.getColumnValue(row, ['Cobrado/No Cobrado', 'cobrado', 'Cobrado']);
@@ -142,14 +144,15 @@ export class ImportacionService {
 
   /**
    * Obtiene el valor de una columna buscando por varios nombres posibles
-   * @param {any} row - Fila del Excel
+   * @param {ExcelRow} row - Fila del Excel
    * @param {string[]} keys - Posibles nombres de la columna
    * @returns {string} Valor encontrado
    */
-  private getColumnValue(row: any, keys: string[]): string {
+  private getColumnValue(row: ExcelRow, keys: string[]): string {
     for (const key of keys) {
-      if (row[key] !== undefined && row[key] !== null && row[key] !== '') {
-        return String(row[key]).trim();
+      const value = row[key];
+      if (value !== undefined && value !== null && value !== '') {
+        return String(value).trim();
       }
     }
     return '';
