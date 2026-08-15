@@ -30,8 +30,9 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
       const data = await envioApi.getHistorialByCliente(clienteId);
       setEnvios(data);
       setError(null);
-    } catch {
+    } catch (err) {
       setError('Error al cargar el historial del cliente');
+      console.error('Error al cargar historial:', err);
     } finally {
       setLoading(false);
     }
@@ -154,6 +155,13 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
         </div>
 
         <div className="p-6">
+          {/* Mostrar error si existe */}
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+              {error}
+            </div>
+          )}
+
           <div className="grid grid-cols-5 gap-4 mb-6">
             <div className="bg-white p-4 rounded-lg shadow">
               <div className="text-sm text-gray-500">Total</div>
