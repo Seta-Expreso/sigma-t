@@ -16,7 +16,6 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// ✅ CORREGIDO: Configuración simplificada de multer
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
     cb(null, uploadDir);
@@ -27,8 +26,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// ✅ CORREGIDO: eslint-disable para multer
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 const upload = multer({
   storage,
   fileFilter: (_req, file, cb) => {
@@ -42,10 +39,12 @@ const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
 });
 
+const router = Router();
+
+// ⚠️ Deshabilitar reglas para multer (no tiene tipos completos)
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 const singleUpload = upload.single('file') as RequestHandler;
 /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
-
-const router = Router();
 
 /**
  * POST /api/importacion/columnas

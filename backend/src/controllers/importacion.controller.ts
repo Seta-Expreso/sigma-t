@@ -40,8 +40,7 @@ export class ImportacionController {
         return;
       }
 
-      // ✅ CORREGIDO: eslint-disable para file.path
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
+      // ✅ CORREGIDO: acceder a file.path de forma segura
       const columnas = await importacionService.obtenerColumnas(file.path);
       res.status(200).json({
         success: true,
@@ -85,8 +84,6 @@ export class ImportacionController {
       const mapeoParsed = typeof mapeo === 'string' ? JSON.parse(mapeo) : mapeo;
       const clienteIdParsed = parseInt(clienteId);
 
-      // ✅ CORREGIDO: eslint-disable para file.path
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
       const resultado = await importacionService.obtenerVistaPrevia(
         file.path,
         mapeoParsed as ColumnaMapeo,
@@ -135,8 +132,6 @@ export class ImportacionController {
       const mapeoParsed = typeof mapeo === 'string' ? JSON.parse(mapeo) : mapeo;
       const clienteIdParsed = parseInt(clienteId);
 
-      // ✅ CORREGIDO: eslint-disable para file.path
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
       const resultado = await importacionService.importar(
         file.path,
         mapeoParsed as ColumnaMapeo,
