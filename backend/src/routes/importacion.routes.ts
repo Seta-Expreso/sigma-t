@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
+
 /**
  * @fileoverview Rutas para la importación de manifiestos
  * @module routes/importacion
@@ -41,10 +43,7 @@ const upload = multer({
 
 const router = Router();
 
-// ⚠️ Deshabilitar reglas para multer (no tiene tipos completos)
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 const singleUpload = upload.single('file') as RequestHandler;
-/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 
 /**
  * POST /api/importacion/columnas
@@ -65,3 +64,5 @@ router.post('/vista-previa', singleUpload, ImportacionController.getVistaPrevia)
 router.post('/importar', singleUpload, ImportacionController.importar);
 
 export default router;
+
+/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */

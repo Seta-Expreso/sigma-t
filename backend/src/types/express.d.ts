@@ -3,7 +3,7 @@
  * @module types/express
  */
 
-import { Multer } from 'multer';
+import type { Multer } from 'multer';
 
 declare global {
   namespace Express {
