@@ -4,11 +4,12 @@
  */
 
 import { AppDataSource } from '../config/database.config.js';
-import { Ruta, EstadoRuta, Parada, FichaCosto } from '../models/ruta.model.js';
+import type { Ruta, EstadoRuta, Parada, FichaCosto } from '../models/ruta.model.js';
+import { Ruta as RutaModel } from '../models/ruta.model.js';
 import { Envio, EstadoEnvio } from '../models/envio.model.js';
 import { Vehiculo } from '../models/vehiculo.model.js';
 import { Chofer } from '../models/chofer.model.js';
-import { getRoute, getDistanceMatrix } from '../config/osrm.config.js';
+import { getDistanceMatrix } from '../config/osrm.config.js';
 import { geocodeAddress } from './geocoding.service.js';
 
 interface ReoptimizacionData {
@@ -17,7 +18,7 @@ interface ReoptimizacionData {
 }
 
 export class RutaService {
-  private rutaRepository = AppDataSource.getRepository(Ruta);
+  private rutaRepository = AppDataSource.getRepository(RutaModel);
   private envioRepository = AppDataSource.getRepository(Envio);
   private vehiculoRepository = AppDataSource.getRepository(Vehiculo);
   private choferRepository = AppDataSource.getRepository(Chofer);
@@ -25,8 +26,8 @@ export class RutaService {
   /**
    * Optimizar rutas para una semana
    */
-  async optimizarSemana(fechaInicio: Date, dias: number = 7): Promise<Ruta[]> {
-    const rutas: Ruta[] = [];
+  async optimizarSemana(fechaInicio: Date, _dias: number = 7): Promise<RutaModel[]> {
+    const rutas: RutaModel[] = [];
 
     // 1. Obtener envíos pendientes
     const envios = await this.envioRepository.find({
@@ -89,7 +90,7 @@ export class RutaService {
     envios: Envio[],
     matrizDistancias: number[][],
     coordenadas: Array<{ lat: number; lng: number }>
-  ): Promise<Array<Partial<Ruta>>> {
+  ): Promise<Array<Partial<RutaModel>>> {
     // TODO: Implementar algoritmo VRPTW completo
     // Por ahora, asignación simple (1 ruta con todos los envíos)
     const paradas: Parada[] = envios.map((envio, index) => ({
@@ -120,7 +121,7 @@ export class RutaService {
   /**
    * Obtener rutas de una semana
    */
-  async getRutasSemana(fecha: Date): Promise<Ruta[]> {
+  async getRutasSemana(fecha: Date): Promise<RutaModel[]> {
     const inicio = new Date(fecha);
     inicio.setHours(0, 0, 0, 0);
 
@@ -142,7 +143,7 @@ export class RutaService {
   /**
    * Obtener detalle de una ruta
    */
-  async findById(id: number): Promise<Ruta | null> {
+  async findById(id: number): Promise<RutaModel | null> {
     return await this.rutaRepository.findOne({
       where: { id_ruta: id },
       relations: ['vehiculo', 'chofer'],
@@ -152,7 +153,7 @@ export class RutaService {
   /**
    * Asignar chofer a una ruta
    */
-  async asignarChofer(id: number, choferId: number): Promise<Ruta | null> {
+  async asignarChofer(id: number, choferId: number): Promise<RutaModel | null> {
     const ruta = await this.findById(id);
     if (!ruta) return null;
 
@@ -171,7 +172,7 @@ export class RutaService {
   /**
    * Actualizar ruta
    */
-  async update(id: number, data: Partial<Ruta>): Promise<Ruta | null> {
+  async update(id: number, data: Partial<RutaModel>): Promise<RutaModel | null> {
     const ruta = await this.findById(id);
     if (!ruta) return null;
 
@@ -182,7 +183,7 @@ export class RutaService {
   /**
    * Generar manifiesto de ruta
    */
-  async generarManifiesto(id: number): Promise<{ ruta: Ruta; paradas: Parada[] } | null> {
+  async generarManifiesto(id: number): Promise<{ ruta: RutaModel; paradas: Parada[] } | null> {
     const ruta = await this.findById(id);
     if (!ruta) return null;
 
@@ -195,17 +196,36 @@ export class RutaService {
   /**
    * Reoptimizar ruta ante incidencia
    */
-  async reoptimizar(id: number, data: ReoptimizacionData): Promise<Ruta | null> {
+  async reoptimizar(id: number, data: ReoptimizacionData): Promise<RutaModel | null> {
     const ruta = await this.findById(id);
     if (!ruta) return null;
 
     // TODO: Implementar reoptimización real
     // Por ahora, solo marcar que se reoptimizó
+    const analisisActual = ruta.analisis_post_ruta || {
+      distancia_planificada: 0,
+      distancia_real: 0,
+      tiempo_planificado: 0,
+      tiempo_real: 0,
+      combustible_estimado: 0,
+      combustible_real: 0,
+      desviacion_distancia: 0,
+      desviacion_tiempo: 0,
+      desviacion_combustible: 0,
+      eficiencia_chofer: 0,
+      eficiencia_vehiculo: 0,
+      entregas_a_tiempo: 0,
+      entregas_urgentes: 0,
+      reoptimizaciones: 0,
+      incidencias: [],
+      recomendaciones: [],
+    };
+
     ruta.analisis_post_ruta = {
-      ...ruta.analisis_post_ruta,
-      reoptimizaciones: (ruta.analisis_post_ruta?.reoptimizaciones || 0) + 1,
+      ...analisisActual,
+      reoptimizaciones: (analisisActual.reoptimizaciones || 0) + 1,
       incidencias: [
-        ...(ruta.analisis_post_ruta?.incidencias || []),
+        ...(analisisActual.incidencias || []),
         {
           tipo: 'reoptimizacion',
           descripcion: data.motivo,
@@ -228,13 +248,17 @@ export class RutaService {
       return ruta.ficha_costo;
     }
 
+    // Obtener vehículo y chofer de forma segura
+    const vehiculoMatricula = ruta.vehiculo?.matricula || 'No asignado';
+    const choferNombre = ruta.chofer?.nombre || 'No asignado';
+
     // TODO: Calcular ficha de costo completa
     return {
       resumen: {
         distancia: ruta.distancia_total,
         entregas: ruta.secuencia_paradas.length,
-        vehiculo: ruta.vehiculo?.matricula || 'No asignado',
-        chofer: ruta.chofer?.nombre || 'No asignado',
+        vehiculo: vehiculoMatricula,
+        chofer: choferNombre,
         fecha: ruta.fecha,
         ingresos: ruta.ingresos || 0,
       },
