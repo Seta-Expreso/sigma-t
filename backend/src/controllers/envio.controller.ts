@@ -246,7 +246,11 @@ export class EnvioController {
         return;
       }
 
-      const { estado, incidencia } = req.body;
+      // ✅ CORREGIDO: Tipar el destructuring de req.body
+      const { estado, incidencia } = req.body as {
+        estado: EstadoEnvio;
+        incidencia?: string
+      };
 
       if (!estado || !Object.values(EstadoEnvio).includes(estado as EstadoEnvio)) {
         res.status(400).json({
