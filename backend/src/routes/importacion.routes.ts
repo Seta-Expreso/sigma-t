@@ -24,7 +24,8 @@ const storage = multer.diskStorage({
   },
   filename: (_req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
+    // ✅ CORREGIDO: Usar template literal en lugar de concatenación
+    cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
   },
 });
 
