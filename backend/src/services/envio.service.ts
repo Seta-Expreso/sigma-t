@@ -4,7 +4,9 @@
  */
 
 import { AppDataSource } from '../config/database.config.js';
-import { Envio, EstadoEnvio, EstadoAduana } from '../models/envio.model.js';
+import { Envio, EstadoEnvio } from '../models/envio.model.js';
+// ✅ CORREGIDO: Importar EstadoAduana como tipo
+import type { EstadoAduana } from '../models/envio.model.js';
 import type { EnvioCreateData, EnvioUpdateData } from '../models/envio.model.js';
 import type { EnvioFilters } from '../types/typeorm.types.js';
 import type { Repository, Between, FindOptionsWhere } from 'typeorm';

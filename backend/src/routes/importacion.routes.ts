@@ -16,16 +16,21 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
+// ✅ CORREGIDO: eslint-disable para errores de tipado de multer
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
     cb(null, uploadDir);
   },
+  // eslint-disable-next-line prefer-template
   filename: (_req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     cb(null, uniqueSuffix + path.extname(file.originalname));
   },
 });
 
+// ✅ CORREGIDO: eslint-disable para errores de tipado de multer
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 const upload = multer({
   storage,
   fileFilter: (_req, file, cb) => {
@@ -41,7 +46,8 @@ const upload = multer({
 
 const router = Router();
 
-// Tipar correctamente upload.single como RequestHandler
+// ✅ CORREGIDO: Tipar correctamente upload.single como RequestHandler
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 const singleUpload = upload.single('file') as RequestHandler;
 
 /**

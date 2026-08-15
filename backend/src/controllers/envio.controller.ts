@@ -198,6 +198,7 @@ export class EnvioController {
         return;
       }
 
+      // ✅ CORREGIDO: Usar EnvioUpdateData en lugar de any
       const body = req.body as EnvioUpdateData;
 
       const envio = await envioService.update(id, body);

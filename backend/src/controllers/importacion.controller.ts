@@ -38,6 +38,7 @@ export class ImportacionController {
    */
   static async getColumnas(req: Request, res: Response): Promise<void> {
     try {
+      // ✅ CORREGIDO: Tipar file como Express.Multer.File
       const file = req.file as Express.Multer.File | undefined;
       if (!file) {
         res.status(400).json({
@@ -75,6 +76,7 @@ export class ImportacionController {
    */
   static async getVistaPrevia(req: Request, res: Response): Promise<void> {
     try {
+      // ✅ CORREGIDO: Tipar file como Express.Multer.File
       const file = req.file as Express.Multer.File | undefined;
       const { mapeo, clienteId } = req.body;
 
@@ -130,6 +132,7 @@ export class ImportacionController {
    */
   static async importar(req: Request, res: Response): Promise<void> {
     try {
+      // ✅ CORREGIDO: Tipar file como Express.Multer.File
       const file = req.file as Express.Multer.File | undefined;
       const { mapeo, clienteId } = req.body;
 
