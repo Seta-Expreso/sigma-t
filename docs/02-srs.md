@@ -194,36 +194,36 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 
 **Especificación Detallada de RF-CL-01d (Vista previa de importación):**
 
-| Aspecto | Especificación |
-|---------|----------------|
-| **Número de registros** | Mostrar todos los registros con paginación |
+| Aspecto                      | Especificación                                                                  |
+|------------------------------|---------------------------------------------------------------------------------|
+| **Número de registros**      | Mostrar todos los registros con paginación                                      |
 | **Visualización de errores** | Mostrar errores en la misma tabla, con columna "Estado" (✅ Válido / ❌ Error) |
-| **Edición** | Solo lectura, no editable |
+| **Edición**                  | Solo lectura, no editable                                                       |
 
 **Especificación Detallada de RF-CL-01e (Reporte de errores de importación):**
 
-| Aspecto | Especificación |
-|---------|----------------|
-| **Formato** | En pantalla, con opción de copiar/descargar |
-| **Límite** | Sin límite, mostrar todos los errores |
-| **Contenido** | Fila #, House, lista de errores por campo |
+| Aspecto       | Especificación                              |
+|---------------|---------------------------------------------|
+| **Formato**   | En pantalla, con opción de copiar/descargar |
+| **Límite**    | Sin límite, mostrar todos los errores       |
+| **Contenido** | Fila #, House, lista de errores por campo   |
 
 **Especificación Detallada de RF-CL-04 (Historial de envíos por cliente):**
 
-| Aspecto | Especificación |
-|---------|----------------|
-| **Permisos** | Administrador, Jefe de Operaciones, Agencia de Envíos, Cliente Remitente, Cliente Destinatario |
-| **Información visible** | Todos los envíos del cliente, con estado completo de cada House |
-| **Exportación** | PDF y CSV |
-| **Filtros** | Por fecha, estado, House |
+| Aspecto                 | Especificación                                                                                 |
+|-------------------------|------------------------------------------------------------------------------------------------|
+| **Permisos**            | Administrador, Jefe de Operaciones, Agencia de Envíos, Cliente Remitente, Cliente Destinatario |
+| **Información visible** | Todos los envíos del cliente, con estado completo de cada House                                |
+| **Exportación**         | PDF y CSV                                                                                      |
+| **Filtros**             | Por fecha, estado, House                                                                       |
 
 **🆕 Especificación Detallada de RF-CL-05 (Categorización por Prioridad):**
 
-| Prioridad | Descripción | Impacto en Rutas | Color |
-|-----------|-------------|------------------|-------|
-| **Urgente** | Entregas que deben realizarse en el menor tiempo posible | Se asignan a las primeras 3 posiciones de la ruta | 🔴 Rojo |
-| **Normal** | Entregas estándar sin urgencia especial | Se colocan después de las urgentes | 🟡 Amarillo |
-| **Economico** | Entregas con menor prioridad, pueden esperar | Se colocan al final de la ruta | 🟢 Verde |
+| Prioridad     | Descripción                                              | Impacto en Rutas                                  | Color       |
+|---------------|----------------------------------------------------------|---------------------------------------------------|-------------|
+| **Urgente**   | Entregas que deben realizarse en el menor tiempo posible | Se asignan a las primeras 3 posiciones de la ruta | 🔴 Rojo     |
+| **Normal**    | Entregas estándar sin urgencia especial                  | Se colocan después de las urgentes                | 🟡 Amarillo |
+| **Economico** | Entregas con menor prioridad, pueden esperar             | Se colocan al final de la ruta                    | 🟢 Verde    |
 
 ---
 
@@ -245,48 +245,48 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 
 **🆕 Especificación Detallada de RF-RU-03 (Optimización de Rutas con VRPTW Avanzado):**
 
-| Aspecto | Especificación |
-|---------|----------------|
-| **Algoritmo Base** | VRPTW (Vehicle Routing Problem with Time Windows) |
+| Aspecto                         | Especificación                                                                                           |
+|---------------------------------|----------------------------------------------------------------------------------------------------------|
+| **Algoritmo Base**              | VRPTW (Vehicle Routing Problem with Time Windows)                                                        |
 | **Optimización de Combustible** | Considera el consumo específico de cada vehículo y el precio del combustible para calcular el costo real |
-| **Prioridad de Entregas** | Los envíos urgentes se colocan en las primeras 3 posiciones de la ruta |
-| **Función de Costo** | `costo = (0.6 × distancia) + (0.4 × consumo_combustible) + penalizaciones` |
-| **Tiempo de Ejecución** | <30 segundos para ≤50 envíos |
-| **Capacidad de Vehículos** | Respeta peso y volumen máximo de cada vehículo |
-| **Ventanas de Tiempo** | Respeta horarios de entrega de cada cliente |
-| **Análisis Post-Ruta** | Genera reporte comparativo entre ruta planificada y real |
+| **Prioridad de Entregas**       | Los envíos urgentes se colocan en las primeras 3 posiciones de la ruta                                   |
+| **Función de Costo**            | `costo = (0.6 × distancia) + (0.4 × consumo_combustible) + penalizaciones`                               |
+| **Tiempo de Ejecución**         | <30 segundos para ≤50 envíos                                                                             |
+| **Capacidad de Vehículos**      | Respeta peso y volumen máximo de cada vehículo                                                           |
+| **Ventanas de Tiempo**          | Respeta horarios de entrega de cada cliente                                                              |
+| **Análisis Post-Ruta**          | Genera reporte comparativo entre ruta planificada y real                                                 |
 
 **🆕 Especificación Detallada de RF-RU-08 (Reoptimización Dinámica):**
 
-| Aspecto | Especificación |
-|---------|----------------|
-| **Tiempo de Respuesta** | <5 segundos |
-| **Disparadores** | Cliente no encontrado, tráfico, avería, nuevo pedido urgente |
-| **Retención de Estado** | Mantiene las entregas ya realizadas y reoptimiza el resto |
-| **Notificación** | El chofer recibe la ruta actualizada en su app móvil |
-| **Registro** | Cada reoptimización queda registrada en el sistema de auditoría |
+| Aspecto                 | Especificación                                                  |
+|-------------------------|-----------------------------------------------------------------|
+| **Tiempo de Respuesta** | <5 segundos                                                     |
+| **Disparadores**        | Cliente no encontrado, tráfico, avería, nuevo pedido urgente    |
+| **Retención de Estado** | Mantiene las entregas ya realizadas y reoptimiza el resto       |
+| **Notificación**        | El chofer recibe la ruta actualizada en su app móvil            |
+| **Registro**            | Cada reoptimización queda registrada en el sistema de auditoría |
 
 ---
 
 ### MÓDULO 5: COSTOS Y FINANZAS (RF-COSTO) - ⏳ PENDIENTE
 
-| ID | Requisito | Prioridad | Complejidad | Estado |
-|----|-----------|-----------|-------------|--------|
-| RF-CO-01 | Definir fichas de costo por ruta/tipo de vehículo | **Crítica** | Media | ⏳ Pendiente |
-| RF-CO-02 | Registrar costos fijos mensuales (salarios, seguros, impuestos, depreciación) | Alta | Baja | ⏳ Pendiente |
-| RF-CO-03 | Registrar costos variables por viaje (combustible, peajes, mantenimiento) | Alta | Baja | ⏳ Pendiente |
-| **RF-CO-04** | **🆕 Calcular costo por kilómetro en tiempo real, incluyendo costo de combustible por tipo de vehículo** | **Crítica** | **Media** | ⏳ Pendiente |
-| RF-CO-05 | Calcular costo real de cada envío | Alta | Media | ⏳ Pendiente |
-| RF-CO-06 | Calcular utilidad neta por viaje (ingreso - costo total) | **Crítica** | Media | ⏳ Pendiente |
-| RF-CO-07 | Generar reporte de rentabilidad por cliente, ruta, vehículo y chofer | Alta | Media | ⏳ Pendiente |
-| RF-CO-08 | Comparar costo estimado vs. costo real | Alta | Media | ⏳ Pendiente |
-| RF-CO-09 | Libro de ingresos y gastos (contabilidad básica) | Alta | Media | ⏳ Pendiente |
-| RF-CO-10 | Generar facturas y gestionar cobros | Alta | Media | ⏳ Pendiente |
-| **RF-CO-11** | **Gestión de Esquemas de Pago a Choferes** | **Alta** | **Media** | ⏳ Pendiente |
-| **RF-CO-12** | **Gestión de Parámetros de Costos Variables** | **Alta** | **Baja** | ⏳ Pendiente |
-| **RF-CO-13** | **Consulta Automática de Costos de Aduana** | **Crítica** | **Alta** | ⏳ Pendiente |
-| **RF-CO-14** | **Módulo de Costos de Aduana y Gastos de Importación** | **Crítica** | **Alta** | ⏳ Pendiente |
-| **RF-CO-15** | **Ficha de Costo Detallada por Ruta** | **Crítica** | **Alta** | ⏳ Pendiente |
+| ID           | Requisito                                                                         | Prioridad | Complejidad | Estado |
+|--------------|-----------------------------------------------------------------------------------------------------------|-------------|-----------|--------------|
+| RF-CO-01     | Definir fichas de costo por ruta/tipo de vehículo                                                         | **Crítica** | Media     | ⏳ Pendiente |
+| RF-CO-02     | Registrar costos fijos mensuales (salarios, seguros, impuestos, depreciación)                             | Alta        | Baja      | ⏳ Pendiente |
+| RF-CO-03     | Registrar costos variables por viaje (combustible, peajes, mantenimiento)                                 | Alta        | Baja      | ⏳ Pendiente |
+| **RF-CO-04** | **🆕 Calcular costo por kilómetro en tiempo real, incluyendo costo de combustible por tipo de vehículo** | **Crítica**  | **Media** | ⏳ Pendiente |
+| RF-CO-05     | Calcular costo real de cada envío                                                                         | Alta        | Media     | ⏳ Pendiente |
+| RF-CO-06     | Calcular utilidad neta por viaje (ingreso - costo total)                                                  | **Crítica** | Media     | ⏳ Pendiente |
+| RF-CO-07     | Generar reporte de rentabilidad por cliente, ruta, vehículo y chofer                                      | Alta        | Media     | ⏳ Pendiente |
+| RF-CO-08     | Comparar costo estimado vs. costo real                                                                    | Alta        | Media     | ⏳ Pendiente |
+| RF-CO-09     | Libro de ingresos y gastos (contabilidad básica)                                                          | Alta        | Media     | ⏳ Pendiente |
+| RF-CO-10     | Generar facturas y gestionar cobros                                                                       | Alta        | Media     | ⏳ Pendiente |
+| **RF-CO-11** | **Gestión de Esquemas de Pago a Choferes**                                                                | **Alta**    | **Media** | ⏳ Pendiente |
+| **RF-CO-12** | **Gestión de Parámetros de Costos Variables**                                                             | **Alta**    | **Baja**  | ⏳ Pendiente |
+| **RF-CO-13** | **Consulta Automática de Costos de Aduana**                                                               | **Crítica** | **Alta**  | ⏳ Pendiente |
+| **RF-CO-14** | **Módulo de Costos de Aduana y Gastos de Importación**                                                    | **Crítica** | **Alta**  | ⏳ Pendiente |
+| **RF-CO-15** | **Ficha de Costo Detallada por Ruta**                                                                     | **Crítica** | **Alta**  | ⏳ Pendiente |
 
 **🆕 Especificación Detallada de RF-CO-04 (Costo por Kilómetro con Combustible):**
 

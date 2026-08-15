@@ -1,4 +1,4 @@
-## 📄 DOCUMENTO SPMP - SIGMA-T (VERSIÓN 3.8)
+## 📄 DOCUMENTO SPMP - SIGMA-T (VERSIÓN 3.9) - COMPLETO
 
 **Basado en IEEE 1058 - Plan de Gestión de Proyectos de Software**
 
@@ -6,7 +6,7 @@
 **Cliente / Sponsor:** Osleyder Gonzalez Acosta  
 **Fecha de Inicio del Proyecto:** 13 de agosto de 2026  
 **Fecha Estimada de Finalización:** 01 de abril de 2027 (MVP)  
-**Versión del Documento:** 3.8 (Completo - Top Mundial con Sprints 0 y 1 Completados, Plan de Migración - Actualización 15/08/2026)
+**Versión del Documento:** 3.9 (Completo - Top Mundial con VRPTW v3.0, Optimización de Combustible, Reoptimización Dinámica, IA y Análisis Post-Ruta - Sprints 0 y 1 Completados - Actualización 15/08/2026)
 
 ---
 
@@ -15,7 +15,7 @@
 ### 1.1 Propósito y Alcance del Documento
 Este documento define la dirección, la organización y el plan de trabajo para el desarrollo exitoso del sistema SIGMA-T. Su propósito es proporcionar una guía clara y exhaustiva para todos los involucrados, asegurando que el proyecto se ejecute de manera controlada, eficiente y alineada con los objetivos de convertirse en la solución líder en su nicho.
 
-El alcance de este SPMP cubre todas las fases del ciclo de vida del software, desde la concepción hasta el despliegue y la operación inicial, incluyendo la gestión de riesgos, la calidad, la comunicación, los estándares de codificación, las funcionalidades financieras, la integración con aduana (utilizando la URL de payment), la generación de la ficha de costo detallada por ruta, la configuración del entorno de desarrollo, el despliegue en VPS ETECSA con SSL/HTTPS, la distribución de la app móvil en Google Play Store y APKlis, y la migración de datos desde los sistemas actuales (Excel, OptimoRoute, registros manuales).
+El alcance de este SPMP cubre todas las fases del ciclo de vida del software, desde la concepción hasta el despliegue y la operación inicial, incluyendo la gestión de riesgos, la calidad, la comunicación, los estándares de codificación, las funcionalidades financieras, la integración con aduana (utilizando la URL de payment), la generación de la ficha de costo detallada por ruta, **la optimización de rutas avanzada con VRPTW v3.0 (incluyendo optimización de combustible, prioridad de entregas, reoptimización dinámica, sistema de estimación de tiempos con IA y análisis post-ruta)**, la configuración del entorno de desarrollo, el despliegue en VPS ETECSA con SSL/HTTPS, la distribución de la app móvil en Google Play Store y APKlis, y la migración de datos desde los sistemas actuales (Excel, OptimoRoute, registros manuales).
 
 ### 1.2 Productos de Trabajo y Entregables Clave
 Los principales entregables del proyecto se organizan por fases:
@@ -23,14 +23,16 @@ Los principales entregables del proyecto se organizan por fases:
 | Fase | Entregable | Descripción | Estado |
 | :--- | :--- | :--- | :--- |
 | **Iniciación** | Documento de Visión | Definición de la visión, los stakeholders y el alcance de alto nivel del sistema. | ✅ Completado |
-| **Planificación** | **SRS (v3.7)** | Especificación detallada de todos los requisitos funcionales y no funcionales. | ✅ Actualizado |
-| **Planificación** | **SPMP (v3.8)** | Este documento: Plan de gestión del proyecto. | ✅ Actualizado |
-| **Planificación** | **Arquitectura (v2.8)** | Documento de Arquitectura de Software actualizado. | ✅ Actualizado |
-| **Planificación** | **Prototipos UI/UX** | Maquetas de alta fidelidad de todas las interfaces (22 pantallas). | ✅ Actualizado |
+| **Planificación** | **SRS (v3.8)** | Especificación detallada de todos los requisitos funcionales y no funcionales. | ✅ Actualizado |
+| **Planificación** | **SPMP (v3.9)** | Este documento: Plan de gestión del proyecto. | ✅ Actualizado |
+| **Planificación** | **Arquitectura (v3.0)** | Documento de Arquitectura de Software actualizado con VRPTW v3.0. | ✅ Actualizado |
+| **Planificación** | **Prototipos UI/UX** | Maquetas de alta fidelidad de todas las interfaces (22+ pantallas). | ⏳ Pendiente de actualizar |
 | **Ejecución** | Código Fuente | Repositorio con el código de backend, frontend web y app móvil. | ✅ Completado (Sprint 0 y 1) |
 | **Ejecución** | Pruebas y QA | Conjunto de planes de pruebas, casos de prueba y reportes de calidad. | ⏳ Pendiente |
 | **Ejecución** | Documentación Técnica | Documentación generada automáticamente (TypeDoc, Swagger) y manuales. | ✅ Completado |
 | **Ejecución** | Entorno de Desarrollo | Configuración completa del entorno con Docker, VSCode tasks.json, CI/CD. | ✅ Completado |
+| **Ejecución** | **🆕 Algoritmo VRPTW v3.0** | Implementación del algoritmo con optimización de combustible, prioridad y reoptimización dinámica. | ⏳ Pendiente |
+| **Ejecución** | **🆕 Sistema de IA** | Modelo de regresión lineal para estimación de tiempos de entrega. | ⏳ Pendiente |
 | **Cierre** | Manuales de Usuario | Guías para administradores, dispatchers y choferes. | ⏳ Pendiente |
 | **Cierre** | Plan de Despliegue | Guía paso a paso para la instalación y operación del sistema en VPS ETECSA. | ⏳ Pendiente |
 | **Cierre** | Sistema Productivo | Sistema SIGMA-T operativo en el entorno de producción del cliente. | ⏳ Pendiente |
@@ -57,6 +59,7 @@ flowchart TD
         QA[QA Engineer]
         DOC[Documentalista]
         DevOps[DevOps Engineer]
+        AI[🆕 ML Engineer<br>Modelo de IA]
     end
 ```
 
@@ -66,12 +69,13 @@ flowchart TD
 | :--- | :--- | :--- |
 | **Project Manager / Líder** | Dirección estratégica, toma de decisiones, validación de entregables, gestión de stakeholders. | **Osleyder Gonzalez** |
 | **Arquitecto de Software** | Definir la arquitectura del sistema, estandarizar tecnologías, revisar el diseño técnico y los estándares de codificación. | Equipo SIGMA-T |
-| **Desarrollador Backend** | Implementar la API REST, la lógica de negocio, la optimización de rutas y la base de datos. Asegurar el cumplimiento de estándares TypeScript/Node.js. Implementar servicios de integración con aduana (URL de payment), gestión de parámetros financieros, cálculo de ficha de costo, pago a choferes y automatización de facturación de aduana. Desarrollar scripts de migración de datos. | Equipo SIGMA-T |
-| **Desarrollador Frontend** | Implementar el dashboard web, el panel administrativo y el portal del cliente. Asegurar el cumplimiento de estándares React/TypeScript. Implementar la UI de gestión de parámetros financieros, aduana, ficha de costo detallada y monitoreo de aduana. | Equipo SIGMA-T |
-| **Desarrollador Mobile** | Implementar la aplicación Flutter para choferes con funcionalidad offline y sincronización. Asegurar el cumplimiento de estándares Dart/Flutter. Gestionar la publicación en Google Play Store y APKlis. | Equipo SIGMA-T |
-| **Diseñador UX/UI** | Crear y refinar las maquetas, garantizar una experiencia de usuario óptima. Actualizar maquetas con nueva funcionalidad de aduana, ficha de costo y monitoreo de aduana. | Equipo SIGMA-T |
-| **Ingeniero de QA** | Diseñar y ejecutar los casos de prueba, gestionar la calidad del producto, verificar el cumplimiento de estándares de codificación y documentación. Probar la integración con Aerovaradero (URL de payment), el cálculo de pagos, la precisión de la ficha de costo y la automatización de facturación de aduana. Validar la migración de datos. | Equipo SIGMA-T |
-| **Documentalista** | Mantener al día toda la documentación técnica y los manuales de usuario, asegurar la generación automática de documentación. Documentar nuevos módulos financieros, de aduana, de ficha de costo e infraestructura. | Equipo SIGMA-T |
+| **Desarrollador Backend** | Implementar la API REST, la lógica de negocio, la optimización de rutas y la base de datos. Asegurar el cumplimiento de estándares TypeScript/Node.js. Implementar servicios de integración con aduana (URL de payment), gestión de parámetros financieros, cálculo de ficha de costo, pago a choferes, **algoritmo VRPTW v3.0 con optimización de combustible**, **reoptimización dinámica** y automatización de facturación de aduana. Desarrollar scripts de migración de datos. | Equipo SIGMA-T |
+| **🆕 ML Engineer** | Implementar y mantener el sistema de estimación de tiempos con IA (regresión lineal). Entrenar, validar y reentrenar el modelo con datos históricos. | Equipo SIGMA-T |
+| **Desarrollador Frontend** | Implementar el dashboard web, el panel administrativo y el portal del cliente. Asegurar el cumplimiento de estándares React/TypeScript. Implementar la UI de gestión de parámetros financieros, aduana, ficha de costo detallada, monitoreo de aduana y **panel de análisis post-ruta**. | Equipo SIGMA-T |
+| **Desarrollador Mobile** | Implementar la aplicación Flutter para choferes con funcionalidad offline y sincronización. Asegurar el cumplimiento de estándares Dart/Flutter. Implementar **solicitud de reoptimización de ruta**. Gestionar la publicación en Google Play Store y APKlis. | Equipo SIGMA-T |
+| **Diseñador UX/UI** | Crear y refinar las maquetas, garantizar una experiencia de usuario óptima. Actualizar maquetas con **nuevas pantallas de análisis post-ruta, reoptimización y estimación de tiempos**. | Equipo SIGMA-T |
+| **Ingeniero de QA** | Diseñar y ejecutar los casos de prueba, gestionar la calidad del producto, verificar el cumplimiento de estándares de codificación y documentación. Probar la integración con Aerovaradero (URL de payment), el cálculo de pagos, la precisión de la ficha de costo, la automatización de facturación de aduana, **la reoptimización dinámica, el análisis post-ruta y el sistema de IA**. Validar la migración de datos. | Equipo SIGMA-T |
+| **Documentalista** | Mantener al día toda la documentación técnica y los manuales de usuario, asegurar la generación automática de documentación. Documentar nuevos módulos financieros, de aduana, de ficha de costo, **de optimización avanzada, IA y análisis post-ruta**. | Equipo SIGMA-T |
 | **DevOps Engineer** | Configurar el entorno de desarrollo (Docker, VSCode tasks.json), gestionar el despliegue en VPS ETECSA, configurar SSL/HTTPS con Let's Encrypt, Nginx, PM2 y cron jobs para automatización de aduana. Gestionar backups y migración de datos. | Equipo SIGMA-T |
 
 ### 2.3 Comunicación y Reportes
@@ -97,12 +101,12 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | :--- | :--- | :--- | :--- | :--- |
 | **0** | **Fundación** | 1 día | ✅ Completado | Docker, Repos, BD, CI/CD, ESLint, Prettier, Dart Analyzer, guía de estándares, archivo tasks.json de VSCode, extensiones recomendadas, documentación completa. |
 | **1** | **Core de Envíos** | 2 días | ✅ Completado | API de Envíos, Importación Excel con mapeo flexible, UI de listado, CRUD Clientes, CRUD Envíos, Historial por cliente, documentación JSDoc. |
-| **2** | **Optimización de Rutas** | 2 Semanas | ⏳ Pendiente | Algoritmo VRPTW, Mapa interactivo, UI de planificación, documentación OpenAPI. |
-| **3** | **App del Chofer (MVP)** | 2 Semanas | ⏳ Pendiente | App Flutter, sincronización, registro de incidencias, documentación Dart. |
-| **4** | **Dashboard y KPIs** | 2 Semanas | ⏳ Pendiente | Dashboard, Gráficos de costos, Reportes, documentación de módulos. |
+| **2** | **Optimización de Rutas** | 2 Semanas | ⏳ Pendiente | **🆕 Algoritmo VRPTW v3.0 con optimización de combustible, prioridad de entregas y reoptimización dinámica**, Mapa interactivo, UI de planificación, documentación OpenAPI. |
+| **3** | **App del Chofer (MVP)** | 2 Semanas | ⏳ Pendiente | App Flutter, sincronización, registro de incidencias, **🆕 solicitud de reoptimización de ruta**, documentación Dart. |
+| **4** | **Dashboard y KPIs** | 2 Semanas | ⏳ Pendiente | Dashboard, Gráficos de costos, Reportes, **🆕 panel de análisis post-ruta**, documentación de módulos. |
 | **5** | **Funcionalidades Premium y Finanzas** | 2 Semanas | ⏳ Pendiente | Firma digital, Edición manual, Personalización, Gestión de parámetros financieros (incluyendo costos por km), Consulta de aduana (URL de payment), Cálculo de pago a choferes, Ficha de costo detallada por ruta, **Automatización de facturación de aduana (4 horarios)**. |
 | **5.5** | **Calidad de Código (SonarQube)** | 1 día | ⏳ Pendiente | Configuración de SonarQube en Docker, integración con CI/CD, informes de calidad. |
-| **6** | **Piloto y Ajustes** | 2 Semanas | ⏳ Pendiente | Feedback, Corrección de bugs, Mejoras de UX, verificación de estándares. |
+| **6** | **Piloto y Ajustes** | 2 Semanas | ⏳ Pendiente | Feedback, Corrección de bugs, Mejoras de UX, **🆕 validación del sistema de IA**, verificación de estándares. |
 | **7** | **Lanzamiento y Documentación** | 2 Semanas | ⏳ Pendiente | Sistema en producción (VPS ETECSA), SSL/HTTPS, Manuales, Video-tutoriales, App en Google Play Store, App en APKlis, Descarga directa de APK, **Migración de datos históricos**. |
 
 ### 3.3 Tareas Detalladas por Sprint (Actualizadas)
@@ -151,13 +155,15 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 |---|-------|-------------|------------|
 | 1 | Configurar OSRM (Open Source Routing Machine) | Backend | 2 días |
 | 2 | Implementar geocodificación de direcciones | Backend | 2 días |
-| 3 | Desarrollar algoritmo de optimización (VRPTW básico) | Backend | 4 días |
-| 4 | Agrupar envíos por zona | Backend | 2 días |
-| 5 | API para planificar rutas semanales | Backend | 2 días |
-| 6 | Visualización de rutas en mapa (Leaflet) | Frontend | 3 días |
-| 7 | UI de planificación semanal | Frontend | 2 días |
-| 8 | Estimar tiempos y distancias | Backend | 2 días |
-| 9 | Documentar API con OpenAPI (Swagger) | Backend | 1 día |
+| 3 | **🆕 Desarrollar algoritmo VRPTW v3.0 con optimización de combustible** | **Backend** | **4 días** |
+| 4 | **🆕 Implementar prioridad de entregas (urgente, normal, económico)** | **Backend** | **1 día** |
+| 5 | **🆕 Implementar sistema de penalizaciones por restricciones** | **Backend** | **2 días** |
+| 6 | Agrupar envíos por zona | Backend | 2 días |
+| 7 | API para planificar rutas semanales | Backend | 2 días |
+| 8 | Visualización de rutas en mapa (Leaflet) | Frontend | 3 días |
+| 9 | UI de planificación semanal | Frontend | 2 días |
+| 10 | Estimar tiempos y distancias | Backend | 2 días |
+| 11 | Documentar API con OpenAPI (Swagger) | Backend | 1 día |
 
 **Sprint 3: App del Chofer (MVP) - ⏳ PENDIENTE**
 
@@ -172,8 +178,10 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 7 | Registro de incidencias | Mobile | 2 días |
 | 8 | Registro de costos reales (combustible, peajes) | Mobile | 2 días |
 | 9 | Modo offline + sincronización automática | Mobile | 3 días |
-| 10 | Indicador de estado de sincronización | Mobile | 1 día |
-| 11 | Documentar código Dart | Mobile | 0.5 día |
+| 10 | **🆕 Solicitud de reoptimización de ruta** | **Mobile** | **2 días** |
+| 11 | **🆕 Recepción y visualización de ruta reoptimizada** | **Mobile** | **2 días** |
+| 12 | Indicador de estado de sincronización | Mobile | 1 día |
+| 13 | Documentar código Dart | Mobile | 0.5 día |
 
 **Sprint 4: Dashboard y KPIs - ⏳ PENDIENTE**
 
@@ -189,7 +197,9 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 8 | Reporte de desempeño de choferes | Frontend | 2 días |
 | 9 | Exportar reportes a CSV/PDF | Backend + Frontend | 2 días |
 | 10 | Alertas automáticas (mantenimiento, consumo) | Backend | 2 días |
-| 11 | Documentar módulos con READMEs | Documentalista | 1 día |
+| 11 | **🆕 Panel de Análisis Post-Ruta (planificado vs real)** | **Frontend** | **3 días** |
+| 12 | **🆕 Métricas de eficiencia por chofer, vehículo y zona** | **Backend** | **2 días** |
+| 13 | Documentar módulos con READMEs | Documentalista | 1 día |
 
 **Sprint 5: Funcionalidades Premium y Finanzas - ⏳ PENDIENTE**
 
@@ -200,7 +210,7 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 3 | Captura de fotos de evidencia | Mobile | 2 días |
 | 4 | Personalización de comprobantes de entrega | Backend + Frontend | 2 días |
 | 5 | Implementar ficha de costo detallada por ruta | Backend | 3 días |
-| 6 | Reoptimización en tiempo real (nuevos pedidos) | Backend | 3 días |
+| 6 | **🆕 Reoptimización dinámica en tiempo real (nuevos pedidos)** | **Backend** | **3 días** |
 | 7 | Implementar gestión de parámetros financieros (incluyendo costos por km) | Backend | 2 días |
 | 8 | Implementar servicio de consulta a Aerovaradero (URL de payment) | Backend | 3 días |
 | 9 | Implementar lógica de parsing de HTML (Cheerio/Puppeteer) | Backend | 2 días |
@@ -208,9 +218,11 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 11 | UI de gestión de parámetros financieros y aduana | Frontend | 3 días |
 | 12 | UI de ficha de costo detallada | Frontend | 2 días |
 | 13 | Implementar exportación de ficha de costo a PDF y CSV | Backend + Frontend | 2 días |
-| 14 | **Implementar automatización de facturación de aduana (4 horarios)** | **Backend + DevOps** | **3 días** |
-| 15 | Configurar cron jobs para consultas automáticas de aduana | DevOps | 1 día |
-| 16 | Actualizar documentación | Documentalista | 1 día |
+| 14 | **🆕 Implementar sistema de estimación de tiempos con IA (regresión lineal)** | **Backend** | **3 días** |
+| 15 | **🆕 Entrenar modelo IA con datos históricos** | **Backend** | **2 días** |
+| 16 | **Implementar automatización de facturación de aduana (4 horarios)** | **Backend + DevOps** | **3 días** |
+| 17 | Configurar cron jobs para consultas automáticas de aduana | DevOps | 1 día |
+| 18 | Actualizar documentación | Documentalista | 1 día |
 
 **Sprint 5.5: Calidad de Código con SonarQube - ⏳ PENDIENTE**
 
@@ -237,6 +249,9 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 9 | Pruebas de integración con Aerovaradero (URL de payment) | QA | 2 días |
 | 10 | Pruebas de precisión de ficha de costo | QA | 1 día |
 | 11 | Pruebas de automatización de facturación de aduana | QA | 2 días |
+| 12 | **🆕 Validación del sistema de estimación de tiempos con IA** | **QA** | **2 días** |
+| 13 | **🆕 Pruebas de reoptimización dinámica** | **QA** | **2 días** |
+| 14 | **🆕 Validación del panel de análisis post-ruta** | **QA** | **1 día** |
 
 **Sprint 7: Lanzamiento y Documentación - ⏳ PENDIENTE**
 
@@ -258,6 +273,7 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 14 | Configurar descarga directa de APK desde el sitio web | Backend | 1 día |
 | 15 | **Migración final de datos históricos** | **Backend** | **2 días** |
 | 16 | **Verificación de datos migrados** | **QA** | **1 día** |
+| 17 | **🆕 Documentación del sistema de IA y análisis post-ruta** | **Documentalista** | **1 día** |
 
 ---
 
@@ -291,6 +307,10 @@ Se implementará un proceso iterativo de **Identificación → Análisis → Pla
 | **Recursos limitados del VPS ETECSA** | **Media** | **Medio** | **Optimización de recursos, caché con Redis, monitoreo de rendimiento.** | ⏳ Pendiente |
 | **Error en migración de datos** | **Media** | **Alto** | **Scripts de migración probados en staging, backups, validaciones automáticas.** | ⏳ Pendiente |
 | **Pérdida de datos durante migración** | **Baja** | **Crítico** | **Backups antes de migrar, migración por fases, verificación post-migración.** | ⏳ Pendiente |
+| **🆕 Falla en el modelo de IA para estimación de tiempos** | **Media** | **Medio** | **Fallback a estimación por defecto, reentrenamiento automático, monitoreo de precisión.** | ⏳ Pendiente |
+| **🆕 Tiempo de reoptimización excede el límite de 5 segundos** | **Media** | **Alto** | **Optimización del algoritmo, límite de envíos reoptimizables, notificación al usuario.** | ⏳ Pendiente |
+| **🆕 Precisión del modelo IA <85%** | **Media** | **Medio** | **Reentrenamiento con más datos, ajuste de parámetros, validación continua.** | ⏳ Pendiente |
+| **🆕 Aceptación del análisis post-ruta por usuarios** | **Media** | **Bajo** | **Capacitación, UI intuitiva, casos de uso demostrativos.** | ⏳ Pendiente |
 
 ---
 
@@ -324,6 +344,9 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 | **Pruebas de Infraestructura** | Verificar funcionamiento en VPS ETECSA, SSL/HTTPS, Nginx, PM2, cron jobs | Pruebas manuales / Scripts | DevOps / QA |
 | **Pruebas de Calidad (SonarQube)** | Análisis de duplicación, deuda técnica y seguridad | SonarQube Community | QA / DevOps |
 | **Pruebas de Migración** | Validar integridad de datos migrados | Scripts Python / Node.js | QA / Backend |
+| **🆕 Pruebas de Algoritmo VRPTW v3.0** | Validar optimización de combustible, prioridad de entregas y reoptimización | Jest (Backend) | QA |
+| **🆕 Pruebas del Sistema de IA** | Validar precisión del modelo de estimación de tiempos | Jest + Datos de prueba | QA |
+| **🆕 Pruebas de Análisis Post-Ruta** | Validar generación de métricas de eficiencia | Jest (Backend) + Cypress (Frontend) | QA |
 
 ### 5.3 Criterios de Aceptación (Checklist de Calidad)
 
@@ -352,6 +375,11 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 | 21 | **Descarga Directa de APK** | **Descarga directa de APK disponible desde el sitio web** | **Revisión manual** | ⏳ Pendiente |
 | 22 | **Análisis de Calidad SonarQube** | **Cobertura de código ≥70%, Deuda Técnica <5%, Cero Bugs Críticos** | **SonarQube** | ⏳ Pendiente |
 | 23 | **Migración de Datos** | **100% de datos migrados, 0% de pérdida de información, >95% de registros válidos** | **Scripts de Validación** | ⏳ Pendiente |
+| 24 | **🆕 Optimización de Combustible** | **El algoritmo considera el consumo específico de cada vehículo y el precio del combustible en la función de costo** | **Pruebas de Sistema** | ⏳ Pendiente |
+| 25 | **🆕 Prioridad de Entregas** | **Los envíos urgentes se colocan en las primeras 3 posiciones de la ruta** | **Pruebas de Sistema** | ⏳ Pendiente |
+| 26 | **🆕 Reoptimización Dinámica** | **Tiempo de respuesta <5 segundos, integración con app móvil, registro en auditoría** | **Pruebas de Rendimiento / Integración** | ⏳ Pendiente |
+| 27 | **🆕 Sistema de IA** | **Precisión ≥85% en estimaciones de tiempo, reentrenamiento automático** | **Pruebas de Sistema** | ⏳ Pendiente |
+| 28 | **🆕 Análisis Post-Ruta** | **Generación de métricas de eficiencia por chofer, vehículo y zona, exportable a PDF/CSV** | **Pruebas de Sistema** | ⏳ Pendiente |
 
 ### 5.4 Métricas de Calidad de Código
 
@@ -362,6 +390,8 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 | **Deuda Técnica** | <5% de deuda técnica identificada | SonarQube | Mensual | ⏳ Pendiente |
 | **Código Duplicado** | <3% de código duplicado | SonarQube | Mensual | ⏳ Pendiente |
 | **Complejidad Ciclomática** | <10 por función | ESLint (complexity) | Cada PR | ✅ Cumplido |
+| **🆕 Precisión del Modelo IA** | ≥85% | Métricas de validación | Semanal | ⏳ Pendiente |
+| **🆕 Tiempo de Reoptimización** | <5 segundos | Logs de sistema | Por evento | ⏳ Pendiente |
 
 ---
 
@@ -372,7 +402,7 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 - **Ramas Principales:**
     - `main`: Código en producción. Solo se actualiza con releases estables.
     - `develop`: Rama de integración donde se fusionan las nuevas funcionalidades.
-    - `feature/*`: Rama para desarrollar una nueva característica (ej. `feature/importacion-excel`, `feature/integracion-aduana-payment`, `feature/ficha-costo`, `feature/infraestructura-vps`, `feature/automatizacion-aduana`).
+    - `feature/*`: Rama para desarrollar una nueva característica (ej. `feature/importacion-excel`, `feature/integracion-aduana-payment`, `feature/ficha-costo`, `feature/infraestructura-vps`, `feature/automatizacion-aduana`, **`feature/vrptw-v3`**, **`feature/ia-estimacion`**, **`feature/analisis-post-ruta`**).
     - `hotfix/*`: Rama para correcciones críticas urgentes en producción.
 
 ### 6.2 Política de Commits
@@ -417,18 +447,18 @@ Dado que el proyecto se rige por Scrum, los cambios se gestionan principalmente 
 
 ### 7.2 Plan de Adopción y Capacitación (Estrategia de Lanzamiento)
 
-1. **Fase Piloto (Sprint 6):** El sistema se implementará en 2 rutas reales con 2 choferes "early adopters". Se les dará una capacitación intensiva y se recogerá su feedback para realizar ajustes finales.
+1. **Fase Piloto (Sprint 6):** El sistema se implementará en 2 rutas reales con 2 choferes "early adopters". Se les dará una capacitación intensiva y se recogerá su feedback para realizar ajustes finales. **Se incluirá capacitación específica sobre el uso de la reoptimización dinámica y el análisis post-ruta.**
 
 2. **Lanzamiento Formal (Sprint 7):**
-   - **Capacitación Presencial:** Se realizarán sesiones de entrenamiento presenciales para todos los choferes y el personal de oficina. Se usarán tutoriales en vídeo y guías rápidas. Se incluirá capacitación específica sobre el uso de la funcionalidad de consulta de costos de aduana (URL de payment), la interpretación de la ficha de costo detallada y el monitoreo de la automatización de facturación de aduana.
-   - **Programa de Incentivos:** Se diseñará un sistema de recompensas (puntos, bonos) para los choferes que utilicen la aplicación de manera consistente y reporten menos incidencias.
+   - **Capacitación Presencial:** Se realizarán sesiones de entrenamiento presenciales para todos los choferes y el personal de oficina. Se usarán tutoriales en vídeo y guías rápidas. Se incluirá capacitación específica sobre el uso de la funcionalidad de consulta de costos de aduana (URL de payment), la interpretación de la ficha de costo detallada, el monitoreo de la automatización de facturación de aduana, **la solicitud de reoptimización de ruta y la interpretación del análisis post-ruta.**
+   - **Programa de Incentivos:** Se diseñará un sistema de recompensas (puntos, bonos) para los choferes que utilicen la aplicación de manera consistente y reporten menos incidencias. **Bonos adicionales por uso efectivo de la reoptimización y mejora de eficiencia.**
    - **Soporte Dedicado:** Se habilitará un canal de comunicación directo (WhatsApp) para que los choferes puedan reportar problemas y recibir ayuda inmediata durante las primeras semanas.
    - **Instalación de la App:** Se proporcionarán instrucciones claras para la descarga e instalación desde Google Play Store, APKlis y descarga directa.
 
 3. **Posicionamiento y Visibilidad (Fase Post-Lanzamiento):**
    - **Open Source:** El código se hará público en GitHub para atraer colaboradores y demostrar transparencia y calidad.
-   - **Comunidad:** Se creará un sitio web o página del proyecto para documentar casos de éxito y compartir las métricas de mejora (ej. "Reducción del 20% en km recorridos", "Ahorro en costos de aduana mediante consulta automática", "Optimización de costos con ficha de costo detallada", "Automatización de facturación de aduana en 4 horarios").
-   - **Publicaciones:** Se escribirán artículos técnicos sobre la solución (ej. "Cómo optimizamos rutas con OSRM en Cuba", "Integración con Aerovaradero utilizando URL de payment para costos de aduana", "Ficha de costo: herramienta clave para la rentabilidad en transporte", "Automatización de facturación de aduana en Cuba") para posicionar a SIGMA-T como un referente técnico en el sector.
+   - **Comunidad:** Se creará un sitio web o página del proyecto para documentar casos de éxito y compartir las métricas de mejora (ej. "Reducción del 20% en km recorridos", "Ahorro en costos de aduana mediante consulta automática", "Optimización de costos con ficha de costo detallada", "Automatización de facturación de aduana en 4 horarios", **"Mejora de eficiencia con análisis post-ruta"**).
+   - **Publicaciones:** Se escribirán artículos técnicos sobre la solución (ej. "Cómo optimizamos rutas con OSRM en Cuba", "Integración con Aerovaradero utilizando URL de payment para costos de aduana", "Ficha de costo: herramienta clave para la rentabilidad en transporte", "Automatización de facturación de aduana en Cuba", **"Optimización de combustible y reoptimización dinámica con VRPTW v3.0"**, **"Sistema de estimación de tiempos con IA para logística en Cuba"**) para posicionar a SIGMA-T como un referente técnico en el sector.
    - **Documentación Técnica:** Se publicará la documentación técnica generada automáticamente (TypeDoc, Swagger) para que la comunidad pueda entender y contribuir al proyecto.
 
 ### 7.3 Plan de Formación Continua
@@ -444,6 +474,9 @@ El equipo de desarrollo recibirá formación continua en:
 - **Análisis de Calidad con SonarQube:** Interpretación de métricas y corrección de hallazgos.
 - **Automatización de Aduana:** Configuración de cron jobs, manejo de errores, logs y alertas.
 - **Migración de Datos:** Uso de scripts, validación de datos, verificación post-migración.
+- **🆕 Algoritmos de Optimización:** Técnicas avanzadas de VRPTW, optimización de combustible y reoptimización dinámica.
+- **🆕 Machine Learning:** Implementación y mantenimiento de modelos de regresión lineal para estimación de tiempos.
+- **🆕 Análisis de Datos:** Generación e interpretación de métricas de eficiencia y análisis post-ruta.
 
 ---
 
@@ -544,6 +577,7 @@ CACC-24014926,230-66684660,"Caja de herramientas",30.0,2,"Juan Pérez","ABC12345
 | peso | > 0 | Peso 0 o negativo | Corregir manualmente |
 | bultos | > 0 | Bultos 0 | Corregir manualmente |
 | destinatario_nombre | No vacío | Campo vacío | Corregir manualmente |
+| **🆕 prioridad** | urgente, normal, economico | Campo vacío o inválido | Asignar "normal" por defecto |
 
 #### 8.4.3 Migración de Vehículos
 
@@ -595,9 +629,10 @@ nombre,identificacion,licencia_tipo,licencia_vigencia,telefono,fecha_ingreso,sal
 |------|-----------|-------------|-------------|-----------------|
 | 1 | Exportar rutas desde OptimoRoute | CSV | Jefe de Operaciones | 30 min |
 | 2 | Convertir al formato de SIGMA-T | Script | Backend | 1 hora |
-| 3 | Validar datos de rutas | Script | QA | 30 min |
+| 3 | Validar datos de rutas (incluyendo consumo de combustible) | Script | QA | 30 min |
 | 4 | Importar a SIGMA-T (histórico) | API | Administrador | 30 min |
 | 5 | Generar fichas de costo para rutas históricas | Sistema SIGMA-T | Administrador | 1 hora |
+| 6 | **🆕 Generar análisis post-ruta histórico** | **Sistema SIGMA-T** | **Administrador** | **1 hora** |
 
 ### 8.5 Herramientas de Migración
 
@@ -613,7 +648,7 @@ import * as csv from 'csv-parser';
 async function migrarClientes(archivo: string): Promise<void> {
     const clientes = [];
     const errores = [];
-    
+
     // 1. Leer archivo CSV
     fs.createReadStream(archivo)
         .pipe(csv())
@@ -726,6 +761,14 @@ async function validarEnvio(envio: any): Promise<{ valido: boolean, errores: str
         errores.push('Bultos debe ser mayor a 0');
     }
 
+    // 6. 🆕 Validar Prioridad
+    if (envio.prioridad) {
+        const prioridadesValidas = ['urgente', 'normal', 'economico'];
+        if (!prioridadesValidas.includes(envio.prioridad)) {
+            errores.push(`Prioridad "${envio.prioridad}" no es válida. Valores permitidos: urgente, normal, economico`);
+        }
+    }
+
     return {
         valido: errores.length === 0,
         errores: errores
@@ -755,6 +798,7 @@ async function validarEnvio(envio: any): Promise<{ valido: boolean, errores: str
 | peso | > 0 | [✅ / ❌] | |
 | bultos | > 0 | [✅ / ❌] | |
 | destinatario_nombre | No vacío | [✅ / ❌] | |
+| 🆕 prioridad | urgente, normal, economico | [✅ / ❌] | |
 
 ### Vehículos
 | Campo | Validación | Estado | Observaciones |
@@ -763,6 +807,7 @@ async function validarEnvio(envio: any): Promise<{ valido: boolean, errores: str
 | marca | No vacío | [✅ / ❌] | |
 | modelo | No vacío | [✅ / ❌] | |
 | capacidad_kg | > 0 | [✅ / ❌] | |
+| 🆕 consumo_promedio | > 0 | [✅ / ❌] | |
 
 ### Choferes
 | Campo | Validación | Estado | Observaciones |
@@ -805,6 +850,8 @@ async function validarEnvio(envio: any): Promise<{ valido: boolean, errores: str
 | 4 | **Consistencia** | Datos consistentes entre sistemas | Relaciones correctas (cliente-envío, vehículo-ruta) |
 | 5 | **Aduana** | Costos de aduana asignados correctamente | ≥90% de envíos con costo de aduana |
 | 6 | **Pagos** | Esquemas de pago configurados | 100% de choferes con esquema configurado |
+| 7 | **🆕 Prioridad de Envíos** | Prioridades (urgente, normal, económico) asignadas correctamente | 100% de envíos con prioridad definida |
+| 8 | **🆕 Consumo de Vehículos** | Consumo promedio migrado correctamente | 100% de vehículos con consumo definido |
 
 ### 8.9 Reporte de Migración
 
@@ -831,6 +878,7 @@ async function validarEnvio(envio: any): Promise<{ valido: boolean, errores: str
 |----|---------|-------|-------|---------------|
 | 1 | Envío | destinatario_identificacion | 10 dígitos | Corregido manualmente |
 | 2 | Envío | unidad_destino | Null | Asignado "CMW" |
+| 3 | Envío | prioridad | Vacío | Asignado "normal" |
 
 ### Observaciones
 
@@ -842,6 +890,8 @@ async function validarEnvio(envio: any): Promise<{ valido: boolean, errores: str
 - [ ] Generar fichas de costo históricas
 - [ ] Configurar esquemas de pago de choferes
 - [ ] Verificar costos de aduana asignados
+- [ ] **🆕 Verificar prioridades de envíos**
+- [ ] **🆕 Validar consumo de vehículos**
 
 ### Aprobación
 
@@ -861,6 +911,7 @@ async function validarEnvio(envio: any): Promise<{ valido: boolean, errores: str
 | **Migración incompleta** | Continuar con migración por fases | Backend |
 | **Tiempo excedido** | Extender ventana de mantenimiento | Administrador |
 | **Falla en importación de aduana** | Entrada manual de costos | Administrador |
+| **🆕 Prioridades no migradas correctamente** | Script de corrección de prioridades | Backend |
 
 ### 8.11 Checklists de Migración
 
@@ -872,29 +923,35 @@ async function validarEnvio(envio: any): Promise<{ valido: boolean, errores: str
 - [ ] Formato de archivos confirmado
 - [ ] Roles y permisos definidos
 - [ ] Plan de comunicación a stakeholders preparado
+- [ ] **🆕 Validación de prioridades de envíos definida**
+- [ ] **🆕 Validación de consumo de vehículos definida**
 
 #### Checklist de Ejecución
 
 - [ ] Migrar clientes
-- [ ] Migrar vehículos
+- [ ] Migrar vehículos (incluyendo consumo promedio)
 - [ ] Migrar choferes
-- [ ] Migrar envíos (históricos)
+- [ ] Migrar envíos (incluyendo prioridad)
 - [ ] Migrar rutas (históricas)
 - [ ] Asignar costos de aduana
 - [ ] Generar fichas de costo históricas
 - [ ] Configurar esquemas de pago
 - [ ] Verificar integridad de datos
+- [ ] **🆕 Verificar prioridades de envíos**
+- [ ] **🆕 Validar consumo de vehículos**
 
 #### Checklist de Verificación
 
 - [ ] Todos los clientes están en el sistema
-- [ ] Todos los vehículos están en el sistema
+- [ ] Todos los vehículos están en el sistema (con consumo)
 - [ ] Todos los choferes están en el sistema
-- [ ] Todos los envíos históricos están en el sistema
+- [ ] Todos los envíos históricos están en el sistema (con prioridad)
 - [ ] Los costos de aduana están asignados
 - [ ] Las fichas de costo están generadas
 - [ ] Los esquemas de pago están configurados
 - [ ] Los reportes financieros son consistentes
+- [ ] **🆕 Las prioridades de envíos están correctas**
+- [ ] **🆕 Los consumos de vehículos son consistentes**
 
 ---
 
@@ -909,6 +966,7 @@ async function validarEnvio(envio: any): Promise<{ valido: boolean, errores: str
 | **Documentación** | $0 | TypeDoc, Swagger UI, JSDoc (open source) |
 | **Web Scraping** | $0 | Cheerio, Puppeteer (open source) |
 | **Generación de PDF** | $0 | Librerías open source (ej. PDFKit, jsPDF) |
+| **🆕 Machine Learning** | $0 | Librerías open source (ej. TensorFlow.js, scikit-learn) |
 | **Publicación en Play Store** | $25 | Pago único por cuenta de desarrollador |
 | **Publicación en APKlis** | $0 | Gratuito |
 | **Capacitación** | $0 | Realizada por el Líder y el Equipo |
@@ -930,24 +988,31 @@ async function validarEnvio(envio: any): Promise<{ valido: boolean, errores: str
 
 ## 📌 CONCLUSIÓN
 
-Este SPMP Versión 3.8 ahora incluye:
+Este SPMP Versión 3.9 ahora incluye:
 
 - ✅ **9 Sprints** (incluyendo Sprint 5.5 para SonarQube) con tareas detalladas
 - ✅ **Sprint 0 completado** en 1 día (13/08/2026) con todos los entregables
 - ✅ **Sprint 1 completado** en 2 días (13-15/08/2026) con todos los entregables
-- ✅ **23 criterios de aceptación** de calidad (incluyendo SonarQube, automatización de aduana y migración)
-- ✅ **5 métricas de calidad de código** con estado de cumplimiento
+- ✅ **🆕 Sprint 2 actualizado** con VRPTW v3.0 (optimización de combustible, prioridad de entregas)
+- ✅ **🆕 Sprint 3 actualizado** con solicitud de reoptimización de ruta
+- ✅ **🆕 Sprint 4 actualizado** con panel de análisis post-ruta
+- ✅ **🆕 Sprint 5 actualizado** con sistema de estimación de tiempos con IA
+- ✅ **28 criterios de aceptación** de calidad (5 nuevos: optimización combustible, prioridad, reoptimización, IA, análisis post-ruta)
+- ✅ **7 métricas de calidad de código** (2 nuevas: precisión IA, tiempo de reoptimización)
+- ✅ **🆕 Nuevo rol: ML Engineer** agregado al equipo
+- ✅ **🆕 Nuevos riesgos** agregados: falla de IA, tiempo de reoptimización, precisión del modelo
+- ✅ **🆕 Nuevas tareas de pruebas** para validación de IA, reoptimización y análisis post-ruta
 - ✅ **Política de commits** (Conventional Commits) y pre-commit hooks
-- ✅ **Estrategia de pruebas** con análisis estático, verificación de documentación, pruebas de integración con Aerovaradero (URL de payment), pruebas de cálculo financiero, pruebas de precisión de ficha de costo, pruebas de automatización de aduana, pruebas de infraestructura y pruebas de migración
-- ✅ **Plan de formación continua** actualizado con SonarQube, automatización de aduana y migración de datos
+- ✅ **Estrategia de pruebas** actualizada con pruebas de VRPTW v3.0, IA y análisis post-ruta
+- ✅ **Plan de formación continua** actualizado con algoritmos de optimización, ML y análisis de datos
 - ✅ **Riesgos** identificados y mitigados con estados
 - ✅ **Presupuesto actualizado** con costos de VPS ETECSA y publicación en Play Store
 - ✅ **Estado actualizado** del proyecto con Sprints 0 y 1 completados
 - ✅ **Automatización de facturación de aduana** definida (4 horarios: 8AM, 12PM, 4PM, 12AM)
 - ✅ **9 estados del paquete** definidos y documentados
 - ✅ **5 perfiles de usuario** definidos (Administrador, Jefe de Operaciones, Agencia de Envíos, Cliente Remitente, Cliente Destinatario)
-- ✅ **Plan de Migración de Datos** completo con procedimientos por entidad, scripts, cronograma, criterios de aceptación y checklists
+- ✅ **Plan de Migración de Datos** completo con procedimientos por entidad, scripts, cronograma, criterios de aceptación y checklists, incluyendo validación de prioridades de envíos y consumo de vehículos
 
-**Este documento refleja el estado actual del proyecto, con los Sprints 0 y 1 completados y listo para el Sprint 2 (Optimización de Rutas).**
+**Este documento refleja el estado actual del proyecto, con los Sprints 0 y 1 completados y listo para el Sprint 2 (Optimización de Rutas con VRPTW v3.0).**
 
 ---
