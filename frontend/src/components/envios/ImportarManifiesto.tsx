@@ -36,8 +36,8 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
     cobrado_origen: '',
     unidad_destino: '',
   });
-  const [vistaPrevia, setVistaPrevia] = useState<Record<string, string | number>[]>([]);
-  const [erroresVista, setErroresVista] = useState<{ fila: number; errores: string[] }[]>([]);
+  const [vistaPrevia, setVistaPrevia] = useState<Array<Record<string, string | number>>>([]);
+  const [erroresVista, setErroresVista] = useState<Array<{ fila: number; errores: string[] }>>([]);
   const [loading, setLoading] = useState(false);
 
   const camposRequeridos: Array<{ key: keyof ColumnaMapeo; label: string }> = [
