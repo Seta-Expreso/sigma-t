@@ -1,13 +1,13 @@
-## 📄 DOCUMENTO ACTUALIZADO
+## 📄 DOCUMENTO ACTUALIZADO COMPLETO
 
-**`docs/14-lecciones-aprendidas.md`**:
+**`docs/14-lecciones-aprendidas.md`** - Versión 1.2
 
 ```markdown
 ## 📚 DOCUMENTO DE LECCIONES APRENDIDAS - SIGMA-T
 
 **Fecha de Creación:** 15 de agosto de 2026
 **Última Actualización:** 15 de agosto de 2026
-**Versión:** 1.1
+**Versión:** 1.2
 
 ---
 
@@ -30,9 +30,10 @@ Este documento recopila todos los errores, problemas y lecciones aprendidas dura
 | 5 | `@typescript-eslint/no-unused-vars` | Variables importadas no usadas | Eliminar imports no usados o prefijar con `_` | 15/08/2026 |
 | 6 | `@typescript-eslint/array-type` | Uso incorrecto de arrays | Usar `T[]` para tipos simples, `Array<T>` para complejos | 15/08/2026 |
 | 7 | `@typescript-eslint/consistent-type-definitions` | Uso de `type` en lugar de `interface` | Usar `interface` para objetos | 15/08/2026 |
-| **🆕 8** | **`@typescript-eslint/no-unsafe-call`** | **Llamada a constructor sin tipo (new TableColumn())** | **Usar `eslint-disable` o tipar correctamente** | **15/08/2026** |
-| **🆕 9** | **`@typescript-eslint/no-inferrable-types`** | **Tipo inferido trivialmente** | **Eliminar tipo explícito cuando es inferido (ej: `_dias = 7`)** | **15/08/2026** |
-| **🆕 10** | **`@typescript-eslint/require-await`** | **Función async sin await** | **Quitar `async` si no hay `await`** | **15/08/2026** |
+| 8 | `@typescript-eslint/no-unsafe-call` | Llamada a constructor sin tipo (new TableColumn()) | Usar `eslint-disable` o tipar correctamente | 15/08/2026 |
+| 9 | `@typescript-eslint/no-inferrable-types` | Tipo inferido trivialmente | Eliminar tipo explícito cuando es inferido (ej: `_dias = 7`) | 15/08/2026 |
+| 10 | `@typescript-eslint/require-await` | Función async sin await | Quitar `async` si no hay `await` | 15/08/2026 |
+| **🆕 11** | **`no-console`** | **Uso de `console.log`, `console.warn`, `console.error`** | **Usar `logger` importado desde `../utils/logger.js`** | **15/08/2026** |
 
 ### 2.2 Errores Comunes al Tipar Controladores
 
@@ -42,7 +43,8 @@ Este documento recopila todos los errores, problemas y lecciones aprendidas dura
 | 2 | **Tipar req.params** | `const id = req.params.id;` | `const id = parseInt(req.params.id, 10);` |
 | 3 | **Manejo de errores** | `catch (error) { next(error); }` | `catch (error) { next(error as Error); }` |
 | 4 | **req.file** | `const file = req.file;` | Usar `req.file` directamente sin asignación |
-| **🆕 5** | **Parámetros no usados** | `async metodo(dias: number = 7)` | `async metodo(_dias: number = 7)` o `async metodo(_dias = 7)` |
+| 5 | **Parámetros no usados** | `async metodo(dias: number = 7)` | `async metodo(_dias: number = 7)` o `async metodo(_dias = 7)` |
+| **🆕 6** | **Variables de estado no usadas** | `const [selectedDay, setSelectedDay] = useState(...)` | **Eliminar si no se usa, no dejar con `_`** |
 
 ### 2.3 Errores con TypeORM y Relaciones
 
@@ -51,7 +53,7 @@ Este documento recopila todos los errores, problemas y lecciones aprendidas dura
 | 1 | `Unsafe member access .matricula` | Acceso a propiedad de relación sin tipar | Usar `as unknown as { vehiculo?: { matricula: string } }` |
 | 2 | `EntityTarget<ObjectLiteral>` | Repositorio no reconocido | TypeORM lo maneja internamente, usar `eslint-disable` |
 | 3 | Decoradores con ESLint | `@ManyToOne` interpretado como return de error | Deshabilitar ESLint para el archivo del modelo |
-| **🆕 4** | **`Unsafe member access .buffer`** | **file.buffer no reconocido** | **Usar `eslint-disable-next-line`** |
+| 4 | `Unsafe member access .buffer` | `file.buffer` no reconocido | Usar `eslint-disable-next-line` |
 
 ### 2.4 Errores con Multer y Upload de Archivos
 
@@ -60,12 +62,26 @@ Este documento recopila todos los errores, problemas y lecciones aprendidas dura
 | 1 | `Unsafe member access .single` | upload.single no es reconocido | Usar directamente sin type assertion |
 | 2 | `file.buffer` no reconocido | ESLint no reconoce el tipo de multer | Usar `eslint-disable-next-line` |
 
-### 🆕 2.5 Errores con Migraciones de Base de Datos
+### 2.5 Errores con Migraciones de Base de Datos
 
 | # | Error | Descripción | Solución |
 |---|-------|-------------|----------|
 | 1 | `@typescript-eslint/no-unsafe-call` | `new TableColumn()` no es reconocido | Importar `TableColumn` y usar `eslint-disable` si es necesario |
 | 2 | `@typescript-eslint/consistent-type-imports` | Importar tipos sin `import type` | Usar `import type` para `MigrationInterface`, `QueryRunner` |
+
+### 🆕 2.6 Errores en Frontend - Componentes React
+
+| # | Error | Descripción | Solución |
+|---|-------|-------------|----------|
+| 1 | `@typescript-eslint/no-unused-vars` | Imports no usados (useEffect, Select) | Eliminar imports no usados |
+| 2 | `@typescript-eslint/no-unused-vars` | Estado declarado pero no usado | Eliminar el estado completamente |
+| 3 | `@typescript-eslint/no-explicit-any` | Tipos `any` en API (FichaCosto, AnalisisPostRuta) | Definir interfaces específicas |
+
+### 🆕 2.7 Errores de Logging
+
+| # | Error | Descripción | Solución |
+|---|-------|-------------|----------|
+| 1 | `no-console` | Uso de `console.log`, `console.warn`, `console.error` | Usar `logger` importado desde `../utils/logger.js` |
 
 ---
 
@@ -109,6 +125,7 @@ export class MiController {
 
 import { AppDataSource } from '../config/database.config.js';
 import { MiModelo } from '../models/mi-modelo.model.js';
+import logger from '../utils/logger.js';
 
 export class MiServicio {
   private repositorio = AppDataSource.getRepository(MiModelo);
@@ -138,6 +155,13 @@ export class MiServicio {
   // ✅ Quitar async si no hay await
   metodoSincrono(): string {
     return 'resultado';
+  }
+
+  // ✅ Usar logger en lugar de console
+  ejemploConLogger(): void {
+    logger.info('Mensaje informativo');
+    logger.warn('Advertencia');
+    logger.error('Error');
   }
 }
 ```
@@ -184,7 +208,7 @@ export class MiModelo {
 /* eslint-enable */
 ```
 
-### 🆕 3.5 Migraciones de Base de Datos
+### 3.5 Migraciones de Base de Datos
 
 ```typescript
 // ✅ PATRÓN CORRECTO PARA MIGRACIONES
@@ -223,6 +247,41 @@ export class MiMigracion1723740000001 implements MigrationInterface {
 }
 ```
 
+### 🆕 3.6 Componentes React
+
+```typescript
+// ✅ PATRÓN CORRECTO PARA COMPONENTES REACT
+
+import React, { useState } from 'react';
+import { Button, Card } from '../common';
+
+interface MiComponenteProps {
+  fechaInicio?: Date;
+  onSeleccionar?: (id: number) => void;
+}
+
+export const MiComponente: React.FC<MiComponenteProps> = ({
+  fechaInicio = new Date(),
+  onSeleccionar,
+}) => {
+  // ✅ Solo estado que realmente se usa
+  const [fecha, setFecha] = useState<Date>(fechaInicio);
+  const { datos, loading } = useMiHook();
+
+  // ✅ Si no se usa un estado, NO se declara
+  // const [noUsado, setNoUsado] = useState(null); // ❌ MAL
+
+  // ✅ Imports solo de lo que se usa
+  // import { useEffect } from 'react'; // ❌ Si no se usa, no importar
+
+  return (
+    <div>
+      {/* Contenido */}
+    </div>
+  );
+};
+```
+
 ---
 
 ## 4. COMMANDS ÚTILES PARA DEBUG
@@ -254,7 +313,7 @@ npx tsc --showConfig
 
 ## 5. CHECKLIST DE REVISIÓN DE CÓDIGO
 
-### 5.1 Antes de Hacer un Commit
+### 5.1 Antes de Hacer un Commit (BACKEND)
 
 - [ ] ¿Usé `import type` para tipos?
 - [ ] ¿Tipé `req.body` correctamente?
@@ -264,10 +323,19 @@ npx tsc --showConfig
 - [ ] ¿No hay `any` (usar `unknown` o interfaces)?
 - [ ] ¿El código pasa `npm run lint`?
 - [ ] ¿Los commits siguen Conventional Commits?
-- [ ] **🆕 ¿Los parámetros no usados tienen `_`?**
-- [ ] **🆕 ¿Las funciones sin `await` no son `async`?**
+- [ ] ¿Los parámetros no usados tienen `_`?
+- [ ] ¿Las funciones sin `await` no son `async`?
 
-### 5.2 Antes de un Pull Request
+### 5.2 Antes de Hacer un Commit (FRONTEND)
+
+- [ ] ¿Usé `import type` para tipos?
+- [ ] ¿No hay `any` en tipos de API?
+- [ ] ¿No hay imports no usados?
+- [ ] ¿No hay estados declarados pero no usados?
+- [ ] ¿El código pasa `npm run lint`?
+- [ ] ¿Los commits siguen Conventional Commits?
+
+### 5.3 Antes de un Pull Request
 
 - [ ] ¿El pipeline de CI/CD pasa?
 - [ ] ¿Hay pruebas para el código nuevo?
@@ -281,18 +349,18 @@ npx tsc --showConfig
 | Versión | Fecha | Cambios | Autor |
 |---------|-------|---------|-------|
 | 1.0 | 15/08/2026 | Creación del documento | Equipo SIGMA-T |
-| **1.1** | **15/08/2026** | **Agregar nuevos errores del Sprint 2 (Día 2)** | **Equipo SIGMA-T** |
+| 1.1 | 15/08/2026 | Agregar errores del Sprint 2 (Día 2) | Equipo SIGMA-T |
+| **1.2** | **15/08/2026** | **Agregar errores del Sprint 2 (Día 3)** | **Equipo SIGMA-T** |
 
-### 🆕 Cambios en v1.1
+### 🆕 Cambios en v1.2
 
 | # | Cambio | Descripción |
 |---|--------|-------------|
-| 1 | Agregar error `no-unsafe-call` | Llamada a constructor sin tipo (migraciones) |
-| 2 | Agregar error `no-inferrable-types` | Tipo inferido trivialmente |
-| 3 | Agregar error `require-await` | Función async sin await |
-| 4 | Agregar sección 2.5 | Errores en migraciones de base de datos |
-| 5 | Agregar sección 3.5 | Patrón correcto para migraciones |
-| 6 | Actualizar checklist | Agregar `_` para parámetros no usados y `async` sin `await` |
+| 1 | Agregar error `no-console` | Uso de console en lugar de logger |
+| 2 | Agregar sección 2.6 | Errores en Frontend - Componentes React |
+| 3 | Agregar sección 2.7 | Errores de Logging |
+| 4 | Agregar sección 3.6 | Patrón correcto para componentes React |
+| 5 | Agregar checklist de Frontend | Separar backend y frontend |
 
 ---
 
@@ -303,6 +371,7 @@ npx tsc --showConfig
 | ESLint Rules | https://eslint.org/docs/latest/rules/ |
 | TypeScript Handbook | https://www.typescriptlang.org/docs/ |
 | TypeORM Docs | https://typeorm.io/ |
+| React Docs | https://react.dev/ |
 | Conventional Commits | https://www.conventionalcommits.org/ |
 
 ---
