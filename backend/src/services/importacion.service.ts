@@ -1,160 +1,345 @@
 /**
- * @fileoverview Servicio para importación de manifiestos desde Excel
+ * @fileoverview Servicio para la importación de manifiestos
  * @module services/importacion
  */
 
 import * as XLSX from 'xlsx';
-import { EnvioService } from './envio.service';
-import { ClienteService } from './cliente.service';
-import { PrioridadEnvio } from '../models/envio.model';
+import { AppDataSource } from '../config/database.config';
+import { Envio, EstadoEnvio } from '../models/envio.model';
+import { Repository } from 'typeorm';
+import * as fs from 'fs';
 
-const envioService = new EnvioService();
-const clienteService = new ClienteService();
-
-export interface ImportResult {
-  success: boolean;
-  total: number;
-  importados: number;
-  errores: ImportError[];
-  envios: unknown[];
-}
-
-export interface ImportError {
-  fila: number;
+export interface ColumnaMapeo {
   house: string;
-  error: string;
+  descripcion: string;
+  peso: string;
+  bultos: string;
+  remitente_nombre: string;
+  remitente_passport: string;
+  destinatario_nombre: string;
+  destinatario_identificacion: string;
+  destinatario_telefono: string;
+  destinatario_direccion: string;
+  cobrado_origen: string;
+  unidad_destino: string;
 }
 
-// Definir tipo para una fila del Excel
-type ExcelRow = Record<string, unknown>;
+export interface ValidacionResultado {
+  valido: boolean;
+  errores: string[];
+}
 
 export class ImportacionService {
+  private envioRepository: Repository<Envio>;
+
+  constructor() {
+    this.envioRepository = AppDataSource.getRepository(Envio);
+  }
+
   /**
-   * Importa envíos desde un archivo Excel
-   * @param {Buffer} fileBuffer - Buffer del archivo Excel
-   * @param {number} clienteId - ID del cliente al que pertenecen los envíos
-   * @returns {Promise<ImportResult>} Resultado de la importación
+   * Obtiene las columnas de un archivo Excel
    */
-  async importarDesdeExcel(fileBuffer: Buffer, clienteId: number): Promise<ImportResult> {
-    const resultado: ImportResult = {
-      success: true,
-      total: 0,
-      importados: 0,
-      errores: [],
-      envios: [],
-    };
+  async obtenerColumnas(filePath: string): Promise<string[]> {
+    const workbook = XLSX.readFile(filePath);
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const data = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+    if (data.length === 0) return [];
+    return Object.keys(data[0]);
+  }
 
-    try {
-      // Leer el archivo Excel
-      const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-      const data = XLSX.utils.sheet_to_json<ExcelRow>(worksheet);
+  /**
+   * Valida un campo específico según las reglas definidas
+   */
+  private validarCampo(
+    valor: any,
+    campo: string,
+    esObligatorio: boolean,
+    validaciones?: { tipo?: string; longitud?: number; regex?: RegExp }
+  ): ValidacionResultado {
+    const errores: string[] = [];
 
-      resultado.total = data.length;
+    // Si es obligatorio y está vacío
+    if (esObligatorio && (valor === undefined || valor === null || valor === '')) {
+      errores.push(`Campo "${campo}" es obligatorio`);
+      return { valido: false, errores };
+    }
 
-      // Verificar que el cliente existe
-      const cliente = await clienteService.findById(clienteId);
-      if (!cliente) {
-        throw new Error(`Cliente con ID ${clienteId} no encontrado`);
+    // Si es opcional y está vacío, es válido
+    if (!esObligatorio && (valor === undefined || valor === null || valor === '')) {
+      return { valido: true, errores: [] };
+    }
+
+    const valorStr = String(valor).trim();
+
+    // Validaciones específicas
+    if (validaciones) {
+      // Validar tipo numérico
+      if (validaciones.tipo === 'number' && isNaN(Number(valorStr))) {
+        errores.push(`Campo "${campo}" debe ser un número`);
       }
 
-      // Procesar cada fila
-      for (let i = 0; i < data.length; i++) {
-        const row = data[i];
-        const fila = i + 2; // +2 porque Excel empieza en 1 y tenemos encabezados
-
-        try {
-          const envioData = this.mapearFila(row, clienteId);
-          const envio = await envioService.create(envioData);
-          resultado.importados++;
-          resultado.envios.push(envio);
-        } catch (error) {
-          resultado.errores.push({
-            fila,
-            house: (row['House'] as string) || (row['house'] as string) || 'Desconocido',
-            error: error instanceof Error ? error.message : 'Error desconocido',
-          });
+      // Validar tipo booleano
+      if (validaciones.tipo === 'boolean') {
+        const lower = valorStr.toLowerCase();
+        if (!['true', 'false', 'si', 'no', '1', '0', ''].includes(lower)) {
+          errores.push(`Campo "${campo}" debe ser booleano (true/false, si/no)`);
         }
       }
 
-      resultado.success = resultado.errores.length === 0;
+      // Validar longitud exacta
+      if (validaciones.longitud && valorStr.length !== validaciones.longitud) {
+        errores.push(`Campo "${campo}" debe tener exactamente ${validaciones.longitud} dígitos (actual: ${valorStr.length})`);
+      }
 
-      return resultado;
-    } catch (error) {
-      throw new Error(`Error al procesar el archivo Excel: ${error instanceof Error ? error.message : 'Error desconocido'}`);
-    }
-  }
-
-  /**
-   * Mapea una fila del Excel a un objeto Envio
-   * @param {ExcelRow} row - Fila del Excel
-   * @param {number} clienteId - ID del cliente
-   * @returns {Partial<Envio>} Datos del envío
-   */
-  private mapearFila(row: ExcelRow, clienteId: number): Partial<Envio> {
-    // Mapeo de columnas según el manifiesto real
-    const house = this.getColumnValue(row, ['House', 'house', 'HOUSE']);
-    const awb = this.getColumnValue(row, ['AWB', 'awb', 'Master AWB', 'No. de Master AWB']);
-    const descripcion = this.getColumnValue(row, ['Naturaleza y Cantidad', 'naturaleza', 'descripcion', 'Descripción']);
-    const peso = parseFloat(this.getColumnValue(row, ['Peso (Kg)', 'peso', 'Peso', 'Peso Kg']) || '0');
-    const bultos = parseInt(this.getColumnValue(row, ['Bultos (Cant.)', 'bultos', 'Bultos']) || '1');
-    const remitente = this.getColumnValue(row, ['Remitente', 'Nombre y Apellidos del REMITENTE', 'remitente']);
-    const passport = this.getColumnValue(row, ['Passport', 'pasaporte', 'Identificación Remitente']);
-    const destinatario = this.getColumnValue(row, ['Destinatario', 'Nombre y Apellidos del DESTINATARIO', 'destinatario']);
-    const telefono = this.getColumnValue(row, ['Teléfono del DESTINATARIO', 'telefono', 'Teléfono']);
-    const direccion = this.getColumnValue(row, ['Dirección del DESTINATARIO', 'direccion', 'Dirección']);
-    const cobrado = this.getColumnValue(row, ['Cobrado/No Cobrado', 'cobrado', 'Cobrado']);
-    const unidadDestino = this.getColumnValue(row, ['Unidad de destino', 'unidad', 'Unidad']);
-
-    // Validaciones
-    if (!house) {
-      throw new Error('El campo House es obligatorio');
-    }
-
-    if (!destinatario) {
-      throw new Error('El campo Destinatario es obligatorio');
-    }
-
-    if (!direccion) {
-      throw new Error('El campo Dirección es obligatorio');
-    }
-
-    if (isNaN(peso) || peso <= 0) {
-      throw new Error(`El peso "${peso}" no es válido. Debe ser un número mayor a 0.`);
+      // Validar regex (ej. Carnet de Identidad: 11 dígitos)
+      if (validaciones.regex && !validaciones.regex.test(valorStr)) {
+        errores.push(`Campo "${campo}" tiene formato inválido`);
+      }
     }
 
     return {
-      id_cliente: clienteId,
-      house,
-      awb: awb || undefined,
-      descripcion: descripcion || 'Misceláneas',
-      peso,
-      bultos: bultos || 1,
-      remitente_nombre: remitente || 'Desconocido',
-      remitente_passport: passport || undefined,
-      destinatario_nombre: destinatario,
-      destinatario_direccion: direccion,
-      destinatario_telefono: telefono || 'No especificado',
-      cobrado_origen: cobrado === '2' || cobrado === 'Si' || cobrado === 'Sí',
-      unidad_destino: unidadDestino || undefined,
-      prioridad: PrioridadEnvio.NORMAL,
+      valido: errores.length === 0,
+      errores,
     };
   }
 
   /**
-   * Obtiene el valor de una columna buscando por varios nombres posibles
-   * @param {ExcelRow} row - Fila del Excel
-   * @param {string[]} keys - Posibles nombres de la columna
-   * @returns {string} Valor encontrado
+   * Valida una fila completa de datos
    */
-  private getColumnValue(row: ExcelRow, keys: string[]): string {
-    for (const key of keys) {
-      const value = row[key];
-      if (value !== undefined && value !== null && value !== '') {
-        return String(value).trim();
+  private validarFila(fila: any, mapeo: ColumnaMapeo): ValidacionResultado {
+    const errores: string[] = [];
+
+    // Validar House (obligatorio, formato)
+    const houseResult = this.validarCampo(
+      fila[mapeo.house],
+      'House',
+      true,
+      { regex: /^[A-Z]{4}-\d{8}$/ }
+    );
+    errores.push(...houseResult.errores);
+
+    // Validar Descripción (obligatorio)
+    const descResult = this.validarCampo(
+      fila[mapeo.descripcion],
+      'Descripción',
+      true
+    );
+    errores.push(...descResult.errores);
+
+    // Validar Peso (obligatorio, > 0)
+    const pesoValor = fila[mapeo.peso];
+    if (pesoValor === undefined || pesoValor === null || pesoValor === '') {
+      errores.push('Campo "Peso" es obligatorio');
+    } else if (isNaN(Number(pesoValor)) || Number(pesoValor) <= 0) {
+      errores.push('Campo "Peso" debe ser mayor a 0');
+    }
+
+    // Validar Bultos (obligatorio, > 0)
+    const bultosValor = fila[mapeo.bultos];
+    if (bultosValor === undefined || bultosValor === null || bultosValor === '') {
+      errores.push('Campo "Bultos" es obligatorio');
+    } else if (isNaN(Number(bultosValor)) || Number(bultosValor) <= 0) {
+      errores.push('Campo "Bultos" debe ser mayor a 0');
+    }
+
+    // Validar Remitente (obligatorio)
+    const remResult = this.validarCampo(
+      fila[mapeo.remitente_nombre],
+      'Remitente',
+      true
+    );
+    errores.push(...remResult.errores);
+
+    // Validar Destinatario (obligatorio)
+    const destResult = this.validarCampo(
+      fila[mapeo.destinatario_nombre],
+      'Destinatario',
+      true
+    );
+    errores.push(...destResult.errores);
+
+    // Validar Carnet de Identidad (obligatorio, 11 dígitos)
+    const carnetResult = this.validarCampo(
+      fila[mapeo.destinatario_identificacion],
+      'Carnet de Identidad',
+      true,
+      { longitud: 11, regex: /^\d{11}$/ }
+    );
+    errores.push(...carnetResult.errores);
+
+    // Validar Teléfono (obligatorio)
+    const telResult = this.validarCampo(
+      fila[mapeo.destinatario_telefono],
+      'Teléfono',
+      true
+    );
+    errores.push(...telResult.errores);
+
+    // Validar Dirección (obligatorio)
+    const dirResult = this.validarCampo(
+      fila[mapeo.destinatario_direccion],
+      'Dirección',
+      true
+    );
+    errores.push(...dirResult.errores);
+
+    // Validar Unidad de Destino (obligatorio)
+    const unidadResult = this.validarCampo(
+      fila[mapeo.unidad_destino],
+      'Unidad de destino',
+      true
+    );
+    errores.push(...unidadResult.errores);
+
+    // Validar Passport (opcional)
+    const passportResult = this.validarCampo(
+      fila[mapeo.remitente_passport],
+      'Passport',
+      false
+    );
+    errores.push(...passportResult.errores);
+
+    // Validar Cobrado/No Cobrado (opcional, booleano)
+    if (mapeo.cobrado_origen) {
+      const cobradoResult = this.validarCampo(
+        fila[mapeo.cobrado_origen],
+        'Cobrado/No Cobrado',
+        false,
+        { tipo: 'boolean' }
+      );
+      errores.push(...cobradoResult.errores);
+    }
+
+    return {
+      valido: errores.length === 0,
+      errores,
+    };
+  }
+
+  /**
+   * Obtiene vista previa de los datos con el mapeo seleccionado
+   */
+  async obtenerVistaPrevia(
+    filePath: string,
+    mapeo: ColumnaMapeo,
+    clienteId: number
+  ): Promise<{ filas: any[]; total: number; errores: any[] }> {
+    const workbook = XLSX.readFile(filePath);
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const data = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+
+    // Filtrar filas vacías (todas las columnas vacías)
+    const filasValidas = data.filter((fila: any) => {
+      const valores = Object.values(fila);
+      return valores.some((v) => v !== '' && v !== null && v !== undefined);
+    });
+
+    const errores: any[] = [];
+    const filasResult: any[] = [];
+
+    for (let i = 0; i < filasValidas.length; i++) {
+      const fila = filasValidas[i];
+      const resultado = this.validarFila(fila, mapeo);
+
+      // Mapear los campos
+      const envioData = {
+        house: fila[mapeo.house] || '',
+        descripcion: fila[mapeo.descripcion] || '',
+        peso: parseFloat(fila[mapeo.peso]) || 0,
+        bultos: parseInt(fila[mapeo.bultos]) || 0,
+        remitente_nombre: fila[mapeo.remitente_nombre] || '',
+        remitente_passport: fila[mapeo.remitente_passport] || '',
+        destinatario_nombre: fila[mapeo.destinatario_nombre] || '',
+        destinatario_identificacion: fila[mapeo.destinatario_identificacion] || '',
+        destinatario_telefono: fila[mapeo.destinatario_telefono] || '',
+        destinatario_direccion: fila[mapeo.destinatario_direccion] || '',
+        cobrado_origen: fila[mapeo.cobrado_origen]
+          ? ['true', 'si', '1'].includes(String(fila[mapeo.cobrado_origen]).toLowerCase())
+          : false,
+        unidad_destino: fila[mapeo.unidad_destino] || '',
+        id_cliente: clienteId,
+        estado: EstadoEnvio.PENDIENTE,
+      };
+
+      filasResult.push(envioData);
+
+      if (!resultado.valido) {
+        errores.push({
+          fila: i + 1,
+          house: fila[mapeo.house] || '',
+          errores: resultado.errores,
+        });
       }
     }
-    return '';
+
+    return {
+      filas: filasResult,
+      total: filasValidas.length,
+      errores,
+    };
+  }
+
+  /**
+   * Importa el archivo con el mapeo seleccionado
+   */
+  async importar(
+    filePath: string,
+    mapeo: ColumnaMapeo,
+    clienteId: number
+  ): Promise<{
+    total: number;
+    importados: number;
+    errores: Array<{ fila: number; house: string; errores: string[] }>;
+    envios: any[];
+  }> {
+    const vistaPrevia = await this.obtenerVistaPrevia(filePath, mapeo, clienteId);
+
+    const enviosValidos = vistaPrevia.filas.filter(
+      (_, index) => !vistaPrevia.errores.some((e) => e.fila === index + 1)
+    );
+
+    const enviosCreados: any[] = [];
+
+    for (const envioData of enviosValidos) {
+      try {
+        // Verificar que el House no exista
+        const existing = await this.envioRepository.findOne({
+          where: { house: envioData.house },
+        });
+        if (existing) {
+          vistaPrevia.errores.push({
+            fila: vistaPrevia.filas.indexOf(envioData) + 1,
+            house: envioData.house,
+            errores: [`House "${envioData.house}" ya existe en la base de datos`],
+          });
+          continue;
+        }
+
+        const envio = this.envioRepository.create(envioData);
+        const saved = await this.envioRepository.save(envio);
+        enviosCreados.push(saved);
+      } catch (error) {
+        const index = vistaPrevia.filas.indexOf(envioData);
+        vistaPrevia.errores.push({
+          fila: index + 1,
+          house: envioData.house,
+          errores: [error instanceof Error ? error.message : 'Error al guardar'],
+        });
+      }
+    }
+
+    // Limpiar archivo temporal
+    try {
+      fs.unlinkSync(filePath);
+    } catch (error) {
+      console.warn('No se pudo eliminar el archivo temporal:', filePath);
+    }
+
+    return {
+      total: vistaPrevia.total,
+      importados: enviosCreados.length,
+      errores: vistaPrevia.errores,
+      envios: enviosCreados,
+    };
   }
 }

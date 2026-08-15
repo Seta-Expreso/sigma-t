@@ -7,6 +7,10 @@ import { AppDataSource } from '../config/database.config';
 import { Cliente } from '../models/cliente.model';
 import { Repository } from 'typeorm';
 
+/**
+ * Servicio para operaciones CRUD de clientes
+ * @class ClienteService
+ */
 export class ClienteService {
   private clienteRepository: Repository<Cliente>;
 
@@ -16,7 +20,9 @@ export class ClienteService {
 
   /**
    * Obtiene todos los clientes activos
-   * @returns {Promise<Cliente[]>} Lista de clientes activos
+   * @returns {Promise<Cliente[]>} Lista de clientes activos ordenados por nombre
+   * @example
+   * const clientes = await clienteService.findAll();
    */
   async findAll(): Promise<Cliente[]> {
     return await this.clienteRepository.find({
@@ -29,6 +35,8 @@ export class ClienteService {
    * Obtiene un cliente por su ID
    * @param {number} id - ID del cliente
    * @returns {Promise<Cliente | null>} Cliente encontrado o null
+   * @example
+   * const cliente = await clienteService.findById(1);
    */
   async findById(id: number): Promise<Cliente | null> {
     return await this.clienteRepository.findOne({
@@ -41,6 +49,11 @@ export class ClienteService {
    * Crea un nuevo cliente
    * @param {Partial<Cliente>} data - Datos del cliente
    * @returns {Promise<Cliente>} Cliente creado
+   * @example
+   * const nuevoCliente = await clienteService.create({
+   *   nombre_empresa: 'CAC Paquetería',
+   *   contacto_nombre: 'Juan Pérez'
+   * });
    */
   async create(data: Partial<Cliente>): Promise<Cliente> {
     const cliente = this.clienteRepository.create(data);
@@ -52,12 +65,15 @@ export class ClienteService {
    * @param {number} id - ID del cliente
    * @param {Partial<Cliente>} data - Datos a actualizar
    * @returns {Promise<Cliente | null>} Cliente actualizado o null
+   * @example
+   * const clienteActualizado = await clienteService.update(1, {
+   *   nombre_empresa: 'CAC Paquetería Actualizada'
+   * });
    */
   async update(id: number, data: Partial<Cliente>): Promise<Cliente | null> {
     const cliente = await this.findById(id);
     if (!cliente) return null;
-    
-    // Actualizar solo los campos proporcionados
+
     Object.assign(cliente, data);
     return await this.clienteRepository.save(cliente);
   }
@@ -66,20 +82,24 @@ export class ClienteService {
    * Elimina un cliente (desactivación lógica)
    * @param {number} id - ID del cliente
    * @returns {Promise<boolean>} true si se eliminó, false si no existe
+   * @example
+   * const eliminado = await clienteService.delete(1);
    */
   async delete(id: number): Promise<boolean> {
     const cliente = await this.findById(id);
     if (!cliente) return false;
-    
+
     cliente.activo = false;
     await this.clienteRepository.save(cliente);
     return true;
   }
 
   /**
-   * Busca clientes por nombre de empresa
+   * Busca clientes por nombre de empresa o contacto
    * @param {string} searchTerm - Término de búsqueda
    * @returns {Promise<Cliente[]>} Lista de clientes que coinciden
+   * @example
+   * const resultados = await clienteService.search('CAC');
    */
   async search(searchTerm: string): Promise<Cliente[]> {
     return await this.clienteRepository

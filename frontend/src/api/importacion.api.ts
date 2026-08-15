@@ -7,53 +7,85 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-export interface ImportResult {
-  success: boolean;
+export interface ColumnaMapeo {
+  house: string;
+  descripcion: string;
+  peso: string;
+  bultos: string;
+  remitente_nombre: string;
+  remitente_passport: string;
+  destinatario_nombre: string;
+  destinatario_identificacion: string;
+  destinatario_telefono: string;
+  destinatario_direccion: string;
+  cobrado_origen: string;
+  unidad_destino: string;
+}
+
+export interface ImportacionResultado {
   total: number;
   importados: number;
   errores: Array<{
     fila: number;
-    house: string;
-    error: string;
+    house?: string;
+    errores: string[];
   }>;
-  envios: any[];
+  envios: Array<{
+    house: string;
+    destinatario: string;
+    peso: number;
+    estado: string;
+  }>;
 }
 
-export interface FormatoColumnas {
-  columnas: Array<{
-    nombre: string;
-    requerido: boolean;
-    ejemplo: string;
-  }>;
+export interface VistaPreviaResponse {
+  columnas: string[];
+  filas: Array<Record<string, any>>;
+  total: number;
 }
 
 class ImportacionApiService {
   private baseUrl = `${API_URL}/api/importacion`;
 
   /**
-   * Obtiene el formato esperado del Excel
+   * Obtiene las columnas del archivo Excel para mostrar en el mapeo
    */
-  async getFormato(): Promise<FormatoColumnas> {
-    const response = await axios.get(`${this.baseUrl}/formato`);
+  async obtenerColumnas(file: File): Promise<string[]> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await axios.post(`${this.baseUrl}/columnas`, formData);
     return response.data.data;
   }
 
   /**
-   * Importa envíos desde un archivo Excel
-   * @param file - Archivo Excel
-   * @param clienteId - ID del cliente
+   * Obtiene vista previa de los datos con el mapeo seleccionado
    */
-  async importarExcel(file: File, clienteId: number): Promise<ImportResult> {
+  async obtenerVistaPrevia(
+    file: File,
+    mapeo: ColumnaMapeo,
+    clienteId: number
+  ): Promise<{ filas: any[]; total: number; errores: any[] }> {
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('mapeo', JSON.stringify(mapeo));
     formData.append('clienteId', String(clienteId));
+    const response = await axios.post(`${this.baseUrl}/vista-previa`, formData);
+    return response.data.data;
+  }
 
-    const response = await axios.post(`${this.baseUrl}/excel`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
+  /**
+   * Importa el archivo con el mapeo seleccionado
+   */
+  async importar(
+    file: File,
+    mapeo: ColumnaMapeo,
+    clienteId: number
+  ): Promise<ImportacionResultado> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('mapeo', JSON.stringify(mapeo));
+    formData.append('clienteId', String(clienteId));
+    const response = await axios.post(`${this.baseUrl}/importar`, formData);
     return response.data.data;
   }
 }

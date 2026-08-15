@@ -24,6 +24,7 @@ export interface Envio {
   destinatario_nombre: string;
   destinatario_direccion: string;
   destinatario_telefono: string;
+  destinatario_identificacion?: string;
   cobrado_origen: boolean;
   unidad_destino?: string;
   prioridad: 'urgente' | 'normal' | 'economico';
@@ -33,6 +34,7 @@ export interface Envio {
   estado: 'pendiente' | 'en_bodega' | 'en_ruta' | 'entregado' | 'incidencia';
   incidencia?: string;
   firma_digital?: string;
+  foto_evidencia?: string;
   costo_aduana?: number;
   costo_importacion?: number;
   fecha_consulta_aduana?: string;
@@ -124,6 +126,16 @@ class EnvioApiService {
    */
   async getEstadisticas(clienteId?: number): Promise<EstadisticasEnvios> {
     const response = await axios.get(`${this.baseUrl}/estadisticas`, { params: { clienteId } });
+    return response.data.data;
+  }
+
+  /**
+   * Obtiene el historial de envíos de un cliente
+   * @param clienteId - ID del cliente
+   * @returns Lista de envíos del cliente
+   */
+  async getHistorialByCliente(clienteId: number): Promise<Envio[]> {
+    const response = await axios.get(`${this.baseUrl}/cliente/${clienteId}/historial`);
     return response.data.data;
   }
 }

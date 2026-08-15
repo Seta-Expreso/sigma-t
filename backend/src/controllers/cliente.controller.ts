@@ -20,7 +20,7 @@ const logger = winston.createLogger({
 
 const clienteService = new ClienteService();
 
-// Definir tipo para los datos de cliente
+/** Datos de cliente para operaciones de creación/actualización */
 interface ClienteData {
   nombre_empresa?: string;
   contacto_nombre?: string;
@@ -30,10 +30,20 @@ interface ClienteData {
   activo?: boolean;
 }
 
+/**
+ * Controlador para la gestión de clientes
+ * @class ClienteController
+ */
 export class ClienteController {
   /**
-   * Obtiene todos los clientes
+   * Obtiene todos los clientes activos
    * @route GET /api/clientes
+   * @param {Request} req - Express request object
+   * @param {Response} res - Express response object
+   * @returns {Promise<void>} Respuesta con lista de clientes
+   * @example
+   * GET /api/clientes
+   * Response: { success: true, data: [...], total: 10 }
    */
   static async getAll(req: Request, res: Response): Promise<void> {
     try {
@@ -54,8 +64,14 @@ export class ClienteController {
   }
 
   /**
-   * Obtiene un cliente por ID
+   * Obtiene un cliente por su ID
    * @route GET /api/clientes/:id
+   * @param {Request} req - Express request object con id en params
+   * @param {Response} res - Express response object
+   * @returns {Promise<void>} Respuesta con el cliente encontrado
+   * @example
+   * GET /api/clientes/1
+   * Response: { success: true, data: { id: 1, nombre_empresa: 'CAC' } }
    */
   static async getById(req: Request, res: Response): Promise<void> {
     try {
@@ -94,12 +110,18 @@ export class ClienteController {
   /**
    * Crea un nuevo cliente
    * @route POST /api/clientes
+   * @param {Request} req - Express request object con datos del cliente
+   * @param {Response} res - Express response object
+   * @returns {Promise<void>} Respuesta con el cliente creado
+   * @example
+   * POST /api/clientes
+   * Body: { nombre_empresa: 'CAC', contacto_nombre: 'Juan' }
+   * Response: { success: true, data: { id: 1, ... } }
    */
   static async create(req: Request, res: Response): Promise<void> {
     try {
       const body = req.body as ClienteData;
 
-      // Crear objeto Partial<Cliente> explícitamente con type assertion
       const clienteData = {
         nombre_empresa: body.nombre_empresa,
         contacto_nombre: body.contacto_nombre,
@@ -128,6 +150,13 @@ export class ClienteController {
   /**
    * Actualiza un cliente existente
    * @route PUT /api/clientes/:id
+   * @param {Request} req - Express request object con id en params y datos en body
+   * @param {Response} res - Express response object
+   * @returns {Promise<void>} Respuesta con el cliente actualizado
+   * @example
+   * PUT /api/clientes/1
+   * Body: { nombre_empresa: 'CAC Updated' }
+   * Response: { success: true, data: { ... } }
    */
   static async update(req: Request, res: Response): Promise<void> {
     try {
@@ -142,7 +171,6 @@ export class ClienteController {
 
       const body = req.body as ClienteData;
 
-      // Crear objeto Partial<Cliente> explícitamente con type assertion
       const clienteData = {
         nombre_empresa: body.nombre_empresa,
         contacto_nombre: body.contacto_nombre,
@@ -179,6 +207,12 @@ export class ClienteController {
   /**
    * Elimina un cliente (desactivación lógica)
    * @route DELETE /api/clientes/:id
+   * @param {Request} req - Express request object con id en params
+   * @param {Response} res - Express response object
+   * @returns {Promise<void>} Respuesta de confirmación
+   * @example
+   * DELETE /api/clientes/1
+   * Response: { success: true, message: 'Cliente eliminado exitosamente' }
    */
   static async delete(req: Request, res: Response): Promise<void> {
     try {
@@ -215,8 +249,14 @@ export class ClienteController {
   }
 
   /**
-   * Busca clientes por término
+   * Busca clientes por término de búsqueda
    * @route GET /api/clientes/buscar
+   * @param {Request} req - Express request object con query param 'q'
+   * @param {Response} res - Express response object
+   * @returns {Promise<void>} Respuesta con lista de clientes que coinciden
+   * @example
+   * GET /api/clientes/buscar?q=CAC
+   * Response: { success: true, data: [...], total: 5 }
    */
   static async search(req: Request, res: Response): Promise<void> {
     try {
