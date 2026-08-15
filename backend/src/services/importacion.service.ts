@@ -33,7 +33,7 @@ export class ImportacionService {
       throw new Error('Se requiere el mapeo de columnas');
     }
 
-    // ✅ Usar file.buffer directamente
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const workbook = XLSX.read(file.buffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
@@ -204,7 +204,7 @@ export class ImportacionService {
       throw new Error('Se requiere el mapeo de columnas');
     }
 
-    // ✅ Usar file.buffer directamente
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const workbook = XLSX.read(file.buffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
