@@ -1,4 +1,4 @@
-# 📄 DOCUMENTO SPMP - SIGMA-T (VERSIÓN 3.5 - ACTUALIZADO CON SPRINTS 0 Y 1 COMPLETADOS Y NUEVOS REQUISITOS)
+# 📄 DOCUMENTO SPMP - SIGMA-T (VERSIÓN 3.6 - ACTUALIZADO CON SPRINTS 0 Y 1 COMPLETADOS, NUEVOS REQUISITOS Y FLUJO DE PAQUETERÍA)
 
 **Basado en IEEE 1058 - Plan de Gestión de Proyectos de Software**
 
@@ -6,7 +6,7 @@
 **Cliente / Sponsor:** Osleyder Gonzalez Acosta  
 **Fecha de Inicio del Proyecto:** 13 de agosto de 2026  
 **Fecha Estimada de Finalización:** 01 de abril de 2027 (MVP)  
-**Versión del Documento:** 3.5 (Completo - Top Mundial con Sprints 0 y 1 Completados - Actualización 14/08/2026)
+**Versión del Documento:** 3.6 (Completo - Top Mundial con Sprints 0 y 1 Completados - Actualización 15/08/2026)
 
 ---
 
@@ -23,13 +23,13 @@ Los principales entregables del proyecto se organizan por fases:
 | Fase | Entregable | Descripción | Estado |
 | :--- | :--- | :--- | :--- |
 | **Iniciación** | Documento de Visión | Definición de la visión, los stakeholders y el alcance de alto nivel del sistema. | ✅ Completado |
-| **Planificación** | **SRS (v3.5)** | Especificación detallada de todos los requisitos funcionales y no funcionales. | ✅ Actualizado |
-| **Planificación** | **SPMP (v3.5)** | Este documento: Plan de gestión del proyecto. | ✅ Actualizado |
-| **Planificación** | **Arquitectura (v2.5)** | Documento de Arquitectura de Software actualizado. | ⏳ Pendiente |
-| **Planificación** | **Prototipos UI/UX** | Maquetas de alta fidelidad de todas las interfaces. | ⏳ Pendiente |
-| **Ejecución** | Código Fuente | Repositorio con el código de backend, frontend web y app móvil. | ⚠️ En progreso |
+| **Planificación** | **SRS (v3.6)** | Especificación detallada de todos los requisitos funcionales y no funcionales. | ✅ Actualizado |
+| **Planificación** | **SPMP (v3.6)** | Este documento: Plan de gestión del proyecto. | ✅ Actualizado |
+| **Planificación** | **Arquitectura (v2.7)** | Documento de Arquitectura de Software actualizado. | ⏳ Pendiente |
+| **Planificación** | **Prototipos UI/UX** | Maquetas de alta fidelidad de todas las interfaces (22 pantallas). | ✅ Actualizado |
+| **Ejecución** | Código Fuente | Repositorio con el código de backend, frontend web y app móvil. | ✅ Completado (Sprint 0 y 1) |
 | **Ejecución** | Pruebas y QA | Conjunto de planes de pruebas, casos de prueba y reportes de calidad. | ⏳ Pendiente |
-| **Ejecución** | Documentación Técnica | Documentación generada automáticamente (TypeDoc, Swagger) y manuales. | ⚠️ Parcial |
+| **Ejecución** | Documentación Técnica | Documentación generada automáticamente (TypeDoc, Swagger) y manuales. | ✅ Completado |
 | **Ejecución** | Entorno de Desarrollo | Configuración completa del entorno con Docker, VSCode tasks.json, CI/CD. | ✅ Completado |
 | **Cierre** | Manuales de Usuario | Guías para administradores, dispatchers y choferes. | ⏳ Pendiente |
 | **Cierre** | Plan de Despliegue | Guía paso a paso para la instalación y operación del sistema en VPS ETECSA. | ⏳ Pendiente |
@@ -65,13 +65,13 @@ flowchart TD
 | :--- | :--- | :--- |
 | **Project Manager / Líder** | Dirección estratégica, toma de decisiones, validación de entregables, gestión de stakeholders. | **Osleyder Gonzalez** |
 | **Arquitecto de Software** | Definir la arquitectura del sistema, estandarizar tecnologías, revisar el diseño técnico y los estándares de codificación. | Equipo SIGMA-T |
-| **Desarrollador Backend** | Implementar la API REST, la lógica de negocio, la optimización de rutas y la base de datos. Asegurar el cumplimiento de estándares TypeScript/Node.js. Implementar servicios de integración con aduana (URL de payment), gestión de parámetros financieros, cálculo de ficha de costo y pago a choferes. | Equipo SIGMA-T |
-| **Desarrollador Frontend** | Implementar el dashboard web, el panel administrativo y el portal del cliente. Asegurar el cumplimiento de estándares React/TypeScript. Implementar la UI de gestión de parámetros financieros, aduana, y ficha de costo detallada. | Equipo SIGMA-T |
+| **Desarrollador Backend** | Implementar la API REST, la lógica de negocio, la optimización de rutas y la base de datos. Asegurar el cumplimiento de estándares TypeScript/Node.js. Implementar servicios de integración con aduana (URL de payment), gestión de parámetros financieros, cálculo de ficha de costo, pago a choferes y automatización de facturación de aduana. | Equipo SIGMA-T |
+| **Desarrollador Frontend** | Implementar el dashboard web, el panel administrativo y el portal del cliente. Asegurar el cumplimiento de estándares React/TypeScript. Implementar la UI de gestión de parámetros financieros, aduana, ficha de costo detallada y monitoreo de aduana. | Equipo SIGMA-T |
 | **Desarrollador Mobile** | Implementar la aplicación Flutter para choferes con funcionalidad offline y sincronización. Asegurar el cumplimiento de estándares Dart/Flutter. Gestionar la publicación en Google Play Store y APKlis. | Equipo SIGMA-T |
-| **Diseñador UX/UI** | Crear y refinar las maquetas, garantizar una experiencia de usuario óptima. Actualizar maquetas con nueva funcionalidad de aduana y ficha de costo. | Equipo SIGMA-T |
-| **Ingeniero de QA** | Diseñar y ejecutar los casos de prueba, gestionar la calidad del producto, verificar el cumplimiento de estándares de codificación y documentación. Probar la integración con Aerovaradero (URL de payment), el cálculo de pagos, y la precisión de la ficha de costo. | Equipo SIGMA-T |
+| **Diseñador UX/UI** | Crear y refinar las maquetas, garantizar una experiencia de usuario óptima. Actualizar maquetas con nueva funcionalidad de aduana, ficha de costo y monitoreo de aduana. | Equipo SIGMA-T |
+| **Ingeniero de QA** | Diseñar y ejecutar los casos de prueba, gestionar la calidad del producto, verificar el cumplimiento de estándares de codificación y documentación. Probar la integración con Aerovaradero (URL de payment), el cálculo de pagos, la precisión de la ficha de costo y la automatización de facturación de aduana. | Equipo SIGMA-T |
 | **Documentalista** | Mantener al día toda la documentación técnica y los manuales de usuario, asegurar la generación automática de documentación. Documentar nuevos módulos financieros, de aduana, de ficha de costo e infraestructura. | Equipo SIGMA-T |
-| **DevOps Engineer** | Configurar el entorno de desarrollo (Docker, VSCode tasks.json), gestionar el despliegue en VPS ETECSA, configurar SSL/HTTPS con Let's Encrypt, Nginx y PM2. | Equipo SIGMA-T |
+| **DevOps Engineer** | Configurar el entorno de desarrollo (Docker, VSCode tasks.json), gestionar el despliegue en VPS ETECSA, configurar SSL/HTTPS con Let's Encrypt, Nginx, PM2 y cron jobs para automatización de aduana. | Equipo SIGMA-T |
 
 ### 2.3 Comunicación y Reportes
 
@@ -95,11 +95,11 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | Sprint | Nombre / Módulo | Duración | Estado | Entregables Clave |
 | :--- | :--- | :--- | :--- | :--- |
 | **0** | **Fundación** | 1 día | ✅ Completado | Docker, Repos, BD, CI/CD, ESLint, Prettier, Dart Analyzer, guía de estándares, archivo tasks.json de VSCode, extensiones recomendadas, documentación completa. |
-| **1** | **Core de Envíos** | 1 día | ⚠️ En progreso (60%) | API de Envíos, Importación Excel con mapeo flexible, UI de listado, CRUD Clientes, CRUD Envíos, documentación JSDoc. |
+| **1** | **Core de Envíos** | 2 días | ✅ Completado | API de Envíos, Importación Excel con mapeo flexible, UI de listado, CRUD Clientes, CRUD Envíos, Historial por cliente, documentación JSDoc. |
 | **2** | **Optimización de Rutas** | 2 Semanas | ⏳ Pendiente | Algoritmo VRPTW, Mapa interactivo, UI de planificación, documentación OpenAPI. |
 | **3** | **App del Chofer (MVP)** | 2 Semanas | ⏳ Pendiente | App Flutter, sincronización, registro de incidencias, documentación Dart. |
 | **4** | **Dashboard y KPIs** | 2 Semanas | ⏳ Pendiente | Dashboard, Gráficos de costos, Reportes, documentación de módulos. |
-| **5** | **Funcionalidades Premium y Finanzas** | 2 Semanas | ⏳ Pendiente | Firma digital, Edición manual, Personalización, Gestión de parámetros financieros (incluyendo costos por km), Consulta de aduana (URL de payment), Cálculo de pago a choferes, Ficha de costo detallada por ruta. |
+| **5** | **Funcionalidades Premium y Finanzas** | 2 Semanas | ⏳ Pendiente | Firma digital, Edición manual, Personalización, Gestión de parámetros financieros (incluyendo costos por km), Consulta de aduana (URL de payment), Cálculo de pago a choferes, Ficha de costo detallada por ruta, **Automatización de facturación de aduana (4 horarios)**. |
 | **5.5** | **Calidad de Código (SonarQube)** | 1 día | ⏳ Pendiente | Configuración de SonarQube en Docker, integración con CI/CD, informes de calidad. |
 | **6** | **Piloto y Ajustes** | 2 Semanas | ⏳ Pendiente | Feedback, Corrección de bugs, Mejoras de UX, verificación de estándares. |
 | **7** | **Lanzamiento y Documentación** | 2 Semanas | ⏳ Pendiente | Sistema en producción (VPS ETECSA), SSL/HTTPS, Manuales, Video-tutoriales, App en Google Play Store, App en APKlis, Descarga directa de APK. |
@@ -126,40 +126,23 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 14 | Documentar extensiones de VSCode recomendadas | Documentalista | ✅ Completado |
 | 15 | Preparar documentación de despliegue en VPS ETECSA | Backend | ✅ Completado |
 
-**Sprint 1: Core de Envíos - ⚠️ EN PROGRESO (60%)**
+**Sprint 1: Core de Envíos - ✅ COMPLETADO (13-15/08/2026)**
 
 | # | Tarea | Responsable | Estado |
 |---|-------|-------------|--------|
 | 1 | Diseñar modelo de datos (Clientes, Envíos) | Backend | ✅ Completado |
 | 2 | Implementar API CRUD de Clientes | Backend | ✅ Completado |
 | 3 | Implementar API CRUD de Envíos | Backend | ✅ Completado |
-| 4 | Formulario manual de registro de envíos | Frontend | ✅ Completado |
-| 5 | UI de gestión de envíos (lista + filtros + búsqueda) | Frontend | ✅ Completado |
-| **6** | **Implementar importación de Excel con mapeo flexible de columnas** | **Backend** | **⏳ Pendiente** |
-| **7** | **Implementar UI de mapeo de columnas** | **Frontend** | **⏳ Pendiente** |
-| **8** | **Implementar validación de datos en importación (incluyendo Carnet: 11 dígitos, Unidad de destino: obligatoria)** | **Backend** | **⏳ Pendiente** |
-| **9** | **Implementar vista previa de importación (todos los registros)** | **Frontend** | **⏳ Pendiente** |
-| **10** | **Implementar reporte de errores en pantalla** | **Frontend** | **⏳ Pendiente** |
-| **11** | **Implementar historial de envíos por cliente con exportación a PDF y CSV** | **Backend/Frontend** | **⏳ Pendiente** |
-| 12 | Documentar funciones con JSDoc | Backend/Frontend | ⚠️ Parcial |
-
-**Decisiones Tomadas para el Sprint 1 (14/08/2026):**
-
-| Aspecto | Decisión |
-|---------|----------|
-| **Mapeo de columnas** | El usuario selecciona manualmente qué columna del Excel corresponde a cada campo del sistema |
-| **Columnas extras** | Ignoradas |
-| **Filas vacías** | Ignoradas (NULL) |
-| **House** | Formato CACC-XXXXX, único en BD |
-| **Carnet de Identidad** | Obligatorio, 11 dígitos exactos |
-| **Unidad de destino** | Obligatorio, no puede ser NULL |
-| **Passport** | Opcional, puede ser NULL |
-| **Cobrado/No Cobrado** | Opcional, puede ser NULL |
-| **Vista previa** | Mostrar todos los registros, no solo 10 |
-| **Errores** | Mostrar todos los errores de una fila juntos en la misma tabla |
-| **Reporte de errores** | En pantalla, sin límite de errores |
-| **Historial por cliente** | Exportable a PDF y CSV |
-| **JSDoc** | Todo el código debe estar documentado |
+| 4 | Implementar importación de Excel con mapeo flexible de columnas | Backend | ✅ Completado |
+| 5 | Implementar UI de mapeo de columnas | Frontend | ✅ Completado |
+| 6 | Implementar validación de datos en importación (Carnet: 11 dígitos, Unidad de destino: obligatoria) | Backend | ✅ Completado |
+| 7 | Implementar vista previa de importación (todos los registros) | Frontend | ✅ Completado |
+| 8 | Implementar reporte de errores en pantalla | Frontend | ✅ Completado |
+| 9 | Formulario manual de registro de envíos | Frontend | ✅ Completado |
+| 10 | UI de gestión de envíos (lista + filtros + búsqueda) | Frontend | ✅ Completado |
+| 11 | Implementar historial de envíos por cliente con exportación a PDF y CSV | Backend/Frontend | ✅ Completado |
+| 12 | Documentar funciones con JSDoc | Backend/Frontend | ✅ Completado |
+| 13 | Crear componentes UI: EnvioList, EnvioFilters, EnvioDetail, HistorialCliente, ImportarManifiesto | Frontend | ✅ Completado |
 
 **Sprint 2: Optimización de Rutas - ⏳ PENDIENTE**
 
@@ -217,16 +200,18 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 4 | Personalización de comprobantes de entrega | Backend + Frontend | 2 días |
 | 5 | Implementar ficha de costo detallada por ruta | Backend | 3 días |
 | 6 | Reoptimización en tiempo real (nuevos pedidos) | Backend | 3 días |
-| 7 | Implementar gestión de parámetros financieros | Backend | 2 días |
+| 7 | Implementar gestión de parámetros financieros (incluyendo costos por km) | Backend | 2 días |
 | 8 | Implementar servicio de consulta a Aerovaradero (URL de payment) | Backend | 3 días |
 | 9 | Implementar lógica de parsing de HTML (Cheerio/Puppeteer) | Backend | 2 días |
 | 10 | Implementar módulo de pago a choferes | Backend | 2 días |
 | 11 | UI de gestión de parámetros financieros y aduana | Frontend | 3 días |
 | 12 | UI de ficha de costo detallada | Frontend | 2 días |
 | 13 | Implementar exportación de ficha de costo a PDF y CSV | Backend + Frontend | 2 días |
-| 14 | Actualizar documentación | Documentalista | 1 día |
+| 14 | **Implementar automatización de facturación de aduana (4 horarios)** | **Backend + DevOps** | **3 días** |
+| 15 | Configurar cron jobs para consultas automáticas de aduana | DevOps | 1 día |
+| 16 | Actualizar documentación | Documentalista | 1 día |
 
-**Sprint 5.5: Calidad de Código con SonarQube - ⏳ PENDIENTE (NUEVO)**
+**Sprint 5.5: Calidad de Código con SonarQube - ⏳ PENDIENTE**
 
 | # | Tarea | Responsable | Estimación |
 |---|-------|-------------|------------|
@@ -250,6 +235,7 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 8 | Verificar cumplimiento de estándares de codificación | QA | 1 día |
 | 9 | Pruebas de integración con Aerovaradero (URL de payment) | QA | 2 días |
 | 10 | Pruebas de precisión de ficha de costo | QA | 1 día |
+| 11 | Pruebas de automatización de facturación de aduana | QA | 2 días |
 
 **Sprint 7: Lanzamiento y Documentación - ⏳ PENDIENTE**
 
@@ -292,6 +278,7 @@ Se implementará un proceso iterativo de **Identificación → Análisis → Pla
 | **Inconsistencia en el estilo de código** | **Media** | **Medio** | **Prettier para formateo automático, guía de estándares documentada, y pre-commit hooks para validación automática.** | ✅ Mitigado |
 | **Deuda técnica acumulada** | **Media** | **Alto** | **Refactorización continua, revisiones de código, y sprints dedicados a mejora técnica (Sprint 5.5).** | ⏳ Pendiente |
 | **Cambios en el sitio web de Aerovaradero (URL de payment)** | **Alta** | **Alto** | **Sistema de alertas de fallo en extracción, entrada manual de costos de aduana como contingencia, monitoreo periódico del sitio.** | ⏳ Pendiente |
+| **Fallos en el proceso automatizado de facturación de aduana** | **Media** | **Alto** | **Sistema de alertas, reintentos automáticos, entrada manual como contingencia, logs detallados.** | ⏳ Pendiente |
 | **Fluctuación de la tasa de cambio y precios de combustible** | **Alta** | **Medio** | **Actualización manual/configurable de parámetros, historial de cambios para análisis.** | ⏳ Pendiente |
 | **Errores en cálculo de pago a choferes** | **Media** | **Alto** | **Validaciones automáticas, auditoría de cálculos, generación de reportes de pago para revisión.** | ⏳ Pendiente |
 | **Errores en cálculo de ficha de costo** | **Media** | **Alto** | **Validaciones automáticas, auditoría de cálculos, pruebas con datos reales, precisión de 2 decimales.** | ⏳ Pendiente |
@@ -328,7 +315,8 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 | **Pruebas de Integración con Aduana** | Verificar extracción correcta de costos de Aerovaradero (URL de payment) | Jest + nock / Puppeteer | QA |
 | **Pruebas de Cálculo Financiero** | Validar precisión de cálculos de pago a choferes, costos y ficha de costo | Jest (Backend) | QA |
 | **Pruebas de Precisión de Ficha de Costo** | Verificar precisión de 2 decimales en todos los cálculos de la ficha de costo | Jest (Backend) | QA |
-| **Pruebas de Infraestructura** | Verificar funcionamiento en VPS ETECSA, SSL/HTTPS, Nginx, PM2 | Pruebas manuales / Scripts | DevOps / QA |
+| **Pruebas de Automatización de Aduana** | Verificar ejecución en 4 horarios, detección de importe y factura, cambio de estado | Jest + cron-mock | QA |
+| **Pruebas de Infraestructura** | Verificar funcionamiento en VPS ETECSA, SSL/HTTPS, Nginx, PM2, cron jobs | Pruebas manuales / Scripts | DevOps / QA |
 | **Pruebas de Calidad (SonarQube)** | Análisis de duplicación, deuda técnica y seguridad | SonarQube Community | QA / DevOps |
 
 ### 5.3 Criterios de Aceptación (Checklist de Calidad)
@@ -341,7 +329,7 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 | 4 | **Rendimiento** | Sistema maneja 1,000 envíos sin degradación significativa | Pruebas de Rendimiento | ⏳ Pendiente |
 | 5 | **Estándares de Codificación (Backend)** | ≥95% del código TypeScript cumple con ESLint/Prettier | ESLint / Prettier | ✅ Cumplido |
 | 6 | **Estándares de Codificación (Mobile)** | ≥95% del código Dart cumple con Dart Analyzer | Dart Analyzer | ✅ Cumplido |
-| 7 | **Documentación de Código** | ≥80% de funciones públicas documentadas con JSDoc | ESLint-plugin-jsdoc | ⚠️ Parcial |
+| 7 | **Documentación de Código** | ≥80% de funciones públicas documentadas con JSDoc | ESLint-plugin-jsdoc | ✅ Cumplido |
 | 8 | **Documentación de API** | API documentada con OpenAPI (Swagger) | Swagger UI | ✅ Cumplido |
 | 9 | **Documentación de Módulos** | Cada módulo tiene README.md actualizado | Revisión manual | ✅ Cumplido |
 | 10 | **CI/CD sin Errores** | Pipeline de CI/CD pasa todas las verificaciones | GitHub Actions | ✅ Cumplido |
@@ -350,18 +338,19 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 | 13 | **Cálculo de Pago a Choferes** | **Cálculo correcto según esquemas configurados (fijo, por km, por entrega, combinado)** | **Pruebas Unitarias** | ⏳ Pendiente |
 | 14 | **Gestión de Parámetros** | **Actualización de parámetros financieros (incluyendo costos por km) en tiempo real con historial de cambios** | **Pruebas de Sistema** | ⏳ Pendiente |
 | 15 | **Ficha de Costo Detallada** | **Generación de ficha de costo en <5 segundos por ruta, con precisión de 2 decimales, incluyendo todos los componentes de costo (directos, indirectos, importación), y exportación a PDF/CSV** | **Pruebas de Sistema / Pruebas de Rendimiento** | ⏳ Pendiente |
-| 16 | **Despliegue en VPS ETECSA** | **El sistema funciona correctamente en VPS ETECSA con Ubuntu 22.04 LTS** | **Pruebas de Infraestructura** | ⏳ Pendiente |
-| 17 | **SSL/HTTPS** | **SSL/HTTPS configurado y funcionando correctamente con Let's Encrypt** | **Pruebas de Infraestructura** | ⏳ Pendiente |
-| 18 | **Publicación en Google Play Store** | **App publicada en Google Play Store** | **Revisión manual** | ⏳ Pendiente |
-| 19 | **Publicación en APKlis** | **App publicada en APKlis** | **Revisión manual** | ⏳ Pendiente |
-| 20 | **Descarga Directa de APK** | **Descarga directa de APK disponible desde el sitio web** | **Revisión manual** | ⏳ Pendiente |
-| 21 | **Análisis de Calidad SonarQube** | **Cobertura de código ≥70%, Deuda Técnica <5%, Cero Bugs Críticos** | **SonarQube** | ⏳ Pendiente |
+| 16 | **Automatización de Facturación de Aduana** | **Consultas automáticas en 4 horarios (8AM, 12PM, 4PM, 12AM), SOLO houses "Arribados", cambio a "Facturado" cuando tiene importe y factura** | **Pruebas de Integración / Pruebas de Sistema** | ⏳ Pendiente |
+| 17 | **Despliegue en VPS ETECSA** | **El sistema funciona correctamente en VPS ETECSA con Ubuntu 22.04 LTS** | **Pruebas de Infraestructura** | ⏳ Pendiente |
+| 18 | **SSL/HTTPS** | **SSL/HTTPS configurado y funcionando correctamente con Let's Encrypt** | **Pruebas de Infraestructura** | ⏳ Pendiente |
+| 19 | **Publicación en Google Play Store** | **App publicada en Google Play Store** | **Revisión manual** | ⏳ Pendiente |
+| 20 | **Publicación en APKlis** | **App publicada en APKlis** | **Revisión manual** | ⏳ Pendiente |
+| 21 | **Descarga Directa de APK** | **Descarga directa de APK disponible desde el sitio web** | **Revisión manual** | ⏳ Pendiente |
+| 22 | **Análisis de Calidad SonarQube** | **Cobertura de código ≥70%, Deuda Técnica <5%, Cero Bugs Críticos** | **SonarQube** | ⏳ Pendiente |
 
 ### 5.4 Métricas de Calidad de Código
 
 | Métrica | Objetivo | Medición | Frecuencia | Estado |
 |---------|----------|----------|------------|--------|
-| **Cobertura de Documentación** | ≥80% de funciones públicas documentadas | ESLint-plugin-jsdoc | Cada PR | ⚠️ Parcial |
+| **Cobertura de Documentación** | ≥80% de funciones públicas documentadas | ESLint-plugin-jsdoc | Cada PR | ✅ Cumplido |
 | **Cumplimiento de Estándares** | ≥95% del código sin violaciones de ESLint/Dart Analyzer | ESLint / Dart Analyzer | Cada PR | ✅ Cumplido |
 | **Deuda Técnica** | <5% de deuda técnica identificada | SonarQube | Mensual | ⏳ Pendiente |
 | **Código Duplicado** | <3% de código duplicado | SonarQube | Mensual | ⏳ Pendiente |
@@ -376,7 +365,7 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 - **Ramas Principales:**
     - `main`: Código en producción. Solo se actualiza con releases estables.
     - `develop`: Rama de integración donde se fusionan las nuevas funcionalidades.
-    - `feature/*`: Rama para desarrollar una nueva característica (ej. `feature/importacion-excel`, `feature/integracion-aduana-payment`, `feature/ficha-costo`, `feature/infraestructura-vps`).
+    - `feature/*`: Rama para desarrollar una nueva característica (ej. `feature/importacion-excel`, `feature/integracion-aduana-payment`, `feature/ficha-costo`, `feature/infraestructura-vps`, `feature/automatizacion-aduana`).
     - `hotfix/*`: Rama para correcciones críticas urgentes en producción.
 
 ### 6.2 Política de Commits
@@ -424,15 +413,15 @@ Dado que el proyecto se rige por Scrum, los cambios se gestionan principalmente 
 1. **Fase Piloto (Sprint 6):** El sistema se implementará en 2 rutas reales con 2 choferes "early adopters". Se les dará una capacitación intensiva y se recogerá su feedback para realizar ajustes finales.
 
 2. **Lanzamiento Formal (Sprint 7):**
-   - **Capacitación Presencial:** Se realizarán sesiones de entrenamiento presenciales para todos los choferes y el personal de oficina. Se usarán tutoriales en vídeo y guías rápidas. Se incluirá capacitación específica sobre el uso de la funcionalidad de consulta de costos de aduana (URL de payment) y la interpretación de la ficha de costo detallada.
+   - **Capacitación Presencial:** Se realizarán sesiones de entrenamiento presenciales para todos los choferes y el personal de oficina. Se usarán tutoriales en vídeo y guías rápidas. Se incluirá capacitación específica sobre el uso de la funcionalidad de consulta de costos de aduana (URL de payment), la interpretación de la ficha de costo detallada y el monitoreo de la automatización de facturación de aduana.
    - **Programa de Incentivos:** Se diseñará un sistema de recompensas (puntos, bonos) para los choferes que utilicen la aplicación de manera consistente y reporten menos incidencias.
    - **Soporte Dedicado:** Se habilitará un canal de comunicación directo (WhatsApp) para que los choferes puedan reportar problemas y recibir ayuda inmediata durante las primeras semanas.
    - **Instalación de la App:** Se proporcionarán instrucciones claras para la descarga e instalación desde Google Play Store, APKlis y descarga directa.
 
 3. **Posicionamiento y Visibilidad (Fase Post-Lanzamiento):**
    - **Open Source:** El código se hará público en GitHub para atraer colaboradores y demostrar transparencia y calidad.
-   - **Comunidad:** Se creará un sitio web o página del proyecto para documentar casos de éxito y compartir las métricas de mejora (ej. "Reducción del 20% en km recorridos", "Ahorro en costos de aduana mediante consulta automática", "Optimización de costos con ficha de costo detallada").
-   - **Publicaciones:** Se escribirán artículos técnicos sobre la solución (ej. "Cómo optimizamos rutas con OSRM en Cuba", "Integración con Aerovaradero utilizando URL de payment para costos de aduana", "Ficha de costo: herramienta clave para la rentabilidad en transporte") para posicionar a SIGMA-T como un referente técnico en el sector.
+   - **Comunidad:** Se creará un sitio web o página del proyecto para documentar casos de éxito y compartir las métricas de mejora (ej. "Reducción del 20% en km recorridos", "Ahorro en costos de aduana mediante consulta automática", "Optimización de costos con ficha de costo detallada", "Automatización de facturación de aduana en 4 horarios").
+   - **Publicaciones:** Se escribirán artículos técnicos sobre la solución (ej. "Cómo optimizamos rutas con OSRM en Cuba", "Integración con Aerovaradero utilizando URL de payment para costos de aduana", "Ficha de costo: herramienta clave para la rentabilidad en transporte", "Automatización de facturación de aduana en Cuba") para posicionar a SIGMA-T como un referente técnico en el sector.
    - **Documentación Técnica:** Se publicará la documentación técnica generada automáticamente (TypeDoc, Swagger) para que la comunidad pueda entender y contribuir al proyecto.
 
 ### 7.3 Plan de Formación Continua
@@ -446,6 +435,7 @@ El equipo de desarrollo recibirá formación continua en:
 - **Despliegue en VPS ETECSA:** Configuración de Nginx, SSL/HTTPS, PM2.
 - **Publicación en Tiendas:** Procesos de Google Play Store y APKlis.
 - **Análisis de Calidad con SonarQube:** Interpretación de métricas y corrección de hallazgos.
+- **Automatización de Aduana:** Configuración de cron jobs, manejo de errores, logs y alertas.
 
 ---
 
@@ -481,21 +471,21 @@ El equipo de desarrollo recibirá formación continua en:
 
 ## 📌 CONCLUSIÓN
 
-Este SPMP Versión 3.5 ahora incluye:
+Este SPMP Versión 3.6 ahora incluye:
 
 - ✅ **9 Sprints** (incluyendo Sprint 5.5 para SonarQube) con tareas detalladas
 - ✅ **Sprint 0 completado** en 1 día (13/08/2026) con todos los entregables
-- ✅ **Sprint 1 en progreso** (60% completado) con tareas pendientes identificadas
-- ✅ **Decisiones del Sprint 1 documentadas** (mapeo flexible, validaciones, JSDoc)
-- ✅ **21 criterios de aceptación** de calidad (incluyendo SonarQube)
+- ✅ **Sprint 1 completado** en 2 días (13-15/08/2026) con todos los entregables
+- ✅ **22 criterios de aceptación** de calidad (incluyendo SonarQube y automatización de aduana)
 - ✅ **5 métricas de calidad de código** con estado de cumplimiento
 - ✅ **Política de commits** (Conventional Commits) y pre-commit hooks
-- ✅ **Estrategia de pruebas** con análisis estático, verificación de documentación, pruebas de integración con Aerovaradero (URL de payment), pruebas de cálculo financiero, pruebas de precisión de ficha de costo y pruebas de infraestructura
-- ✅ **Plan de formación continua** actualizado con SonarQube
+- ✅ **Estrategia de pruebas** con análisis estático, verificación de documentación, pruebas de integración con Aerovaradero (URL de payment), pruebas de cálculo financiero, pruebas de precisión de ficha de costo, pruebas de automatización de aduana y pruebas de infraestructura
+- ✅ **Plan de formación continua** actualizado con SonarQube y automatización de aduana
 - ✅ **Riesgos** identificados y mitigados con estados
 - ✅ **Presupuesto actualizado** con costos de VPS ETECSA y publicación en Play Store
-- ✅ **Estado actualizado** del proyecto con Sprints 0 y 1
+- ✅ **Estado actualizado** del proyecto con Sprints 0 y 1 completados
+- ✅ **Automatización de facturación de aduana** definida (4 horarios: 8AM, 12PM, 4PM, 12AM)
+- ✅ **9 estados del paquete** definidos y documentados
+- ✅ **5 perfiles de usuario** definidos (Administrador, Jefe de Operaciones, Agencia de Envíos, Cliente Remitente, Cliente Destinatario)
 
----
-
-**Este documento refleja el estado actual del proyecto, con el Sprint 0 completado, el Sprint 1 en progreso y listo para completar las tareas pendientes antes de pasar al Sprint 2 (Optimización de Rutas).**
+**Este documento refleja el estado actual del proyecto, con los Sprints 0 y 1 completados y listo para el Sprint 2 (Optimización de Rutas).**

@@ -1,10 +1,10 @@
-# 🎨 DOCUMENTO: MAQUETAS UI/UX - SIGMA-T (VERSIÓN 2.3 - TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA - ACTUALIZACIÓN 14/08/2026)
+## 🎨 DOCUMENTO: MAQUETAS UI/UX - SIGMA-T (VERSIÓN 2.4 - TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA - ACTUALIZACIÓN 15/08/2026)
 
 **Inspiración:** McLeod Software, OptimoRoute, Turvo, diseño moderno 2026
 **Herramientas de Referencia:** Figma / Adobe XD (para maquetación de alta fidelidad)  
-**Fecha:** 14 de agosto de 2026
-**Versión:** 2.3 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - ACTUALIZACIÓN 14/08/2026)
-**Total de Pantallas:** 21
+**Fecha:** 15 de agosto de 2026
+**Versión:** 2.4 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - ACTUALIZACIÓN 15/08/2026)
+**Total de Pantallas:** 22
 
 ---
 
@@ -95,7 +95,7 @@ flowchart TD
 
 ---
 
-## 3. MAQUETAS DE ALTA FIDELIDAD (21 PANTALLAS)
+## 3. MAQUETAS DE ALTA FIDELIDAD (22 PANTALLAS)
 
 ### 3.1 MAQUETA 1: DASHBOARD PRINCIPAL (Vista del Líder)
 
@@ -1340,7 +1340,7 @@ flowchart TD
 
 ---
 
-### 3.21 MAQUETA 21: MAPEO DE COLUMNAS PARA IMPORTACIÓN (Web - Escritorio) - **NUEVA**
+### 3.21 MAQUETA 21: MAPEO DE COLUMNAS PARA IMPORTACIÓN (Web - Escritorio)
 
 **Objetivo:** Permitir al usuario mapear manualmente las columnas del Excel a los campos del sistema durante la importación de manifiestos.
 
@@ -1405,9 +1405,68 @@ flowchart TD
 
 ---
 
+### 3.22 MAQUETA 22: MONITOREO DE ADUANA (Web - Escritorio) - **NUEVA**
+
+**Objetivo:** Monitorear el estado de la automatización de facturación de aduana, mostrando el progreso de las consultas programadas y los resultados.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│  🚚 SIGMA-T                       [Buscar...]            🔔  👤 Osleyder G.   │
+│  ──────────────────────────────────────────────────────────────────────────── │
+│  Inicio  │  Envíos  │  Rutas  │  Flota  │  Choferes  │  Finanzas  │  Reportes │
+│  ─────────────────────────────────────────────────────────────────────────────────── │
+│                                                                                      │
+│  ┌─── MONITOREO DE ADUANA ───────────────────────────────────────────────────────┐   │
+│  │                                                                               │   │
+│  │  📅 Última consulta: 18/08/2026 12:00 PM                                      │   │
+│  │  ⏰ Próxima consulta: 18/08/2026 4:00 PM                                      │   │
+│  │  🔄 Estado del sistema: 🟢 Activo                                            │   │
+│  │                                                                               │   │
+│  │  ┌───────────────┬───────────────┬────────────────┬─────────────┬───────────┐ │   │
+│  │  │ 📦 Arribados  │ 📄 Facturados │ ⏳ Pendientes │ ❌ Errores │ 📊 Total  │ │   │
+│  │  │        12     │        8      │         4      │      0      │      20   │ │   │
+│  │  └───────────────┴───────────────┴────────────────┴─────────────┴───────────┘ │   │
+│  │                                                                               │   │
+│  │  ──── DETALLE DE CONSULTAS ────                                               │   │
+│  │                                                                               │   │
+│  │  ┌──────────┬───────────────┬──────────────┬─────────────┬─────────────┐      │   │
+│  │  │ House    │ AWB           │ Estado       │ Importe     │ Factura     │      │   │
+│  │  ├──────────┼───────────────┼──────────────┼─────────────┼─────────────┤      │   │
+│  │  │ CACC-149 │ 230-66684660  │ 🔵 Arribado  │ -           │ -           │      │   │
+│  │  │ CACC-150 │ 230-66684660  │ 🟢 Facturado │ $1,250.00   │ FAC-001     │      │   │
+│  │  │ CACC-151 │ 230-66684660  │ 🟢 Facturado │ $850.00     │ FAC-002     │      │   │
+│  │  │ CACC-152 │ 230-66684660  │ 🔵 Arribado  │ -           │ -           │      │   │
+│  │  │ CACC-153 │ 230-66684660  │ 🔵 Arribado  │ -           │ -           │      │   │
+│  │  │ CACC-154 │ 230-66684660  │ 🟢 Facturado │ $0.00       │ FAC-003     │      │   │
+│  │  └──────────┴───────────────┴──────────────┴─────────────┴─────────────┘      │   │
+│  │                                                                               │   │
+│  │  [  🔍 CONSULTAR AHORA  ]  [  📄 VER HISTORIAL  ]  [  ⚙️ CONFIGURAR ]        │   │
+│  └───────────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                      │
+│  ┌─── CONFIGURACIÓN DE AUTOMATIZACIÓN ────────────────────────────────────┐   │
+│  │                                                                        │   │
+│  │  ⏰ Horarios de consulta:                                              │   │
+│  │     🕗 8:00 AM  [ ✅ Activo ]  Última: 18/08 08:00 ✅                 │   │
+│  │     🕛 12:00 PM [ ✅ Activo ]  Última: 18/08 12:00 ✅                 │   │
+│  │     🕓 4:00 PM  [ ✅ Activo ]  Última: 18/08 16:00 ⏳                 │   │
+│  │     🕛 12:00 AM [ ✅ Activo ]  Última: 18/08 00:00 ✅                 │   │
+│  │                                                                        │   │
+│  │  🔔 Alertas:                                                           │   │
+│  │     ✅ Consulta 8:00 AM - 120 houses procesados                        │   │
+│  │     ✅ Consulta 12:00 PM - 8 houses facturados                         │   │
+│  │                                                                        │   │
+│  │  [  GUARDAR CONFIGURACIÓN  ]                                           │   │
+│  └────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                │
+│  [Página 1/1]                                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ## 4. FLUJOS DE USUARIO CLAVE - ACTUALIZADOS
 
-### 4.1 Flujo: Importación de Manifiesto con Mapeo de Columnas (NUEVO)
+### 4.1 Flujo: Importación de Manifiesto con Mapeo de Columnas
 1. Administrador abre Envíos → Selecciona "Importar Manifiesto".
 2. Selecciona el archivo Excel desde su computadora.
 3. El sistema muestra la pantalla de **mapeo de columnas**.
@@ -1459,13 +1518,23 @@ flowchart TD
 3. Al llegar a la entrega, el chofer puede ver el costo de aduana en el detalle.
 4. Si el costo de aduana no está disponible, el sistema muestra "Costo pendiente de consulta".
 
+### 4.6 Flujo: Automatización de Facturación de Aduana (NUEVO)
+1. El sistema ejecuta una tarea programada (cron job) en los horarios establecidos: 8:00 AM, 12:00 PM, 4:00 PM, 12:00 AM.
+2. El sistema consulta la base de datos para obtener todos los houses con estado **"Arribado"**.
+3. Para cada house, el sistema consulta Aerovaradero utilizando la URL de payment.
+4. Si el house tiene **importe** y **factura**, el sistema cambia su estado a **"Facturado"**.
+5. El sistema registra el importe y el número de factura en la base de datos.
+6. Si el house NO tiene importe o factura, permanece en **"Arribado"**.
+7. El sistema registra un log detallado de cada consulta.
+8. El administrador puede ver el progreso en la pantalla de **Monitoreo de Aduana**.
+
 ---
 
 ## 5. PRINCIPIOS DE USABILIDAD (Heurísticas de Nielsen)
 
 | Heurística | Aplicación en SIGMA-T |
 | :--- | :--- |
-| **Visibilidad del estado del sistema** | Indicadores de carga, notificaciones de sincronización, estado de los envíos (🟢🟡🔴), progreso de consultas de aduana, estado de generación de ficha de costo, progreso de importación. |
+| **Visibilidad del estado del sistema** | Indicadores de carga, notificaciones de sincronización, estado de los envíos (🟢🟡🔴), progreso de consultas de aduana, estado de generación de ficha de costo, progreso de importación, horarios de automatización de aduana. |
 | **Relación entre el sistema y el mundo real** | Uso de iconos reconocibles (📦, 🚚, ⏰, 💰, 📄), lenguaje natural en mensajes. |
 | **Control y libertad del usuario** | Edición manual de rutas (drag & drop), deshacer acciones, botones de "cancelar", mapeo flexible de columnas. |
 | **Consistencia y estándares** | Misma paleta de colores y componentes UI en toda la plataforma. |
@@ -1479,17 +1548,19 @@ flowchart TD
 
 ## 6. CONCLUSIÓN
 
-Este documento consolida un total de **21 pantallas de alta fidelidad** (20 existentes + 1 nueva para mapeo de columnas), diseñadas para cubrir todos los módulos de SIGMA-T incluyendo la nueva funcionalidad de ficha de costo detallada, los parámetros financieros actualizados y el mapeo flexible de columnas para importación de manifiestos. La identidad visual, los flujos de usuario y los principios de usabilidad implementados posicionan a SIGMA-T al mismo nivel que los sistemas de gestión de transporte líderes a nivel mundial, pero con la ventaja de estar diseñado específicamente para las necesidades del ecosistema cubano.
+Este documento consolida un total de **22 pantallas de alta fidelidad** (21 existentes + 1 nueva para monitoreo de aduana), diseñadas para cubrir todos los módulos de SIGMA-T incluyendo la nueva funcionalidad de ficha de costo detallada, los parámetros financieros actualizados, el mapeo flexible de columnas para importación de manifiestos y la automatización de facturación de aduana.
 
 **Resumen de las nuevas funcionalidades:**
 - **Mapeo flexible de columnas** para importación de Excel
 - Gestión de parámetros financieros (tasa de cambio USD/CUP, precio de combustibles, **costos por km**)
 - Consulta automática de costos de aduana desde el sitio web de Aerovaradero (**URL de payment**)
+- **Automatización de facturación de aduana** con 4 horarios diarios (8 AM, 12 PM, 4 PM, 12 AM)
 - Asignación de costos de aduana a cada envío
 - Gestión de esquemas de pago a choferes (fijo, por km, por entrega, combinado)
 - **Ficha de costo detallada por ruta** con desglose de costos directos, indirectos y de importación
 - Exportación de ficha de costo a PDF y CSV
 - Generación de reportes de pago
 - **Validación de Carnet de Identidad (11 dígitos)** y **Unidad de destino (obligatoria)**
+- **Monitoreo de automatización de aduana** con horarios y estado de consultas
 
-**Próximo Paso:** Con estas maquetas validadas e incluyendo las nuevas funcionalidades, estamos listos para el desarrollo técnico del Sprint 1 (Core de Envíos) con las tareas pendientes de importación con mapeo flexible.
+**Próximo Paso:** Con estas maquetas validadas e incluyendo las nuevas funcionalidades, estamos listos para el desarrollo técnico del Sprint 2 (Optimización de Rutas).

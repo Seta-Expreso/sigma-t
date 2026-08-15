@@ -1,11 +1,11 @@
-# 📄 ESPECIFICACIÓN DE REQUISITOS DEL SOFTWARE (SRS) - VERSIÓN 3.5 (COMPLETA - TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 14/08/2026)
+# 📄 ESPECIFICACIÓN DE REQUISITOS DEL SOFTWARE (SRS) - VERSIÓN 3.6 (COMPLETA - TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 15/08/2026)
 
 **Basado en ISO/IEC/IEEE 29148:2018**
 
 **Proyecto:** SIGMA-T (Sistema Integral de Gestión para MiPYME de Transporte)  
 **Cliente:** Osleyder Gonzalez Acosta  
-**Fecha de Emisión:** 14 de agosto de 2026
-**Versión:** 3.5 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - SPRINTS 0 y 1 COMPLETADOS - ACTUALIZACIÓN 14/08/2026)
+**Fecha de Emisión:** 15 de agosto de 2026
+**Versión:** 3.6 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 15/08/2026)
 
 ---
 
@@ -54,6 +54,14 @@ SIGMA-T es un sistema modular de clase mundial que permite gestionar **todo el c
 | **Jefe de Oficina** | **Usuario autorizado por una agencia de envíos (ej. Central American Cargo en Panamá) para gestionar manifiestos y supervisar envíos** |
 | **Cliente Remitente** | **Persona que envía un paquete** |
 | **Cliente Destinatario** | **Persona que recibe un paquete** |
+| **House** | Número de identificación único de un paquete en el manifiesto |
+| **Arribado** | Estado del paquete cuando llega al aeropuerto de destino en Cuba |
+| **Facturado** | Estado del paquete cuando tiene importe y factura en Aerovaradero |
+| **Faltante de Origen** | El bulto nunca salió del país de origen |
+| **Presencial** | La aduana detectó un problema y Aerovaradero lo entregará directamente |
+| **Clasificación** | El paquete está en el almacén de Seta Expreso, clasificado por provincia/municipio |
+| **Proceso de Entrega** | El paquete está en ruta hacia el cliente destinatario |
+| **No Entregado** | El paquete no pudo ser entregado y vuelve a clasificación |
 
 ---
 
@@ -67,8 +75,8 @@ SIGMA-T reemplazará el sistema actual basado en hojas de cálculo Excel y Optim
 | Perfil | Descripción | Cantidad Estimada |
 |--------|-------------|-------------------|
 | **Administrador** | Dueño/gerente que gestiona todo el negocio. Acceso total a todas las funcionalidades. | 1-2 |
-| **Jefe de Oficina (Agencia)** | Usuario autorizado por una agencia de envíos (ej. Central American Cargo en Panamá). Puede cargar manifiestos en Excel, revisar el estado completo de los envíos, y ver todos los House de su agencia. | 2-5 |
-| **Jefe de Operaciones** | Planifica rutas, asigna envíos y gestiona flota. Puede crear, modificar y eliminar rutas. Controla el estado de cada ruta y los House entregados. | 1-3 |
+| **Jefe de Operaciones** | Controla rutas y operaciones. Puede crear, modificar y eliminar rutas. Controla el estado de cada ruta y los House entregados. | 1-3 |
+| **Agencia de Envíos** | Empresa de paquetería (ej. Central American Cargo Panamá/México/Miami). Puede cargar manifiestos en Excel, revisar el estado completo de los envíos, y ver todos los House de su agencia. | 2-5 |
 | **Chofer** | Conductor que ejecuta entregas en ruta. Ve su ruta asignada y registra entregas. | 5-20 |
 | **Cliente Remitente** | Persona que envía un paquete. Solo puede ver el estado de su House, ubicación, fecha de entrega y costo de aduana. | Variable |
 | **Cliente Destinatario** | Persona que recibe un paquete. Solo puede ver el estado de su House, ubicación, fecha de entrega y costo de aduana. | Variable |
@@ -89,6 +97,28 @@ SIGMA-T reemplazará el sistema actual basado en hojas de cálculo Excel y Optim
 - **Servidor de Producción:** Ubuntu 22.04 LTS o 24.04 LTS en VPS ETECSA.
 - **Seguridad:** SSL/HTTPS obligatorio con certificados Let's Encrypt.
 - **Distribución Móvil:** Google Play Store y APKlis.
+
+### 2.4 Flujo de Paquetería y Estados del Paquete
+
+**Flujo completo del paquete:**
+
+```
+Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → Aduana → Seta Expreso → Cliente Destinatario
+```
+
+**Estados del Paquete (9 estados):**
+
+| # | Estado | Responsable | Descripción | ¿Llega a Seta Expreso? | Visible para |
+|---|--------|-------------|-------------|------------------------|--------------|
+| 1 | **Faltante de Origen** | Aerovaradero | El bulto nunca salió del país de origen | ❌ **NO** (FIN) | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 2 | **Presencial** | Aerovaradero | Problema detectado por aduana | ❌ **NO** (FIN) | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 3 | **Arribado** | Aerovaradero | Llegó al Aeropuerto de destino | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 4 | **Facturado** | Aerovaradero | Tiene importe y factura en Aerovaradero | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 5 | **Entregado en Aerovaradero** | Aerovaradero | Recogido por Seta Expreso | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 6 | **Clasificación** | Seta Expreso | En almacén clasificando por provincia | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 7 | **Proceso de Entrega** | Seta Expreso | En ruta al destinatario | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 8 | **Entregado** | Seta Expreso | Entregado con firma y fotos | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 9 | **No Entregado** | Seta Expreso | No se pudo entregar, vuelve a clasificación | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
 
 ---
 
@@ -118,18 +148,18 @@ SIGMA-T reemplazará el sistema actual basado en hojas de cálculo Excel y Optim
 | RF-CH-05 | Evaluar desempeño (% entregas a tiempo, consumo) | Media | Media | ⏳ Pendiente |
 | RF-CH-06 | Historial completo de rutas y entregas por chofer | Alta | Media | ⏳ Pendiente |
 
-### MÓDULO 3: GESTIÓN DE CLIENTES Y ENVÍOS (RF-CLIENTE) - ✅ PARCIALMENTE IMPLEMENTADO
+### MÓDULO 3: GESTIÓN DE CLIENTES Y ENVÍOS (RF-CLIENTE) - ✅ IMPLEMENTADO
 
 | ID | Requisito | Prioridad | Complejidad | Estado | Nota |
 |----|-----------|-----------|-------------|--------|------|
-| **RF-CL-01a** | **Importar envíos desde Excel (.xlsx) con formato de manifiesto real** | **Crítica** | Media | **⚠️ En progreso** | **Requiere mapeo flexible de columnas** |
-| **RF-CL-01b** | **Importar envíos desde CSV (formato alternativo)** | Alta | Baja | **⚠️ En progreso** | **Requiere mapeo flexible de columnas** |
-| **RF-CL-01c** | **Validación de datos al importar** | Alta | Media | **⚠️ En progreso** | **Incluye validación de Carnet (11 dígitos) y Unidad de destino** |
-| **RF-CL-01d** | **Vista previa de importación** | Alta | Media | **⚠️ En progreso** | **Mostrar todos los registros, no solo 10** |
-| **RF-CL-01e** | **Reporte de errores de importación** | Alta | Media | **⚠️ En progreso** | **En pantalla, sin límite de errores** |
+| **RF-CL-01a** | **Importar envíos desde Excel (.xlsx) con formato de manifiesto real** | **Crítica** | Media | **✅ Implementado** | **Con mapeo flexible de columnas** |
+| **RF-CL-01b** | **Importar envíos desde CSV (formato alternativo)** | Alta | Baja | **✅ Implementado** | **Con mapeo flexible de columnas** |
+| **RF-CL-01c** | **Validación de datos al importar** | Alta | Media | **✅ Implementado** | **Incluye validación de Carnet (11 dígitos) y Unidad de destino** |
+| **RF-CL-01d** | **Vista previa de importación** | Alta | Media | **✅ Implementado** | **Mostrar todos los registros, no solo 10** |
+| **RF-CL-01e** | **Reporte de errores de importación** | Alta | Media | **✅ Implementado** | **En pantalla, sin límite de errores** |
 | **RF-CL-02** | **Registrar cliente (empresa de paquetería) con: nombre, contacto, dirección, tarifas negociadas** | Alta | Baja | **✅ Implementado** | |
 | **RF-CL-03** | **Registrar envío manual uno a uno con todos los campos del manifiesto** | Alta | Baja | **✅ Implementado** | |
-| **RF-CL-04** | **Historial de envíos por cliente** | Alta | Baja | **⚠️ En progreso** | **Requiere exportación a PDF y CSV** |
+| **RF-CL-04** | **Historial de envíos por cliente** | Alta | Baja | **✅ Implementado** | **Con exportación a PDF y CSV** |
 | RF-CL-05 | Categorizar envíos por prioridad (urgente, normal, económico) | Media | Baja | ⏳ Pendiente | |
 | **RF-CL-06** | **Registrar novedades de entrega (entregado, no encontrado, dañado, etc.)** | Alta | Baja | **✅ Implementado** | |
 
@@ -179,8 +209,8 @@ SIGMA-T reemplazará el sistema actual basado en hojas de cálculo Excel y Optim
 
 | Aspecto | Especificación |
 |---------|----------------|
-| **Permisos** | Jefe de Oficina, Administrador, Jefe de Operaciones |
-| **Información visible** | Todos los envíos de la agencia, con estado completo de cada House |
+| **Permisos** | Administrador, Jefe de Operaciones, Agencia de Envíos, Cliente Remitente, Cliente Destinatario |
+| **Información visible** | Todos los envíos del cliente, con estado completo de cada House |
 | **Exportación** | PDF y CSV |
 | **Filtros** | Por fecha, estado, House |
 
@@ -295,6 +325,37 @@ SIGMA-T reemplazará el sistema actual basado en hojas de cálculo Excel y Optim
 | RF-AU-05 | Alertas de seguridad (múltiples intentos fallidos, accesos sospechosos) | Media | Media | ⏳ Pendiente |
 | RF-AU-06 | Trazabilidad de acciones offline (registro local + sincronización) | Alta | Media | ⏳ Pendiente |
 
+### MÓDULO 12: AUTOMATIZACIÓN DE FACTURACIÓN DE ADUANA (RF-ADUANA) - ⏳ PENDIENTE
+
+| ID | Requisito | Prioridad | Complejidad | Estado |
+|----|-----------|-----------|-------------|--------|
+| **RF-ADU-01** | **Automatización de Facturación de Aduana** | **Crítica** | **Alta** | ⏳ Pendiente |
+
+**Especificación:**
+
+El sistema debe consultar automáticamente el sitio web de Aerovaradero en los horarios establecidos (8:00 AM, 12:00 PM, 4:00 PM y 12:00 AM) **SOLO para los houses que se encuentren en estado "Arribado"**.
+
+**Los houses en estado "Facturado" NO deben ser consultados nuevamente.**
+
+**Proceso:**
+
+1. El sistema obtiene **SOLO** los houses con estado **"Arribado"**
+2. Para cada house, construye la URL de payment:
+   ```
+   https://www.aerovaradero.com.cu/payment/?cod_la={cod_la}&cod_awb={cod_awb}&cod_house={house}
+   ```
+3. El sistema verifica si el house tiene **importe** y **factura** registrados en Aerovaradero
+4. Si ambos existen → Cambia estado a **"Facturado"**
+5. Si NO existen → Mantiene estado **"Arribado"** (se reintentará en la próxima ejecución)
+6. **Los houses con estado "Facturado" son ignorados en futuras consultas**
+
+**Horarios de ejecución:** 8:00 AM, 12:00 PM, 4:00 PM, 12:00 AM (hora de Cuba)
+
+**URL de ejemplo:**
+```
+https://www.aerovaradero.com.cu/payment/?cod_la=230&cod_awb=66684660&cod_house=24014999
+```
+
 ---
 
 ## 4. REQUISITOS NO FUNCIONALES (RNF)
@@ -342,7 +403,7 @@ SIGMA-T reemplazará el sistema actual basado en hojas de cálculo Excel y Optim
 USUARIO
 ├── id_usuario (PK)
 ├── nombre, email, password_hash
-├── rol (admin, jefe_oficina, jefe_operaciones, chofer, cliente_remitente, cliente_destinatario, auditor)
+├── rol (admin, jefe_operaciones, agencia, chofer, cliente_remitente, cliente_destinatario, auditor)
 └── activo
 
 VEHICULO
@@ -381,9 +442,11 @@ PROSPECTO
 ├── estado (contactado, cotizado, cliente, inactivo)
 └── fecha_registro
 
-ENVIO                            ✅ PARCIALMENTE IMPLEMENTADO
+ENVIO                            ✅ IMPLEMENTADO
 ├── id_envio (PK)
-├── id_cliente (FK)
+├── id_cliente (FK)              -- Agencia de envíos
+├── id_cliente_remitente (FK)    -- Persona que envía
+├── id_cliente_destinatario (FK) -- Persona que recibe
 ├── id_chofer (FK)              ⏳ Pendiente
 ├── id_vehiculo (FK)            ⏳ Pendiente
 ├── id_ruta (FK)                ⏳ Pendiente
@@ -393,20 +456,36 @@ ENVIO                            ✅ PARCIALMENTE IMPLEMENTADO
 ├── peso, volumen, bultos
 ├── remitente_nombre, remitente_passport
 ├── destinatario_nombre, destinatario_direccion, destinatario_telefono
-├── destinatario_identificacion   -- ⚠️ 11 dígitos exactos
+├── destinatario_identificacion   -- 11 dígitos exactos
 ├── cobrado_origen (boolean)
-├── unidad_destino              -- ⚠️ No puede ser NULL
+├── unidad_destino              -- No puede ser NULL
 ├── prioridad (urgente, normal, economico)     ⏳ Pendiente
 ├── fecha_limite                               ⏳ Pendiente
 ├── fecha_asignacion                           ⏳ Pendiente
 ├── fecha_entrega_real                         ⏳ Pendiente
-├── estado (pendiente, en_bodega, en_ruta, entregado, incidencia)
+├── estado_aerovaradero (ENUM)   -- faltante_origen, presencial, arribado, facturado, entregado_aerovaradero
+├── estado_seta_expreso (ENUM)   -- clasificacion, proceso_entrega, entregado, no_entregado
 ├── incidencia (opcional)                      ⏳ Pendiente
 ├── firma_digital (opcional)                   ⏳ Pendiente
+├── foto_evidencia (opcional)                  ⏳ Pendiente
+├── importe_aduana (DECIMAL(12,2))             ⏳ Pendiente
+├── numero_factura_aduana (VARCHAR(50))        ⏳ Pendiente
+├── fecha_ultima_consulta_aduana (TIMESTAMP)   ⏳ Pendiente
+├── intentos_consulta_aduana (INTEGER)         ⏳ Pendiente
+├── fecha_arribado (TIMESTAMP)                 ⏳ Pendiente
+├── fecha_facturado (TIMESTAMP)                ⏳ Pendiente
+├── fecha_recogido (TIMESTAMP)                 ⏳ Pendiente
+├── fecha_clasificacion (TIMESTAMP)            ⏳ Pendiente
+├── fecha_proceso_entrega (TIMESTAMP)          ⏳ Pendiente
+├── fecha_entregado (TIMESTAMP)                ⏳ Pendiente
+├── fecha_no_entregado (TIMESTAMP)             ⏳ Pendiente
+├── motivo_no_entrega (TEXT)                   ⏳ Pendiente
 ├── costo_aduana (DECIMAL(12,2))              ⏳ Pendiente
 ├── costo_importacion (DECIMAL(12,2))         ⏳ Pendiente
 ├── fecha_consulta_aduana (TIMESTAMP)         ⏳ Pendiente
-└── estado_aduana (pendiente, consultado, error) ⏳ Pendiente
+├── estado_aduana (pendiente, consultado, error) ⏳ Pendiente
+├── created_at (TIMESTAMP)
+└── updated_at (TIMESTAMP)
 
 RUTA                             ⏳ PENDIENTE
 ├── id_ruta (PK)
@@ -489,8 +568,8 @@ INCIDENTE                        ⏳ PENDIENTE
 AUDITORIA                        ⏳ PENDIENTE
 ├── id_auditoria (PK)
 ├── id_usuario (FK)
-├── accion (crear, leer, actualizar, eliminar, login, logout)
-├── entidad (envio, ruta, vehiculo, chofer, cliente, etc.)
+├── accion (crear, leer, actualizar, eliminar, login, logout, consultar_aduana, facturar_aduana)
+├── entidad (envio, ruta, vehiculo, chofer, cliente, parametro, ficha_costo, etc.)
 ├── id_entidad
 ├── detalle (JSON con cambios)
 ├── ip
@@ -513,9 +592,10 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 |--------|------------|-------------------|-----------|--------|
 | Flota | RF-FL-01 a RF-FL-08 | Backend + BD | **P1 (Fundacional)** | ⏳ Pendiente |
 | Choferes | RF-CH-01 a RF-CH-06 | Backend + BD | P2 (Alta) | ⏳ Pendiente |
-| **Clientes/Envíos** | **RF-CL-01a a RF-CL-06** | **Backend + BD** | **P1 (Fundacional)** | **⚠️ En progreso (60%)** |
+| **Clientes/Envíos** | **RF-CL-01a a RF-CL-06** | **Backend + BD** | **P1 (Fundacional)** | **✅ Implementado** |
 | Rutas | RF-RU-00a a RF-RU-08 | Backend + OSRM | **P1 (Fundacional)** | ⏳ Pendiente |
 | **Costos/Finanzas** | **RF-CO-01 a RF-CO-15** | **Backend + BD + Web Scraping** | **P1 (Fundacional)** | ⏳ Pendiente |
+| **Automatización de Aduana** | **RF-ADU-01** | **Backend + Web Scraping + Cron** | **P1 (Fundacional)** | ⏳ Pendiente |
 | App Chofer | RF-MO-01 a RF-MO-11 | Mobile + API | **P1 (Fundacional)** | ⏳ Pendiente |
 | Dashboard | RF-DA-01 a RF-DA-08 | Frontend + Backend | P2 (Alta) | ⏳ Pendiente |
 | Portal Cliente | RF-PO-01 a RF-PO-07 | Frontend + Backend | P2 (Alta) | ⏳ Pendiente |
@@ -530,14 +610,25 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 
 ## 7. CRITERIOS DE ACEPTACIÓN POR MÓDULO
 
-### Módulo de Envíos ⚠️ PARCIALMENTE COMPLETADO
+### Módulo de Envíos ✅ IMPLEMENTADO
 - [x] CRUD de clientes implementado
 - [x] CRUD de envíos implementado
-- [ ] Importación de Excel con mapeo flexible de columnas
-- [ ] Validación de datos: campos obligatorios, Carnet (11 dígitos), Unidad de destino obligatoria
-- [ ] Vista previa de importación con todos los registros
-- [ ] Reporte de errores de importación en pantalla
-- [ ] Historial de envíos por cliente con exportación a PDF y CSV
+- [x] Importación de Excel con mapeo flexible de columnas
+- [x] Validación de datos: campos obligatorios, Carnet (11 dígitos), Unidad de destino obligatoria
+- [x] Vista previa de importación con todos los registros
+- [x] Reporte de errores de importación en pantalla
+- [x] Historial de envíos por cliente con exportación a PDF y CSV
+- [x] UI de gestión de envíos (EnvioList, EnvioFilters, EnvioDetail, HistorialCliente, ImportarManifiesto)
+
+### Módulo de Automatización de Aduana ⏳ PENDIENTE
+- [ ] El sistema ejecuta consultas a las 8:00 AM, 12:00 PM, 4:00 PM y 12:00 AM
+- [ ] SOLO se consultan houses con estado "Arribado"
+- [ ] Los houses "Facturados" NO son consultados nuevamente
+- [ ] El sistema detecta automáticamente cuando un house tiene importe y factura en Aerovaradero
+- [ ] El sistema cambia el estado de "Arribado" a "Facturado" automáticamente
+- [ ] El sistema registra importe y número de factura en la base de datos
+- [ ] El sistema maneja errores de conexión y reintenta en la siguiente ejecución
+- [ ] El sistema registra todas las consultas y cambios de estado
 
 ### Módulo de Rutas ⏳ PENDIENTE
 - [ ] Ruta optimizada reduce distancia en ≥15% vs. planificación manual
@@ -612,7 +703,8 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 | Competencia (OptimoRoute, McLeod) | Baja | Medio | Precio cero, adaptación al nicho cubano | ✅ Mitigado |
 | Baja calidad de código | Media | Alto | Estándares de codificación, análisis estático en CI/CD, revisiones de código obligatorias | ✅ Mitigado |
 | Documentación insuficiente | Media | Medio | JSDoc obligatorio, generación automática de documentación, cobertura ≥80% | ✅ Mitigado |
-| Cambios en el sitio web de Aerovaradero (URL de payment) | Alta | Alto | Sistema de alertas de fallo en extracción, entrada manual de costos como contingencia, monitoreo periódico del sitio | ⏳ Pendiente |
+| Cambios en el sitio web de Aerovaradero (URL de payment) | Alta | Alto | Sistema de alertas de fallo en extracción, entrada manual de costos de aduana como contingencia, monitoreo periódico del sitio | ⏳ Pendiente |
+| Fallos en el proceso automatizado de facturación de aduana | Media | Alto | Sistema de alertas, reintentos automáticos, entrada manual como contingencia, logs detallados | ⏳ Pendiente |
 | Fluctuación de la tasa de cambio y precios de combustible | Alta | Medio | Actualización manual/configurable de parámetros, historial de cambios para análisis | ⏳ Pendiente |
 | Errores en cálculo de pago a choferes | Media | Alto | Validaciones automáticas, auditoría de cálculos, generación de reportes de pago para revisión | ⏳ Pendiente |
 | Errores en cálculo de ficha de costo | Media | Alto | Validaciones automáticas, auditoría de cálculos, pruebas con datos reales, precisión de 2 decimales | ⏳ Pendiente |
@@ -635,33 +727,32 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 
 ## 📌 CONCLUSIÓN
 
-Este SRS Versión 3.5 ahora incluye:
+Este SRS Versión 3.6 ahora incluye:
 
-- ✅ **11 módulos funcionales** completos
-- ✅ **85 requisitos funcionales** (5 nuevos: RF-CO-11 a RF-CO-15)
+- ✅ **12 módulos funcionales** (1 nuevo: RF-ADU-01 Automatización de Facturación de Aduana)
+- ✅ **86 requisitos funcionales** (1 nuevo: RF-ADU-01)
 - ✅ **32 requisitos no funcionales** (6 nuevos: RNF-27 a RNF-32 sobre infraestructura y distribución)
 - ✅ **Auditoría completa** para trazabilidad total
 - ✅ **Marketing y CRM** para crecimiento del negocio
 - ✅ **Portal del cliente** para transparencia
 - ✅ **Gestión de almacén** para control de inventario
-- ✅ **Modelo de datos completo** (22 entidades, con nuevas tablas y campos)
+- ✅ **Modelo de datos completo** (23 entidades, con nuevas tablas y campos para automatización de aduana)
 - ✅ **Matriz de trazabilidad** actualizada
 - ✅ **Estándares de codificación** para TypeScript, React y Flutter
 - ✅ **Estrategia de documentación** con JSDoc, OpenAPI y READMEs
 - ✅ **Gestión de pago a choferes** (esquemas flexibles)
 - ✅ **Gestión de parámetros financieros** (combustible, tasa de cambio, costos por km)
 - ✅ **Integración automática con Aduana** utilizando URL de payment
+- ✅ **Automatización de facturación de aduana** en 4 horarios (8 AM, 12 PM, 4 PM, 12 AM)
+- ✅ **9 estados del paquete** (Faltante de Origen, Presencial, Arribado, Facturado, Entregado en Aerovaradero, Clasificación, Proceso de Entrega, Entregado, No Entregado)
+- ✅ **5 perfiles de usuario** (Administrador, Jefe de Operaciones, Agencia de Envíos, Cliente Remitente, Cliente Destinatario)
 - ✅ **Cálculo de costo total por envío** (incluyendo aduana e importación)
 - ✅ **Ficha de costo detallada por ruta** con todos los componentes de costo
 - ✅ **Infraestructura de producción** en VPS ETECSA con Ubuntu 22.04 LTS
 - ✅ **SSL/HTTPS obligatorio** con Let's Encrypt
 - ✅ **Distribución en Google Play Store**, **APKlis** y **descarga directa**
-- ✅ **Estado de implementación** agregado a todos los requisitos (✅ Implementado / ⚠️ En progreso / ⏳ Pendiente)
-- ✅ **Sprint 0 y 1** (13/08/2026) con módulos de Clientes y Envíos implementados parcialmente
+- ✅ **Estado de implementación** agregado a todos los requisitos (✅ Implementado / ⏳ Pendiente)
+- ✅ **Sprint 0 y 1 completados** (13-15/08/2026) con módulos de Clientes y Envíos implementados al 100%
 - ✅ **Estándares de codificación y documentación** completamente implementados
-- ✅ **Perfiles de usuario actualizados:** Administrador, Jefe de Oficina, Jefe de Operaciones, Chofer, Cliente Remitente, Cliente Destinatario
-- ✅ **Validación de Carnet de Identidad:** 11 dígitos exactos
-- ✅ **Validación de Unidad de Destino:** campo obligatorio
-- ✅ **Mapeo flexible de columnas** en importación de Excel
 
 **Este documento es la base técnica definitiva para construir el sistema de gestión de transporte más completo y de mayor calidad del nicho cubano y regional.**

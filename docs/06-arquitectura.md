@@ -1,25 +1,25 @@
-Tiene toda la razón, Líder. Perdón por la omisión. A continuación le entrego el **Documento de Arquitectura de Software - SIGMA-T (VERSIÓN 2.5)** completo, sin atajos ni secciones resumidas.
+Perfecto, Líder. Aquí tiene el **Documento de Arquitectura de Software - SIGMA-T (VERSIÓN 2.7)** completo, con la Sección 7.4 (Ejemplos de API) incluida.
 
 ---
 
-## 📄 DOCUMENTO DE ARQUITECTURA DE SOFTWARE - SIGMA-T (VERSIÓN 2.5 - TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 14/08/2026)
+## 📄 DOCUMENTO DE ARQUITECTURA DE SOFTWARE - SIGMA-T (VERSIÓN 2.7)
 
 **Basado en IEEE 1016 - Descripción de Diseño de Software (SDD) y estándares de arquitectura de sistemas**
 
 **Proyecto:** SIGMA-T (Sistema Integral de Gestión para MiPYME de Transporte)  
 **Cliente / Sponsor:** Osleyder Gonzalez Acosta  
-**Fecha de Emisión:** 14 de agosto de 2026
-**Versión del Documento:** 2.5 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - SPRINTS 0 y 1 COMPLETADOS - ACTUALIZACIÓN 14/08/2026)
+**Fecha de Emisión:** 15 de agosto de 2026
+**Versión del Documento:** 2.7 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 15/08/2026)
 
 ---
 
 ## 1. INTRODUCCIÓN Y PROPÓSITO
 
 ### 1.1 Propósito del Documento
-Este documento describe la arquitectura del sistema SIGMA-T, proporcionando una vista detallada de su estructura, componentes, interacciones y decisiones técnicas. Sirve como guía principal para los desarrolladores y como base para la validación de la solución por parte del Líder del Proyecto. El documento también establece los estándares de codificación, las prácticas de documentación y las estrategias de integración con servicios externos, incluyendo la nueva funcionalidad de consulta automática de costos de aduana (utilizando la URL de payment), la gestión de parámetros financieros (tasa de cambio USD/CUP, precios de combustible, costos por km), la gestión de esquemas de pago a choferes, la generación de la ficha de costo detallada por ruta, y la infraestructura de producción en VPS ETECSA.
+Este documento describe la arquitectura del sistema SIGMA-T, proporcionando una vista detallada de su estructura, componentes, interacciones y decisiones técnicas. Sirve como guía principal para los desarrolladores y como base para la validación de la solución por parte del Líder del Proyecto. El documento también establece los estándares de codificación, las prácticas de documentación y las estrategias de integración con servicios externos, incluyendo la nueva funcionalidad de consulta automática de costos de aduana (utilizando la URL de payment), la gestión de parámetros financieros (tasa de cambio USD/CUP, precios de combustible, costos por km), la gestión de esquemas de pago a choferes, la generación de la ficha de costo detallada por ruta, la automatización de facturación de aduana en 4 horarios (8 AM, 12 PM, 4 PM, 12 AM), y la infraestructura de producción en VPS ETECSA.
 
 ### 1.2 Alcance
-El alcance de este documento cubre todos los componentes del sistema, incluyendo backend, frontend web, aplicación móvil, bases de datos, integraciones externas, estrategias de despliegue, estándares de codificación y prácticas de documentación. Se incluye también la nueva funcionalidad de integración con el sitio web de Aerovaradero para la consulta automática de costos de aduana utilizando la URL de payment (`https://www.aerovaradero.com.cu/payment/?cod_la={cod_la}&cod_awb={cod_awb}&cod_house={house}`), la gestión de parámetros financieros (tasa de cambio USD/CUP, precios de combustible, costos por km), la gestión de esquemas de pago a choferes, la generación de la ficha de costo detallada por ruta, y la infraestructura de producción en VPS ETECSA con guía de despliegue y estrategia de distribución de la app móvil.
+El alcance de este documento cubre todos los componentes del sistema, incluyendo backend, frontend web, aplicación móvil, bases de datos, integraciones externas, estrategias de despliegue, estándares de codificación y prácticas de documentación. Se incluye también la nueva funcionalidad de integración con el sitio web de Aerovaradero para la consulta automática de costos de aduana utilizando la URL de payment (`https://www.aerovaradero.com.cu/payment/?cod_la={cod_la}&cod_awb={cod_awb}&cod_house={house}`), la gestión de parámetros financieros (tasa de cambio USD/CUP, precios de combustible, costos por km), la gestión de esquemas de pago a choferes, la generación de la ficha de costo detallada por ruta, la **automatización de facturación de aduana en 4 horarios diarios (8 AM, 12 PM, 4 PM, 12 AM)**, y la infraestructura de producción en VPS ETECSA con guía de despliegue y estrategia de distribución de la app móvil.
 
 ### 1.3 Audiencia
 - **Líder del Proyecto (Osleyder Gonzalez):** Para validar las decisiones técnicas y asegurar que la arquitectura cumple con los objetivos de negocio.
@@ -32,8 +32,8 @@ El alcance de este documento cubre todos los componentes del sistema, incluyendo
 ### 1.4 Referencias
 - **IEEE 1016:** Estándar para Descripción de Diseño de Software.
 - **ISO/IEC/IEEE 42010:** Prácticas recomendadas para la descripción de arquitectura de sistemas.
-- **SRS v3.5:** Especificación de Requisitos del Software (documento de requisitos funcionales y no funcionales).
-- **SPMP v3.5:** Plan de Gestión del Proyecto de Software (cronograma, sprints, gestión de riesgos).
+- **SRS v3.7:** Especificación de Requisitos del Software (documento de requisitos funcionales y no funcionales).
+- **SPMP v3.7:** Plan de Gestión del Proyecto de Software (cronograma, sprints, gestión de riesgos).
 - **Conventional Commits:** Estándar para mensajes de commit (formato: tipo(alcance): descripción).
 - **JSDoc:** Estándar de documentación para código JavaScript/TypeScript.
 - **OpenAPI 3.0:** Especificación para documentación de APIs REST.
@@ -79,6 +79,7 @@ El diseño de SIGMA-T se rige por los siguientes principios fundamentales, que g
 | **CI/CD** | GitHub Actions | - | Automatización de pruebas, análisis estático, generación de documentación y despliegues. | ✅ Configurado |
 | **Monitoreo** | Prometheus + Grafana | - | Monitoreo de métricas, alertas en producción, visualización de rendimiento. | ⏳ Pendiente |
 | **Web Scraping** | Cheerio / Puppeteer | Cheerio 1.x, Puppeteer 22.x | Extracción de datos del sitio web de Aerovaradero (URL de payment). Cheerio para parseo rápido de HTML, Puppeteer como contingencia para sitios con JavaScript. | ⏳ Pendiente |
+| **Programación de Tareas** | node-cron | 3.x | Programación de tareas automáticas para la facturación de aduana en 4 horarios. | ⏳ Pendiente |
 | **Generación de PDF** | PDFKit / jsPDF | - | Generación de documentos PDF para fichas de costo y reportes. | ⏳ Pendiente |
 | **Servidor Web** | Nginx | 1.18+ | Proxy inverso, servidor de archivos estáticos, SSL/HTTPS. | ⏳ Pendiente |
 | **Gestor de Procesos** | PM2 | 5.x | Gestión de procesos Node.js en producción. | ⏳ Pendiente |
@@ -153,6 +154,7 @@ flowchart TB
         ClienteSvc["Servicio de Clientes ✅<br>CRM + Marketing"]
         AuditoriaSvc["Servicio de Auditoría ⏳<br>Logs + Trazabilidad"]
         AduanaSvc["Servicio de Aduana ⏳<br>Web Scraping Aerovaradero (URL de payment)"]
+        AduanaAutomationSvc["Servicio de Automatización Aduana ⏳<br>Cron Jobs (8AM, 12PM, 4PM, 12AM)"]
         ParametrosSvc["Servicio de Parámetros ⏳<br>Gestión de costos variables (incl. costos por km)"]
         PagoChoferSvc["Servicio de Pago a Choferes ⏳<br>Cálculo de salarios"]
         FichaCostoSvc["Servicio de Ficha de Costo ⏳<br>Cálculo de costos directos, indirectos y de importación"]
@@ -185,6 +187,7 @@ flowchart TB
     RateLimit --> ClienteSvc
     RateLimit --> AuditoriaSvc
     RateLimit --> AduanaSvc
+    RateLimit --> AduanaAutomationSvc
     RateLimit --> ParametrosSvc
     RateLimit --> PagoChoferSvc
     RateLimit --> FichaCostoSvc
@@ -198,6 +201,7 @@ flowchart TB
     ClienteSvc --> Postgres
     AuditoriaSvc --> Postgres
     AduanaSvc --> Postgres
+    AduanaAutomationSvc --> Postgres
     ParametrosSvc --> Postgres
     PagoChoferSvc --> Postgres
     FichaCostoSvc --> Postgres
@@ -210,6 +214,7 @@ flowchart TB
     OSRM --> OSM
     EnvioSvc --> Email
     AduanaSvc --> Aerovaradero
+    AduanaAutomationSvc --> Aerovaradero
     
     Mobile --> SQLite
 ```
@@ -224,6 +229,7 @@ flowchart TB
 | **Servicios Backend** | Microservicios especializados por dominio de negocio. | ⚠️ Parcial (EnvioSvc + ClienteSvc implementados) |
 | **Base de Datos** | PostgreSQL para almacenamiento persistente, SQLite para caché local en móvil. | ✅ Configurado |
 | **Servicios Externos** | OSRM para rutas, OpenStreetMap para mapas, Aerovaradero (URL de payment) para costos de aduana. | ⏳ Pendiente configuración |
+| **Servicio de Automatización Aduana** | Tareas programadas (node-cron) para consultar Aerovaradero en 4 horarios. | ⏳ Pendiente |
 
 ### 3.2 Flujo de Datos Principal
 
@@ -253,6 +259,16 @@ flowchart LR
         Aerovaradero --> Scraper
         Scraper --> AduanaSvc
         AduanaSvc --> BD
+    end
+
+    subgraph Automatización["Flujo de Automatización Aduana ⏳ PENDIENTE"]
+        BD --> AduanaAutomationSvc[Servicio de Automatización Aduana]
+        AduanaAutomationSvc --> Cron[node-cron<br>8AM, 12PM, 4PM, 12AM]
+        Cron --> Scraper2[Web Scraper<br>Cheerio/Puppeteer]
+        Scraper2 --> Aerovaradero2[Aerovaradero<br>URL de payment]
+        Aerovaradero2 --> Scraper2
+        Scraper2 --> AduanaAutomationSvc
+        AduanaAutomationSvc --> BD
     end
 
     subgraph Finanzas["Flujo de Finanzas ⏳ PENDIENTE"]
@@ -286,6 +302,7 @@ flowchart LR
 | **Importación** | El administrador importa un manifiesto Excel, el sistema valida los datos y los guarda en la base de datos. | ⚠️ Parcial (requiere mapeo flexible) |
 | **Optimización** | El sistema calcula rutas óptimas usando el algoritmo VRPTW y OSRM, almacenando las rutas generadas. | ⏳ Pendiente |
 | **Aduana** | El sistema consulta el sitio web de Aerovaradero (URL de payment) para obtener costos de aduana de cada envío y actualiza la base de datos. | ⏳ Pendiente |
+| **Automatización Aduana** | El sistema ejecuta tareas programadas en 4 horarios para consultar houses "Arribados" y cambiarlos a "Facturados" cuando tengan importe y factura. | ⏳ Pendiente |
 | **Finanzas** | El sistema gestiona parámetros financieros (tasa de cambio, precios, costos por km) y calcula pagos a choferes. | ⏳ Pendiente |
 | **Ficha de Costo** | El sistema calcula la ficha de costo detallada por ruta, incluyendo costos directos, indirectos y de importación. | ⏳ Pendiente |
 | **Sincronización** | La app móvil sincroniza datos offline con el servidor cuando hay conectividad. | ⏳ Pendiente |
@@ -318,6 +335,7 @@ backend/
 │   │   ├── cliente.controller.ts   ✅ Implementado
 │   │   ├── auditoria.controller.ts ⏳ Pendiente
 │   │   ├── aduana.controller.ts    ⏳ Pendiente
+│   │   ├── aduana_automation.controller.ts ⏳ Pendiente
 │   │   ├── parametros.controller.ts ⏳ Pendiente
 │   │   └── ficha_costo.controller.ts ⏳ Pendiente
 │   ├── models/               # Modelos de datos (TypeORM)
@@ -343,6 +361,7 @@ backend/
 │   │   ├── sincronizacion.service.ts ⏳ Pendiente
 │   │   ├── reportes.service.ts       ⏳ Pendiente
 │   │   ├── aduana.service.ts         ⏳ Pendiente
+│   │   ├── aduana_automation.service.ts ⏳ Pendiente
 │   │   ├── parametros.service.ts     ⏳ Pendiente
 │   │   ├── pago_chofer.service.ts    ⏳ Pendiente
 │   │   ├── ficha_costo.service.ts    ⏳ Pendiente
@@ -362,8 +381,12 @@ backend/
 │   │   ├── cliente.routes.ts        ✅ Implementado
 │   │   ├── auditoria.routes.ts      ⏳ Pendiente
 │   │   ├── aduana.routes.ts         ⏳ Pendiente
+│   │   ├── aduana_automation.routes.ts ⏳ Pendiente
 │   │   ├── parametros.routes.ts     ⏳ Pendiente
 │   │   ├── ficha_costo.routes.ts    ⏳ Pendiente
+│   │   └── index.ts
+│   ├── jobs/                 # Tareas programadas (Cron Jobs)
+│   │   ├── aduana.job.ts            ⏳ Pendiente
 │   │   └── index.ts
 │   ├── utils/                # Utilidades (helpers, validadores)
 │   │   ├── validators/
@@ -402,7 +425,7 @@ backend/
 | **EnvioService** | ⚠️ Parcial | `POST /api/envios`, `GET /api/envios`, `GET /api/envios/:id`, `PUT /api/envios/:id`, `DELETE /api/envios/:id`, `GET /api/envios/estadisticas` | CRUD básico, faltan validaciones y exportación |
 | **ImportacionService** | ⚠️ Parcial | `POST /api/envios/importar` (Excel/CSV) | Requiere mapeo flexible de columnas |
 
-**Dependencias Clave del Backend (Actualizadas 14/08/2026)**
+**Dependencias Clave del Backend (Actualizadas 15/08/2026)**
 
 | Librería | Versión | Propósito | Estado |
 |----------|---------|-----------|--------|
@@ -424,6 +447,7 @@ backend/
 | supertest | ^7.1.3 | Pruebas de integración de API | ✅ |
 | cheerio | ^1.0.0 | Web scraping - parseo y extracción de datos de HTML | ⏳ Pendiente |
 | puppeteer | ^22.0.0 | Web scraping - navegación en sitios con JavaScript | ⏳ Pendiente |
+| node-cron | ^3.0.0 | Programación de tareas para automatización de aduana (4 horarios) | ⏳ Pendiente |
 | pdfkit | ^0.14.0 | Generación de documentos PDF (ficha de costo, reportes) | ⏳ Pendiente |
 | eslint | ^9.22.0 | Análisis estático de código y detección de errores | ✅ |
 | prettier | ^3.5.3 | Formateo automático de código | ✅ |
@@ -431,7 +455,7 @@ backend/
 | typescript | ^5.8.3 | Compilador de TypeScript | ✅ |
 | ts-node-dev | ^2.0.0 | Desarrollo con hot-reload | ✅ |
 
-### 4.2 Servicio de Aduana (NUEVO) - ⏳ PENDIENTE
+### 4.2 Servicio de Aduana ⏳ PENDIENTE
 
 **Descripción:** Servicio encargado de la integración con el sitio web de Aerovaradero para la consulta automática de costos de aduana, utilizando la URL de payment.
 
@@ -459,12 +483,14 @@ async function consultarCostoAduana(awb: string, house: string): Promise<AduanaR
     const $ = cheerio.load(response.data);
     
     // 5. Extraer los datos específicos
-    const costoAduana = extraerCostoAduana($);
+    const importeAduana = extraerImporteAduana($);
+    const numeroFactura = extraerNumeroFactura($);
     const estadoPago = extraerEstadoPago($);
     const datosEnvio = extraerDatosEnvio($);
     
     return {
-        costo_aduana: costoAduana,
+        importe_aduana: importeAduana,
+        numero_factura: numeroFactura,
         estado_pago: estadoPago,
         datos_envio: datosEnvio
     };
@@ -497,7 +523,76 @@ async function consultarMasivo(envios: Envio[]): Promise<AduanaMasivaResponse> {
 }
 ```
 
-### 4.3 Servicio de Ficha de Costo (NUEVO) - ⏳ PENDIENTE
+### 4.3 Servicio de Automatización de Aduana ⏳ PENDIENTE
+
+**Descripción:** Servicio encargado de la ejecución de tareas programadas para la facturación automática de aduana en 4 horarios diarios.
+
+**Estructura del Servicio:**
+
+```typescript
+// backend/src/services/aduana_automation.service.ts
+
+import cron from 'node-cron';
+
+// Horarios de consulta: 8 AM, 12 PM, 4 PM, 12 AM (hora de Cuba)
+const HORARIOS = ['0 8 * * *', '0 12 * * *', '0 16 * * *', '0 0 * * *'];
+
+async function ejecutarFacturacionAduana(): Promise<void> {
+    // 1. Obtener SOLO houses con estado "Arribado"
+    const housesArribados = await obtenerHousesPorEstado('Arribado');
+
+    // 2. Para cada house, consultar Aerovaradero
+    const resultados = [];
+    for (const envio of housesArribados) {
+        const resultado = await consultarCostoAduana(envio.awb, envio.house);
+
+        // 3. Verificar si tiene importe y factura
+        if (resultado.importe_aduana > 0 && resultado.numero_factura) {
+            // 4. Cambiar estado a "Facturado"
+            await actualizarEstadoEnvio(envio.id_envio, {
+                estado_aerovaradero: 'Facturado',
+                importe_aduana: resultado.importe_aduana,
+                numero_factura_aduana: resultado.numero_factura,
+                fecha_ultima_consulta_aduana: new Date(),
+                intentos_consulta_aduana: 0
+            });
+            resultados.push({
+                house: envio.house,
+                estado: 'facturado',
+                importe: resultado.importe_aduana,
+                factura: resultado.numero_factura
+            });
+        } else {
+            // 5. Si no tiene importe o factura, permanece en "Arribado"
+            await actualizarEnvio({
+                id_envio: envio.id_envio,
+                fecha_ultima_consulta_aduana: new Date(),
+                intentos_consulta_aduana: envio.intentos_consulta_aduana + 1
+            });
+            resultados.push({
+                house: envio.house,
+                estado: 'pendiente',
+                mensaje: 'Sin importe o factura aún'
+            });
+        }
+    }
+
+    // 6. Registrar logs detallados
+    await registrarLogs(resultados);
+}
+
+// Iniciar tareas programadas
+function iniciarAutomatizacionAduana(): void {
+    HORARIOS.forEach(horario => {
+        cron.schedule(horario, async () => {
+            console.log(`[${new Date().toISOString()}] Ejecutando facturación automática de aduana...`);
+            await ejecutarFacturacionAduana();
+        });
+    });
+}
+```
+
+### 4.4 Servicio de Ficha de Costo ⏳ PENDIENTE
 
 **Descripción:** Servicio encargado del cálculo automático de la ficha de costo detallada por ruta.
 
@@ -530,7 +625,7 @@ async function calcularFichaCosto(rutaId: number): Promise<FichaCosto> {
     const impuestos = ruta.distancia_total * params.costo_impuesto_por_km;
     
     // 5. Calcular costos de importación
-    const costosAduana = envios.reduce((sum, envio) => sum + (envio.costo_aduana || 0), 0);
+    const costosAduana = envios.reduce((sum, envio) => sum + (envio.importe_aduana || 0), 0);
     
     // 6. Calcular subtotales
     const subtotalDirectos = combustible + peajes + mantenimiento + neumaticos + salario;
@@ -586,7 +681,7 @@ async function calcularFichaCosto(rutaId: number): Promise<FichaCosto> {
 }
 ```
 
-### 4.4 Capa de Frontend Web (React + Vite) - ✅ CONFIGURADO
+### 4.5 Capa de Frontend Web (React + Vite) - ✅ CONFIGURADO
 
 **Estructura del Proyecto Frontend**
 
@@ -605,6 +700,7 @@ frontend/
 │   │   ├── cliente.api.ts          ✅ Implementado
 │   │   ├── auditoria.api.ts        ⏳ Pendiente
 │   │   ├── aduana.api.ts           ⏳ Pendiente
+│   │   ├── aduana_automation.api.ts ⏳ Pendiente
 │   │   ├── parametros.api.ts       ⏳ Pendiente
 │   │   ├── ficha_costo.api.ts      ⏳ Pendiente
 │   │   ├── auth.api.ts
@@ -693,6 +789,7 @@ frontend/
 │   │   ├── ConfiguracionPage.tsx  ⏳ Pendiente
 │   │   ├── ParametrosPage.tsx     ⏳ Pendiente
 │   │   ├── FichaCostoPage.tsx     ⏳ Pendiente
+│   │   ├── AduanaAutomationPage.tsx ⏳ Pendiente
 │   │   ├── LoginPage.tsx
 │   │   └── index.ts
 │   ├── hooks/                # Custom React Hooks
@@ -705,6 +802,7 @@ frontend/
 │   │   ├── useAuditoria.ts        ⏳ Pendiente
 │   │   ├── useParametros.ts       ⏳ Pendiente
 │   │   ├── useFichaCosto.ts       ⏳ Pendiente
+│   │   ├── useAduanaAutomation.ts ⏳ Pendiente
 │   │   ├── useToast.ts
 │   │   └── index.ts
 │   ├── store/                # Estado global (Zustand)
@@ -714,6 +812,7 @@ frontend/
 │   │   ├── chofer.store.ts        ⏳ Pendiente
 │   │   ├── finanza.store.ts       ⏳ Pendiente
 │   │   ├── parametros.store.ts    ⏳ Pendiente
+│   │   ├── aduana.store.ts        ⏳ Pendiente
 │   │   └── index.ts
 │   ├── types/                # Tipos TypeScript
 │   │   ├── envio.types.ts         ✅ Implementado
@@ -726,6 +825,7 @@ frontend/
 │   │   ├── cliente.types.ts       ✅ Implementado
 │   │   ├── parametros.types.ts    ⏳ Pendiente
 │   │   ├── ficha_costo.types.ts   ⏳ Pendiente
+│   │   ├── aduana.types.ts        ⏳ Pendiente
 │   │   └── index.ts
 │   ├── styles/               # Estilos globales (Tailwind)
 │   │   ├── index.css
@@ -774,7 +874,7 @@ frontend/
 | prettier | 3.x | Formateo automático | ✅ |
 | pdf-lib | 1.x | Generación de PDF en cliente (opcional) | ⏳ Pendiente |
 
-### 4.5 Capa de App Móvil (Flutter) - ✅ CONFIGURADO
+### 4.6 Capa de App Móvil (Flutter) - ✅ CONFIGURADO
 
 **Estructura del Proyecto Mobile**
 
@@ -1046,12 +1146,12 @@ sequenceDiagram
         Aerovaradero-->>Scraper: HTML con datos de aduana
         Scraper->>Scraper: parsearHTML(html) con Cheerio
         alt Extracción Exitosa
-            Scraper-->>AduanaSvc: costo_aduana
-            AduanaSvc->>BD: actualizarEnvio(envio_id, costo_aduana, 'consultado')
+            Scraper-->>AduanaSvc: importe_aduana, numero_factura
+            AduanaSvc->>BD: actualizarEnvio(envio_id, importe, factura, 'consultado')
             AduanaSvc->>Audit: registrarAccion('consulta_aduana_exitosa')
         else Error de Extracción
             Scraper-->>AduanaSvc: null
-            AduanaSvc->>BD: actualizarEnvio(envio_id, null, 'error')
+            AduanaSvc->>BD: actualizarEnvio(envio_id, null, null, 'error')
             AduanaSvc->>Audit: registrarAccion('consulta_aduana_error')
         end
     end
@@ -1061,7 +1161,48 @@ sequenceDiagram
     UI-->>Admin: "✅ 120 costos de aduana consultados"
 ```
 
-### 5.5 Flujo: Cálculo de Pago a Chofer ⏳ PENDIENTE
+### 5.5 Flujo: Automatización de Facturación de Aduana ⏳ PENDIENTE
+
+Este diagrama muestra el flujo de la tarea programada para la facturación automática de aduana en 4 horarios diarios.
+
+```mermaid
+sequenceDiagram
+    participant Cron as node-cron (8AM, 12PM, 4PM, 12AM)
+    participant AutomationSvc as Automatización Aduana Service
+    participant BD as PostgreSQL
+    participant Scraper as Web Scraper
+    participant Aerovaradero as Aerovaradero (URL de payment)
+    participant Audit as Auditoría
+
+    Note over Cron: Ejecución programada
+    Cron->>AutomationSvc: ejecutarFacturacionAduana()
+    AutomationSvc->>BD: obtenerHousesArribados()
+    BD-->>AutomationSvc: Lista de houses con estado "Arribado"
+
+    loop Para cada house "Arribado"
+        AutomationSvc->>Scraper: consultarCosto(awb, house)
+        Scraper->>Scraper: Construir URL de payment
+        Scraper->>Aerovaradero: GET /payment/ (AWB + House)
+        Aerovaradero-->>Scraper: HTML con datos de aduana
+        Scraper->>Scraper: parsearHTML(html) con Cheerio
+        Scraper-->>AutomationSvc: importe_aduana, numero_factura
+
+        alt Tiene importe y factura (importe > 0 y factura existe)
+            AutomationSvc->>BD: actualizarEstado('Facturado', importe, factura, fecha_consulta)
+            AutomationSvc->>Audit: registrarAccion('facturación_automática_exitosa')
+            Note over AutomationSvc: House marcado como "Facturado"
+        else No tiene importe o factura
+            AutomationSvc->>BD: actualizarFechaConsulta() + incrementar intentos
+            AutomationSvc->>Audit: registrarAccion('facturación_automática_pendiente')
+            Note over AutomationSvc: House permanece en "Arribado"
+        end
+    end
+
+    AutomationSvc->>Audit: registrarAccion('ejecución_automatización_completada')
+    Note over AutomationSvc: Fin de la ejecución
+```
+
+### 5.6 Flujo: Cálculo de Pago a Chofer ⏳ PENDIENTE
 
 Este diagrama muestra el flujo de cálculo de pago a un chofer según el esquema configurado (fijo, por km, por entrega o combinado).
 
@@ -1099,7 +1240,7 @@ sequenceDiagram
     UI-->>Admin: "💰 Pago calculado: $9,700.00"
 ```
 
-### 5.6 Flujo: Generación de Ficha de Costo ⏳ PENDIENTE
+### 5.7 Flujo: Generación de Ficha de Costo ⏳ PENDIENTE
 
 Este diagrama muestra el flujo de generación de la ficha de costo detallada por ruta.
 
@@ -1214,12 +1355,13 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
                      │ fecha_limite│      │ SISTEMA     │
                      │ estado      │      ├─────────────┤
                      │ firma       │      │ id_parametro│
-                     │ costo_aduana│      │ clave       │
-                     │ costo_import│      │ valor       │
-                     │ fecha_cons_ │      │ descripcion │
-                     │ aduana      │      │ unidad      │
-                     │ estado_adu  │      │ fecha_act   │
-                     └─────────────┘      └─────────────┘
+                     │ importe_aduana│   │ clave       │
+                     │ numero_factura│   │ valor       │
+                     │ fecha_ultima_│   │ descripcion │
+                     │ consulta    │      │ unidad      │
+                     │ intentos_consulta│ │ fecha_act   │
+                     │ estado_adu  │      └─────────────┘
+                     └─────────────┘
                             │
 ┌─────────────┐      ┌─────────────┐      ┌─────────────┐
 │  AUDITORIA  │      │ MANTENIMIENTO│      │ HISTORIAL   │
@@ -1292,9 +1434,10 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
 | incidencia | TEXT | - | Descripción de la incidencia (si aplica) | ⏳ Pendiente |
 | firma_digital | TEXT | - | Imagen de la firma (Base64) | ⏳ Pendiente |
 | foto_evidencia | TEXT | - | Imagen de evidencia (Base64) | ⏳ Pendiente |
-| costo_aduana | DECIMAL(12,2) | - | Costo de aduana obtenido de Aerovaradero (URL de payment) | ⏳ Pendiente |
-| costo_importacion | DECIMAL(12,2) | - | Otros costos de importación | ⏳ Pendiente |
-| fecha_consulta_aduana | TIMESTAMP | - | Fecha de última consulta a Aerovaradero | ⏳ Pendiente |
+| **importe_aduana** | **DECIMAL(12,2)** | **-** | **Importe de aduana obtenido de Aerovaradero** | **⏳ Pendiente** |
+| **numero_factura_aduana** | **VARCHAR(50)** | **-** | **Número de factura registrado en Aerovaradero** | **⏳ Pendiente** |
+| **fecha_ultima_consulta_aduana** | **TIMESTAMP** | **-** | **Fecha de última consulta a Aerovaradero** | **⏳ Pendiente** |
+| **intentos_consulta_aduana** | **INTEGER** | **DEFAULT 0** | **Número de intentos de consulta fallidos** | **⏳ Pendiente** |
 | estado_aduana | ENUM('pendiente','consultado','error') | DEFAULT 'pendiente' | Estado de la consulta aduanera | ⏳ Pendiente |
 | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de creación | ✅ |
 | updated_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de última actualización | ✅ |
@@ -1410,7 +1553,23 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
 | fecha_cambio | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha del cambio |
 | usuario | VARCHAR(50) | NOT NULL | Usuario que realizó el cambio |
 
-### 6.9 Índices Recomendados
+### 6.9 Estados del Paquete (9 estados)
+
+El sistema gestiona 9 estados del paquete a lo largo del flujo de paquetería:
+
+| # | Estado | Responsable | Descripción | ¿Llega a Seta Expreso? |
+|---|--------|-------------|-------------|------------------------|
+| 1 | **Faltante de Origen** | Aerovaradero | El bulto nunca salió del país de origen | ❌ **NO** (FIN) |
+| 2 | **Presencial** | Aerovaradero | Problema detectado por aduana | ❌ **NO** (FIN) |
+| 3 | **Arribado** | Aerovaradero | Llegó al Aeropuerto de destino | ✅ Sí |
+| 4 | **Facturado** | Aerovaradero | Tiene importe y factura en Aerovaradero | ✅ Sí |
+| 5 | **Entregado en Aerovaradero** | Aerovaradero | Recogido por Seta Expreso | ✅ Sí |
+| 6 | **Clasificación** | Seta Expreso | En almacén clasificando por provincia | ✅ Sí |
+| 7 | **Proceso de Entrega** | Seta Expreso | En ruta al destinatario | ✅ Sí |
+| 8 | **Entregado** | Seta Expreso | Entregado con firma y fotos | ✅ Sí |
+| 9 | **No Entregado** | Seta Expreso | No se pudo entregar, vuelve a clasificación | ✅ Sí |
+
+### 6.10 Índices Recomendados
 
 | Tabla | Columna(s) | Tipo de Índice | Propósito | Estado |
 |-------|------------|---------------|-----------|--------|
@@ -1421,6 +1580,8 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
 | envio | destinatario_direccion | GIST (geográfico) | Búsquedas geoespaciales | ⏳ Pendiente |
 | envio | awb | BTREE | Búsqueda por Air Way Bill | ⏳ Pendiente |
 | envio | estado_aduana | BTREE | Filtrado por estado de aduana | ⏳ Pendiente |
+| envio | importe_aduana | BTREE | Búsqueda por importe de aduana | ⏳ Pendiente |
+| envio | fecha_ultima_consulta_aduana | BTREE | Filtrado por fecha de consulta | ⏳ Pendiente |
 | ruta | fecha | BTREE | Planificación semanal | ⏳ Pendiente |
 | ruta | id_chofer, estado | BTREE | Rutas por chofer | ⏳ Pendiente |
 | ruta | ficha_costo | GIN (JSON) | Búsqueda en ficha de costo | ⏳ Pendiente |
@@ -1537,6 +1698,7 @@ https://api.sigma-t.com/v1
 | POST | `/api/finanzas/facturas/:id/pagar` | Registrar pago de factura | Admin | ⏳ Pendiente |
 | POST | `/api/finanzas/consultar-aduana` | Consultar costos de aduana (URL de payment) | Admin | ⏳ Pendiente |
 | GET | `/api/finanzas/costos-aduana` | Reporte de costos de aduana | Admin | ⏳ Pendiente |
+| GET | `/api/finanzas/automatizacion/status` | Estado de la automatización de aduana | Admin | ⏳ Pendiente |
 
 **Módulo de Parámetros** - ⏳ PENDIENTE
 
@@ -1567,7 +1729,10 @@ https://api.sigma-t.com/v1
 
 ### 7.4 Ejemplos de API
 
-**Importar Manifiesto** - ⚠️ PARCIAL
+A continuación se presentan ejemplos prácticos de las interacciones con la API de SIGMA-T.
+
+**1. Importar Manifiesto** - ⚠️ PARCIAL
+
 ```http
 POST /api/envios/importar
 Content-Type: multipart/form-data
@@ -1612,7 +1777,8 @@ Authorization: Bearer <token>
 }
 ```
 
-**Optimizar Rutas** - ⏳ PENDIENTE
+**2. Optimizar Rutas** - ⏳ PENDIENTE
+
 ```http
 POST /api/rutas/optimizar
 Content-Type: application/json
@@ -1651,7 +1817,8 @@ Authorization: Bearer <token>
 }
 ```
 
-**Consultar Costos de Aduana** - ⏳ PENDIENTE
+**3. Consultar Costos de Aduana** - ⏳ PENDIENTE
+
 ```http
 POST /api/finanzas/consultar-aduana
 Content-Type: application/json
@@ -1676,13 +1843,15 @@ Authorization: Bearer <token>
     {
       "awb": "230-66684660",
       "house": "24014999",
-      "costo_aduana": 1250.00,
+      "importe_aduana": 1250.00,
+      "numero_factura": "FAC-2026-001",
       "estado": "Consultado"
     },
     {
       "awb": "230-66684660",
       "house": "24015000",
-      "costo_aduana": null,
+      "importe_aduana": null,
+      "numero_factura": null,
       "estado": "Error: No encontrado"
     }
   ],
@@ -1690,7 +1859,8 @@ Authorization: Bearer <token>
 }
 ```
 
-**Calcular Pago de Chofer** - ⏳ PENDIENTE
+**4. Calcular Pago de Chofer** - ⏳ PENDIENTE
+
 ```http
 POST /api/choferes/calcular-pago
 Content-Type: application/json
@@ -1732,7 +1902,8 @@ Authorization: Bearer <token>
 }
 ```
 
-**Actualizar Parámetro Financiero** - ⏳ PENDIENTE
+**5. Actualizar Parámetro Financiero** - ⏳ PENDIENTE
+
 ```http
 PUT /api/parametros/tasa_cambio
 Content-Type: application/json
@@ -1754,7 +1925,8 @@ Authorization: Bearer <token>
 }
 ```
 
-**Generar Ficha de Costo** - ⏳ PENDIENTE
+**6. Generar Ficha de Costo** - ⏳ PENDIENTE
+
 ```http
 GET /api/rutas/1/ficha-costo
 Authorization: Bearer <token>
@@ -1795,6 +1967,37 @@ Authorization: Bearer <token>
     "utilidad_neta": 3780.00,
     "margen_utilidad": 12.39
   }
+}
+```
+
+**7. Monitorear Estado de Automatización de Aduana** - ⏳ PENDIENTE
+
+```http
+GET /api/finanzas/automatizacion/status
+Authorization: Bearer <token>
+```
+
+**Respuesta:**
+```json
+{
+  "ultima_ejecucion": "2026-08-18T12:00:00Z",
+  "proxima_ejecucion": "2026-08-18T16:00:00Z",
+  "estado": "activo",
+  "resumen": {
+    "total_houses_arribados": 12,
+    "facturados_automaticamente": 8,
+    "pendientes": 4,
+    "errores": 0,
+    "detalle": [
+      { "house": "CACC-24014926", "estado": "facturado", "importe": 1250.00, "factura": "FAC-001" },
+      { "house": "CACC-24014927", "estado": "facturado", "importe": 850.00, "factura": "FAC-002" },
+      { "house": "CACC-24014928", "estado": "pendiente", "mensaje": "Sin importe o factura aún" }
+    ]
+  },
+  "logs": [
+    { "fecha": "2026-08-18T12:00:00Z", "mensaje": "Ejecución completada: 8 houses facturados" },
+    { "fecha": "2026-08-18T08:00:00Z", "mensaje": "Ejecución completada: 5 houses facturados" }
+  ]
 }
 ```
 
@@ -1932,21 +2135,21 @@ La app móvil está diseñada para funcionar completamente sin conexión a inter
 | **HTTPS** | TLS 1.3 | Cifrar comunicaciones | ⏳ Pendiente |
 | **Rate Limiting** | Express-rate-limit | Prevenir ataques de fuerza bruta | ⏳ Pendiente |
 
-### 10.2 Roles y Permisos
+### 10.2 Roles y Permisos (5 Perfiles de Usuario)
 
 | Rol | Permisos | Estado |
 |-----|----------|--------|
-| **Admin** | Acceso total a todas las funcionalidades, gestión de usuarios, parámetros del sistema, gestión de aduana, ficha de costo | ⏳ Pendiente |
-| **Dispatcher** | Crear/editar rutas, asignar choferes, ver envíos, consultar costos de aduana, ver fichas de costo | ⏳ Pendiente |
-| **Chofer** | Ver su ruta, registrar entregas, registrar costos, ver su historial, ver fichas de costo de sus rutas | ⏳ Pendiente |
-| **Cliente** | Ver sus envíos, tracking, descargar comprobantes de entrega | ⏳ Pendiente |
-| **Auditor** | Solo lectura de todos los módulos, acceso a logs de auditoría | ⏳ Pendiente |
+| **Administrador** | Acceso total a todas las funcionalidades, gestión de usuarios, parámetros del sistema, gestión de aduana, ficha de costo | ⏳ Pendiente |
+| **Jefe de Operaciones** | CRUD Rutas, Importar manifiestos, Ver todos los estados, Ver historial, Exportar, Ver costos de aduana | ⏳ Pendiente |
+| **Agencia de Envíos** | Importar manifiestos, Ver sus envíos, Historial, Exportar, Ver costos de aduana | ⏳ Pendiente |
+| **Cliente Remitente** | Ver su envío (todos los estados), Historial, Exportar, Ver costo de aduana | ⏳ Pendiente |
+| **Cliente Destinatario** | Ver su envío (todos los estados), Historial, Exportar, Ver costo de aduana | ⏳ Pendiente |
 
 ### 10.3 Registro de Auditoría
 Todas las acciones de los usuarios se registran en la tabla `auditoria`, incluyendo:
 
 - ID del usuario
-- Acción realizada (crear, leer, actualizar, eliminar, login, logout, consultar_aduana, calcular_pago, generar_ficha_costo)
+- Acción realizada (crear, leer, actualizar, eliminar, login, logout, consultar_aduana, calcular_pago, generar_ficha_costo, facturar_aduana_automatica)
 - Entidad afectada (envío, ruta, vehículo, chofer, cliente, parámetro, ficha_costo, etc.)
 - ID de la entidad
 - Detalle de los cambios (en formato JSON)
@@ -1976,6 +2179,7 @@ Todas las acciones de los usuarios se registran en la tabla `auditoria`, incluye
 | **App Móvil** | Offline First | Reducción de carga al servidor |
 | **Web Scraping** | Cola de Tareas | Procesamiento asíncrono con colas (Bull) |
 | **Ficha de Costo** | Cálculo bajo demanda | Generación bajo demanda, no en tiempo real |
+| **Automatización Aduana** | Procesamiento por lotes | Consultas en lotes para evitar sobrecarga |
 
 ### 11.2 Capacidad Estimada
 
@@ -1987,6 +2191,7 @@ Todas las acciones de los usuarios se registran en la tabla `auditoria`, incluye
 | **Usuarios Activos** | 10-20 | 50-100 | 100-500 |
 | **Concurrencia (API)** | 10 req/s | 100 req/s | 500 req/s |
 | **Consultas de Aduana** | 127 por lote | 500 por lote | 1,000 por lote |
+| **Automatización Aduana** | 4 ejecuciones/día | 4 ejecuciones/día | 4 ejecuciones/día |
 | **Fichas de Costo** | 10-20 por semana | 50-100 por semana | 100-500 por semana |
 
 ### 11.3 Pasos para Escalar
@@ -2045,6 +2250,7 @@ services:
       OSRM_URL: http://osrm:5000
       NODE_ENV: development
       AEROVARADERO_URL: https://www.aerovaradero.com.cu/payment/
+      AUTOMATION_HOURS: "8,12,16,0"
     ports:
       - "3000:3000"
     depends_on:
@@ -2103,6 +2309,7 @@ volumes:
 │  │  ┌──────────────────────┴─────────────────────────────┐ │ │
 │  │  │                  Backend (Node.js)                 │ │ │
 │  │  │  (Gestionado por PM2, puerto 3000)               │ │ │
+│  │  │  (Cron Jobs para automatización de aduana)       │ │ │
 │  │  └─────────────────────────────────────────────────────┘ │ │
 │  │                          │                                │ │
 │  │                          ▼                                │ │
@@ -2161,7 +2368,7 @@ sudo apt install -y redis-server
 sudo apt install -y certbot python3-certbot-nginx
 
 # 9. Clonar el repositorio
-git clone https://github.com/tu-usuario/sigma-t.git /var/www/sigma-t
+git clone https://github.com/Seta-Expreso/sigma-t.git /var/www/sigma-t
 
 # 10. Configurar base de datos
 sudo -u postgres psql
@@ -2266,6 +2473,12 @@ SMTP_PASSWORD=SmtpPassword
 AEROVARADERO_URL=https://www.aerovaradero.com.cu/payment/
 AEROVARADERO_TIMEOUT=30000
 AEROVARADERO_RETRIES=3
+
+# Horarios de automatización de aduana (formato cron)
+AUTOMATION_SCHEDULE_1="0 8 * * *"
+AUTOMATION_SCHEDULE_2="0 12 * * *"
+AUTOMATION_SCHEDULE_3="0 16 * * *"
+AUTOMATION_SCHEDULE_4="0 0 * * *"
 
 # Parámetros por defecto
 DEFAULT_TASA_CAMBIO=240.00
@@ -2630,6 +2843,7 @@ El equipo de desarrollo recibirá formación continua en:
 - **Técnicas de Web Scraping:** Uso de Cheerio y Puppeteer para integración con sitios externos (URL de payment).
 - **Cálculos Financieros:** Precisión en cálculos de costos, pagos a choferes y ficha de costo.
 - **Despliegue en VPS ETECSA:** Configuración de Nginx, SSL/HTTPS, PM2.
+- **Automatización de Aduana:** Configuración de cron jobs, manejo de errores, logs y alertas.
 
 ---
 
@@ -2637,21 +2851,24 @@ El equipo de desarrollo recibirá formación continua en:
 
 Este documento establece la base técnica sólida y de clase mundial sobre la cual se construirá SIGMA-T. Con una arquitectura moderna, escalable y adaptada a las condiciones específicas de Cuba, y con estándares de codificación y documentación de primer nivel, SIGMA-T está posicionado para convertirse en el sistema de gestión de transporte líder en su nicho.
 
-**Novedades incorporadas en esta versión 2.5:**
+**Novedades incorporadas en esta versión 2.7:**
 
-- ✅ **Estado de implementación actualizado** en todos los componentes y servicios
-- ✅ **Servicios implementados en Sprint 0 y 1:** ClienteService, EnvioService, ImportacionService
-- ✅ **Indicadores de estado actualizados** (✅ / ⚠️ / ⏳) en diagramas de arquitectura y flujos de datos
-- ✅ **Dependencias actualizadas** con nuevas librerías (multer, cors, helmet, express-rate-limit)
-- ✅ **Versiones de tecnología actualizadas** (Node 22.14.x, Express 5.0.0, TypeORM 0.3.20)
-- ✅ **Nuevos campos en ENVIO:** `destinatario_identificacion` (11 dígitos) y `unidad_destino` (obligatorio)
-- ✅ **Mapeo flexible de columnas** para importación de Excel
-- ✅ **Servicio de Aduana:** Integración con Aerovaradero utilizando URL de payment
-- ✅ **Servicio de Parámetros Financieros:** Gestión de tasa de cambio, precios y costos por km
-- ✅ **Servicio de Pago a Choferes:** Esquemas flexibles (fijo, por km, por entrega, combinado)
-- ✅ **Servicio de Ficha de Costo:** Cálculo automático con costos directos, indirectos y de importación
-- ✅ **Infraestructura de Producción:** Guía completa en VPS ETECSA con SSL/HTTPS
-- ✅ **Estrategia de Distribución:** Google Play Store, APKlis y descarga directa
-- ✅ **SonarQube** agregado al stack tecnológico para análisis de calidad
+- ✅ **Versión actualizada:** 2.5 → 2.7
+- ✅ **Fecha actualizada:** 15/08/2026
+- ✅ **Servicio de Automatización de Aduana** agregado al diagrama de arquitectura y flujos
+- ✅ **node-cron** agregado a dependencias para programación de tareas
+- ✅ **Nuevos campos en ENVIO:** `importe_aduana`, `numero_factura_aduana`, `fecha_ultima_consulta_aduana`, `intentos_consulta_aduana`
+- ✅ **Flujo de Automatización de Aduana** agregado con diagrama de secuencia completo
+- ✅ **Cron Jobs** especificados en la estructura del proyecto (`/src/jobs/`)
+- ✅ **5 perfiles de usuario** (Administrador, Jefe de Operaciones, Agencia de Envíos, Cliente Remitente, Cliente Destinatario)
+- ✅ **9 estados del paquete** documentados en el modelo de datos
+- ✅ **Variables de entorno** para horarios de automatización agregadas
+- ✅ **Índices** para nuevos campos de aduana agregados
+- ✅ **Endpoint** `/api/finanzas/automatizacion/status` agregado para monitoreo
+- ✅ **Sección 7.4 (Ejemplos de API)** restaurada con 7 ejemplos prácticos
+- ✅ **Referencias cruzadas** actualizadas con SRS v3.7 y SPMP v3.7
+- ✅ **Conclusión** actualizada con resumen de cambios de v2.7
+
+---
 
 **Este documento es la guía técnica definitiva para construir el sistema de gestión de transporte más completo y de mayor calidad del nicho cubano y regional.**
