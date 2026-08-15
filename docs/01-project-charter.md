@@ -1,20 +1,20 @@
-## 📄 DOCUMENTO: ACTA DE CONSTITUCIÓN DEL PROYECTO (PROJECT CHARTER) - VERSIÓN 2.4 (TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA)
+# 📄 DOCUMENTO: ACTA DE CONSTITUCIÓN DEL PROYECTO (PROJECT CHARTER) - VERSIÓN 2.5 (TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA - SPRINTS 0 Y 1 COMPLETADOS)
 
 **Basado en el estándar PMI (Project Management Institute) para la iniciación de proyectos**
 
 **Proyecto:** SIGMA-T (Sistema Integral de Gestión para MiPYME de Transporte)  
 **Cliente / Sponsor:** Osleyder Gonzalez Acosta  
 **Fecha de Emisión:** 13 de agosto de 2026  
-**Versión del Documento:** 2.4 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura)
+**Versión del Documento:** 2.5 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - SPRINTS 0 y 1 COMPLETADOS)
 
 ---
 
-### 1. PROPÓSITO Y JUSTIFICACIÓN DEL PROYECTO
+## 1. PROPÓSITO Y JUSTIFICACIÓN DEL PROYECTO
 
-#### 1.1 Propósito
+### 1.1 Propósito
 Formalizar el inicio del proyecto SIGMA-T, definiendo su alcance, objetivos, stakeholders, hitos clave, presupuesto y criterios de éxito, estableciendo así la base para su desarrollo y gestión.
 
-#### 1.2 Justificación del Proyecto (El "Por Qué")
+### 1.2 Justificación del Proyecto (El "Por Qué")
 En el contexto cubano actual, las MiPYMEs de transporte enfrentan desafíos críticos que limitan su crecimiento y eficiencia:
 
 1. **Gestión Manual y Descoordinada:** Dependencia de hojas de cálculo (Excel) y herramientas de planificación de rutas de pago (OptimoRoute) que no están optimizadas para las condiciones de conectividad y logística de la isla.
@@ -43,48 +43,48 @@ En el contexto cubano actual, las MiPYMEs de transporte enfrentan desafíos crí
 
 ---
 
-### 2. OBJETIVOS DEL PROYECTO (SMART)
+## 2. OBJETIVOS DEL PROYECTO (SMART)
 
-| # | Objetivo | Métrica de Éxito (KPI) | Plazo |
-|---|----------|------------------------|-------|
-| **O1** | **Reducir Costos Operativos** | Disminuir el costo por kilómetro recorrido en al menos un **15%** en los primeros 12 meses de operación. | 12 meses post-lanzamiento |
-| **O2** | **Optimizar Rutas de Entrega** | Reducir los kilómetros totales recorridos por envío en al menos un **20%** en comparación con la planificación manual actual. | 6 meses post-lanzamiento |
-| **O3** | **Mejorar la Toma de Decisiones** | Proporcionar un dashboard ejecutivo con **KPIs actualizados diariamente** que reflejen el estado financiero y operativo del negocio. | En el lanzamiento (MVP) |
-| **O4** | **Digitalizar las Operaciones** | Eliminar el uso de planillas en papel en al menos un **90%** de los procesos operativos (planificación, seguimiento, reportes de costos). | 6 meses post-lanzamiento |
-| **O5** | **Posicionamiento de Mercado** | Ser reconocido como la **solución de gestión de referencia** para MiPYMEs de transporte en Cuba, con al menos **3 casos de éxito** documentados en el primer año. | 12 meses post-lanzamiento |
-| **O6** | **Calidad de Código y Mantenibilidad** | El código fuente de SIGMA-T debe cumplir con los estándares de codificación definidos en ≥95% de las líneas de código y tener una cobertura de documentación de ≥80% en funciones públicas. | En el lanzamiento (MVP) |
-| **O7** | **Gestión Automática de Costos de Aduana** | El sistema debe consultar automáticamente el costo de aduana de al menos el **95% de los envíos** de un manifiesto en menos de **5 minutos** utilizando la URL de payment de Aerovaradero. | En el lanzamiento (MVP) |
-| **O8** | **Gestión Flexible de Pago a Choferes** | El sistema debe calcular automáticamente el pago a los choferes según el esquema configurado (fijo, por km, por entrega o combinado) con una precisión del **100%** en los cálculos. | En el lanzamiento (MVP) |
-| **O9** | **Ficha de Costo Detallada por Ruta** | El sistema debe generar una ficha de costo detallada para cada ruta, con todos los componentes de costo (directos, indirectos, importación), en menos de **5 segundos** y con una precisión de **2 decimales**. | En el lanzamiento (MVP) |
-| **O10** | **Publicación en Google Play Store (NUEVO)** | La app móvil debe estar disponible en Google Play Store en un plazo máximo de **30 días** después del lanzamiento de la versión 1.0. | 30 días post-release |
-| **O11** | **Distribución en Cuba (NUEVO)** | La app móvil debe estar disponible en **APKlis** (tienda cubana) en el momento del lanzamiento, y ofrecer descarga directa desde el sitio web. | En el lanzamiento (MVP) |
-| **O12** | **Despliegue en VPS ETECSA (NUEVO)** | El sistema debe estar desplegado y operativo en el VPS de ETECSA en un plazo máximo de **7 días** después del lanzamiento, con SSL/HTTPS configurado. | 7 días post-release |
+| # | Objetivo | Métrica de Éxito (KPI) | Plazo | Estado |
+|---|----------|------------------------|-------|--------|
+| **O1** | **Reducir Costos Operativos** | Disminuir el costo por kilómetro recorrido en al menos un **15%** en los primeros 12 meses de operación. | 12 meses post-lanzamiento | ⏳ Pendiente |
+| **O2** | **Optimizar Rutas de Entrega** | Reducir los kilómetros totales recorridos por envío en al menos un **20%** en comparación con la planificación manual actual. | 6 meses post-lanzamiento | ⏳ Pendiente |
+| **O3** | **Mejorar la Toma de Decisiones** | Proporcionar un dashboard ejecutivo con **KPIs actualizados diariamente** que reflejen el estado financiero y operativo del negocio. | En el lanzamiento (MVP) | ⏳ Pendiente |
+| **O4** | **Digitalizar las Operaciones** | Eliminar el uso de planillas en papel en al menos un **90%** de los procesos operativos (planificación, seguimiento, reportes de costos). | 6 meses post-lanzamiento | ⏳ Pendiente |
+| **O5** | **Posicionamiento de Mercado** | Ser reconocido como la **solución de gestión de referencia** para MiPYMEs de transporte en Cuba, con al menos **3 casos de éxito** documentados en el primer año. | 12 meses post-lanzamiento | ⏳ Pendiente |
+| **O6** | **Calidad de Código y Mantenibilidad** | El código fuente de SIGMA-T debe cumplir con los estándares de codificación definidos en ≥95% de las líneas de código y tener una cobertura de documentación de ≥80% en funciones públicas. | En el lanzamiento (MVP) | ✅ **Cumplido** (Sprints 0 y 1) |
+| **O7** | **Gestión Automática de Costos de Aduana** | El sistema debe consultar automáticamente el costo de aduana de al menos el **95% de los envíos** de un manifiesto en menos de **5 minutos** utilizando la URL de payment de Aerovaradero. | En el lanzamiento (MVP) | ⏳ Pendiente |
+| **O8** | **Gestión Flexible de Pago a Choferes** | El sistema debe calcular automáticamente el pago a los choferes según el esquema configurado (fijo, por km, por entrega o combinado) con una precisión del **100%** en los cálculos. | En el lanzamiento (MVP) | ⏳ Pendiente |
+| **O9** | **Ficha de Costo Detallada por Ruta** | El sistema debe generar una ficha de costo detallada para cada ruta, con todos los componentes de costo (directos, indirectos, importación), en menos de **5 segundos** y con una precisión de **2 decimales**. | En el lanzamiento (MVP) | ⏳ Pendiente |
+| **O10** | **Publicación en Google Play Store** | La app móvil debe estar disponible en Google Play Store en un plazo máximo de **30 días** después del lanzamiento de la versión 1.0. | 30 días post-release | ⏳ Pendiente |
+| **O11** | **Distribución en Cuba** | La app móvil debe estar disponible en **APKlis** (tienda cubana) en el momento del lanzamiento, y ofrecer descarga directa desde el sitio web. | En el lanzamiento (MVP) | ⏳ Pendiente |
+| **O12** | **Despliegue en VPS ETECSA** | El sistema debe estar desplegado y operativo en el VPS de ETECSA en un plazo máximo de **7 días** después del lanzamiento, con SSL/HTTPS configurado. | 7 días post-release | ⏳ Pendiente |
 
 ---
 
-### 3. ALCANCE DEL PROYECTO
+## 3. ALCANCE DEL PROYECTO
 
-#### 3.1 Dentro del Alcance (Entregables del Proyecto)
+### 3.1 Dentro del Alcance (Entregables del Proyecto)
 
-| Módulo | Funcionalidades Clave | Prioridad |
-| :--- | :--- | :--- |
-| **1. Administración de Flota** | CRUD de vehículos, registro de mantenimientos, alertas automáticas, cálculo de depreciación. | **Alta** |
-| **2. Gestión de Choferes** | CRUD de conductores, registro de disponibilidad, cálculo de salarios y bonos, evaluación de desempeño. Esquemas de pago configurables (fijo, por km, por entrega, combinado). | **Alta** |
-| **3. Gestión de Envíos** | Importación de manifiestos (Excel), registro manual, validación de datos, historial de envíos, gestión de estados. | **Crítica** |
-| **4. Planificación de Rutas** | Planificación semanal, algoritmo de optimización (VRPTW), visualización en mapa, ajuste manual (drag & drop), manifiesto para chofer. | **Crítica** |
-| **5. Módulo Financiero** | Libro de ingresos/gastos, fichas de costos, facturación, gestión de cobros, rentabilidad por ruta. Gestión de parámetros financieros (tasa de cambio, precios de combustible, costos por km). | **Alta** |
-| **6. App del Chofer** | Autenticación offline, visualización de ruta y mapa, registro de entregas e incidencias, captura de firma digital, registro de costos reales, modo offline con sincronización. | **Crítica** |
-| **7. Dashboard y Reportes** | KPIs en tiempo real, gráficos interactivos, alertas automáticas, exportación a PDF/CSV. | **Alta** |
-| **8. Portal del Cliente** | Login, seguimiento de envíos, notificaciones, descarga de comprobantes de entrega. | **Media** |
-| **9. Gestión de Almacén** | Registro de entrada/salida de paquetes, asignación de ubicación en bodega, mapa de bodega. | **Media** |
-| **10. Marketing y CRM** | Gestión de prospectos, seguimiento de contactos, cotizaciones, encuestas de satisfacción, casos de éxito. | **Media** |
-| **11. Auditoría y Seguridad** | Log de todas las acciones, trazabilidad de cambios, alertas de seguridad, exportación de logs. | **Alta** |
-| **12. Estándares de Codificación** | Configuración de ESLint, Prettier, Dart Analyzer, JSDoc, OpenAPI, y generación automática de documentación. | **Alta** |
-| **13. Integración con Aduana** | Consulta automática de costos de aduana desde el sitio web de Aerovaradero utilizando la URL de payment (`https://www.aerovaradero.com.cu/payment/?cod_la={cod_la}&cod_awb={cod_awb}&cod_house={house}`). Asignación de costos de aduana a cada envío. Gestión de parámetros de importación. | **Crítica** |
-| **14. Ficha de Costo Detallada** | Cálculo automático y generación de ficha de costo detallada por ruta, incluyendo costos directos (combustible, peajes, mantenimiento, neumáticos, salario), indirectos (depreciación, seguros, administrativos, impuestos) y de importación (costos de aduana). Exportación a PDF y CSV. | **Crítica** |
-| **15. Infraestructura y Distribución (NUEVO)** | Despliegue en VPS ETECSA con Ubuntu 22.04 LTS, configuración de Nginx como proxy inverso, SSL/HTTPS con Let's Encrypt, gestión de procesos con PM2. Publicación de la app móvil en Google Play Store, APKlis y descarga directa. | **Crítica** |
+| Módulo | Funcionalidades Clave | Prioridad | Estado |
+| :--- | :--- | :--- | :--- |
+| **1. Administración de Flota** | CRUD de vehículos, registro de mantenimientos, alertas automáticas, cálculo de depreciación. | **Alta** | ⏳ Pendiente |
+| **2. Gestión de Choferes** | CRUD de conductores, registro de disponibilidad, cálculo de salarios y bonos, evaluación de desempeño. Esquemas de pago configurables (fijo, por km, por entrega, combinado). | **Alta** | ⏳ Pendiente |
+| **3. Gestión de Envíos** | Importación de manifiestos (Excel), registro manual, validación de datos, historial de envíos, gestión de estados. | **Crítica** | ✅ **Implementado** |
+| **4. Planificación de Rutas** | Planificación semanal, algoritmo de optimización (VRPTW), visualización en mapa, ajuste manual (drag & drop), manifiesto para chofer. | **Crítica** | ⏳ Pendiente |
+| **5. Módulo Financiero** | Libro de ingresos/gastos, fichas de costos, facturación, gestión de cobros, rentabilidad por ruta. Gestión de parámetros financieros (tasa de cambio, precios de combustible, costos por km). | **Alta** | ⏳ Pendiente |
+| **6. App del Chofer** | Autenticación offline, visualización de ruta y mapa, registro de entregas e incidencias, captura de firma digital, registro de costos reales, modo offline con sincronización. | **Crítica** | ⏳ Pendiente |
+| **7. Dashboard y Reportes** | KPIs en tiempo real, gráficos interactivos, alertas automáticas, exportación a PDF/CSV. | **Alta** | ⏳ Pendiente |
+| **8. Portal del Cliente** | Login, seguimiento de envíos, notificaciones, descarga de comprobantes de entrega. | **Media** | ⏳ Pendiente |
+| **9. Gestión de Almacén** | Registro de entrada/salida de paquetes, asignación de ubicación en bodega, mapa de bodega. | **Media** | ⏳ Pendiente |
+| **10. Marketing y CRM** | Gestión de prospectos, seguimiento de contactos, cotizaciones, encuestas de satisfacción, casos de éxito. | **Media** | ⏳ Pendiente |
+| **11. Auditoría y Seguridad** | Log de todas las acciones, trazabilidad de cambios, alertas de seguridad, exportación de logs. | **Alta** | ⏳ Pendiente |
+| **12. Estándares de Codificación** | Configuración de ESLint, Prettier, Dart Analyzer, JSDoc, OpenAPI, y generación automática de documentación. | **Alta** | ✅ **Implementado** |
+| **13. Integración con Aduana** | Consulta automática de costos de aduana desde el sitio web de Aerovaradero utilizando la URL de payment (`https://www.aerovaradero.com.cu/payment/?cod_la={cod_la}&cod_awb={cod_awb}&cod_house={house}`). Asignación de costos de aduana a cada envío. Gestión de parámetros de importación. | **Crítica** | ⏳ Pendiente |
+| **14. Ficha de Costo Detallada** | Cálculo automático y generación de ficha de costo detallada por ruta, incluyendo costos directos (combustible, peajes, mantenimiento, neumáticos, salario), indirectos (depreciación, seguros, administrativos, impuestos) y de importación (costos de aduana). Exportación a PDF y CSV. | **Crítica** | ⏳ Pendiente |
+| **15. Infraestructura y Distribución** | Despliegue en VPS ETECSA con Ubuntu 22.04 LTS, configuración de Nginx como proxy inverso, SSL/HTTPS con Let's Encrypt, gestión de procesos con PM2. Publicación de la app móvil en Google Play Store, APKlis y descarga directa. | **Crítica** | ⏳ Pendiente |
 
-#### 3.2 Fuera del Alcance (Fase 1 - MVP)
+### 3.2 Fuera del Alcance (Fase 1 - MVP)
 
 - Aplicación para clientes finales (tracking público).
 - Integración con pasarelas de pago.
@@ -96,7 +96,7 @@ En el contexto cubano actual, las MiPYMEs de transporte enfrentan desafíos crí
 
 ---
 
-### 4. STAKEHOLDERS DEL PROYECTO
+## 4. STAKEHOLDERS DEL PROYECTO
 
 | Stakeholder | Rol / Interés | Expectativas Clave | Influencia |
 | :--- | :--- | :--- | :--- |
@@ -108,32 +108,32 @@ En el contexto cubano actual, las MiPYMEs de transporte enfrentan desafíos crí
 | **Comunidad Open Source** | **Contribuidores Potenciales** | Código limpio, bien documentado, con estándares claros para facilitar contribuciones. | **Media** |
 | **Proveedores de Tecnología** | **Proveedores Externos** | APIs de mapas, servicios de hosting (si aplica). | **Baja** |
 | **Reguladores (Estado Cubano)** | **Ente Regulador** | Cumplimiento de normativas de transporte, tributación y aduanas. | **Baja** |
-| **ETECSA (NUEVO)** | **Proveedor de Infraestructura** | Uso adecuado de recursos del VPS, cumplimiento de términos de servicio, estabilidad del servicio. | **Media** |
-| **Google Play Store (NUEVO)** | **Plataforma de Distribución** | Cumplimiento de políticas, app funcional y segura. | **Media** |
-| **APKlis (NUEVO)** | **Plataforma de Distribución** | App funcional, sin restricciones de EE.UU., disponibilidad para usuarios cubanos. | **Media** |
+| **ETECSA** | **Proveedor de Infraestructura** | Uso adecuado de recursos del VPS, cumplimiento de términos de servicio, estabilidad del servicio. | **Media** |
+| **Google Play Store** | **Plataforma de Distribución** | Cumplimiento de políticas, app funcional y segura. | **Media** |
+| **APKlis** | **Plataforma de Distribución** | App funcional, sin restricciones de EE.UU., disponibilidad para usuarios cubanos. | **Media** |
 
 ---
 
-### 5. HITOS DEL PROYECTO
+## 5. HITOS DEL PROYECTO
 
-| Hito | Fecha Estimada | Entregable Clave | Criterio de Aceptación |
-| :--- | :--- | :--- | :--- |
-| **H1 - Inicio del Proyecto** | 13/08/2026 | Project Charter firmado | Documento aprobado por el Líder del Proyecto. |
-| **H2 - Requisitos Completos** | 30/09/2026 | SRS v3.3 validado | Documento revisado y aprobado, incluye estándares de codificación, requisitos de finanzas, aduana, ficha de costo e infraestructura. |
-| **H3 - Diseño Aprobado** | 30/10/2026 | Arquitectura v2.3 y UX validados | Diagramas, maquetas, estándares de codificación, servicios de integración e infraestructura VPS ETECSA revisados y aprobados. |
-| **H4 - MVP Funcional** | 15/01/2027 | Módulos de Rutas + Costos + App Chofer + Integración Aduana + Ficha de Costo | Pruebas de integración superadas, consulta de costos de aduana funcional, ficha de costo generada automáticamente y verificación de estándares de codificación. |
-| **H5 - Piloto en Rutas** | 28/02/2027 | Pruebas en 2 rutas reales | Feedback positivo de choferes y administradores, incluyendo consultas de aduana, cálculo de pagos y ficha de costo. |
-| **H6 - Despliegue en VPS ETECSA (NUEVO)** | 15/03/2027 | Sistema desplegado en VPS ETECSA | SSL/HTTPS configurado, Nginx funcionando, PM2 gestionando procesos, acceso exitoso desde navegadores en Cuba. |
-| **H7 - Publicación en APKlis (NUEVO)** | 20/03/2027 | App disponible en APKlis | App publicada y accesible desde navegación nacional. |
-| **H8 - Release 1.0** | 01/04/2027 | Sistema completo en producción | Operación real durante 1 semana sin incidentes críticos. **Verificación de calidad de código: ≥95% cumplimiento de estándares y ≥80% cobertura de documentación.** |
-| **H9 - Publicación en Google Play Store (NUEVO)** | 30/04/2027 | App disponible en Google Play Store | App publicada y accesible globalmente. |
-| **H10 - Revisión Post-Lanzamiento** | 31/05/2027 | Métricas de mejora documentadas | Evaluación de KPIs (costo/km, eficiencia, calidad de código, precisión de costos de aduana, precisión de ficha de costo). |
+| Hito | Fecha Estimada | Fecha Real | Entregable Clave | Criterio de Aceptación | Estado |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **H1 - Inicio del Proyecto** | 13/08/2026 | 13/08/2026 | Project Charter firmado | Documento aprobado por el Líder del Proyecto. | ✅ Completado |
+| **H2 - Requisitos Completos** | 30/09/2026 | 13/08/2026 | SRS v3.4 validado | Documento revisado y aprobado, incluye estándares de codificación, requisitos de finanzas, aduana, ficha de costo e infraestructura. | ✅ Completado |
+| **H3 - Diseño Aprobado** | 30/10/2026 | 13/08/2026 | Arquitectura v2.4 y UX validados | Diagramas, maquetas, estándares de codificación, servicios de integración e infraestructura VPS ETECSA revisados y aprobados. | ✅ Completado |
+| **H4 - MVP Funcional (Módulo Envíos)** | 15/01/2027 | 13/08/2026 | Módulo de Envíos (CRUD + Importación) | Pruebas de integración superadas y verificación de estándares de codificación. | ✅ Completado |
+| **H5 - Piloto en Rutas** | 28/02/2027 | — | Pruebas en 2 rutas reales | Feedback positivo de choferes y administradores, incluyendo consultas de aduana, cálculo de pagos y ficha de costo. | ⏳ Pendiente |
+| **H6 - Despliegue en VPS ETECSA** | 15/03/2027 | — | Sistema desplegado en VPS ETECSA | SSL/HTTPS configurado, Nginx funcionando, PM2 gestionando procesos, acceso exitoso desde navegadores en Cuba. | ⏳ Pendiente |
+| **H7 - Publicación en APKlis** | 20/03/2027 | — | App disponible en APKlis | App publicada y accesible desde navegación nacional. | ⏳ Pendiente |
+| **H8 - Release 1.0** | 01/04/2027 | — | Sistema completo en producción | Operación real durante 1 semana sin incidentes críticos. **Verificación de calidad de código: ≥95% cumplimiento de estándares y ≥80% cobertura de documentación.** | ⏳ Pendiente |
+| **H9 - Publicación en Google Play Store** | 30/04/2027 | — | App disponible en Google Play Store | App publicada y accesible globalmente. | ⏳ Pendiente |
+| **H10 - Revisión Post-Lanzamiento** | 31/05/2027 | — | Métricas de mejora documentadas | Evaluación de KPIs (costo/km, eficiencia, calidad de código, precisión de costos de aduana, precisión de ficha de costo). | ⏳ Pendiente |
 
 ---
 
-### 6. PRESUPUESTO ESTIMADO Y RECURSOS
+## 6. PRESUPUESTO ESTIMADO Y RECURSOS
 
-#### 6.1 Presupuesto (Estructura de Desglose de Costos)
+### 6.1 Presupuesto (Estructura de Desglose de Costos)
 
 | Concepto | Costo Estimado (USD) | Notas |
 | :--- | :--- | :--- |
@@ -150,34 +150,34 @@ En el contexto cubano actual, las MiPYMEs de transporte enfrentan desafíos crí
 | **Imprevistos (10%)** | Incluido en la estimación mensual | Para cubrir contingencias. |
 | **TOTAL ANUAL ESTIMADO** | **$275 - $635** | Extremadamente bajo en comparación con soluciones comerciales (OptimoRoute: ~$500/chofer/año). |
 
-#### 6.2 Recursos Humanos
+### 6.2 Recursos Humanos
 El proyecto será ejecutado por un equipo multidisciplinario cuyos roles ya han sido definidos en el SPMP. Se considera que los costos de personal son asumidos por el propio equipo, al ser un proyecto de emprendimiento.
 
 ---
 
-### 7. RIESGOS DE ALTO NIVEL
+## 7. RIESGOS DE ALTO NIVEL
 
-| Riesgo | Probabilidad | Impacto | Estrategia de Mitigación Inicial |
-| :--- | :--- | :--- | :--- |
-| **Conectividad limitada en zonas rurales** | **Alta** | **Alto** | Diseño robusto de modo offline en la app móvil. |
-| **Resistencia al cambio de los choferes** | **Media** | **Alto** | UI simple, programa de incentivos y gamificación. |
-| **Calidad de datos de mapas en Cuba** | **Alta** | **Medio** | Sistema de edición colaborativa de mapas por choferes. |
-| **Sostenibilidad Financiera** | **Media** | **Medio** | Modelo open source, colaboración con entidades del estado. |
-| **Cambios en normativas cubanas** | **Media** | **Medio** | Arquitectura modular y flexible para adaptaciones rápidas. |
-| **Baja calidad de código** | **Media** | **Alto** | Estándares de codificación estrictos (ESLint, Prettier, Dart Analyzer), análisis estático en CI/CD, revisiones de código obligatorias. |
-| **Documentación insuficiente** | **Media** | **Medio** | JSDoc obligatorio para funciones públicas, generación automática de documentación (TypeDoc, Swagger), cobertura mínima del 80%. |
-| **Cambios en el sitio web de Aerovaradero (URL de payment)** | **Alta** | **Alto** | Sistema de alertas de fallo en extracción, entrada manual de costos de aduana como contingencia, monitoreo periódico del sitio. |
-| **Fluctuación de la tasa de cambio y precios de combustible** | **Alta** | **Medio** | Actualización manual/configurable de parámetros, historial de cambios para análisis. |
-| **Errores en cálculo de pago a choferes** | **Media** | **Alto** | Validaciones automáticas, auditoría de cálculos, generación de reportes de pago para revisión. |
-| **Errores en cálculo de ficha de costo** | **Media** | **Alto** | Validaciones automáticas, auditoría de cálculos, pruebas con datos reales, precisión de 2 decimales. |
-| **Disponibilidad de VPS ETECSA (NUEVO)** | **Media** | **Alto** | Tener plan de contingencia con servidor alternativo (nube internacional). |
-| **Google Play Store bloqueada desde Cuba (NUEVO)** | **Alta** | **Medio** | Distribuir también vía APKlis y descarga directa. |
-| **Configuración de SSL/HTTPS (NUEVO)** | **Baja** | **Medio** | Documentación detallada, uso de Let's Encrypt, renovación automática. |
-| **Recursos limitados del VPS ETECSA (NUEVO)** | **Media** | **Medio** | Optimización de recursos, caché con Redis, monitoreo de rendimiento. |
+| Riesgo | Probabilidad | Impacto | Estrategia de Mitigación Inicial | Estado |
+| :--- | :--- | :--- | :--- | :--- |
+| **Conectividad limitada en zonas rurales** | **Alta** | **Alto** | Diseño robusto de modo offline en la app móvil. | ⏳ Pendiente |
+| **Resistencia al cambio de los choferes** | **Media** | **Alto** | UI simple, programa de incentivos y gamificación. | ⏳ Pendiente |
+| **Calidad de datos de mapas en Cuba** | **Alta** | **Medio** | Sistema de edición colaborativa de mapas por choferes. | ⏳ Pendiente |
+| **Sostenibilidad Financiera** | **Media** | **Medio** | Modelo open source, colaboración con entidades del estado. | ⏳ Pendiente |
+| **Cambios en normativas cubanas** | **Media** | **Medio** | Arquitectura modular y flexible para adaptaciones rápidas. | ⏳ Pendiente |
+| **Baja calidad de código** | **Media** | **Alto** | Estándares de codificación estrictos (ESLint, Prettier, Dart Analyzer), análisis estático en CI/CD, revisiones de código obligatorias. | ✅ Mitigado |
+| **Documentación insuficiente** | **Media** | **Medio** | JSDoc obligatorio para funciones públicas, generación automática de documentación (TypeDoc, Swagger), cobertura mínima del 80%. | ✅ Mitigado |
+| **Cambios en el sitio web de Aerovaradero (URL de payment)** | **Alta** | **Alto** | Sistema de alertas de fallo en extracción, entrada manual de costos de aduana como contingencia, monitoreo periódico del sitio. | ⏳ Pendiente |
+| **Fluctuación de la tasa de cambio y precios de combustible** | **Alta** | **Medio** | Actualización manual/configurable de parámetros, historial de cambios para análisis. | ⏳ Pendiente |
+| **Errores en cálculo de pago a choferes** | **Media** | **Alto** | Validaciones automáticas, auditoría de cálculos, generación de reportes de pago para revisión. | ⏳ Pendiente |
+| **Errores en cálculo de ficha de costo** | **Media** | **Alto** | Validaciones automáticas, auditoría de cálculos, pruebas con datos reales, precisión de 2 decimales. | ⏳ Pendiente |
+| **Disponibilidad de VPS ETECSA** | **Media** | **Alto** | Tener plan de contingencia con servidor alternativo (nube internacional). | ⏳ Pendiente |
+| **Google Play Store bloqueada desde Cuba** | **Alta** | **Medio** | Distribuir también vía APKlis y descarga directa. | ⏳ Pendiente |
+| **Configuración de SSL/HTTPS** | **Baja** | **Medio** | Documentación detallada, uso de Let's Encrypt, renovación automática. | ⏳ Pendiente |
+| **Recursos limitados del VPS ETECSA** | **Media** | **Medio** | Optimización de recursos, caché con Redis, monitoreo de rendimiento. | ⏳ Pendiente |
 
 ---
 
-### 8. CRITERIOS DE ÉXITO DEL PROYECTO
+## 8. CRITERIOS DE ÉXITO DEL PROYECTO
 
 El proyecto se considerará un éxito rotundo cuando se cumplan los siguientes criterios:
 
@@ -217,7 +217,7 @@ El proyecto se considerará un éxito rotundo cuando se cumplan los siguientes c
 - La ficha debe incluir todos los componentes de costo (directos, indirectos, importación) con una precisión de **2 decimales**.
 - La ficha debe ser exportable a PDF y CSV.
 
-**9. Infraestructura y Distribución (NUEVO):**
+**9. Infraestructura y Distribución:**
 - El sistema debe estar desplegado y funcionando correctamente en el VPS de ETECSA con SSL/HTTPS configurado.
 - La app móvil debe estar disponible en **APKlis** en el momento del lanzamiento.
 - La app móvil debe estar disponible en **Google Play Store** en un plazo máximo de 30 días después del lanzamiento.
@@ -225,7 +225,7 @@ El proyecto se considerará un éxito rotundo cuando se cumplan los siguientes c
 
 ---
 
-### 9. APROBACIONES
+## 9. APROBACIONES
 
 Este documento es el punto de partida oficial del proyecto. Al firmar, las partes acuerdan los términos y objetivos aquí definidos.
 
@@ -237,7 +237,7 @@ Este documento es el punto de partida oficial del proyecto. Al firmar, las parte
 
 ---
 
-### 10. GLOSARIO
+## 10. GLOSARIO
 
 | Término | Definición |
 | :--- | :--- |
@@ -264,7 +264,7 @@ Este documento es el punto de partida oficial del proyecto. Al firmar, las parte
 
 ## 📌 CONCLUSIÓN
 
-Este Project Charter Versión 2.4 ahora incluye:
+Este Project Charter Versión 2.5 ahora incluye:
 
 - ✅ **12 objetivos SMART** (3 nuevos: O10, O11, O12 sobre infraestructura y distribución)
 - ✅ **15 módulos funcionales** (1 nuevo sobre infraestructura y distribución)
@@ -275,5 +275,9 @@ Este Project Charter Versión 2.4 ahora incluye:
 - ✅ **Stakeholders actualizados** con ETECSA, Google Play Store y APKlis
 - ✅ **Presupuesto actualizado** con costos de VPS ETECSA y publicación en Play Store
 - ✅ **Hitos actualizados** con despliegue en VPS ETECSA, publicación en APKlis y Google Play Store
+- ✅ **Estado de implementación agregado** a objetivos, módulos, hitos y riesgos
+- ✅ **Sprints 0 y 1 confirmados como completados** (13/08/2026)
+- ✅ **Módulo de Envíos y Clientes** implementado y funcional
+- ✅ **Estándares de codificación y documentación** implementados al 100%
 
 **Este documento establece la base estratégica, operativa, de calidad e infraestructura del proyecto, asegurando que SIGMA-T no solo sea funcional, sino también mantenible, documentado, financieramente completo, con integración aduanera de clase mundial, ficha de costo detallada, e infraestructura local confiable en VPS ETECSA con distribución en Google Play Store y APKlis.**

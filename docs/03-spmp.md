@@ -1,4 +1,4 @@
-## 📄 DOCUMENTO SPMP - SIGMA-T (VERSIÓN 3.3 - TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA)
+## 📄 DOCUMENTO SPMP - SIGMA-T (VERSIÓN 3.4 - ACTUALIZADO CON SPRINTS 0 Y 1 COMPLETADOS)
 
 **Basado en IEEE 1058 - Plan de Gestión de Proyectos de Software**
 
@@ -6,7 +6,7 @@
 **Cliente / Sponsor:** Osleyder Gonzalez Acosta  
 **Fecha de Inicio del Proyecto:** 13 de agosto de 2026  
 **Fecha Estimada de Finalización:** 01 de abril de 2027 (MVP)  
-**Versión del Documento:** 3.3 (Completo - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura)
+**Versión del Documento:** 3.4 (Completo - Top Mundial con Sprints 0 y 1 Completados)
 
 ---
 
@@ -24,7 +24,7 @@ Los principales entregables del proyecto se organizan por fases:
 | :--- | :--- | :--- |
 | **Iniciación** | Documento de Visión | Definición de la visión, los stakeholders y el alcance de alto nivel del sistema. |
 | **Planificación** | **SRS (v3.3)** | Especificación detallada de todos los requisitos funcionales y no funcionales, incluyendo los nuevos requisitos de finanzas, aduana, ficha de costo e infraestructura. |
-| **Planificación** | **SPMP (v3.3)** | Este documento: Plan de gestión del proyecto actualizado con nuevos módulos, tareas de infraestructura y distribución. |
+| **Planificación** | **SPMP (v3.4)** | Este documento: Plan de gestión del proyecto actualizado con el estado de los Sprints 0 y 1. |
 | **Planificación** | **Arquitectura (v2.3)** | Documento de Arquitectura de Software (Diagramas, modelo de datos, APIs, estándares, servicios de aduana, finanzas, ficha de costo e infraestructura VPS ETECSA). |
 | **Planificación** | **Prototipos UI/UX** | Maquetas de alta fidelidad de todas las interfaces, incluyendo la nueva pantalla de gestión de parámetros financieros, aduana y ficha de costo. |
 | **Ejecución** | Código Fuente | Repositorio con el código de backend, frontend web y app móvil. |
@@ -85,62 +85,62 @@ flowchart TD
 
 ---
 
-### 3. PLAN DE TRABAJO Y CRONOGRAMA (SPRINTS)
+### 3. PLAN DE TRABAJO Y CRONOGRAMA (SPRINTS) - ACTUALIZADO
 
 #### 3.1 Metodología: Ágil con Scrum
 El proyecto se desarrollará utilizando una metodología ágil con sprints de **2 semanas de duración**. Este enfoque permite una adaptación rápida a los cambios, una entrega temprana de valor y una mejora continua del producto.
 
-#### 3.2 Planificación por Sprints Detallada
+#### 3.2 Planificación por Sprints Detallada (Actualizada)
 
-| Sprint | Nombre / Módulo | Duración | Objetivo Principal | Entregables Clave |
+| Sprint | Nombre / Módulo | Duración | Estado | Entregables Clave |
 | :--- | :--- | :--- | :--- | :--- |
-| **0** | **Fundación** | 2 Semanas | Establecer la base técnica, el entorno de desarrollo y los estándares de codificación. | Docker, Repos, BD, CI/CD, ESLint, Prettier, Dart Analyzer, guía de estándares, **archivo tasks.json de VSCode, extensiones recomendadas**. |
-| **1** | **Core de Envíos** | 2 Semanas | Gestionar clientes y envíos, e importar el manifiesto. | API de Envíos, Importación Excel, UI de listado, documentación JSDoc. |
-| **2** | **Optimización de Rutas** | 2 Semanas | Planificar rutas semanales y visualizarlas en un mapa. | Algoritmo VRPTW, Mapa interactivo, UI de planificación, documentación OpenAPI. |
-| **3** | **App del Chofer (MVP)** | 2 Semanas | Desarrollar la app móvil para que los choferes puedan operar offline. | App Flutter, sincronización, registro de incidencias, documentación Dart. |
-| **4** | **Dashboard y KPIs** | 2 Semanas | Construir el panel de control con los indicadores clave de negocio. | Dashboard, Gráficos de costos, Reportes, documentación de módulos. |
-| **5** | **Funcionalidades Premium y Finanzas** | 2 Semanas | Agregar valor con características avanzadas incluyendo el módulo financiero, de aduana y ficha de costo. | Firma digital, Edición manual, Personalización, **Gestión de parámetros financieros (incluyendo costos por km), Consulta de aduana (URL de payment), Cálculo de pago a choferes, Ficha de costo detallada por ruta**. |
-| **6** | **Piloto y Ajustes** | 2 Semanas | Validar el sistema en un entorno real con usuarios finales. | Feedback, Corrección de bugs, Mejoras de UX, verificación de estándares. |
-| **7** | **Lanzamiento y Documentación** | 2 Semanas | Preparar y lanzar la versión 1.0 del sistema con toda la documentación, desplegar en VPS ETECSA y publicar la app. | Sistema en producción (VPS ETECSA), SSL/HTTPS, Manuales, Video-tutoriales, **App en Google Play Store, App en APKlis, Descarga directa de APK**. |
+| **0** | **Fundación** | 1 día | ✅ Completado | Docker, Repos, BD, CI/CD, ESLint, Prettier, Dart Analyzer, guía de estándares, archivo tasks.json de VSCode, extensiones recomendadas, documentación completa. |
+| **1** | **Core de Envíos** | 1 día | ✅ Completado | API de Envíos, Importación Excel, UI de listado, CRUD Clientes, CRUD Envíos, documentación JSDoc. |
+| **2** | **Optimización de Rutas** | 2 Semanas | ⏳ Pendiente | Algoritmo VRPTW, Mapa interactivo, UI de planificación, documentación OpenAPI. |
+| **3** | **App del Chofer (MVP)** | 2 Semanas | ⏳ Pendiente | App Flutter, sincronización, registro de incidencias, documentación Dart. |
+| **4** | **Dashboard y KPIs** | 2 Semanas | ⏳ Pendiente | Dashboard, Gráficos de costos, Reportes, documentación de módulos. |
+| **5** | **Funcionalidades Premium y Finanzas** | 2 Semanas | ⏳ Pendiente | Firma digital, Edición manual, Personalización, Gestión de parámetros financieros (incluyendo costos por km), Consulta de aduana (URL de payment), Cálculo de pago a choferes, Ficha de costo detallada por ruta. |
+| **6** | **Piloto y Ajustes** | 2 Semanas | ⏳ Pendiente | Feedback, Corrección de bugs, Mejoras de UX, verificación de estándares. |
+| **7** | **Lanzamiento y Documentación** | 2 Semanas | ⏳ Pendiente | Sistema en producción (VPS ETECSA), SSL/HTTPS, Manuales, Video-tutoriales, App en Google Play Store, App en APKlis, Descarga directa de APK. |
 
-#### 3.3 Tareas Detalladas por Sprint
+#### 3.3 Tareas Detalladas por Sprint (Actualizadas)
 
-**Sprint 0: Fundación**
+**Sprint 0: Fundación - ✅ COMPLETADO (13/08/2026)**
 
-| # | Tarea | Responsable | Estimación |
-|---|-------|-------------|------------|
-| 1 | Configurar servidor de desarrollo (Docker) | Backend | 2 días |
-| 2 | Configurar PostgreSQL + PostGIS | Backend | 1 día |
-| 3 | Configurar Node.js + TypeScript + Express | Backend | 2 días |
-| 4 | Configurar React + Vite + Tailwind CSS | Frontend | 2 días |
-| 5 | Configurar Flutter proyecto base | Mobile | 2 días |
-| 6 | Establecer CI/CD (GitHub Actions) | Backend | 1 día |
-| 7 | Configurar ESLint + Prettier (TypeScript) con reglas estrictas | Backend | 1 día |
-| 8 | Configurar Dart Analyzer (Flutter) con `analysis_options.yaml` | Mobile | 1 día |
-| 9 | Configurar GitHub Actions con análisis estático automático | Backend | 1 día |
-| 10 | Crear guía de estándares de codificación (documento interno) | Documentalista | 1 día |
-| 11 | Configurar TypeDoc para generación automática de documentación | Backend | 0.5 día |
-| 12 | Configurar Swagger UI (OpenAPI) para documentación de API | Backend | 0.5 día |
-| **13** | **Crear archivo `.vscode/tasks.json` con tareas automatizadas (NUEVO)** | **Backend** | **0.5 día** |
-| **14** | **Documentar extensiones de VSCode recomendadas (NUEVO)** | **Documentalista** | **0.5 día** |
-| **15** | **Preparar documentación de despliegue en VPS ETECSA (NUEVO)** | **Backend** | **1 día** |
+| # | Tarea | Responsable | Estado |
+|---|-------|-------------|--------|
+| 1 | Configurar servidor de desarrollo (Docker) | Backend | ✅ Completado |
+| 2 | Configurar PostgreSQL + PostGIS | Backend | ✅ Completado |
+| 3 | Configurar Node.js + TypeScript + Express | Backend | ✅ Completado |
+| 4 | Configurar React + Vite + Tailwind CSS | Frontend | ✅ Completado |
+| 5 | Configurar Flutter proyecto base | Mobile | ✅ Completado |
+| 6 | Establecer CI/CD (GitHub Actions) | Backend | ✅ Completado |
+| 7 | Configurar ESLint + Prettier (TypeScript) con reglas estrictas | Backend | ✅ Completado |
+| 8 | Configurar Dart Analyzer (Flutter) con `analysis_options.yaml` | Mobile | ✅ Completado |
+| 9 | Configurar GitHub Actions con análisis estático automático | Backend | ✅ Completado |
+| 10 | Crear guía de estándares de codificación (documento interno) | Documentalista | ✅ Completado |
+| 11 | Configurar TypeDoc para generación automática de documentación | Backend | ✅ Completado |
+| 12 | Configurar Swagger UI (OpenAPI) para documentación de API | Backend | ✅ Completado |
+| 13 | Crear archivo `.vscode/tasks.json` con tareas automatizadas | Backend | ✅ Completado |
+| 14 | Documentar extensiones de VSCode recomendadas | Documentalista | ✅ Completado |
+| 15 | Preparar documentación de despliegue en VPS ETECSA | Backend | ✅ Completado |
 
-**Sprint 1: Core de Envíos**
+**Sprint 1: Core de Envíos - ✅ COMPLETADO (13/08/2026)**
 
-| # | Tarea | Responsable | Estimación |
-|---|-------|-------------|------------|
-| 1 | Diseñar modelo de datos (Clientes, Envíos) | Backend | 1 día |
-| 2 | Implementar API CRUD de Clientes | Backend | 2 días |
-| 3 | Implementar API CRUD de Envíos | Backend | 2 días |
-| 4 | Implementar importación de Excel (openpyxl) | Backend | 3 días |
-| 5 | Mapear columnas del manifiesto real | Backend | 1 día |
-| 6 | Validación de datos en importación | Backend | 2 días |
-| 7 | Vista previa de importación | Frontend | 2 días |
-| 8 | Formulario manual de registro de envíos | Frontend | 2 días |
-| 9 | UI de gestión de envíos (lista + filtros) | Frontend | 2 días |
-| 10 | Documentar funciones con JSDoc | Backend/Frontend | 0.5 día |
+| # | Tarea | Responsable | Estado |
+|---|-------|-------------|--------|
+| 1 | Diseñar modelo de datos (Clientes, Envíos) | Backend | ✅ Completado |
+| 2 | Implementar API CRUD de Clientes | Backend | ✅ Completado |
+| 3 | Implementar API CRUD de Envíos | Backend | ✅ Completado |
+| 4 | Implementar importación de Excel | Backend | ✅ Completado |
+| 5 | Mapear columnas del manifiesto real | Backend | ✅ Completado |
+| 6 | Validación de datos en importación | Backend | ✅ Completado |
+| 7 | Vista previa de importación | Frontend | ✅ Completado |
+| 8 | Formulario manual de registro de envíos | Frontend | ✅ Completado |
+| 9 | UI de gestión de envíos (lista + filtros) | Frontend | ✅ Completado |
+| 10 | Documentar funciones con JSDoc | Backend/Frontend | ✅ Completado |
 
-**Sprint 2: Optimización de Rutas**
+**Sprint 2: Optimización de Rutas - ⏳ PENDIENTE**
 
 | # | Tarea | Responsable | Estimación |
 |---|-------|-------------|------------|
@@ -154,7 +154,7 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 8 | Estimar tiempos y distancias | Backend | 2 días |
 | 9 | Documentar API con OpenAPI (Swagger) | Backend | 1 día |
 
-**Sprint 3: App del Chofer (MVP)**
+**Sprint 3: App del Chofer (MVP) - ⏳ PENDIENTE**
 
 | # | Tarea | Responsable | Estimación |
 |---|-------|-------------|------------|
@@ -170,7 +170,7 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 10 | Indicador de estado de sincronización | Mobile | 1 día |
 | 11 | Documentar código Dart | Mobile | 0.5 día |
 
-**Sprint 4: Dashboard y KPIs**
+**Sprint 4: Dashboard y KPIs - ⏳ PENDIENTE**
 
 | # | Tarea | Responsable | Estimación |
 |---|-------|-------------|------------|
@@ -186,7 +186,7 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 10 | Alertas automáticas (mantenimiento, consumo) | Backend | 2 días |
 | 11 | Documentar módulos con READMEs | Documentalista | 1 día |
 
-**Sprint 5: Funcionalidades Premium y Finanzas**
+**Sprint 5: Funcionalidades Premium y Finanzas - ⏳ PENDIENTE**
 
 | # | Tarea | Responsable | Estimación |
 |---|-------|-------------|------------|
@@ -194,18 +194,18 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 2 | Firma digital en app móvil | Mobile | 2 días |
 | 3 | Captura de fotos de evidencia | Mobile | 2 días |
 | 4 | Personalización de comprobantes de entrega | Backend + Frontend | 2 días |
-| 5 | Implementar ficha de costo detallada por ruta (incluyendo costos directos, indirectos y de importación) | Backend | 3 días |
+| 5 | Implementar ficha de costo detallada por ruta | Backend | 3 días |
 | 6 | Reoptimización en tiempo real (nuevos pedidos) | Backend | 3 días |
-| 7 | Implementar gestión de parámetros financieros (tasa de cambio, precios de combustible, costos por km: mantenimiento, neumáticos, depreciación, seguros, administrativos, impuestos) | Backend | 2 días |
-| 8 | Implementar servicio de consulta a Aerovaradero utilizando URL de payment (`https://www.aerovaradero.com.cu/payment/?cod_la={cod_la}&cod_awb={cod_awb}&cod_house={house}`) | Backend | 3 días |
-| 9 | Implementar lógica de parsing de HTML (Cheerio/Puppeteer) para extraer costo de aduana y estado de pago | Backend | 2 días |
-| 10 | Implementar módulo de pago a choferes (esquemas variables: fijo, por km, por entrega, combinado) | Backend | 2 días |
+| 7 | Implementar gestión de parámetros financieros | Backend | 2 días |
+| 8 | Implementar servicio de consulta a Aerovaradero (URL de payment) | Backend | 3 días |
+| 9 | Implementar lógica de parsing de HTML (Cheerio/Puppeteer) | Backend | 2 días |
+| 10 | Implementar módulo de pago a choferes | Backend | 2 días |
 | 11 | UI de gestión de parámetros financieros y aduana | Frontend | 3 días |
-| 12 | UI de ficha de costo detallada (con desglose por categorías y exportación a PDF/CSV) | Frontend | 2 días |
+| 12 | UI de ficha de costo detallada | Frontend | 2 días |
 | 13 | Implementar exportación de ficha de costo a PDF y CSV | Backend + Frontend | 2 días |
 | 14 | Actualizar documentación | Documentalista | 1 día |
 
-**Sprint 6: Piloto y Ajustes**
+**Sprint 6: Piloto y Ajustes - ⏳ PENDIENTE**
 
 | # | Tarea | Responsable | Estimación |
 |---|-------|-------------|------------|
@@ -218,9 +218,9 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 7 | Segunda semana de prueba | Todos | 5 días |
 | 8 | Verificar cumplimiento de estándares de codificación | QA | 1 día |
 | 9 | Pruebas de integración con Aerovaradero (URL de payment) | QA | 2 días |
-| 10 | Pruebas de precisión de ficha de costo (verificar cálculos con 2 decimales) | QA | 1 día |
+| 10 | Pruebas de precisión de ficha de costo | QA | 1 día |
 
-**Sprint 7: Lanzamiento y Documentación**
+**Sprint 7: Lanzamiento y Documentación - ⏳ PENDIENTE**
 
 | # | Tarea | Responsable | Estimación |
 |---|-------|-------------|------------|
@@ -235,9 +235,9 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 9 | Configurar Nginx como proxy inverso | DevOps | 1 día |
 | 10 | Capacitación a todo el equipo | Líder | 2 días |
 | 11 | Verificación final de estándares de codificación | QA | 1 día |
-| **12** | **Publicar app en Google Play Store (NUEVO)** | **Mobile** | **2 días** |
-| **13** | **Publicar app en APKlis (tienda cubana) (NUEVO)** | **Mobile** | **1 día** |
-| **14** | **Configurar descarga directa de APK desde el sitio web (NUEVO)** | **Backend** | **1 día** |
+| 12 | Publicar app en Google Play Store | Mobile | 2 días |
+| 13 | Publicar app en APKlis (tienda cubana) | Mobile | 1 día |
+| 14 | Configurar descarga directa de APK desde el sitio web | Backend | 1 día |
 
 ---
 
@@ -264,10 +264,10 @@ Se implementará un proceso iterativo de **Identificación → Análisis → Pla
 | **Fluctuación de la tasa de cambio y precios de combustible** | **Alta** | **Medio** | **Actualización manual/configurable de parámetros, historial de cambios para análisis.** |
 | **Errores en cálculo de pago a choferes** | **Media** | **Alto** | **Validaciones automáticas, auditoría de cálculos, generación de reportes de pago para revisión.** |
 | **Errores en cálculo de ficha de costo** | **Media** | **Alto** | **Validaciones automáticas, auditoría de cálculos, pruebas con datos reales, precisión de 2 decimales.** |
-| **Disponibilidad de VPS ETECSA (NUEVO)** | **Media** | **Alto** | **Tener plan de contingencia con servidor alternativo (nube internacional).** |
-| **Google Play Store bloqueada desde Cuba (NUEVO)** | **Alta** | **Medio** | **Distribuir también vía APKlis y descarga directa.** |
-| **Configuración de SSL/HTTPS (NUEVO)** | **Baja** | **Medio** | **Documentación detallada, uso de Let's Encrypt, renovación automática.** |
-| **Recursos limitados del VPS ETECSA (NUEVO)** | **Media** | **Medio** | **Optimización de recursos, caché con Redis, monitoreo de rendimiento.** |
+| **Disponibilidad de VPS ETECSA** | **Media** | **Alto** | **Tener plan de contingencia con servidor alternativo (nube internacional).** |
+| **Google Play Store bloqueada desde Cuba** | **Alta** | **Medio** | **Distribuir también vía APKlis y descarga directa.** |
+| **Configuración de SSL/HTTPS** | **Baja** | **Medio** | **Documentación detallada, uso de Let's Encrypt, renovación automática.** |
+| **Recursos limitados del VPS ETECSA** | **Media** | **Medio** | **Optimización de recursos, caché con Redis, monitoreo de rendimiento.** |
 
 ---
 
@@ -297,7 +297,7 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 | **Pruebas de Integración con Aduana** | Verificar extracción correcta de costos de Aerovaradero (URL de payment) | Jest + nock / Puppeteer | QA |
 | **Pruebas de Cálculo Financiero** | Validar precisión de cálculos de pago a choferes, costos y ficha de costo | Jest (Backend) | QA |
 | **Pruebas de Precisión de Ficha de Costo** | Verificar precisión de 2 decimales en todos los cálculos de la ficha de costo | Jest (Backend) | QA |
-| **Pruebas de Infraestructura (NUEVO)** | Verificar funcionamiento en VPS ETECSA, SSL/HTTPS, Nginx, PM2 | Pruebas manuales / Scripts | DevOps / QA |
+| **Pruebas de Infraestructura** | Verificar funcionamiento en VPS ETECSA, SSL/HTTPS, Nginx, PM2 | Pruebas manuales / Scripts | DevOps / QA |
 
 #### 5.3 Criterios de Aceptación (Checklist de Calidad)
 
@@ -318,11 +318,11 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 | 13 | **Cálculo de Pago a Choferes** | **Cálculo correcto según esquemas configurados (fijo, por km, por entrega, combinado)** | **Pruebas Unitarias** |
 | 14 | **Gestión de Parámetros** | **Actualización de parámetros financieros (incluyendo costos por km) en tiempo real con historial de cambios** | **Pruebas de Sistema** |
 | 15 | **Ficha de Costo Detallada** | **Generación de ficha de costo en <5 segundos por ruta, con precisión de 2 decimales, incluyendo todos los componentes de costo (directos, indirectos, importación), y exportación a PDF/CSV** | **Pruebas de Sistema / Pruebas de Rendimiento** |
-| **16** | **Despliegue en VPS ETECSA (NUEVO)** | **El sistema funciona correctamente en VPS ETECSA con Ubuntu 22.04 LTS** | **Pruebas de Infraestructura** |
-| **17** | **SSL/HTTPS (NUEVO)** | **SSL/HTTPS configurado y funcionando correctamente con Let's Encrypt** | **Pruebas de Infraestructura** |
-| **18** | **Publicación en Google Play Store (NUEVO)** | **App publicada en Google Play Store** | **Revisión manual** |
-| **19** | **Publicación en APKlis (NUEVO)** | **App publicada en APKlis** | **Revisión manual** |
-| **20** | **Descarga Directa de APK (NUEVO)** | **Descarga directa de APK disponible desde el sitio web** | **Revisión manual** |
+| 16 | **Despliegue en VPS ETECSA** | **El sistema funciona correctamente en VPS ETECSA con Ubuntu 22.04 LTS** | **Pruebas de Infraestructura** |
+| 17 | **SSL/HTTPS** | **SSL/HTTPS configurado y funcionando correctamente con Let's Encrypt** | **Pruebas de Infraestructura** |
+| 18 | **Publicación en Google Play Store** | **App publicada en Google Play Store** | **Revisión manual** |
+| 19 | **Publicación en APKlis** | **App publicada en APKlis** | **Revisión manual** |
+| 20 | **Descarga Directa de APK** | **Descarga directa de APK disponible desde el sitio web** | **Revisión manual** |
 
 #### 5.4 Métricas de Calidad de Código
 
@@ -447,15 +447,22 @@ El equipo de desarrollo recibirá formación continua en:
 
 ## 📌 CONCLUSIÓN
 
-Este SPMP Versión 3.3 ahora incluye:
+Este SPMP Versión 3.4 ahora incluye:
 
-- ✅ **8 Sprints** con tareas detalladas de estándares de codificación, nuevos módulos financieros, integración con aduana (URL de payment), ficha de costo, **configuración del entorno de desarrollo**, **despliegue en VPS ETECSA**, y **publicación en tiendas de aplicaciones**
+- ✅ **8 Sprints** con tareas detalladas de estándares de codificación, nuevos módulos financieros, integración con aduana (URL de payment), ficha de costo, configuración del entorno de desarrollo, despliegue en VPS ETECSA, y publicación en tiendas de aplicaciones
+- ✅ **Sprint 0 completado** en 1 día (13/08/2026) con todos los entregables
+- ✅ **Sprint 1 completado** en 1 día (13/08/2026) con todos los entregables
 - ✅ **20 criterios de aceptación** de calidad (incluyendo 5 nuevos para infraestructura y distribución)
 - ✅ **5 métricas de calidad de código** (cobertura de documentación, cumplimiento de estándares, deuda técnica, código duplicado, complejidad ciclomática)
 - ✅ **Política de commits** (Conventional Commits) y pre-commit hooks
-- ✅ **Estrategia de pruebas** con análisis estático, verificación de documentación, pruebas de integración con Aerovaradero (URL de payment), pruebas de cálculo financiero, pruebas de precisión de ficha de costo y **pruebas de infraestructura**
+- ✅ **Estrategia de pruebas** con análisis estático, verificación de documentación, pruebas de integración con Aerovaradero (URL de payment), pruebas de cálculo financiero, pruebas de precisión de ficha de costo y pruebas de infraestructura
 - ✅ **Plan de formación continua** en estándares de codificación, web scraping, cálculos financieros, ficha de costo, despliegue en VPS ETECSA y publicación en tiendas
 - ✅ **Riesgos de calidad de código, financieros, de ficha de costo, de infraestructura y de distribución** identificados y mitigados
 - ✅ **Nuevos módulos financieros** (gestión de parámetros incluyendo costos por km, consulta de aduana con URL de payment, pago a choferes, ficha de costo detallada)
 - ✅ **Tareas específicas para integración con Aerovaradero (URL de payment), ficha de costo, entorno de desarrollo, VPS ETECSA y publicación en tiendas**
 - ✅ **Presupuesto actualizado** con costos de VPS ETECSA y publicación en Play Store
+- ✅ **Estado actualizado** del proyecto con Sprints 0 y 1 completados exitosamente
+
+---
+
+**Este documento refleja el estado actual del proyecto, con los Sprints 0 y 1 completados y listo para el Sprint 2 (Optimización de Rutas).**
