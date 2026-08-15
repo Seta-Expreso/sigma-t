@@ -3,8 +3,6 @@
  * @module services/ruta
  */
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 
 import { AppDataSource } from '../config/database.config.js';
@@ -21,7 +19,6 @@ interface ReoptimizacionData {
   motivo: string;
 }
 
-// ✅ Interface en lugar de type
 interface RutaConRelaciones {
   vehiculo?: { matricula: string };
   chofer?: { nombre: string };
@@ -220,7 +217,6 @@ export class RutaService {
       return ruta.ficha_costo;
     }
 
-    // ✅ Usar interface definida arriba
     const rutaConRelaciones = ruta as unknown as RutaConRelaciones;
 
     const vehiculoMatricula = rutaConRelaciones.vehiculo?.matricula || 'No asignado';
@@ -288,6 +284,4 @@ export class RutaService {
   }
 }
 
-/* eslint-enable @typescript-eslint/no-unsafe-assignment */
-/* eslint-enable @typescript-eslint/no-unsafe-member-access */
 /* eslint-enable @typescript-eslint/no-unsafe-argument */
