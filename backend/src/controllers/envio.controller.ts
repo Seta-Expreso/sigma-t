@@ -1,175 +1,64 @@
 /**
- * @fileoverview Controlador para la gestión de envíos
+ * @fileoverview Controlador de Envíos
  * @module controllers/envio
  */
 
-import type { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { EnvioService } from '../services/envio.service.js';
-import { EstadoEnvio } from '../models/envio.model.js';
-import type { EnvioCreateData, EnvioUpdateData } from '../models/envio.model.js';
-import winston from 'winston';
+import { ImportacionService } from '../services/importacion.service.js';
+import { Envio } from '../models/envio.model.js';
 
-// Configurar logger
-const logger = winston.createLogger({
-  level: 'error',
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.Console({
-      format: winston.format.simple(),
-    }),
-  ],
-});
-
-const envioService = new EnvioService();
-
-/**
- * Controlador para la gestión de envíos
- * @class EnvioController
- */
 export class EnvioController {
-  /**
-   * Obtiene todos los envíos con filtros opcionales
-   * @route GET /api/envios
-   */
-  static async getAll(req: Request, res: Response): Promise<void> {
-    try {
-      const { estado, clienteId, fechaInicio, fechaFin, search } = req.query;
+  private envioService: EnvioService;
+  private importacionService: ImportacionService;
 
-      const filters = {
-        estado: estado as EstadoEnvio,
-        clienteId: clienteId ? parseInt(clienteId as string) : undefined,
-        fechaInicio: fechaInicio ? new Date(fechaInicio as string) : undefined,
-        fechaFin: fechaFin ? new Date(fechaFin as string) : undefined,
-        search: search as string,
-      };
-
-      const envios = await envioService.findAll(filters);
-      res.status(200).json({
-        success: true,
-        data: envios,
-        total: envios.length,
-      });
-    } catch (error) {
-      logger.error('Error al obtener envíos:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al obtener los envíos',
-        error: error instanceof Error ? error.message : 'Error desconocido',
-      });
-    }
+  constructor() {
+    this.envioService = new EnvioService();
+    this.importacionService = new ImportacionService();
   }
 
   /**
-   * Obtiene un envío por su ID
-   * @route GET /api/envios/:id
+   * Crear un nuevo envío manual
    */
-  static async getById(req: Request, res: Response): Promise<void> {
+  async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        res.status(400).json({
-          success: false,
-          message: 'ID inválido',
-        });
-        return;
-      }
-
-      const envio = await envioService.findById(id);
-      if (!envio) {
-        res.status(404).json({
-          success: false,
-          message: 'Envío no encontrado',
-        });
-        return;
-      }
-
-      res.status(200).json({
-        success: true,
-        data: envio,
-      });
-    } catch (error) {
-      logger.error('Error al obtener envío:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al obtener el envío',
-        error: error instanceof Error ? error.message : 'Error desconocido',
-      });
-    }
-  }
-
-  /**
-   * Obtiene un envío por su número de House
-   * @route GET /api/envios/house/:house
-   */
-  static async getByHouse(req: Request, res: Response): Promise<void> {
-    try {
-      const { house } = req.params;
-      const envio = await envioService.findByHouse(house);
-      if (!envio) {
-        res.status(404).json({
-          success: false,
-          message: 'Envío no encontrado',
-        });
-        return;
-      }
-
-      res.status(200).json({
-        success: true,
-        data: envio,
-      });
-    } catch (error) {
-      logger.error('Error al obtener envío por House:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al obtener el envío',
-        error: error instanceof Error ? error.message : 'Error desconocido',
-      });
-    }
-  }
-
-  /**
-   * Crea un nuevo envío manualmente
-   * @route POST /api/envios
-   */
-  static async create(req: Request, res: Response): Promise<void> {
-    try {
-      const body = req.body as EnvioCreateData;
-
-      const envio = await envioService.create(body);
+      const envioData: Partial<Envio> = req.body;
+      const resultado = await this.envioService.create(envioData);
       res.status(201).json({
         success: true,
+        data: resultado,
         message: 'Envío creado exitosamente',
-        data: envio,
       });
     } catch (error) {
-      logger.error('Error al crear envío:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al crear el envío',
-        error: error instanceof Error ? error.message : 'Error desconocido',
-      });
+      next(error as Error);
     }
   }
 
   /**
-   * Actualiza un envío existente
-   * @route PUT /api/envios/:id
+   * Listar envíos con filtros
    */
-  static async update(req: Request, res: Response): Promise<void> {
+  async findAll(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const filtros = req.query;
+      const resultado = await this.envioService.findAll(filtros);
+      res.status(200).json({
+        success: true,
+        data: resultado,
+      });
+    } catch (error) {
+      next(error as Error);
+    }
+  }
+
+  /**
+   * Obtener un envío por ID
+   */
+  async findById(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        res.status(400).json({
-          success: false,
-          message: 'ID inválido',
-        });
-        return;
-      }
+      const resultado = await this.envioService.findById(id);
 
-      const body = req.body as EnvioUpdateData;
-
-      const envio = await envioService.update(id, body);
-      if (!envio) {
+      if (!resultado) {
         res.status(404).json({
           success: false,
           message: 'Envío no encontrado',
@@ -179,36 +68,22 @@ export class EnvioController {
 
       res.status(200).json({
         success: true,
-        message: 'Envío actualizado exitosamente',
-        data: envio,
+        data: resultado,
       });
     } catch (error) {
-      logger.error('Error al actualizar envío:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al actualizar el envío',
-        error: error instanceof Error ? error.message : 'Error desconocido',
-      });
+      next(error as Error);
     }
   }
 
   /**
-   * Elimina un envío (eliminación física)
-   * @route DELETE /api/envios/:id
+   * Buscar envío por House
    */
-  static async delete(req: Request, res: Response): Promise<void> {
+  async findByHouse(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        res.status(400).json({
-          success: false,
-          message: 'ID inválido',
-        });
-        return;
-      }
+      const house = req.params.house;
+      const resultado = await this.envioService.findByHouse(house);
 
-      const result = await envioService.delete(id);
-      if (!result) {
+      if (!resultado) {
         res.status(404).json({
           success: false,
           message: 'Envío no encontrado',
@@ -217,123 +92,106 @@ export class EnvioController {
       }
 
       res.status(200).json({
+        success: true,
+        data: resultado,
+      });
+    } catch (error) {
+      next(error as Error);
+    }
+  }
+
+  /**
+   * Actualizar un envío
+   */
+  async update(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const id = parseInt(req.params.id);
+      const envioData: Partial<Envio> = req.body;
+      const resultado = await this.envioService.update(id, envioData);
+
+      if (!resultado) {
+        res.status(404).json({
+          success: false,
+          message: 'Envío no encontrado',
+        });
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        data: resultado,
+        message: 'Envío actualizado exitosamente',
+      });
+    } catch (error) {
+      next(error as Error);
+    }
+  }
+
+  /**
+   * Eliminar un envío
+   */
+  async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const id = parseInt(req.params.id);
+      const resultado = await this.envioService.delete(id);
+
+      if (!resultado) {
+        res.status(404).json({
+          success: false,
+          message: 'Envío no encontrado',
+        });
+        return;
+      }
+
+      res.status(204).json({
         success: true,
         message: 'Envío eliminado exitosamente',
       });
     } catch (error) {
-      logger.error('Error al eliminar envío:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al eliminar el envío',
-        error: error instanceof Error ? error.message : 'Error desconocido',
-      });
+      next(error as Error);
     }
   }
 
   /**
-   * Actualiza el estado de un envío
-   * @route PATCH /api/envios/:id/estado
+   * Obtener estadísticas de envíos
    */
-  static async updateEstado(req: Request, res: Response): Promise<void> {
+  async getEstadisticas(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        res.status(400).json({
-          success: false,
-          message: 'ID inválido',
-        });
-        return;
-      }
-
-      // ✅ CORREGIDO: Tipar el destructuring de req.body
-      const { estado, incidencia } = req.body as {
-        estado: EstadoEnvio;
-        incidencia?: string
-      };
-
-      if (!estado || !Object.values(EstadoEnvio).includes(estado as EstadoEnvio)) {
-        res.status(400).json({
-          success: false,
-          message: 'Estado inválido',
-        });
-        return;
-      }
-
-      const envio = await envioService.updateEstado(id, estado as EstadoEnvio, incidencia as string);
-      if (!envio) {
-        res.status(404).json({
-          success: false,
-          message: 'Envío no encontrado',
-        });
-        return;
-      }
-
+      const resultado = await this.envioService.getEstadisticas();
       res.status(200).json({
         success: true,
-        message: 'Estado del envío actualizado',
-        data: envio,
+        data: resultado,
       });
     } catch (error) {
-      logger.error('Error al actualizar estado del envío:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al actualizar el estado del envío',
-        error: error instanceof Error ? error.message : 'Error desconocido',
-      });
+      next(error as Error);
     }
   }
 
   /**
-   * Obtiene estadísticas de envíos
-   * @route GET /api/envios/estadisticas
+   * Importar manifiesto desde Excel/CSV
    */
-  static async getEstadisticas(req: Request, res: Response): Promise<void> {
+  async importarManifiesto(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const clienteId = req.query.clienteId ? parseInt(req.query.clienteId as string) : undefined;
-      const estadisticas = await envioService.getEstadisticas(clienteId);
+      const file = req.file;
+      const mapeo = req.body.mapeo ? JSON.parse(req.body.mapeo) : null;
 
-      res.status(200).json({
-        success: true,
-        data: estadisticas,
-      });
-    } catch (error) {
-      logger.error('Error al obtener estadísticas:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al obtener estadísticas',
-        error: error instanceof Error ? error.message : 'Error desconocido',
-      });
-    }
-  }
-
-  /**
-   * Obtiene el historial de envíos de un cliente
-   * @route GET /api/envios/cliente/:id/historial
-   */
-  static async getHistorialByCliente(req: Request, res: Response): Promise<void> {
-    try {
-      const clienteId = parseInt(req.params.id);
-      if (isNaN(clienteId)) {
+      if (!file) {
         res.status(400).json({
           success: false,
-          message: 'ID de cliente inválido',
+          message: 'No se proporcionó ningún archivo',
         });
         return;
       }
 
-      const historial = await envioService.getHistorialByCliente(clienteId);
+      const resultado = await this.importacionService.importarManifiesto(file, mapeo);
+
       res.status(200).json({
         success: true,
-        data: historial,
-        total: historial.length,
+        data: resultado,
+        message: `Importación completada: ${resultado.importados} envíos importados`,
       });
     } catch (error) {
-      logger.error('Error al obtener historial del cliente:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al obtener el historial del cliente',
-        error: error instanceof Error ? error.message : 'Error desconocido',
-      });
+      next(error as Error);
     }
   }
 }

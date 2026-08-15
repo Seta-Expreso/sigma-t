@@ -11,11 +11,9 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
-  OneToMany,
 } from 'typeorm';
 import { Vehiculo } from './vehiculo.model.js';
 import { Chofer } from './chofer.model.js';
-import { Envio } from './envio.model.js';
 
 export type EstadoRuta = 'planificada' | 'en_curso' | 'completada' | 'cancelada';
 
@@ -27,9 +25,9 @@ export interface Parada {
   direccion: string;
   lat?: number;
   lng?: number;
-  eta?: string; // Hora estimada de llegada
-  tiempo_estimado?: number; // Minutos desde inicio
-  distancia_estimada?: number; // Km desde inicio
+  eta?: string;
+  tiempo_estimado?: number;
+  distancia_estimada?: number;
 }
 
 export interface FichaCosto {
@@ -67,6 +65,29 @@ export interface FichaCosto {
   };
 }
 
+export interface AnalisisPostRuta {
+  distancia_planificada: number;
+  distancia_real: number;
+  tiempo_planificado: number;
+  tiempo_real: number;
+  combustible_estimado: number;
+  combustible_real: number;
+  desviacion_distancia: number;
+  desviacion_tiempo: number;
+  desviacion_combustible: number;
+  eficiencia_chofer: number;
+  eficiencia_vehiculo: number;
+  entregas_a_tiempo: number;
+  entregas_urgentes: number;
+  reoptimizaciones: number;
+  incidencias: Array<{
+    tipo: string;
+    descripcion: string;
+    hora: string;
+  }>;
+  recomendaciones: string[];
+}
+
 @Entity('rutas')
 export class Ruta {
   @PrimaryGeneratedColumn()
@@ -96,13 +117,13 @@ export class Ruta {
   distancia_total!: number;
 
   @Column({ type: 'int' })
-  tiempo_estimado!: number; // Minutos
+  tiempo_estimado!: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
-  combustible_estimado?: number; // Litros
+  combustible_estimado?: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
-  combustible_real?: number; // Litros
+  combustible_real?: number;
 
   @Column({ type: 'decimal', precision: 12, scale: 2 })
   costo_total_estimado!: number;
@@ -126,28 +147,7 @@ export class Ruta {
   margen_utilidad?: number;
 
   @Column({ type: 'jsonb', nullable: true })
-  analisis_post_ruta?: {
-    distancia_planificada: number;
-    distancia_real: number;
-    tiempo_planificado: number;
-    tiempo_real: number;
-    combustible_estimado: number;
-    combustible_real: number;
-    desviacion_distancia: number;
-    desviacion_tiempo: number;
-    desviacion_combustible: number;
-    eficiencia_chofer: number;
-    eficiencia_vehiculo: number;
-    entregas_a_tiempo: number;
-    entregas_urgentes: number;
-    reoptimizaciones: number;
-    incidencias: Array<{
-      tipo: string;
-      descripcion: string;
-      hora: string;
-    }>;
-    recomendaciones: string[];
-  };
+  analisis_post_ruta?: AnalisisPostRuta;
 
   @Column({
     type: 'enum',
