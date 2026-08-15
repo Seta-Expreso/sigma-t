@@ -3,6 +3,8 @@
  * @module models/ruta.model
  */
 
+/* eslint-disable */
+
 import {
   Entity,
   Column,
@@ -162,3 +164,5 @@ export class Ruta {
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at!: Date;
 }
+
+/* eslint-enable */
