@@ -248,7 +248,7 @@ export class ImportacionService {
    * @param {number} clienteId - ID del cliente
    * @returns {Promise<VistaPreviaResultado>} Vista previa de los datos
    */
-  async obtenerVistaPrevia(
+  obtenerVistaPrevia(
     filePath: string,
     mapeo: ColumnaMapeo,
     clienteId: number
