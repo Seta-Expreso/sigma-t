@@ -4,13 +4,13 @@
  */
 
 import { Router } from 'express';
-import type { RequestHandler } from 'express';
 import { EnvioController } from '../controllers/envio.controller.js';
 import { ImportacionController } from '../controllers/importacion.controller.js';
 import { EnvioService } from '../services/envio.service.js';
 import { ImportacionService } from '../services/importacion.service.js';
 import { authMiddleware } from '../middleware/auth.middleware.js';
 import multer from 'multer';
+// ✅ Eliminar import de RequestHandler si no se usa
 
 const router = Router();
 const upload = multer({ dest: 'uploads/' });
@@ -23,7 +23,7 @@ const importacionController = new ImportacionController();
 // Todas las rutas requieren autenticación
 router.use(authMiddleware);
 
-// ✅ Usar middleware de upload sin asignación compleja
+// ✅ Usar upload.single sin asignaciones ni type assertions
 router.post('/importar', upload.single('file'), (req, res, next) => {
   void envioController.importarManifiesto(req, res, next);
 });

@@ -15,10 +15,6 @@ import {
 import { Vehiculo } from './vehiculo.model.js';
 import { Chofer } from './chofer.model.js';
 
-// ============================================================
-// TIPOS Y ENUMS
-// ============================================================
-
 export type EstadoRuta = 'planificada' | 'en_curso' | 'completada' | 'cancelada';
 
 export interface Parada {
@@ -91,10 +87,6 @@ export interface AnalisisPostRuta {
   }>;
   recomendaciones: string[];
 }
-
-// ============================================================
-// ENTIDAD RUTA
-// ============================================================
 
 @Entity('rutas')
 export class Ruta {
