@@ -5,8 +5,9 @@
 
 import * as XLSX from 'xlsx';
 import { AppDataSource } from '../config/database.config.js';
-import { Envio, EstadoEnvio, EnvioCreateData } from '../models/envio.model.js';
-import { Repository } from 'typeorm';
+import { Envio, EstadoEnvio } from '../models/envio.model.js';
+import type { EnvioCreateData } from '../models/envio.model.js';
+import type { Repository } from 'typeorm';
 import * as fs from 'fs';
 import winston from 'winston';
 
@@ -114,12 +115,12 @@ export class ImportacionService {
    * @param {string} filePath - Ruta del archivo Excel
    * @returns {Promise<string[]>} Lista de nombres de columnas
    */
-  async obtenerColumnas(filePath: string): Promise<string[]> {
+  obtenerColumnas(filePath: string): Promise<string[]> {
     const workbook = XLSX.readFile(filePath);
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
     const data = XLSX.utils.sheet_to_json(sheet, { defval: '' });
-    if (data.length === 0) return [];
-    return Object.keys(data[0]);
+    if (data.length === 0) return Promise.resolve([]);
+    return Promise.resolve(Object.keys(data[0]));
   }
 
   /**
@@ -271,7 +272,7 @@ export class ImportacionService {
    * @param {number} clienteId - ID del cliente
    * @returns {Promise<VistaPreviaResultado>} Vista previa de los datos
    */
-  async obtenerVistaPrevia(
+  obtenerVistaPrevia(
     filePath: string,
     mapeo: ColumnaMapeo,
     clienteId: number
@@ -334,11 +335,11 @@ export class ImportacionService {
       }
     }
 
-    return {
+    return Promise.resolve({
       filas: filasResult,
       total: filasValidas.length,
       errores,
-    };
+    });
   }
 
   /**

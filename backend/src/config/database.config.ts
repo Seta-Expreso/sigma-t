@@ -7,8 +7,20 @@ import { DataSource } from 'typeorm';
 import dotenv from 'dotenv';
 import { Cliente } from '../models/cliente.model.js';
 import { Envio } from '../models/envio.model.js';
+import winston from 'winston';
 
 dotenv.config();
+
+// Configurar logger
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.Console({
+      format: winston.format.simple(),
+    }),
+  ],
+});
 
 /**
  * Configuración de la conexión a PostgreSQL
@@ -36,15 +48,15 @@ export const AppDataSource = new DataSource({
 // Validación de configuración en producción
 if (process.env.NODE_ENV === 'production') {
   if (!process.env.DB_PASSWORD) {
-    console.error('❌ ERROR CRÍTICO: DB_PASSWORD no está configurada en .env');
-    console.error('   El servidor no puede iniciar sin una contraseña de base de datos segura.');
+    logger.error('❌ ERROR CRÍTICO: DB_PASSWORD no está configurada en .env');
+    logger.error('   El servidor no puede iniciar sin una contraseña de base de datos segura.');
     process.exit(1);
   }
 
   if (!process.env.DB_USER || !process.env.DB_HOST) {
-    console.warn('⚠️ ADVERTENCIA: DB_USER o DB_HOST no están configurados, usando valores por defecto.');
+    logger.warn('⚠️ ADVERTENCIA: DB_USER o DB_HOST no están configurados, usando valores por defecto.');
   }
 }
 
-console.log(`📦 Base de datos: ${process.env.DB_NAME || 'sigma_t'} en ${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || '5432'}`);
-console.log(`🔧 Modo synchronize: ${process.env.NODE_ENV !== 'production' ? 'ACTIVADO (desarrollo)' : 'DESACTIVADO (producción)'}`);
+logger.info(`📦 Base de datos: ${process.env.DB_NAME || 'sigma_t'} en ${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || '5432'}`);
+logger.info(`🔧 Modo synchronize: ${process.env.NODE_ENV !== 'production' ? 'ACTIVADO (desarrollo)' : 'DESACTIVADO (producción)'}`);

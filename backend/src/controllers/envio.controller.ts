@@ -3,9 +3,10 @@
  * @module controllers/envio
  */
 
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { EnvioService } from '../services/envio.service.js';
-import { EstadoEnvio, PrioridadEnvio, EnvioCreateData, EnvioUpdateData } from '../models/envio.model.js';
+import { EstadoEnvio } from '../models/envio.model.js';
+import type { EnvioCreateData, EnvioUpdateData } from '../models/envio.model.js';
 import winston from 'winston';
 
 // Configurar logger

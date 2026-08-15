@@ -4,9 +4,10 @@
  */
 
 import { AppDataSource } from '../config/database.config.js';
-import { Envio, EstadoEnvio, EstadoAduana, EnvioCreateData, EnvioUpdateData } from '../models/envio.model.js';
-import { EnvioFilters, PaginatedResult } from '../types/typeorm.types.js';
-import { Repository, Between, FindOptionsWhere } from 'typeorm';
+import { Envio, EstadoEnvio, EstadoAduana } from '../models/envio.model.js';
+import type { EnvioCreateData, EnvioUpdateData } from '../models/envio.model.js';
+import type { EnvioFilters } from '../types/typeorm.types.js';
+import type { Repository, Between, FindOptionsWhere } from 'typeorm';
 
 /**
  * Estadísticas de envíos
@@ -188,22 +189,27 @@ export class EnvioService {
   /**
    * Actualiza el costo de aduana de un envío
    * @param {number} id - ID del envío
-   * @param {number} costoAduana - Costo de aduana
+   * @param {number} importeAduana - Importe de aduana
+   * @param {string} numeroFactura - Número de factura
    * @param {EstadoAduana} estadoAduana - Estado de la consulta
    * @returns {Promise<Envio | null>} Envío actualizado o null
    * @example
-   * const envio = await envioService.updateAduana(1, 1250.00, EstadoAduana.CONSULTADO);
+   * const envio = await envioService.updateAduana(1, 1250.00, 'FAC-001', EstadoAduana.CONSULTADO);
    */
-  async updateAduana(id: number, costoAduana: number, estadoAduana: EstadoAduana): Promise<Envio | null> {
+  async updateAduana(
+    id: number,
+    importeAduana: number,
+    numeroFactura: string,
+    estadoAduana: EstadoAduana
+  ): Promise<Envio | null> {
     const envio = await this.findById(id);
     if (!envio) return null;
 
-    // @ts-expect-error - Propiedad existe en la entidad
-    envio.costo_aduana = costoAduana;
-    // @ts-expect-error - Propiedad existe en la entidad
+    envio.importe_aduana = importeAduana;
+    envio.numero_factura_aduana = numeroFactura;
     envio.estado_aduana = estadoAduana;
-    // @ts-expect-error - Propiedad existe en la entidad
-    envio.fecha_consulta_aduana = new Date();
+    envio.fecha_ultima_consulta_aduana = new Date();
+    envio.intentos_consulta_aduana = 0;
 
     return await this.envioRepository.save(envio);
   }

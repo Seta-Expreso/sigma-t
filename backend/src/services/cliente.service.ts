@@ -4,9 +4,9 @@
  */
 
 import { AppDataSource } from '../config/database.config.js';
-import { Cliente, ClienteCreateData, ClienteUpdateData } from '../models/cliente.model.js';
-import { EntityRepository, EntityData } from '../types/typeorm.types.js';
-import { Repository } from 'typeorm';
+import { Cliente } from '../models/cliente.model.js';
+import type { ClienteCreateData, ClienteUpdateData } from '../models/cliente.model.js';
+import type { Repository } from 'typeorm';
 
 /**
  * Servicio para operaciones CRUD de clientes

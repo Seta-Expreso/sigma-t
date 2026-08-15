@@ -3,7 +3,7 @@
  * @module types/typeorm.types
  */
 
-import { Repository, FindOptionsWhere, FindManyOptions, DeepPartial } from 'typeorm';
+import type { Repository, FindOptionsWhere, FindManyOptions, DeepPartial } from 'typeorm';
 
 /**
  * Tipo para el repositorio de una entidad

@@ -4,6 +4,7 @@
  */
 
 import { Router } from 'express';
+import type { RequestHandler } from 'express';
 import { ImportacionController } from '../controllers/importacion.controller.js';
 import multer from 'multer';
 import path from 'path';
@@ -40,13 +41,16 @@ const upload = multer({
 
 const router = Router();
 
+// Tipar correctamente upload.single como RequestHandler
+const singleUpload = upload.single('file') as RequestHandler;
+
 /**
  * POST /api/importacion/columnas
  * @description Obtiene las columnas de un archivo Excel
  * @param {File} file - Archivo Excel (multipart/form-data)
  * @returns {Object} Lista de nombres de columnas
  */
-router.post('/columnas', upload.single('file'), ImportacionController.getColumnas);
+router.post('/columnas', singleUpload, ImportacionController.getColumnas);
 
 /**
  * POST /api/importacion/vista-previa
@@ -56,7 +60,7 @@ router.post('/columnas', upload.single('file'), ImportacionController.getColumna
  * @param {number} clienteId - ID del cliente
  * @returns {Object} Vista previa de los datos
  */
-router.post('/vista-previa', upload.single('file'), ImportacionController.getVistaPrevia);
+router.post('/vista-previa', singleUpload, ImportacionController.getVistaPrevia);
 
 /**
  * POST /api/importacion/importar
@@ -66,6 +70,6 @@ router.post('/vista-previa', upload.single('file'), ImportacionController.getVis
  * @param {number} clienteId - ID del cliente
  * @returns {Object} Resultado de la importación
  */
-router.post('/importar', upload.single('file'), ImportacionController.importar);
+router.post('/importar', singleUpload, ImportacionController.importar);
 
 export default router;

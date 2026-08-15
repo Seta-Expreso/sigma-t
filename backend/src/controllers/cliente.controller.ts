@@ -3,10 +3,9 @@
  * @module controllers/cliente
  */
 
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { ClienteService } from '../services/cliente.service.js';
-import { Cliente } from '../models/cliente.model.js';
-import { ClienteCreateData, ClienteUpdateData } from '../models/cliente.model.js';
+import type { ClienteCreateData, ClienteUpdateData } from '../models/cliente.model.js';
 import winston from 'winston';
 
 // Configurar logger

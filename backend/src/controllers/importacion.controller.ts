@@ -3,8 +3,9 @@
  * @module controllers/importacion
  */
 
-import { Request, Response } from 'express';
-import { ImportacionService, ColumnaMapeo } from '../services/importacion.service.js';
+import type { Request, Response } from 'express';
+import { ImportacionService } from '../services/importacion.service.js';
+import type { ColumnaMapeo } from '../services/importacion.service.js';
 import winston from 'winston';
 
 const logger = winston.createLogger({
@@ -37,7 +38,7 @@ export class ImportacionController {
    */
   static async getColumnas(req: Request, res: Response): Promise<void> {
     try {
-      const file = req.file;
+      const file = req.file as Express.Multer.File | undefined;
       if (!file) {
         res.status(400).json({
           success: false,
@@ -74,7 +75,7 @@ export class ImportacionController {
    */
   static async getVistaPrevia(req: Request, res: Response): Promise<void> {
     try {
-      const file = req.file;
+      const file = req.file as Express.Multer.File | undefined;
       const { mapeo, clienteId } = req.body;
 
       if (!file) {
@@ -129,7 +130,7 @@ export class ImportacionController {
    */
   static async importar(req: Request, res: Response): Promise<void> {
     try {
-      const file = req.file;
+      const file = req.file as Express.Multer.File | undefined;
       const { mapeo, clienteId } = req.body;
 
       if (!file) {
