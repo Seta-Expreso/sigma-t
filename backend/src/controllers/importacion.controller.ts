@@ -20,7 +20,8 @@ export class ImportacionController {
 
       if (req.body.mapeo) {
         try {
-          mapeo = JSON.parse(req.body.mapeo) as Record<string, string>;
+          const mapeoData = req.body.mapeo;
+          mapeo = typeof mapeoData === 'string' ? JSON.parse(mapeoData) : (mapeoData as Record<string, string>);
         } catch {
           res.status(400).json({
             success: false,
@@ -50,14 +51,16 @@ export class ImportacionController {
     }
   }
 
-  async vistaPrevia(req: Request, res: Response, next: NextFunction): Promise<void> {
+  // ✅ Eliminar async porque no hay await
+  vistaPrevia(req: Request, res: Response, next: NextFunction): void {
     try {
       const file = req.file;
       let mapeo: Record<string, string> | null = null;
 
       if (req.body.mapeo) {
         try {
-          mapeo = JSON.parse(req.body.mapeo) as Record<string, string>;
+          const mapeoData = req.body.mapeo;
+          mapeo = typeof mapeoData === 'string' ? JSON.parse(mapeoData) : (mapeoData as Record<string, string>);
         } catch {
           res.status(400).json({
             success: false,
@@ -86,7 +89,8 @@ export class ImportacionController {
     }
   }
 
-  async reporteErrores(req: Request, res: Response, next: NextFunction): Promise<void> {
+  // ✅ Eliminar async porque no hay await
+  reporteErrores(req: Request, res: Response, next: NextFunction): void {
     try {
       const { archivoId } = req.params;
       const resultado = this.importacionService.obtenerReporteErrores(archivoId);

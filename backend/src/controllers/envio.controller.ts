@@ -19,7 +19,7 @@ export class EnvioController {
 
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const envioData: Partial<Envio> = req.body;
+      const envioData: Partial<Envio> = req.body as Partial<Envio>;
       const resultado = await this.envioService.create(envioData);
       res.status(201).json({
         success: true,
@@ -91,7 +91,7 @@ export class EnvioController {
   async update(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const id = parseInt(req.params.id, 10);
-      const envioData: Partial<Envio> = req.body;
+      const envioData: Partial<Envio> = req.body as Partial<Envio>;
       const resultado = await this.envioService.update(id, envioData);
 
       if (!resultado) {
@@ -150,7 +150,8 @@ export class EnvioController {
 
       if (req.body.mapeo) {
         try {
-          mapeo = JSON.parse(req.body.mapeo) as Record<string, string>;
+          const mapeoData = req.body.mapeo;
+          mapeo = typeof mapeoData === 'string' ? JSON.parse(mapeoData) : (mapeoData as Record<string, string>);
         } catch {
           res.status(400).json({
             success: false,

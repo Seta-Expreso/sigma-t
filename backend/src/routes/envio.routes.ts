@@ -4,6 +4,7 @@
  */
 
 import { Router } from 'express';
+import type { RequestHandler } from 'express';
 import { EnvioController } from '../controllers/envio.controller.js';
 import { ImportacionController } from '../controllers/importacion.controller.js';
 import { EnvioService } from '../services/envio.service.js';
@@ -19,19 +20,23 @@ const importacionService = new ImportacionService();
 const envioController = new EnvioController(envioService, importacionService);
 const importacionController = new ImportacionController();
 
+// Todas las rutas requieren autenticación
 router.use(authMiddleware);
 
-// ✅ Usar .single() correctamente como propiedad
-const uploadSingle = upload.single.bind(upload);
+// ✅ Usar upload.single correctamente con type assertion
+const uploadSingle: RequestHandler = upload.single('file') as RequestHandler;
 
-router.post('/importar', uploadSingle('file'), (req, res, next) => {
+// Importar manifiesto
+router.post('/importar', uploadSingle, (req, res, next) => {
   void envioController.importarManifiesto(req, res, next);
 });
 
-router.post('/vista-previa', uploadSingle('file'), (req, res, next) => {
+// Vista previa de importación
+router.post('/vista-previa', uploadSingle, (req, res, next) => {
   void importacionController.vistaPrevia(req, res, next);
 });
 
+// CRUD de envíos
 router.post('/', (req, res, next) => {
   void envioController.create(req, res, next);
 });

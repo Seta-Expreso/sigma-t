@@ -33,8 +33,9 @@ export class ImportacionService {
       throw new Error('Se requiere el mapeo de columnas');
     }
 
-    // ✅ Usar file.buffer correctamente
-    const workbook = XLSX.read(file.buffer, { type: 'buffer' });
+    // ✅ Usar file.buffer correctamente tipado
+    const fileBuffer = file.buffer;
+    const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     const datos: Array<Record<string, unknown>> = XLSX.utils.sheet_to_json(worksheet);
@@ -64,7 +65,6 @@ export class ImportacionService {
       };
 
       try {
-        // House
         const house = this.obtenerValor(fila, mapeo.house);
         if (!house) {
           erroresFila.push('House es obligatorio');
@@ -78,7 +78,6 @@ export class ImportacionService {
           envioData.house = house;
         }
 
-        // Descripción
         const descripcion = this.obtenerValor(fila, mapeo.descripcion);
         if (!descripcion) {
           erroresFila.push('Descripción es obligatoria');
@@ -86,7 +85,6 @@ export class ImportacionService {
           envioData.descripcion = descripcion;
         }
 
-        // Peso
         const peso = parseFloat(this.obtenerValor(fila, mapeo.peso));
         if (isNaN(peso) || peso <= 0) {
           erroresFila.push('Peso debe ser mayor a 0');
@@ -94,7 +92,6 @@ export class ImportacionService {
           envioData.peso = peso;
         }
 
-        // Bultos
         const bultos = parseInt(this.obtenerValor(fila, mapeo.bultos), 10);
         if (isNaN(bultos) || bultos <= 0) {
           erroresFila.push('Bultos debe ser mayor a 0');
@@ -102,7 +99,6 @@ export class ImportacionService {
           envioData.bultos = bultos;
         }
 
-        // Remitente
         const remitente = this.obtenerValor(fila, mapeo.remitente_nombre);
         if (!remitente) {
           erroresFila.push('Remitente es obligatorio');
@@ -115,7 +111,6 @@ export class ImportacionService {
           if (passport) envioData.remitente_passport = passport;
         }
 
-        // Destinatario
         const destinatario = this.obtenerValor(fila, mapeo.destinatario_nombre);
         if (!destinatario) {
           erroresFila.push('Destinatario es obligatorio');
@@ -123,7 +118,6 @@ export class ImportacionService {
           envioData.destinatario_nombre = destinatario;
         }
 
-        // Carnet
         const carnet = this.obtenerValor(fila, mapeo.destinatario_identificacion);
         if (!carnet) {
           erroresFila.push('Carnet de Identidad es obligatorio');
@@ -133,7 +127,6 @@ export class ImportacionService {
           envioData.destinatario_identificacion = carnet;
         }
 
-        // Teléfono
         const telefono = this.obtenerValor(fila, mapeo.destinatario_telefono);
         if (!telefono) {
           erroresFila.push('Teléfono es obligatorio');
@@ -141,7 +134,6 @@ export class ImportacionService {
           envioData.destinatario_telefono = telefono;
         }
 
-        // Dirección
         const direccion = this.obtenerValor(fila, mapeo.destinatario_direccion);
         if (!direccion) {
           erroresFila.push('Dirección es obligatoria');
@@ -154,7 +146,6 @@ export class ImportacionService {
           envioData.cobrado_origen = cobrado === 'Si' || cobrado === 'Sí' || cobrado === 'true' || cobrado === 'TRUE';
         }
 
-        // Unidad Destino
         const unidadDestino = this.obtenerValor(fila, mapeo.unidad_destino);
         if (!unidadDestino) {
           erroresFila.push('Unidad de Destino es obligatoria');
@@ -206,7 +197,7 @@ export class ImportacionService {
     };
   }
 
-  // ✅ Eliminar async si no tiene await, o usar async con await
+  // ✅ Eliminar async
   vistaPrevia(
     file: Express.Multer.File,
     mapeo: Record<string, string> | null
@@ -215,7 +206,8 @@ export class ImportacionService {
       throw new Error('Se requiere el mapeo de columnas');
     }
 
-    const workbook = XLSX.read(file.buffer, { type: 'buffer' });
+    const fileBuffer = file.buffer;
+    const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     const datos: Array<Record<string, unknown>> = XLSX.utils.sheet_to_json(worksheet);
@@ -231,7 +223,6 @@ export class ImportacionService {
     };
   }
 
-  // ✅ Marcar parámetro no usado con _
   obtenerReporteErrores(_archivoId: string): { errores: string[] } {
     return {
       errores: ['Funcionalidad en desarrollo'],
