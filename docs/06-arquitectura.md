@@ -1,15 +1,11 @@
-Perfecto, Líder. Aquí tiene el **Documento de Arquitectura de Software - SIGMA-T (VERSIÓN 2.7)** completo, con la Sección 7.4 (Ejemplos de API) incluida.
-
----
-
-## 📄 DOCUMENTO DE ARQUITECTURA DE SOFTWARE - SIGMA-T (VERSIÓN 2.7)
+## 📄 DOCUMENTO DE ARQUITECTURA DE SOFTWARE - SIGMA-T (VERSIÓN 2.8)
 
 **Basado en IEEE 1016 - Descripción de Diseño de Software (SDD) y estándares de arquitectura de sistemas**
 
 **Proyecto:** SIGMA-T (Sistema Integral de Gestión para MiPYME de Transporte)  
 **Cliente / Sponsor:** Osleyder Gonzalez Acosta  
 **Fecha de Emisión:** 15 de agosto de 2026
-**Versión del Documento:** 2.7 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 15/08/2026)
+**Versión del Documento:** 2.8 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 15/08/2026)
 
 ---
 
@@ -414,7 +410,8 @@ backend/
 ├── .eslintrc.js              # Configuración de ESLint
 ├── .prettierrc               # Configuración de Prettier
 ├── .env.example              # Variables de entorno (ejemplo)
-└── .env                      # Variables de entorno (producción)
+├── .env                      # Variables de entorno (producción)
+└── openapi.yaml              # Documentación OpenAPI (Swagger)
 ```
 
 **Servicios Implementados (Sprint 0 y 1):**
@@ -454,6 +451,8 @@ backend/
 | typedoc | ^0.28.1 | Generación de documentación técnica a partir de JSDoc | ✅ |
 | typescript | ^5.8.3 | Compilador de TypeScript | ✅ |
 | ts-node-dev | ^2.0.0 | Desarrollo con hot-reload | ✅ |
+| swagger-jsdoc | ^6.2.8 | Generación de documentación OpenAPI desde JSDoc | ✅ |
+| swagger-ui-express | ^5.0.0 | Interfaz UI para Swagger | ✅ |
 
 ### 4.2 Servicio de Aduana ⏳ PENDIENTE
 
@@ -2001,6 +2000,63 @@ Authorization: Bearer <token>
 }
 ```
 
+### 7.5 Documentación OpenAPI (Swagger)
+
+#### 7.5.1 Configuración de Swagger UI
+
+Para habilitar Swagger UI en el backend:
+
+**Instalación:**
+
+```bash
+npm install swagger-jsdoc swagger-ui-express --save-dev
+```
+
+**Configuración en `app.ts`:**
+
+```typescript
+// backend/src/app.ts
+
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+import * as fs from 'fs';
+import * as yaml from 'yaml';
+
+// Opción 1: Cargar desde archivo YAML
+const openapiFile = fs.readFileSync('./openapi.yaml', 'utf8');
+const swaggerSpec = yaml.parse(openapiFile);
+
+// Configurar Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  explorer: true,
+  customCss: '.swagger-ui .topbar { display: none }',
+  swaggerOptions: {
+    persistAuthorization: true,
+    displayRequestDuration: true,
+  },
+}));
+
+// Endpoint para obtener la especificación en JSON
+app.get('/api-docs.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
+console.log('📚 Swagger UI disponible en: https://api.sigma-t.com/api-docs');
+```
+
+#### 7.5.2 Validación de OpenAPI
+
+```bash
+# Instalar validador
+npm install -g @apidevtools/swagger-cli
+
+# Validar archivo
+swagger-cli validate openapi.yaml
+
+# Si es válido, mostrará: "openapi.yaml is valid"
+```
+
 ---
 
 ## 8. ALGORITMO DE OPTIMIZACIÓN (VRPTW) ⏳ PENDIENTE
@@ -2851,10 +2907,14 @@ El equipo de desarrollo recibirá formación continua en:
 
 Este documento establece la base técnica sólida y de clase mundial sobre la cual se construirá SIGMA-T. Con una arquitectura moderna, escalable y adaptada a las condiciones específicas de Cuba, y con estándares de codificación y documentación de primer nivel, SIGMA-T está posicionado para convertirse en el sistema de gestión de transporte líder en su nicho.
 
-**Novedades incorporadas en esta versión 2.7:**
+**Novedades incorporadas en esta versión 2.8:**
 
-- ✅ **Versión actualizada:** 2.5 → 2.7
-- ✅ **Fecha actualizada:** 15/08/2026
+- ✅ **Versión actualizada:** 2.7 → 2.8
+- ✅ **Documentación OpenAPI (Swagger) completa** agregada en nueva Sección 7.5
+- ✅ **Archivo openapi.yaml** incluido en la estructura del proyecto
+- ✅ **Configuración de Swagger UI** en app.ts
+- ✅ **Validación de OpenAPI** con swagger-cli
+- ✅ **Dependencias swagger-jsdoc y swagger-ui-express** agregadas al stack tecnológico
 - ✅ **Servicio de Automatización de Aduana** agregado al diagrama de arquitectura y flujos
 - ✅ **node-cron** agregado a dependencias para programación de tareas
 - ✅ **Nuevos campos en ENVIO:** `importe_aduana`, `numero_factura_aduana`, `fecha_ultima_consulta_aduana`, `intentos_consulta_aduana`
@@ -2867,8 +2927,9 @@ Este documento establece la base técnica sólida y de clase mundial sobre la cu
 - ✅ **Endpoint** `/api/finanzas/automatizacion/status` agregado para monitoreo
 - ✅ **Sección 7.4 (Ejemplos de API)** restaurada con 7 ejemplos prácticos
 - ✅ **Referencias cruzadas** actualizadas con SRS v3.7 y SPMP v3.7
-- ✅ **Conclusión** actualizada con resumen de cambios de v2.7
 
 ---
 
 **Este documento es la guía técnica definitiva para construir el sistema de gestión de transporte más completo y de mayor calidad del nicho cubano y regional.**
+
+---

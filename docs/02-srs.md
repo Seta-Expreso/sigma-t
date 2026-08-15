@@ -28,40 +28,40 @@ SIGMA-T es un sistema modular de clase mundial que permite gestionar **todo el c
 
 ### 1.3 Definiciones y Acrónimos
 
-| Término | Definición |
-|---------|------------|
-| MiPYME | Micro, Pequeña y Mediana Empresa |
-| SRS | Software Requirements Specification |
-| KPI | Key Performance Indicator |
-| MVP | Minimum Viable Product |
-| SLA | Service Level Agreement |
-| API | Application Programming Interface |
-| VRPTW | Vehicle Routing Problem with Time Windows |
-| TMS | Transportation Management System |
-| AWB | Air Way Bill - Número de guía aérea (ej. 230-66684660) |
-| JSDoc | Estándar de documentación para código JavaScript/TypeScript |
-| OpenAPI | Especificación para documentación de APIs REST |
-| CI/CD | Integración Continua / Despliegue Continuo |
-| ESLint | Herramienta de análisis estático para JavaScript/TypeScript |
-| CUP | Peso Cubano (moneda nacional de Cuba) |
-| USD | Dólar Estadounidense |
-| Ficha de Costo | Documento que desglosa todos los costos asociados a una operación de transporte (directos, indirectos y de importación) |
-| VPS | Servidor Privado Virtual |
-| ETECSA | Empresa de Telecomunicaciones de Cuba S.A. |
-| APKlis | Tienda de aplicaciones cubana para Android |
-| SSL | Secure Sockets Layer |
-| HTTPS | Protocolo seguro de transferencia de hipertexto |
-| **Jefe de Oficina** | **Usuario autorizado por una agencia de envíos (ej. Central American Cargo en Panamá) para gestionar manifiestos y supervisar envíos** |
-| **Cliente Remitente** | **Persona que envía un paquete** |
-| **Cliente Destinatario** | **Persona que recibe un paquete** |
-| **House** | Número de identificación único de un paquete en el manifiesto |
-| **Arribado** | Estado del paquete cuando llega al aeropuerto de destino en Cuba |
-| **Facturado** | Estado del paquete cuando tiene importe y factura en Aerovaradero |
-| **Faltante de Origen** | El bulto nunca salió del país de origen |
-| **Presencial** | La aduana detectó un problema y Aerovaradero lo entregará directamente |
-| **Clasificación** | El paquete está en el almacén de Seta Expreso, clasificado por provincia/municipio |
-| **Proceso de Entrega** | El paquete está en ruta hacia el cliente destinatario |
-| **No Entregado** | El paquete no pudo ser entregado y vuelve a clasificación |
+| Término                  | Definición                                                                                                                             |
+|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| MiPYME                   | Micro, Pequeña y Mediana Empresa                                                                                                       |
+| SRS                      | Software Requirements Specification                                                                                                    |
+| KPI                      | Key Performance Indicator                                                                                                              |
+| MVP                      | Minimum Viable Product                                                                                                                 |
+| SLA                      | Service Level Agreement                                                                                                                |
+| API                      | Application Programming Interface                                                                                                      |
+| VRPTW                    | Vehicle Routing Problem with Time Windows                                                                                              |
+| TMS                      | Transportation Management System                                                                                                       |
+| AWB                      | Air Way Bill - Número de guía aérea (ej. 230-66684660)                                                                                 |
+| JSDoc                    | Estándar de documentación para código JavaScript/TypeScript                                                                            |
+| OpenAPI                  | Especificación para documentación de APIs REST                                                                                         |
+| CI/CD                    | Integración Continua / Despliegue Continuo                                                                                             |
+| ESLint                   | Herramienta de análisis estático para JavaScript/TypeScript                                                                            |
+| CUP                      | Peso Cubano (moneda nacional de Cuba)                                                                                                  |
+| USD                      | Dólar Estadounidense                                                                                                                   |
+| Ficha de Costo           | Documento que desglosa todos los costos asociados a una operación de transporte (directos, indirectos y de importación)                |
+| VPS                      | Servidor Privado Virtual                                                                                                               |
+| ETECSA                   | Empresa de Telecomunicaciones de Cuba S.A.                                                                                             |
+| APKlis                   | Tienda de aplicaciones cubana para Android                                                                                             |
+| SSL                      | Secure Sockets Layer                                                                                                                   |
+| HTTPS                    | Protocolo seguro de transferencia de hipertexto                                                                                        |
+| **Jefe de Oficina**      | **Usuario autorizado por una agencia de envíos (ej. Central American Cargo en Panamá) para gestionar manifiestos y supervisar envíos** |
+| **Cliente Remitente**    | **Persona que envía un paquete**                                                                                                       |
+| **Cliente Destinatario** | **Persona que recibe un paquete**                                                                                                      |
+| **House**                | Número de identificación único de un paquete en el manifiesto                                                                          |
+| **Arribado**             | Estado del paquete cuando llega al aeropuerto de destino en Cuba                                                                       |
+| **Facturado**            | Estado del paquete cuando tiene importe y factura en Aerovaradero                                                                      |
+| **Faltante de Origen**   | El bulto nunca salió del país de origen                                                                                                |
+| **Presencial**           | La aduana detectó un problema y Aerovaradero lo entregará directamente                                                                 |
+| **Clasificación**        | El paquete está en el almacén de Seta Expreso, clasificado por provincia/municipio                                                     |
+| **Proceso de Entrega**   | El paquete está en ruta hacia el cliente destinatario                                                                                  |
+| **No Entregado**         | El paquete no pudo ser entregado y vuelve a clasificación                                                                              |
 
 ---
 
@@ -108,17 +108,17 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 
 **Estados del Paquete (9 estados):**
 
-| # | Estado | Responsable | Descripción | ¿Llega a Seta Expreso? | Visible para |
-|---|--------|-------------|-------------|------------------------|--------------|
-| 1 | **Faltante de Origen** | Aerovaradero | El bulto nunca salió del país de origen | ❌ **NO** (FIN) | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
-| 2 | **Presencial** | Aerovaradero | Problema detectado por aduana | ❌ **NO** (FIN) | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
-| 3 | **Arribado** | Aerovaradero | Llegó al Aeropuerto de destino | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
-| 4 | **Facturado** | Aerovaradero | Tiene importe y factura en Aerovaradero | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
-| 5 | **Entregado en Aerovaradero** | Aerovaradero | Recogido por Seta Expreso | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
-| 6 | **Clasificación** | Seta Expreso | En almacén clasificando por provincia | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
-| 7 | **Proceso de Entrega** | Seta Expreso | En ruta al destinatario | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
-| 8 | **Entregado** | Seta Expreso | Entregado con firma y fotos | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
-| 9 | **No Entregado** | Seta Expreso | No se pudo entregar, vuelve a clasificación | ✅ Sí | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| # | Estado                        | Responsable  | Descripción                                 | ¿Llega a Seta Expreso? | Visible para                                       |
+|---|-------------------------------|--------------|---------------------------------------------|------------------------|----------------------------------------------------|
+| 1 | **Faltante de Origen**        | Aerovaradero | El bulto nunca salió del país de origen     | ❌ **NO** (FIN) | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 2 | **Presencial**                | Aerovaradero | Problema detectado por aduana               | ❌ **NO** (FIN) | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 3 | **Arribado**                  | Aerovaradero | Llegó al Aeropuerto de destino              | ✅ Sí           | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 4 | **Facturado**                 | Aerovaradero | Tiene importe y factura en Aerovaradero     | ✅ Sí           | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 5 | **Entregado en Aerovaradero** | Aerovaradero | Recogido por Seta Expreso                   | ✅ Sí           | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 6 | **Clasificación**             | Seta Expreso | En almacén clasificando por provincia       | ✅ Sí           | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 7 | **Proceso de Entrega**        | Seta Expreso | En ruta al destinatario                     | ✅ Sí           | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 8 | **Entregado**                 | Seta Expreso | Entregado con firma y fotos                 | ✅ Sí           | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
+| 9 | **No Entregado**              | Seta Expreso | No se pudo entregar, vuelve a clasificación | ✅ Sí           | Admin, Jefe Operaciones, Agencia, Remitente, Destinatario |
 
 ---
 
@@ -126,27 +126,27 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 
 ### MÓDULO 1: ADMINISTRACIÓN DE FLOTA (RF-FLOTA) - ⏳ PENDIENTE
 
-| ID | Requisito | Prioridad | Complejidad | Estado |
-|----|-----------|-----------|-------------|--------|
-| RF-FL-01 | Registrar vehículo con: matrícula, marca, modelo, año, capacidad (kg/m³/pasajeros), tipo de combustible, consumo promedio | Alta | Baja | ⏳ Pendiente |
-| RF-FL-02 | Registrar mantenimientos: fecha, tipo (preventivo/correctivo), costo, taller, próximo mantenimiento (km o fecha) | Alta | Media | ⏳ Pendiente |
-| RF-FL-03 | Asignar vehículo a chofer en turno | Alta | Baja | ⏳ Pendiente |
-| RF-FL-04 | Registrar historial de kilómetros recorridos por vehículo | Alta | Media | ⏳ Pendiente |
-| RF-FL-05 | Calcular depreciación del vehículo (método lineal) | Media | Baja | ⏳ Pendiente |
-| RF-FL-06 | Registrar consumo real de combustible vs. esperado | Alta | Media | ⏳ Pendiente |
-| RF-FL-07 | Alertas automáticas de mantenimiento (basadas en km o tiempo) | Alta | Media | ⏳ Pendiente |
-| RF-FL-08 | Reporte de costos acumulados por vehículo (mantenimiento + combustible) | Alta | Media | ⏳ Pendiente |
+| ID       | Requisito                                                                                                                 | Prioridad | Complejidad | Estado       |
+|----------|---------------------------------------------------------------------------------------------------------------------------|-----------|-------------|--------------|
+| RF-FL-01 | Registrar vehículo con: matrícula, marca, modelo, año, capacidad (kg/m³/pasajeros), tipo de combustible, consumo promedio | Alta      | Baja        | ⏳ Pendiente |
+| RF-FL-02 | Registrar mantenimientos: fecha, tipo (preventivo/correctivo), costo, taller, próximo mantenimiento (km o fecha)          | Alta      | Media       | ⏳ Pendiente |
+| RF-FL-03 | Asignar vehículo a chofer en turno                                                                                        | Alta      | Baja        | ⏳ Pendiente |
+| RF-FL-04 | Registrar historial de kilómetros recorridos por vehículo                                                                 | Alta      | Media       | ⏳ Pendiente |
+| RF-FL-05 | Calcular depreciación del vehículo (método lineal)                                                                        | Media     | Baja        | ⏳ Pendiente |
+| RF-FL-06 | Registrar consumo real de combustible vs. esperado                                                                        | Alta      | Media       | ⏳ Pendiente |
+| RF-FL-07 | Alertas automáticas de mantenimiento (basadas en km o tiempo)                                                             | Alta      | Media       | ⏳ Pendiente |
+| RF-FL-08 | Reporte de costos acumulados por vehículo (mantenimiento + combustible)                                                   | Alta      | Media       | ⏳ Pendiente |
 
 ### MÓDULO 2: GESTIÓN DE CHOFERES (RF-CHOFER) - ⏳ PENDIENTE
 
-| ID | Requisito | Prioridad | Complejidad | Estado |
-|----|-----------|-----------|-------------|--------|
-| RF-CH-01 | Registrar chofer con: nombre, identificación, licencia (tipo, vigencia), contacto, fecha de ingreso | Alta | Baja | ⏳ Pendiente |
-| RF-CH-02 | Registrar disponibilidad/horario del chofer (turnos) | Alta | Baja | ⏳ Pendiente |
-| RF-CH-03 | Calcular salario (base + bonos por entregas) | Alta | Media | ⏳ Pendiente |
-| RF-CH-04 | Registrar incidencias durante ruta (accidentes, averías, retrasos) | Alta | Baja | ⏳ Pendiente |
-| RF-CH-05 | Evaluar desempeño (% entregas a tiempo, consumo) | Media | Media | ⏳ Pendiente |
-| RF-CH-06 | Historial completo de rutas y entregas por chofer | Alta | Media | ⏳ Pendiente |
+| ID       | Requisito                                                                                           | Prioridad | Complejidad | Estado       |
+|----------|-----------------------------------------------------------------------------------------------------|-----------|-------------|--------------|
+| RF-CH-01 | Registrar chofer con: nombre, identificación, licencia (tipo, vigencia), contacto, fecha de ingreso | Alta      | Baja        | ⏳ Pendiente |
+| RF-CH-02 | Registrar disponibilidad/horario del chofer (turnos)                                                | Alta      | Baja        | ⏳ Pendiente |
+| RF-CH-03 | Calcular salario (base + bonos por entregas)                                                        | Alta      | Media       | ⏳ Pendiente |
+| RF-CH-04 | Registrar incidencias durante ruta (accidentes, averías, retrasos)                                  | Alta      | Baja        | ⏳ Pendiente |
+| RF-CH-05 | Evaluar desempeño (% entregas a tiempo, consumo)                                                    | Media     | Media       | ⏳ Pendiente |
+| RF-CH-06 | Historial completo de rutas y entregas por chofer                                                   | Alta      | Media       | ⏳ Pendiente |
 
 ### MÓDULO 3: GESTIÓN DE CLIENTES Y ENVÍOS (RF-CLIENTE) - ✅ IMPLEMENTADO
 
@@ -157,37 +157,37 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 | **RF-CL-01c** | **Validación de datos al importar** | Alta | Media | **✅ Implementado** | **Incluye validación de Carnet (11 dígitos) y Unidad de destino** |
 | **RF-CL-01d** | **Vista previa de importación** | Alta | Media | **✅ Implementado** | **Mostrar todos los registros, no solo 10** |
 | **RF-CL-01e** | **Reporte de errores de importación** | Alta | Media | **✅ Implementado** | **En pantalla, sin límite de errores** |
-| **RF-CL-02** | **Registrar cliente (empresa de paquetería) con: nombre, contacto, dirección, tarifas negociadas** | Alta | Baja | **✅ Implementado** | |
-| **RF-CL-03** | **Registrar envío manual uno a uno con todos los campos del manifiesto** | Alta | Baja | **✅ Implementado** | |
-| **RF-CL-04** | **Historial de envíos por cliente** | Alta | Baja | **✅ Implementado** | **Con exportación a PDF y CSV** |
-| RF-CL-05 | Categorizar envíos por prioridad (urgente, normal, económico) | Media | Baja | ⏳ Pendiente | |
-| **RF-CL-06** | **Registrar novedades de entrega (entregado, no encontrado, dañado, etc.)** | Alta | Baja | **✅ Implementado** | |
+| **RF-CL-02**  | **Registrar cliente (empresa de paquetería) con: nombre, contacto, dirección, tarifas negociadas** | Alta | Baja | **✅ Implementado** | |
+| **RF-CL-03**  | **Registrar envío manual uno a uno con todos los campos del manifiesto** | Alta | Baja | **✅ Implementado** | |
+| **RF-CL-04**  | **Historial de envíos por cliente** | Alta | Baja | **✅ Implementado** | **Con exportación a PDF y CSV** |
+| RF-CL-05      | Categorizar envíos por prioridad (urgente, normal, económico) | Media | Baja | ⏳ Pendiente | |
+| **RF-CL-06**  | **Registrar novedades de entrega (entregado, no encontrado, dañado, etc.)** | Alta | Baja | **✅ Implementado** | |
 
 **Especificación Detallada de RF-CL-01a (Importación de Excel):**
 
-| Aspecto | Especificación |
-|---------|----------------|
+| Aspecto               | Especificación                                                                                                                            |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | **Mapeo de columnas** | El usuario debe poder seleccionar manualmente qué columna del Excel corresponde a cada campo del sistema mediante un selector desplegable |
-| **Columnas extras** | Las columnas no mapeadas deben ser ignoradas |
-| **Filas vacías** | Deben ser ignoradas |
-| **House** | Formato: CACC-24014926, debe ser único en la base de datos |
+| **Columnas extras**   | Las columnas no mapeadas deben ser ignoradas                                                                                              |
+| **Filas vacías**      | Deben ser ignoradas                                                                                                                       |
+| **House**             | Formato: CACC-24014926, debe ser único en la base de datos                                                                                |
 
 **Especificación Detallada de RF-CL-01c (Validación de datos al importar):**
 
-| Campo | Validación | Obligatorio |
-|-------|------------|-------------|
-| `house` | Formato: CACC-24014926, único en BD | ✅ Sí |
-| `descripcion` | No vacío | ✅ Sí |
-| `peso` | > 0 | ✅ Sí |
-| `bultos` | > 0 | ✅ Sí |
-| `remitente_nombre` | No vacío | ✅ Sí |
-| `remitente_passport` | Puede ser NULL | ❌ No |
-| `destinatario_nombre` | No vacío | ✅ Sí |
-| `destinatario_identificacion` | **11 dígitos exactos** | ✅ Sí |
-| `destinatario_telefono` | No vacío | ✅ Sí |
-| `destinatario_direccion` | No vacío | ✅ Sí |
-| `cobrado_origen` | Puede ser NULL | ❌ No |
-| `unidad_destino` | **No puede ser NULL** | ✅ Sí |
+| Campo                         | Validación                          | Obligatorio |
+|-------------------------------|-------------------------------------|-------------|
+| `house`                       | Formato: CACC-24014926, único en BD | ✅ Sí      |
+| `descripcion`                 | No vacío                            | ✅ Sí      |
+| `peso`                        | > 0                                 | ✅ Sí      |
+| `bultos`                      | > 0                                 | ✅ Sí      |
+| `remitente_nombre`            | No vacío                            | ✅ Sí      |
+| `remitente_passport`          | Puede ser NULL                      | ❌ No      |
+| `destinatario_nombre`         | No vacío                            | ✅ Sí      |
+| `destinatario_identificacion` | **11 dígitos exactos**              | ✅ Sí      |
+| `destinatario_telefono`       | No vacío                            | ✅ Sí      |
+| `destinatario_direccion`      | No vacío                            | ✅ Sí      |
+| `cobrado_origen`              | Puede ser NULL                      | ❌ No      |
+| `unidad_destino`              | **No puede ser NULL**               | ✅ Sí      |
 
 **Especificación Detallada de RF-CL-01d (Vista previa de importación):**
 

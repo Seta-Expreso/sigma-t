@@ -1,4 +1,4 @@
-# 📄 DOCUMENTO SPMP - SIGMA-T (VERSIÓN 3.6 - ACTUALIZADO CON SPRINTS 0 Y 1 COMPLETADOS, NUEVOS REQUISITOS Y FLUJO DE PAQUETERÍA)
+## 📄 DOCUMENTO SPMP - SIGMA-T (VERSIÓN 3.8)
 
 **Basado en IEEE 1058 - Plan de Gestión de Proyectos de Software**
 
@@ -6,7 +6,7 @@
 **Cliente / Sponsor:** Osleyder Gonzalez Acosta  
 **Fecha de Inicio del Proyecto:** 13 de agosto de 2026  
 **Fecha Estimada de Finalización:** 01 de abril de 2027 (MVP)  
-**Versión del Documento:** 3.6 (Completo - Top Mundial con Sprints 0 y 1 Completados - Actualización 15/08/2026)
+**Versión del Documento:** 3.8 (Completo - Top Mundial con Sprints 0 y 1 Completados, Plan de Migración - Actualización 15/08/2026)
 
 ---
 
@@ -15,7 +15,7 @@
 ### 1.1 Propósito y Alcance del Documento
 Este documento define la dirección, la organización y el plan de trabajo para el desarrollo exitoso del sistema SIGMA-T. Su propósito es proporcionar una guía clara y exhaustiva para todos los involucrados, asegurando que el proyecto se ejecute de manera controlada, eficiente y alineada con los objetivos de convertirse en la solución líder en su nicho.
 
-El alcance de este SPMP cubre todas las fases del ciclo de vida del software, desde la concepción hasta el despliegue y la operación inicial, incluyendo la gestión de riesgos, la calidad, la comunicación, los estándares de codificación, las funcionalidades financieras, la integración con aduana (utilizando la URL de payment), la generación de la ficha de costo detallada por ruta, la configuración del entorno de desarrollo, el despliegue en VPS ETECSA con SSL/HTTPS, y la distribución de la app móvil en Google Play Store y APKlis.
+El alcance de este SPMP cubre todas las fases del ciclo de vida del software, desde la concepción hasta el despliegue y la operación inicial, incluyendo la gestión de riesgos, la calidad, la comunicación, los estándares de codificación, las funcionalidades financieras, la integración con aduana (utilizando la URL de payment), la generación de la ficha de costo detallada por ruta, la configuración del entorno de desarrollo, el despliegue en VPS ETECSA con SSL/HTTPS, la distribución de la app móvil en Google Play Store y APKlis, y la migración de datos desde los sistemas actuales (Excel, OptimoRoute, registros manuales).
 
 ### 1.2 Productos de Trabajo y Entregables Clave
 Los principales entregables del proyecto se organizan por fases:
@@ -23,9 +23,9 @@ Los principales entregables del proyecto se organizan por fases:
 | Fase | Entregable | Descripción | Estado |
 | :--- | :--- | :--- | :--- |
 | **Iniciación** | Documento de Visión | Definición de la visión, los stakeholders y el alcance de alto nivel del sistema. | ✅ Completado |
-| **Planificación** | **SRS (v3.6)** | Especificación detallada de todos los requisitos funcionales y no funcionales. | ✅ Actualizado |
-| **Planificación** | **SPMP (v3.6)** | Este documento: Plan de gestión del proyecto. | ✅ Actualizado |
-| **Planificación** | **Arquitectura (v2.7)** | Documento de Arquitectura de Software actualizado. | ⏳ Pendiente |
+| **Planificación** | **SRS (v3.7)** | Especificación detallada de todos los requisitos funcionales y no funcionales. | ✅ Actualizado |
+| **Planificación** | **SPMP (v3.8)** | Este documento: Plan de gestión del proyecto. | ✅ Actualizado |
+| **Planificación** | **Arquitectura (v2.8)** | Documento de Arquitectura de Software actualizado. | ✅ Actualizado |
 | **Planificación** | **Prototipos UI/UX** | Maquetas de alta fidelidad de todas las interfaces (22 pantallas). | ✅ Actualizado |
 | **Ejecución** | Código Fuente | Repositorio con el código de backend, frontend web y app móvil. | ✅ Completado (Sprint 0 y 1) |
 | **Ejecución** | Pruebas y QA | Conjunto de planes de pruebas, casos de prueba y reportes de calidad. | ⏳ Pendiente |
@@ -35,6 +35,7 @@ Los principales entregables del proyecto se organizan por fases:
 | **Cierre** | Plan de Despliegue | Guía paso a paso para la instalación y operación del sistema en VPS ETECSA. | ⏳ Pendiente |
 | **Cierre** | Sistema Productivo | Sistema SIGMA-T operativo en el entorno de producción del cliente. | ⏳ Pendiente |
 | **Cierre** | App Publicada | App móvil disponible en Google Play Store, APKlis y descarga directa. | ⏳ Pendiente |
+| **Cierre** | Datos Migrados | Datos históricos migrados desde sistemas actuales (Excel, OptimoRoute). | ⏳ Pendiente |
 
 ---
 
@@ -65,13 +66,13 @@ flowchart TD
 | :--- | :--- | :--- |
 | **Project Manager / Líder** | Dirección estratégica, toma de decisiones, validación de entregables, gestión de stakeholders. | **Osleyder Gonzalez** |
 | **Arquitecto de Software** | Definir la arquitectura del sistema, estandarizar tecnologías, revisar el diseño técnico y los estándares de codificación. | Equipo SIGMA-T |
-| **Desarrollador Backend** | Implementar la API REST, la lógica de negocio, la optimización de rutas y la base de datos. Asegurar el cumplimiento de estándares TypeScript/Node.js. Implementar servicios de integración con aduana (URL de payment), gestión de parámetros financieros, cálculo de ficha de costo, pago a choferes y automatización de facturación de aduana. | Equipo SIGMA-T |
+| **Desarrollador Backend** | Implementar la API REST, la lógica de negocio, la optimización de rutas y la base de datos. Asegurar el cumplimiento de estándares TypeScript/Node.js. Implementar servicios de integración con aduana (URL de payment), gestión de parámetros financieros, cálculo de ficha de costo, pago a choferes y automatización de facturación de aduana. Desarrollar scripts de migración de datos. | Equipo SIGMA-T |
 | **Desarrollador Frontend** | Implementar el dashboard web, el panel administrativo y el portal del cliente. Asegurar el cumplimiento de estándares React/TypeScript. Implementar la UI de gestión de parámetros financieros, aduana, ficha de costo detallada y monitoreo de aduana. | Equipo SIGMA-T |
 | **Desarrollador Mobile** | Implementar la aplicación Flutter para choferes con funcionalidad offline y sincronización. Asegurar el cumplimiento de estándares Dart/Flutter. Gestionar la publicación en Google Play Store y APKlis. | Equipo SIGMA-T |
 | **Diseñador UX/UI** | Crear y refinar las maquetas, garantizar una experiencia de usuario óptima. Actualizar maquetas con nueva funcionalidad de aduana, ficha de costo y monitoreo de aduana. | Equipo SIGMA-T |
-| **Ingeniero de QA** | Diseñar y ejecutar los casos de prueba, gestionar la calidad del producto, verificar el cumplimiento de estándares de codificación y documentación. Probar la integración con Aerovaradero (URL de payment), el cálculo de pagos, la precisión de la ficha de costo y la automatización de facturación de aduana. | Equipo SIGMA-T |
+| **Ingeniero de QA** | Diseñar y ejecutar los casos de prueba, gestionar la calidad del producto, verificar el cumplimiento de estándares de codificación y documentación. Probar la integración con Aerovaradero (URL de payment), el cálculo de pagos, la precisión de la ficha de costo y la automatización de facturación de aduana. Validar la migración de datos. | Equipo SIGMA-T |
 | **Documentalista** | Mantener al día toda la documentación técnica y los manuales de usuario, asegurar la generación automática de documentación. Documentar nuevos módulos financieros, de aduana, de ficha de costo e infraestructura. | Equipo SIGMA-T |
-| **DevOps Engineer** | Configurar el entorno de desarrollo (Docker, VSCode tasks.json), gestionar el despliegue en VPS ETECSA, configurar SSL/HTTPS con Let's Encrypt, Nginx, PM2 y cron jobs para automatización de aduana. | Equipo SIGMA-T |
+| **DevOps Engineer** | Configurar el entorno de desarrollo (Docker, VSCode tasks.json), gestionar el despliegue en VPS ETECSA, configurar SSL/HTTPS con Let's Encrypt, Nginx, PM2 y cron jobs para automatización de aduana. Gestionar backups y migración de datos. | Equipo SIGMA-T |
 
 ### 2.3 Comunicación y Reportes
 
@@ -102,7 +103,7 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | **5** | **Funcionalidades Premium y Finanzas** | 2 Semanas | ⏳ Pendiente | Firma digital, Edición manual, Personalización, Gestión de parámetros financieros (incluyendo costos por km), Consulta de aduana (URL de payment), Cálculo de pago a choferes, Ficha de costo detallada por ruta, **Automatización de facturación de aduana (4 horarios)**. |
 | **5.5** | **Calidad de Código (SonarQube)** | 1 día | ⏳ Pendiente | Configuración de SonarQube en Docker, integración con CI/CD, informes de calidad. |
 | **6** | **Piloto y Ajustes** | 2 Semanas | ⏳ Pendiente | Feedback, Corrección de bugs, Mejoras de UX, verificación de estándares. |
-| **7** | **Lanzamiento y Documentación** | 2 Semanas | ⏳ Pendiente | Sistema en producción (VPS ETECSA), SSL/HTTPS, Manuales, Video-tutoriales, App en Google Play Store, App en APKlis, Descarga directa de APK. |
+| **7** | **Lanzamiento y Documentación** | 2 Semanas | ⏳ Pendiente | Sistema en producción (VPS ETECSA), SSL/HTTPS, Manuales, Video-tutoriales, App en Google Play Store, App en APKlis, Descarga directa de APK, **Migración de datos históricos**. |
 
 ### 3.3 Tareas Detalladas por Sprint (Actualizadas)
 
@@ -255,6 +256,8 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 12 | Publicar app en Google Play Store | Mobile | 2 días |
 | 13 | Publicar app en APKlis (tienda cubana) | Mobile | 1 día |
 | 14 | Configurar descarga directa de APK desde el sitio web | Backend | 1 día |
+| 15 | **Migración final de datos históricos** | **Backend** | **2 días** |
+| 16 | **Verificación de datos migrados** | **QA** | **1 día** |
 
 ---
 
@@ -286,6 +289,8 @@ Se implementará un proceso iterativo de **Identificación → Análisis → Pla
 | **Google Play Store bloqueada desde Cuba** | **Alta** | **Medio** | **Distribuir también vía APKlis y descarga directa.** | ⏳ Pendiente |
 | **Configuración de SSL/HTTPS** | **Baja** | **Medio** | **Documentación detallada, uso de Let's Encrypt, renovación automática.** | ⏳ Pendiente |
 | **Recursos limitados del VPS ETECSA** | **Media** | **Medio** | **Optimización de recursos, caché con Redis, monitoreo de rendimiento.** | ⏳ Pendiente |
+| **Error en migración de datos** | **Media** | **Alto** | **Scripts de migración probados en staging, backups, validaciones automáticas.** | ⏳ Pendiente |
+| **Pérdida de datos durante migración** | **Baja** | **Crítico** | **Backups antes de migrar, migración por fases, verificación post-migración.** | ⏳ Pendiente |
 
 ---
 
@@ -318,6 +323,7 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 | **Pruebas de Automatización de Aduana** | Verificar ejecución en 4 horarios, detección de importe y factura, cambio de estado | Jest + cron-mock | QA |
 | **Pruebas de Infraestructura** | Verificar funcionamiento en VPS ETECSA, SSL/HTTPS, Nginx, PM2, cron jobs | Pruebas manuales / Scripts | DevOps / QA |
 | **Pruebas de Calidad (SonarQube)** | Análisis de duplicación, deuda técnica y seguridad | SonarQube Community | QA / DevOps |
+| **Pruebas de Migración** | Validar integridad de datos migrados | Scripts Python / Node.js | QA / Backend |
 
 ### 5.3 Criterios de Aceptación (Checklist de Calidad)
 
@@ -345,6 +351,7 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 | 20 | **Publicación en APKlis** | **App publicada en APKlis** | **Revisión manual** | ⏳ Pendiente |
 | 21 | **Descarga Directa de APK** | **Descarga directa de APK disponible desde el sitio web** | **Revisión manual** | ⏳ Pendiente |
 | 22 | **Análisis de Calidad SonarQube** | **Cobertura de código ≥70%, Deuda Técnica <5%, Cero Bugs Críticos** | **SonarQube** | ⏳ Pendiente |
+| 23 | **Migración de Datos** | **100% de datos migrados, 0% de pérdida de información, >95% de registros válidos** | **Scripts de Validación** | ⏳ Pendiente |
 
 ### 5.4 Métricas de Calidad de Código
 
@@ -436,10 +443,462 @@ El equipo de desarrollo recibirá formación continua en:
 - **Publicación en Tiendas:** Procesos de Google Play Store y APKlis.
 - **Análisis de Calidad con SonarQube:** Interpretación de métricas y corrección de hallazgos.
 - **Automatización de Aduana:** Configuración de cron jobs, manejo de errores, logs y alertas.
+- **Migración de Datos:** Uso de scripts, validación de datos, verificación post-migración.
 
 ---
 
-## 8. PRESUPUESTO ESTIMADO
+## 8. PLAN DE MIGRACIÓN DE DATOS
+
+### 8.1 Propósito y Alcance
+
+Este plan define la estrategia, procedimientos y herramientas para migrar los datos existentes desde los sistemas actuales (Excel, OptimoRoute, registros manuales) hacia la nueva plataforma SIGMA-T. El objetivo es garantizar una transición ordenada, sin pérdida de información y con mínima interrupción de las operaciones.
+
+### 8.2 Fuentes de Datos Actuales
+
+| Fuente | Tipo de Datos | Formato | Volumen Estimado | Responsable |
+|--------|---------------|---------|------------------|-------------|
+| **Excel - Manifiestos** | Envíos, clientes, destinatarios | .xlsx / .csv | 1,000+ registros | Jefe de Operaciones |
+| **Excel - Flota** | Vehículos, mantenimientos | .xlsx | 5-20 vehículos | Administrador |
+| **Excel - Choferes** | Conductores, pagos | .xlsx | 5-20 choferes | Administrador |
+| **OptimoRoute** | Rutas planificadas, historial | CSV (exportable) | 100+ rutas | Jefe de Operaciones |
+| **Registros Manuales** | Costos, incidencias, notas | Papel / Digital | Variable | Personal Administrativo |
+
+### 8.3 Estrategia de Migración
+
+#### 8.3.1 Enfoque General
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                     ESTRATEGIA DE MIGRACIÓN                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐  │
+│  │  FASE 1     │    │  FASE 2     │    │  FASE 3     │    │  FASE 4     │  │
+│  │  PREPARACIÓN│───▶│  EXTRACCIÓN │───▶│  VALIDACIÓN │───▶│  CARGA      │  │
+│  │             │    │             │    │             │    │             │  │
+│  │ • Inventario│    │ • Exportar  │    │ • Limpiar   │    │ • Importar  │  │
+│  │ • Formato   │    │ • Convertir │    │ • Validar   │    │ • Verificar │  │
+│  │ • Herramien-│    │ • Estandari-│    │ • Corregir  │    │ • Aceptar   │  │
+│  │   tas       │    │   zar       │    │ • Aprobar   │    │             │  │
+│  └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘  │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### 8.3.2 Tipos de Migración
+
+| Tipo | Descripción | Cuándo Usar |
+|------|-------------|-------------|
+| **Migración Masiva (Big Bang)** | Todos los datos se migran en un solo evento | Volumen pequeño, datos limpios |
+| **Migración por Fases** | Los datos se migran en lotes por período | Volumen grande, datos históricos |
+| **Migración Híbrida** | Datos activos migrados + históricos disponibles | Recomendado para SIGMA-T |
+
+### 8.4 Procedimiento de Migración por Entidad
+
+#### 8.4.1 Migración de Clientes
+
+| Paso | Actividad | Herramienta | Responsable | Tiempo Estimado |
+|------|-----------|-------------|-------------|-----------------|
+| 1 | Exportar clientes desde Excel | Excel | Jefe de Operaciones | 30 min |
+| 2 | Limpiar datos (duplicados, incompletos) | Excel / Script | Administrador | 1 hora |
+| 3 | Convertir al formato de SIGMA-T | Script Python / Node.js | Backend | 30 min |
+| 4 | Validar datos (nombre, contacto, teléfono) | Script | QA | 30 min |
+| 5 | Importar a SIGMA-T | API `/api/clientes/importar` | Administrador | 15 min |
+| 6 | Verificar importación | Sistema SIGMA-T | QA | 15 min |
+
+**Formato Requerido para Clientes:**
+
+```csv
+nombre_empresa,contacto_nombre,contacto_telefono,contacto_email,tarifa_preferencial,activo
+"CAC Paquetería & Envío México","Carlos Rodríguez","+52 55 1234 5678","carlos@cacpaqueteria.com",45.00,true
+"Cliente X","Juan Pérez","+53 5XXX XXXX","juan@email.com",50.00,true
+```
+
+#### 8.4.2 Migración de Envíos
+
+| Paso | Actividad | Herramienta | Responsable | Tiempo Estimado |
+|------|-----------|-------------|-------------|-----------------|
+| 1 | Recopilar manifiestos históricos (últimos 6 meses) | Excel | Jefe de Operaciones | 2 horas |
+| 2 | Estandarizar formato de columnas | Excel / Script | Administrador | 2 horas |
+| 3 | Validar datos (Carnet 11 dígitos, Unidad destino) | Script Python | Backend | 1 hora |
+| 4 | Corregir datos inválidos | Excel / Manual | Administrador | 4 horas |
+| 5 | Generar archivo de importación | Script | Backend | 30 min |
+| 6 | Importar a SIGMA-T (modo vista previa) | Sistema SIGMA-T | Administrador | 30 min |
+| 7 | Revisar errores y corregir | Manual | Administrador | 2 horas |
+| 8 | Importación final | Sistema SIGMA-T | Administrador | 30 min |
+
+**Formato Requerido para Envíos (Manifiesto):**
+
+```csv
+house,awb,descripcion,peso,bultos,remitente_nombre,remitente_passport,destinatario_nombre,destinatario_identificacion,destinatario_telefono,destinatario_direccion,cobrado_origen,unidad_destino,estado
+CACC-24014926,230-66684660,"Caja de herramientas",30.0,2,"Juan Pérez","ABC123456","Anilex Mariam Pérez Fonseca","90123112345","53 5XXX XXXX","Calle 10 #22, Camagüey, Cuba",true,CMW,entregado
+```
+
+**Validaciones de Envíos:**
+
+| Campo | Validación | Error | Acción |
+|-------|------------|-------|--------|
+| house | Único, formato CACC-XXXXXXXX | House duplicado o inválido | Corregir o eliminar |
+| destinatario_identificacion | 11 dígitos exactos | No tiene 11 dígitos | Corregir manualmente |
+| unidad_destino | No puede ser NULL | Campo vacío | Asignar código de provincia |
+| peso | > 0 | Peso 0 o negativo | Corregir manualmente |
+| bultos | > 0 | Bultos 0 | Corregir manualmente |
+| destinatario_nombre | No vacío | Campo vacío | Corregir manualmente |
+
+#### 8.4.3 Migración de Vehículos
+
+| Paso | Actividad | Herramienta | Responsable | Tiempo Estimado |
+|------|-----------|-------------|-------------|-----------------|
+| 1 | Recopilar datos de vehículos | Excel | Administrador | 30 min |
+| 2 | Limpiar y estandarizar | Excel | Administrador | 30 min |
+| 3 | Importar a SIGMA-T | API `/api/flota/vehiculos` | Administrador | 15 min |
+| 4 | Verificar importación | Sistema SIGMA-T | QA | 15 min |
+
+**Formato Requerido para Vehículos:**
+
+```csv
+matricula,marca,modelo,año,capacidad_kg,capacidad_m3,tipo_combustible,consumo_promedio,kilometraje_total,disponible
+CAC-01,Isuzu,NPR 2019,2019,5000,22.0,diesel,12.0,45230,true
+CAC-02,Hino,300 2020,2020,4500,20.0,diesel,11.5,38900,true
+```
+
+#### 8.4.4 Migración de Choferes
+
+| Paso | Actividad | Herramienta | Responsable | Tiempo Estimado |
+|------|-----------|-------------|-------------|-----------------|
+| 1 | Recopilar datos de choferes | Excel | Administrador | 30 min |
+| 2 | Limpiar y estandarizar | Excel | Administrador | 30 min |
+| 3 | Configurar esquemas de pago | Excel | Administrador | 1 hora |
+| 4 | Importar a SIGMA-T | API `/api/choferes` | Administrador | 15 min |
+| 5 | Verificar importación | Sistema SIGMA-T | QA | 15 min |
+
+**Formato Requerido para Choferes:**
+
+```csv
+nombre,identificacion,licencia_tipo,licencia_vigencia,telefono,fecha_ingreso,salario_base,esquema_pago,salario_por_km,salario_por_entrega
+"Juan Carlos Pérez Rodríguez","901231-12345",B,"2028-12-31","53 5XXX XXXX","2021-03-15",8500.00,combinado,2.50,150.00
+```
+
+#### 8.4.5 Migración de Datos de Aduana
+
+| Paso | Actividad | Herramienta | Responsable | Tiempo Estimado |
+|------|-----------|-------------|-------------|-----------------|
+| 1 | Identificar envíos con costos de aduana conocidos | Sistema actual | Jefe de Operaciones | 1 hora |
+| 2 | Extraer costos de aduana de Aerovaradero (pendientes) | Script automatizado | Backend | 1 hora |
+| 3 | Registrar importes manuales (cuando no se pueda consultar) | Sistema SIGMA-T | Administrador | 2 horas |
+| 4 | Asignar costos a envíos | Sistema SIGMA-T | Administrador | 30 min |
+| 5 | Verificar asignación | Sistema SIGMA-T | QA | 30 min |
+
+#### 8.4.6 Migración de Historial de Rutas
+
+| Paso | Actividad | Herramienta | Responsable | Tiempo Estimado |
+|------|-----------|-------------|-------------|-----------------|
+| 1 | Exportar rutas desde OptimoRoute | CSV | Jefe de Operaciones | 30 min |
+| 2 | Convertir al formato de SIGMA-T | Script | Backend | 1 hora |
+| 3 | Validar datos de rutas | Script | QA | 30 min |
+| 4 | Importar a SIGMA-T (histórico) | API | Administrador | 30 min |
+| 5 | Generar fichas de costo para rutas históricas | Sistema SIGMA-T | Administrador | 1 hora |
+
+### 8.5 Herramientas de Migración
+
+#### 8.5.1 Scripts de Migración
+
+```typescript
+// backend/src/scripts/migracion-clientes.ts
+
+import { Client } from '../models/cliente.model';
+import * as fs from 'fs';
+import * as csv from 'csv-parser';
+
+async function migrarClientes(archivo: string): Promise<void> {
+    const clientes = [];
+    const errores = [];
+    
+    // 1. Leer archivo CSV
+    fs.createReadStream(archivo)
+        .pipe(csv())
+        .on('data', (row) => {
+            try {
+                // 2. Validar datos
+                const cliente = validarCliente(row);
+                if (cliente) {
+                    clientes.push(cliente);
+                } else {
+                    errores.push({ fila: row, error: 'Datos inválidos' });
+                }
+            } catch (error) {
+                errores.push({ fila: row, error: error.message });
+            }
+        })
+        .on('end', async () => {
+            // 3. Importar a la base de datos
+            for (const cliente of clientes) {
+                try {
+                    await Client.save(cliente);
+                    console.log(`✅ Cliente importado: ${cliente.nombre_empresa}`);
+                } catch (error) {
+                    errores.push({ cliente, error: error.message });
+                    console.error(`❌ Error importando cliente: ${error.message}`);
+                }
+            }
+
+            // 4. Generar reporte
+            generarReporteMigracion({
+                total: clientes.length + errores.length,
+                exitosos: clientes.length,
+                errores: errores
+            });
+        });
+}
+
+function validarCliente(row: any): any | null {
+    // Validaciones básicas
+    if (!row.nombre_empresa) {
+        throw new Error('nombre_empresa es obligatorio');
+    }
+    if (!row.contacto_nombre) {
+        throw new Error('contacto_nombre es obligatorio');
+    }
+    if (!row.contacto_telefono) {
+        throw new Error('contacto_telefono es obligatorio');
+    }
+
+    return {
+        nombre_empresa: row.nombre_empresa,
+        contacto_nombre: row.contacto_nombre,
+        contacto_telefono: row.contacto_telefono,
+        contacto_email: row.contacto_email || null,
+        tarifa_preferencial: parseFloat(row.tarifa_preferencial) || 0,
+        activo: row.activo === 'true' || row.activo === 'TRUE' || row.activo === '1'
+    };
+}
+
+function generarReporteMigracion(reporte: any): void {
+    const contenido = `
+=== REPORTE DE MIGRACIÓN ===
+Fecha: ${new Date().toISOString()}
+Total procesados: ${reporte.total}
+Importados exitosamente: ${reporte.exitosos}
+Errores: ${reporte.errores.length}
+
+${reporte.errores.map(e => `- Error: ${e.error}`).join('\n')}
+    `;
+
+    fs.writeFileSync('migracion-reporte.txt', contenido);
+    console.log('📄 Reporte generado: migracion-reporte.txt');
+}
+```
+
+#### 8.5.2 Script de Validación de Envíos
+
+```typescript
+// backend/src/scripts/validar-envios.ts
+
+async function validarEnvio(envio: any): Promise<{ valido: boolean, errores: string[] }> {
+    const errores: string[] = [];
+
+    // 1. Validar House
+    if (!envio.house) {
+        errores.push('House es obligatorio');
+    } else if (!/^CACC-[0-9]{8}$/.test(envio.house)) {
+        errores.push(`House "${envio.house}" no tiene el formato correcto (CACC-XXXXXXXX)`);
+    }
+
+    // 2. Validar Carnet de Identidad
+    if (!envio.destinatario_identificacion) {
+        errores.push('Carnet de Identidad es obligatorio');
+    } else if (!/^[0-9]{11}$/.test(envio.destinatario_identificacion)) {
+        errores.push(`Carnet de Identidad "${envio.destinatario_identificacion}" debe tener 11 dígitos`);
+    }
+
+    // 3. Validar Unidad de Destino
+    if (!envio.unidad_destino) {
+        errores.push('Unidad de Destino es obligatoria');
+    }
+
+    // 4. Validar Peso
+    if (!envio.peso || parseFloat(envio.peso) <= 0) {
+        errores.push('Peso debe ser mayor a 0');
+    }
+
+    // 5. Validar Bultos
+    if (!envio.bultos || parseInt(envio.bultos) <= 0) {
+        errores.push('Bultos debe ser mayor a 0');
+    }
+
+    return {
+        valido: errores.length === 0,
+        errores: errores
+    };
+}
+```
+
+### 8.6 Plantilla de Validación de Datos
+
+```markdown
+## 📋 PLANTILLA DE VALIDACIÓN DE DATOS
+
+### Clientes
+| Campo | Validación | Estado | Observaciones |
+|-------|------------|--------|---------------|
+| nombre_empresa | No vacío | [✅ / ❌] | |
+| contacto_nombre | No vacío | [✅ / ❌] | |
+| contacto_telefono | No vacío | [✅ / ❌] | |
+| contacto_email | Formato email (opcional) | [✅ / ❌] | |
+
+### Envíos
+| Campo | Validación | Estado | Observaciones |
+|-------|------------|--------|---------------|
+| house | Único, CACC-XXXXXXXX | [✅ / ❌] | |
+| destinatario_identificacion | 11 dígitos | [✅ / ❌] | |
+| unidad_destino | No vacío | [✅ / ❌] | |
+| peso | > 0 | [✅ / ❌] | |
+| bultos | > 0 | [✅ / ❌] | |
+| destinatario_nombre | No vacío | [✅ / ❌] | |
+
+### Vehículos
+| Campo | Validación | Estado | Observaciones |
+|-------|------------|--------|---------------|
+| matricula | No vacío | [✅ / ❌] | |
+| marca | No vacío | [✅ / ❌] | |
+| modelo | No vacío | [✅ / ❌] | |
+| capacidad_kg | > 0 | [✅ / ❌] | |
+
+### Choferes
+| Campo | Validación | Estado | Observaciones |
+|-------|------------|--------|---------------|
+| nombre | No vacío | [✅ / ❌] | |
+| identificacion | No vacío | [✅ / ❌] | |
+| licencia_tipo | B, C, D | [✅ / ❌] | |
+| licencia_vigencia | Fecha futura | [✅ / ❌] | |
+```
+
+### 8.7 Cronograma de Migración
+
+| Fase | Actividad | Duración | Fecha Inicio | Fecha Fin | Responsable |
+|------|-----------|----------|--------------|-----------|-------------|
+| **Fase 1: Preparación** | | | | | |
+| 1.1 | Inventario de fuentes de datos | 1 día | Día 1 | Día 1 | Administrador |
+| 1.2 | Definir formato de importación | 1 día | Día 1 | Día 1 | Backend |
+| 1.3 | Crear scripts de migración | 2 días | Día 2 | Día 3 | Backend |
+| **Fase 2: Extracción y Limpieza** | | | | | |
+| 2.1 | Exportar datos desde Excel | 2 días | Día 4 | Día 5 | Jefe Operaciones |
+| 2.2 | Limpiar y estandarizar datos | 3 días | Día 6 | Día 8 | Administrador |
+| 2.3 | Validar datos | 2 días | Día 9 | Día 10 | QA |
+| **Fase 3: Carga en Pruebas** | | | | | |
+| 3.1 | Migrar a entorno de staging | 1 día | Día 11 | Día 11 | Backend |
+| 3.2 | Verificar integridad | 1 día | Día 12 | Día 12 | QA |
+| 3.3 | Corregir errores | 2 días | Día 13 | Día 14 | Backend |
+| **Fase 4: Carga en Producción** | | | | | |
+| 4.1 | Backup de datos existentes | 1 día | Día 15 | Día 15 | DevOps |
+| 4.2 | Migrar a producción | 1 día | Día 16 | Día 16 | Backend |
+| 4.3 | Verificación final | 1 día | Día 17 | Día 17 | QA |
+| 4.4 | Aceptación | 1 día | Día 18 | Día 18 | Administrador |
+
+### 8.8 Criterios de Aceptación de Migración
+
+| # | Criterio | Descripción | Métrica |
+|---|----------|-------------|---------|
+| 1 | **Completitud** | Todos los datos migrados | 100% de registros contabilizados |
+| 2 | **Integridad** | Datos sin pérdida de información | 0% de pérdida de datos |
+| 3 | **Validez** | Datos cumplen reglas de negocio | >95% de registros válidos |
+| 4 | **Consistencia** | Datos consistentes entre sistemas | Relaciones correctas (cliente-envío, vehículo-ruta) |
+| 5 | **Aduana** | Costos de aduana asignados correctamente | ≥90% de envíos con costo de aduana |
+| 6 | **Pagos** | Esquemas de pago configurados | 100% de choferes con esquema configurado |
+
+### 8.9 Reporte de Migración
+
+```markdown
+## 📊 REPORTE DE MIGRACIÓN - SIGMA-T
+
+**Fecha:** [dd/mm/yyyy]
+**Responsable:** [Nombre]
+**Entorno:** [Staging / Producción]
+
+### Resumen General
+
+| Entidad | Total | Importados | Errores | Tasa de Éxito |
+|---------|-------|------------|---------|---------------|
+| Clientes | [#] | [#] | [#] | [%] |
+| Envíos | [#] | [#] | [#] | [%] |
+| Vehículos | [#] | [#] | [#] | [%] |
+| Choferes | [#] | [#] | [#] | [%] |
+| Rutas | [#] | [#] | [#] | [%] |
+
+### Detalle de Errores
+
+| ID | Entidad | Campo | Error | Acción Tomada |
+|----|---------|-------|-------|---------------|
+| 1 | Envío | destinatario_identificacion | 10 dígitos | Corregido manualmente |
+| 2 | Envío | unidad_destino | Null | Asignado "CMW" |
+
+### Observaciones
+
+[Observaciones sobre el proceso de migración]
+
+### Próximos Pasos
+
+- [ ] Verificar datos migrados en producción
+- [ ] Generar fichas de costo históricas
+- [ ] Configurar esquemas de pago de choferes
+- [ ] Verificar costos de aduana asignados
+
+### Aprobación
+
+| Rol | Nombre | Firma | Fecha |
+|-----|--------|-------|-------|
+| Administrador | [Nombre] | _________ | ___/___/2026 |
+| Jefe de Operaciones | [Nombre] | _________ | ___/___/2026 |
+```
+
+### 8.10 Plan de Contingencia para Migración
+
+| Escenario | Plan de Contingencia | Responsable |
+|-----------|---------------------|-------------|
+| **Error en migración de datos** | Restaurar backup y reintentar con datos corregidos | DevOps |
+| **Pérdida de datos** | Restaurar desde backup más reciente | DevOps |
+| **Inconsistencia de datos** | Ejecutar scripts de validación y corrección | Backend |
+| **Migración incompleta** | Continuar con migración por fases | Backend |
+| **Tiempo excedido** | Extender ventana de mantenimiento | Administrador |
+| **Falla en importación de aduana** | Entrada manual de costos | Administrador |
+
+### 8.11 Checklists de Migración
+
+#### Checklist de Preparación
+
+- [ ] Backup de todos los datos existentes realizado
+- [ ] Scripts de migración probados en entorno de staging
+- [ ] Datos limpios y validados
+- [ ] Formato de archivos confirmado
+- [ ] Roles y permisos definidos
+- [ ] Plan de comunicación a stakeholders preparado
+
+#### Checklist de Ejecución
+
+- [ ] Migrar clientes
+- [ ] Migrar vehículos
+- [ ] Migrar choferes
+- [ ] Migrar envíos (históricos)
+- [ ] Migrar rutas (históricas)
+- [ ] Asignar costos de aduana
+- [ ] Generar fichas de costo históricas
+- [ ] Configurar esquemas de pago
+- [ ] Verificar integridad de datos
+
+#### Checklist de Verificación
+
+- [ ] Todos los clientes están en el sistema
+- [ ] Todos los vehículos están en el sistema
+- [ ] Todos los choferes están en el sistema
+- [ ] Todos los envíos históricos están en el sistema
+- [ ] Los costos de aduana están asignados
+- [ ] Las fichas de costo están generadas
+- [ ] Los esquemas de pago están configurados
+- [ ] Los reportes financieros son consistentes
+
+---
+
+## 9. PRESUPUESTO ESTIMADO
 
 | Concepto | Costo Estimado | Notas |
 |----------|---------------|-------|
@@ -459,7 +918,7 @@ El equipo de desarrollo recibirá formación continua en:
 
 ---
 
-## 9. APROBACIONES
+## 10. APROBACIONES
 
 | Rol | Nombre | Firma | Fecha |
 | :--- | :--- | :--- | :--- |
@@ -471,21 +930,24 @@ El equipo de desarrollo recibirá formación continua en:
 
 ## 📌 CONCLUSIÓN
 
-Este SPMP Versión 3.6 ahora incluye:
+Este SPMP Versión 3.8 ahora incluye:
 
 - ✅ **9 Sprints** (incluyendo Sprint 5.5 para SonarQube) con tareas detalladas
 - ✅ **Sprint 0 completado** en 1 día (13/08/2026) con todos los entregables
 - ✅ **Sprint 1 completado** en 2 días (13-15/08/2026) con todos los entregables
-- ✅ **22 criterios de aceptación** de calidad (incluyendo SonarQube y automatización de aduana)
+- ✅ **23 criterios de aceptación** de calidad (incluyendo SonarQube, automatización de aduana y migración)
 - ✅ **5 métricas de calidad de código** con estado de cumplimiento
 - ✅ **Política de commits** (Conventional Commits) y pre-commit hooks
-- ✅ **Estrategia de pruebas** con análisis estático, verificación de documentación, pruebas de integración con Aerovaradero (URL de payment), pruebas de cálculo financiero, pruebas de precisión de ficha de costo, pruebas de automatización de aduana y pruebas de infraestructura
-- ✅ **Plan de formación continua** actualizado con SonarQube y automatización de aduana
+- ✅ **Estrategia de pruebas** con análisis estático, verificación de documentación, pruebas de integración con Aerovaradero (URL de payment), pruebas de cálculo financiero, pruebas de precisión de ficha de costo, pruebas de automatización de aduana, pruebas de infraestructura y pruebas de migración
+- ✅ **Plan de formación continua** actualizado con SonarQube, automatización de aduana y migración de datos
 - ✅ **Riesgos** identificados y mitigados con estados
 - ✅ **Presupuesto actualizado** con costos de VPS ETECSA y publicación en Play Store
 - ✅ **Estado actualizado** del proyecto con Sprints 0 y 1 completados
 - ✅ **Automatización de facturación de aduana** definida (4 horarios: 8AM, 12PM, 4PM, 12AM)
 - ✅ **9 estados del paquete** definidos y documentados
 - ✅ **5 perfiles de usuario** definidos (Administrador, Jefe de Operaciones, Agencia de Envíos, Cliente Remitente, Cliente Destinatario)
+- ✅ **Plan de Migración de Datos** completo con procedimientos por entidad, scripts, cronograma, criterios de aceptación y checklists
 
 **Este documento refleja el estado actual del proyecto, con los Sprints 0 y 1 completados y listo para el Sprint 2 (Optimización de Rutas).**
+
+---
