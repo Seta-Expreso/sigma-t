@@ -4,7 +4,8 @@
  */
 
 import { useState, useCallback } from 'react';
-import { rutaApi, Ruta } from '../api/ruta.api';
+import { rutaApi } from '../api/ruta.api';
+import type { Ruta } from '../api/ruta.api'; // ✅ Usar import type
 
 export const useRutas = () => {
   const [rutas, setRutas] = useState<Ruta[]>([]);

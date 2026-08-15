@@ -3,8 +3,8 @@
  * @module components/rutas/WeeklyPlanner
  */
 
-import React, { useState, useEffect } from 'react';
-import { Button, Card, LoadingSpinner, Select } from '../common';
+import React, { useState } from 'react'; // ✅ Eliminar useEffect
+import { Button, Card, LoadingSpinner } from '../common'; // ✅ Eliminar Select
 import { useRutas } from '../../hooks/useRutas';
 
 interface WeeklyPlannerProps {
@@ -18,7 +18,8 @@ export const WeeklyPlanner: React.FC<WeeklyPlannerProps> = ({
 }) => {
   const [semana, setSemana] = useState<Date>(fechaInicio);
   const { rutas, loading, optimizarSemana, error } = useRutas();
-  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  // ✅ Eliminar selectedDay o usar _selectedDay si no se usa
+  const [_selectedDay, setSelectedDay] = useState<string | null>(null);
 
   // Generar días de la semana
   const getDiasSemana = (fecha: Date) => {
