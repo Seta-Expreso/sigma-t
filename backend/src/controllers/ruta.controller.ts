@@ -84,7 +84,9 @@ export class RutaController {
   async asignarChofer(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const id = parseInt(req.params.id, 10);
-      const { id_chofer } = req.body;
+      // ✅ Tipar req.body correctamente
+      const body = req.body as Record<string, unknown>;
+      const id_chofer = body.id_chofer as number | undefined;
 
       if (!id_chofer) {
         res.status(400).json({
@@ -173,11 +175,14 @@ export class RutaController {
   async reoptimizar(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const id = parseInt(req.params.id, 10);
-      const { envio_id, motivo } = req.body;
+      // ✅ Tipar req.body correctamente
+      const body = req.body as Record<string, unknown>;
+      const envio_id = body.envio_id as number | undefined;
+      const motivo = (body.motivo as string) || 'Reoptimización manual';
 
       const resultado = await this.rutaService.reoptimizar(id, {
         envio_id: envio_id ? Number(envio_id) : undefined,
-        motivo: motivo || 'Reoptimización manual',
+        motivo,
       });
 
       if (!resultado) {
