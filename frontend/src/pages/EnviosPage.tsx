@@ -5,7 +5,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { envioApi, Envio, EnvioFilters } from '../api/envio.api';
-import { importacionApi } from '../api/importacion.api';
 import { EnvioList } from '../components/envios/EnvioList';
 import { EnvioFilters as EnvioFiltersComponent } from '../components/envios/EnvioFilters';
 import { EnvioDetail, EnvioDetailData } from '../components/envios/EnvioDetail';
@@ -13,32 +12,23 @@ import { HistorialCliente } from '../components/envios/HistorialCliente';
 import { ImportarManifiesto } from '../components/envios/ImportarManifiesto';
 
 export const EnviosPage: React.FC = () => {
-  // Estado para envíos
   const [envios, setEnvios] = useState<Envio[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<EnvioFilters>({});
-
-  // Estado para importación
   const [showImportModal, setShowImportModal] = useState(false);
-
-  // Estado para historial
   const [showHistorialModal, setShowHistorialModal] = useState(false);
   const [clienteHistorialId, setClienteHistorialId] = useState<number>(1);
-
-  // Estado para detalle
   const [selectedEnvio, setSelectedEnvio] = useState<EnvioDetailData | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
-
-  // Estado para estadísticas
-  const [estadisticas, setEstadisticas] = useState<any>(null);
-
-  // Cargar envíos al montar el componente
-  useEffect(() => {
-    cargarEnvios();
-    cargarEstadisticas();
-  }, [filters]);
+  const [estadisticas, setEstadisticas] = useState<{
+    total: number;
+    pendientes: number;
+    enRuta: number;
+    entregados: number;
+    incidencias: number;
+  } | null>(null);
 
   const cargarEnvios = async () => {
     try {
@@ -62,6 +52,11 @@ export const EnviosPage: React.FC = () => {
       console.error('Error al cargar estadísticas:', err);
     }
   };
+
+  useEffect(() => {
+    cargarEnvios();
+    cargarEstadisticas();
+  }, [filters]);
 
   const handleFilterChange = (newFilters: EnvioFilters) => {
     setFilters(newFilters);
@@ -108,7 +103,6 @@ export const EnviosPage: React.FC = () => {
       await envioApi.updateEstado(id, estado);
       await cargarEnvios();
       await cargarEstadisticas();
-      // Actualizar detalle si está abierto
       if (showDetailModal && selectedEnvio) {
         const updated = await envioApi.getById(id);
         setSelectedEnvio(updated as EnvioDetailData);
@@ -124,9 +118,19 @@ export const EnviosPage: React.FC = () => {
     cargarEstadisticas();
   };
 
+  const handleHistorialConfirm = () => {
+    if (clienteHistorialId > 0) {
+      setShowHistorialModal(false);
+      setTimeout(() => {
+        setShowHistorialModal(true);
+      }, 100);
+    } else {
+      alert('Ingrese un ID de cliente válido');
+    }
+  };
+
   return (
     <div className="p-6">
-      {/* Encabezado */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800">📦 Gestión de Envíos</h1>
         <div className="flex gap-2">
@@ -145,7 +149,6 @@ export const EnviosPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Estadísticas */}
       {estadisticas && (
         <div className="grid grid-cols-5 gap-4 mb-6">
           <div className="bg-white p-4 rounded-lg shadow">
@@ -171,14 +174,12 @@ export const EnviosPage: React.FC = () => {
         </div>
       )}
 
-      {/* Filtros */}
       <EnvioFiltersComponent
         filters={filters}
         onFilterChange={handleFilterChange}
         onClearFilters={handleClearFilters}
       />
 
-      {/* Lista de envíos */}
       {error ? (
         <div className="text-center py-12 text-red-600">{error}</div>
       ) : (
@@ -191,14 +192,12 @@ export const EnviosPage: React.FC = () => {
         />
       )}
 
-      {/* Modal de importación */}
       <ImportarManifiesto
         isOpen={showImportModal}
         onClose={() => setShowImportModal(false)}
         onImportComplete={handleImportComplete}
       />
 
-      {/* Modal de historial */}
       {showHistorialModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full">
@@ -223,20 +222,7 @@ export const EnviosPage: React.FC = () => {
                 Cancelar
               </button>
               <button
-                onClick={() => {
-                  if (clienteHistorialId > 0) {
-                    setShowHistorialModal(false);
-                    // Esperar a que se cierre el modal para abrir el historial
-                    setTimeout(() => {
-                      // Abrir historial con el ID seleccionado
-                      // El modal de historial se renderiza condicionalmente
-                      // Por simplicidad, usamos un estado para forzar la apertura
-                      setShowHistorialModal(true);
-                    }, 100);
-                  } else {
-                    alert('Ingrese un ID de cliente válido');
-                  }
-                }}
+                onClick={handleHistorialConfirm}
                 className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
               >
                 Ver Historial
@@ -246,7 +232,6 @@ export const EnviosPage: React.FC = () => {
         </div>
       )}
 
-      {/* Modal de historial (contenido real) - se muestra cuando el usuario confirma el ID */}
       {showHistorialModal && clienteHistorialId > 0 && (
         <HistorialCliente
           clienteId={clienteHistorialId}
@@ -258,7 +243,6 @@ export const EnviosPage: React.FC = () => {
         />
       )}
 
-      {/* Modal de detalle */}
       {showDetailModal && selectedEnvio && (
         <EnvioDetail
           envio={selectedEnvio}

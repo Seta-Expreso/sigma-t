@@ -22,14 +22,16 @@ export interface ColumnaMapeo {
   unidad_destino: string;
 }
 
+export interface ErrorImportacion {
+  fila: number;
+  house: string;
+  errores: string[];
+}
+
 export interface ImportacionResultado {
   total: number;
   importados: number;
-  errores: Array<{
-    fila: number;
-    house?: string;
-    errores: string[];
-  }>;
+  errores: ErrorImportacion[];
   envios: Array<{
     house: string;
     destinatario: string;
@@ -39,9 +41,9 @@ export interface ImportacionResultado {
 }
 
 export interface VistaPreviaResponse {
-  columnas: string[];
-  filas: Array<Record<string, any>>;
+  filas: Array<Record<string, string | number>>;
   total: number;
+  errores: ErrorImportacion[];
 }
 
 class ImportacionApiService {
@@ -64,7 +66,7 @@ class ImportacionApiService {
     file: File,
     mapeo: ColumnaMapeo,
     clienteId: number
-  ): Promise<{ filas: any[]; total: number; errores: any[] }> {
+  ): Promise<VistaPreviaResponse> {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('mapeo', JSON.stringify(mapeo));

@@ -3,7 +3,7 @@
  * @module components/envios/ImportarManifiesto
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { importacionApi, ColumnaMapeo } from '../../api/importacion.api';
 
 export interface ImportarManifiestoProps {
@@ -35,12 +35,10 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
     cobrado_origen: '',
     unidad_destino: '',
   });
-  const [vistaPrevia, setVistaPrevia] = useState<any[]>([]);
-  const [erroresVista, setErroresVista] = useState<any[]>([]);
+  const [vistaPrevia, setVistaPrevia] = useState<Record<string, string | number>[]>([]);
+  const [erroresVista, setErroresVista] = useState<{ fila: number; errores: string[] }[]>([]);
   const [loading, setLoading] = useState(false);
-  const [resultado, setResultado] = useState<any>(null);
 
-  // Campos requeridos para el mapeo
   const camposRequeridos: Array<{ key: keyof ColumnaMapeo; label: string }> = [
     { key: 'house', label: 'House' },
     { key: 'descripcion', label: 'Descripción' },
@@ -59,7 +57,6 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
     { key: 'cobrado_origen', label: 'Cobrado/No Cobrado' },
   ];
 
-  // Obtener columnas al seleccionar archivo
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
@@ -69,21 +66,20 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
     try {
       const columnas = await importacionApi.obtenerColumnas(selectedFile);
       setColumnasExcel(columnas);
-      // Auto-mapear columnas que coincidan por nombre
-      const autoMapeo: any = {};
+      const autoMapeo: Partial<ColumnaMapeo> = {};
       camposRequeridos.forEach(({ key, label }) => {
         const match = columnas.find((col) =>
           col.toLowerCase().includes(label.toLowerCase()) ||
           label.toLowerCase().includes(col.toLowerCase())
         );
-        if (match) autoMapeo[key] = match;
+        if (match) autoMapeo[key] = match as ColumnaMapeo[typeof key];
       });
       camposOpcionales.forEach(({ key, label }) => {
         const match = columnas.find((col) =>
           col.toLowerCase().includes(label.toLowerCase()) ||
           label.toLowerCase().includes(col.toLowerCase())
         );
-        if (match) autoMapeo[key] = match;
+        if (match) autoMapeo[key] = match as ColumnaMapeo[typeof key];
       });
       setMapeo({ ...mapeo, ...autoMapeo });
       setStep(2);
@@ -95,9 +91,7 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
     }
   };
 
-  // Ver vista previa
   const handleVerVistaPrevia = async () => {
-    // Validar que todos los campos requeridos estén mapeados
     const camposFaltantes = camposRequeridos.filter(
       ({ key }) => !mapeo[key]
     );
@@ -126,15 +120,13 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
     }
   };
 
-  // Confirmar importación
   const handleConfirmarImportacion = async () => {
     if (!file) return;
 
     setLoading(true);
     try {
-      const result = await importacionApi.importar(file, mapeo, clienteId);
-      setResultado(result);
-      alert(`✅ Importación completada: ${result.importados} de ${result.total} envíos importados`);
+      await importacionApi.importar(file, mapeo, clienteId);
+      alert('✅ Importación completada exitosamente');
       onImportComplete();
       onClose();
     } catch (error) {
@@ -151,7 +143,6 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
     setColumnasExcel([]);
     setVistaPrevia([]);
     setErroresVista([]);
-    setResultado(null);
     onClose();
   };
 
@@ -160,11 +151,8 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        {/* Encabezado */}
         <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
-          <h2 className="text-xl font-bold text-gray-800">
-            📂 Importar Manifiesto
-          </h2>
+          <h2 className="text-xl font-bold text-gray-800">📂 Importar Manifiesto</h2>
           <button
             onClick={handleClose}
             className="text-gray-500 hover:text-gray-700 text-2xl"
@@ -173,9 +161,7 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
           </button>
         </div>
 
-        {/* Contenido */}
         <div className="p-6">
-          {/* Paso 1: Seleccionar archivo */}
           {step === 1 && (
             <div>
               <div className="mb-4">
@@ -208,7 +194,6 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
             </div>
           )}
 
-          {/* Paso 2: Mapeo de columnas */}
           {step === 2 && (
             <div>
               <div className="mb-4 p-3 bg-blue-50 rounded-lg">
@@ -228,7 +213,7 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
                       className="w-full border rounded-lg px-3 py-2 text-sm mt-1"
                       value={mapeo[key] || ''}
                       onChange={(e) =>
-                        setMapeo({ ...mapeo, [key]: e.target.value })
+                        setMapeo({ ...mapeo, [key]: e.target.value as ColumnaMapeo[typeof key] })
                       }
                     >
                       <option value="">Seleccionar columna...</option>
@@ -250,7 +235,7 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
                       className="w-full border rounded-lg px-3 py-2 text-sm mt-1"
                       value={mapeo[key] || ''}
                       onChange={(e) =>
-                        setMapeo({ ...mapeo, [key]: e.target.value })
+                        setMapeo({ ...mapeo, [key]: e.target.value as ColumnaMapeo[typeof key] })
                       }
                     >
                       <option value="">Seleccionar columna...</option>
@@ -266,7 +251,6 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
             </div>
           )}
 
-          {/* Paso 3: Vista previa */}
           {step === 3 && (
             <div>
               <div className="mb-4 flex justify-between items-center">
@@ -302,8 +286,8 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
                   </thead>
                   <tbody className="divide-y divide-gray-200">
                     {vistaPrevia.map((fila, index) => {
-                      const errores = erroresVista.filter((e) => e.fila === index + 1);
-                      const hasError = errores.length > 0;
+                      const erroresFila = erroresVista.filter((e) => e.fila === index + 1);
+                      const hasError = erroresFila.length > 0;
                       return (
                         <tr key={index} className={hasError ? 'bg-red-50' : ''}>
                           <td className="px-3 py-2">{index + 1}</td>
@@ -318,7 +302,7 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
                             )}
                           </td>
                           <td className="px-3 py-2 text-xs text-red-600 max-w-xs">
-                            {errores.map((e, i) => (
+                            {erroresFila.map((e, i) => (
                               <div key={i}>• {e.errores.join(', ')}</div>
                             ))}
                           </td>
@@ -332,7 +316,6 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
           )}
         </div>
 
-        {/* Footer */}
         <div className="sticky bottom-0 bg-gray-50 border-t px-6 py-4 flex justify-between">
           <button
             onClick={step > 1 ? () => setStep(step - 1 as 1 | 2) : handleClose}
@@ -344,7 +327,7 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
           <div className="flex gap-2">
             {step === 1 && (
               <button
-                onClick={() => { if (file) setStep(2) }}
+                onClick={() => { if (file) setStep(2); }}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 disabled={!file || loading}
               >

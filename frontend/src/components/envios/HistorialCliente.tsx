@@ -5,7 +5,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { envioApi, Envio } from '../../api/envio.api';
-import * as XLSX from 'xlsx';
 
 export interface HistorialClienteProps {
   clienteId: number;
@@ -25,23 +24,22 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
   const [filtroFechaInicio, setFiltroFechaInicio] = useState<string>('');
   const [filtroFechaFin, setFiltroFechaFin] = useState<string>('');
 
-  useEffect(() => {
-    cargarHistorial();
-  }, [clienteId]);
-
   const cargarHistorial = async () => {
     try {
       setLoading(true);
       const data = await envioApi.getHistorialByCliente(clienteId);
       setEnvios(data);
       setError(null);
-    } catch (err) {
+    } catch {
       setError('Error al cargar el historial del cliente');
-      console.error(err);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    cargarHistorial();
+  }, [clienteId]);
 
   const getEstadoColor = (estado: string) => {
     const colors: Record<string, string> = {
@@ -74,7 +72,6 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
     return labels[estado] || estado;
   };
 
-  // Filtrar envíos
   const enviosFiltrados = envios.filter((envio) => {
     let match = true;
     if (filtroEstado && envio.estado !== filtroEstado) match = false;
@@ -83,7 +80,6 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
     return match;
   });
 
-  // Calcular estadísticas
   const estadisticas = {
     total: envios.length,
     entregados: envios.filter((e) => e.estado === 'entregado').length,
@@ -92,7 +88,6 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
     incidencias: envios.filter((e) => e.estado === 'incidencia').length,
   };
 
-  // Exportar a CSV
   const exportarCSV = () => {
     const headers = [
       'House',
@@ -130,7 +125,6 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
     window.URL.revokeObjectURL(url);
   };
 
-  // Exportar a PDF (usando window.print para simplificar)
   const exportarPDF = () => {
     window.print();
   };
@@ -146,7 +140,6 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-        {/* Encabezado */}
         <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
           <h2 className="text-xl font-bold text-gray-800">
             📋 Historial de Envíos
@@ -160,9 +153,7 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
           </button>
         </div>
 
-        {/* Contenido */}
         <div className="p-6">
-          {/* Estadísticas */}
           <div className="grid grid-cols-5 gap-4 mb-6">
             <div className="bg-white p-4 rounded-lg shadow">
               <div className="text-sm text-gray-500">Total</div>
@@ -186,7 +177,6 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
             </div>
           </div>
 
-          {/* Filtros */}
           <div className="bg-gray-50 p-4 rounded-lg mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
@@ -235,7 +225,6 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
             </div>
           </div>
 
-          {/* Tabla */}
           {enviosFiltrados.length === 0 ? (
             <div className="text-center py-12 text-gray-500">
               No hay envíos en el historial
@@ -290,7 +279,6 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
             </div>
           )}
 
-          {/* Resumen y exportación */}
           <div className="mt-6 flex justify-between items-center border-t pt-4">
             <div className="text-sm text-gray-500">
               Mostrando {enviosFiltrados.length} de {envios.length} envíos
