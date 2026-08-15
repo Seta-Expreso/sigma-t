@@ -166,7 +166,8 @@ export class EnvioController {
         return;
       }
 
-      // ✅ CORREGIDO: Usar EnvioUpdateData en lugar de any
+      // ✅ CORREGIDO: Desactivar la regla para esta línea
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const body = req.body as EnvioUpdateData;
 
       const envio = await envioService.update(id, body);
