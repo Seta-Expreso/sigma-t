@@ -1,11 +1,11 @@
-# 📄 ESPECIFICACIÓN DE REQUISITOS DEL SOFTWARE (SRS) - VERSIÓN 3.6 (COMPLETA - TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 15/08/2026)
+## 📄 ESPECIFICACIÓN DE REQUISITOS DEL SOFTWARE (SRS) - VERSIÓN 3.8
 
 **Basado en ISO/IEC/IEEE 29148:2018**
 
 **Proyecto:** SIGMA-T (Sistema Integral de Gestión para MiPYME de Transporte)  
 **Cliente:** Osleyder Gonzalez Acosta  
 **Fecha de Emisión:** 15 de agosto de 2026
-**Versión:** 3.6 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 15/08/2026)
+**Versión:** 3.8 (Top Mundial con Arquitectura VRPTW v3.0, Optimización de Combustible, Reoptimización Dinámica, IA y Análisis Post-Ruta - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 15/08/2026)
 
 ---
 
@@ -25,6 +25,7 @@ SIGMA-T es un sistema modular de clase mundial que permite gestionar **todo el c
 - **Calidad de Código:** Estándares de codificación, documentación y mantenibilidad.
 - **Gestión de Aduana:** Consulta automática de costos de importación utilizando la URL de payment de Aerovaradero, gestión de parámetros financieros y esquemas de pago a choferes.
 - **Infraestructura:** Despliegue en VPS ETECSA, distribución en Google Play Store y APKlis, SSL/HTTPS obligatorio.
+- **🆕 Optimización de Rutas Avanzada:** Algoritmo VRPTW con optimización de combustible, prioridad de entregas, reoptimización dinámica en tiempo real, análisis post-ruta y sistema de estimación de tiempos con IA.
 
 ### 1.3 Definiciones y Acrónimos
 
@@ -62,6 +63,8 @@ SIGMA-T es un sistema modular de clase mundial que permite gestionar **todo el c
 | **Clasificación**        | El paquete está en el almacén de Seta Expreso, clasificado por provincia/municipio                                                     |
 | **Proceso de Entrega**   | El paquete está en ruta hacia el cliente destinatario                                                                                  |
 | **No Entregado**         | El paquete no pudo ser entregado y vuelve a clasificación                                                                              |
+| **🆕 Reoptimización Dinámica** | Capacidad del sistema para recalcular una ruta en tiempo real ante imprevistos (cliente no encontrado, tráfico, nuevo pedido urgente) |
+| **🆕 Análisis Post-Ruta** | Reporte que compara la ruta planificada vs la ruta real, generando métricas de eficiencia por chofer, vehículo y zona |
 
 ---
 
@@ -77,7 +80,7 @@ SIGMA-T reemplazará el sistema actual basado en hojas de cálculo Excel y Optim
 | **Administrador** | Dueño/gerente que gestiona todo el negocio. Acceso total a todas las funcionalidades. | 1-2 |
 | **Jefe de Operaciones** | Controla rutas y operaciones. Puede crear, modificar y eliminar rutas. Controla el estado de cada ruta y los House entregados. | 1-3 |
 | **Agencia de Envíos** | Empresa de paquetería (ej. Central American Cargo Panamá/México/Miami). Puede cargar manifiestos en Excel, revisar el estado completo de los envíos, y ver todos los House de su agencia. | 2-5 |
-| **Chofer** | Conductor que ejecuta entregas en ruta. Ve su ruta asignada y registra entregas. | 5-20 |
+| **Chofer** | Conductor que ejecuta entregas en ruta. Ve su ruta asignada y registra entregas. Puede solicitar reoptimización de ruta ante incidencias. | 5-20 |
 | **Cliente Remitente** | Persona que envía un paquete. Solo puede ver el estado de su House, ubicación, fecha de entrega y costo de aduana. | Variable |
 | **Cliente Destinatario** | Persona que recibe un paquete. Solo puede ver el estado de su House, ubicación, fecha de entrega y costo de aduana. | Variable |
 | **Auditor** | Usuario con permisos de solo lectura para revisión | 1 |
@@ -157,11 +160,11 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 | **RF-CL-01c** | **Validación de datos al importar** | Alta | Media | **✅ Implementado** | **Incluye validación de Carnet (11 dígitos) y Unidad de destino** |
 | **RF-CL-01d** | **Vista previa de importación** | Alta | Media | **✅ Implementado** | **Mostrar todos los registros, no solo 10** |
 | **RF-CL-01e** | **Reporte de errores de importación** | Alta | Media | **✅ Implementado** | **En pantalla, sin límite de errores** |
-| **RF-CL-02**  | **Registrar cliente (empresa de paquetería) con: nombre, contacto, dirección, tarifas negociadas** | Alta | Baja | **✅ Implementado** | |
-| **RF-CL-03**  | **Registrar envío manual uno a uno con todos los campos del manifiesto** | Alta | Baja | **✅ Implementado** | |
-| **RF-CL-04**  | **Historial de envíos por cliente** | Alta | Baja | **✅ Implementado** | **Con exportación a PDF y CSV** |
-| RF-CL-05      | Categorizar envíos por prioridad (urgente, normal, económico) | Media | Baja | ⏳ Pendiente | |
-| **RF-CL-06**  | **Registrar novedades de entrega (entregado, no encontrado, dañado, etc.)** | Alta | Baja | **✅ Implementado** | |
+| **RF-CL-02** | **Registrar cliente (empresa de paquetería) con: nombre, contacto, dirección, tarifas negociadas** | Alta | Baja | **✅ Implementado** | |
+| **RF-CL-03** | **Registrar envío manual uno a uno con todos los campos del manifiesto** | Alta | Baja | **✅ Implementado** | |
+| **RF-CL-04** | **Historial de envíos por cliente** | Alta | Baja | **✅ Implementado** | **Con exportación a PDF y CSV** |
+| **RF-CL-05** | **🆕 Categorizar envíos por prioridad (urgente, normal, económico)** | **Alta** | Baja | ⏳ Pendiente | **Ahora es Alta prioridad** |
+| **RF-CL-06** | **Registrar novedades de entrega (entregado, no encontrado, dañado, etc.)** | Alta | Baja | **✅ Implementado** | |
 
 **Especificación Detallada de RF-CL-01a (Importación de Excel):**
 
@@ -214,6 +217,16 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 | **Exportación** | PDF y CSV |
 | **Filtros** | Por fecha, estado, House |
 
+**🆕 Especificación Detallada de RF-CL-05 (Categorización por Prioridad):**
+
+| Prioridad | Descripción | Impacto en Rutas | Color |
+|-----------|-------------|------------------|-------|
+| **Urgente** | Entregas que deben realizarse en el menor tiempo posible | Se asignan a las primeras 3 posiciones de la ruta | 🔴 Rojo |
+| **Normal** | Entregas estándar sin urgencia especial | Se colocan después de las urgentes | 🟡 Amarillo |
+| **Economico** | Entregas con menor prioridad, pueden esperar | Se colocan al final de la ruta | 🟢 Verde |
+
+---
+
 ### MÓDULO 4: PLANIFICACIÓN Y OPTIMIZACIÓN DE RUTAS (RF-RUTA) - ⏳ PENDIENTE
 
 | ID | Requisito | Prioridad | Complejidad | Estado |
@@ -223,12 +236,37 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 | RF-RU-00c | Replanificación manual (mover envíos entre semanas) | Alta | Media | ⏳ Pendiente |
 | RF-RU-01 | Agrupar envíos por zona geográfica (agrupamiento automático) | Alta | Media | ⏳ Pendiente |
 | RF-RU-02 | Asignar envíos a vehículos según capacidad | Alta | Media | ⏳ Pendiente |
-| RF-RU-03 | Calcular ruta óptima secuencial usando algoritmo VRPTW | **Crítica** | **Alta** | ⏳ Pendiente |
+| **RF-RU-03** | **🆕 Calcular ruta óptima secuencial usando algoritmo VRPTW con optimización de combustible, prioridad de entregas y análisis post-ruta** | **Crítica** | **Alta** | ⏳ Pendiente |
 | RF-RU-04 | Visualizar ruta en mapa (OpenStreetMap) | Alta | Media | ⏳ Pendiente |
 | RF-RU-05 | Estimar tiempo total de ruta y tiempo de llegada por parada | Alta | Media | ⏳ Pendiente |
 | RF-RU-06 | Permitir ajuste manual de ruta (drag and drop) | Alta | Media | ⏳ Pendiente |
 | RF-RU-07 | Generar manifiesto de ruta para chofer (orden de entregas) | Alta | Baja | ⏳ Pendiente |
-| RF-RU-08 | Reoptimizar ruta ante incidencias (falla de vehículo, nuevo pedido urgente) | Media | Alta | ⏳ Pendiente |
+| **RF-RU-08** | **🆕 Reoptimizar ruta ante incidencias (falla de vehículo, nuevo pedido urgente) en menos de 5 segundos** | **Alta** | **Alta** | ⏳ Pendiente |
+
+**🆕 Especificación Detallada de RF-RU-03 (Optimización de Rutas con VRPTW Avanzado):**
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Algoritmo Base** | VRPTW (Vehicle Routing Problem with Time Windows) |
+| **Optimización de Combustible** | Considera el consumo específico de cada vehículo y el precio del combustible para calcular el costo real |
+| **Prioridad de Entregas** | Los envíos urgentes se colocan en las primeras 3 posiciones de la ruta |
+| **Función de Costo** | `costo = (0.6 × distancia) + (0.4 × consumo_combustible) + penalizaciones` |
+| **Tiempo de Ejecución** | <30 segundos para ≤50 envíos |
+| **Capacidad de Vehículos** | Respeta peso y volumen máximo de cada vehículo |
+| **Ventanas de Tiempo** | Respeta horarios de entrega de cada cliente |
+| **Análisis Post-Ruta** | Genera reporte comparativo entre ruta planificada y real |
+
+**🆕 Especificación Detallada de RF-RU-08 (Reoptimización Dinámica):**
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Tiempo de Respuesta** | <5 segundos |
+| **Disparadores** | Cliente no encontrado, tráfico, avería, nuevo pedido urgente |
+| **Retención de Estado** | Mantiene las entregas ya realizadas y reoptimiza el resto |
+| **Notificación** | El chofer recibe la ruta actualizada en su app móvil |
+| **Registro** | Cada reoptimización queda registrada en el sistema de auditoría |
+
+---
 
 ### MÓDULO 5: COSTOS Y FINANZAS (RF-COSTO) - ⏳ PENDIENTE
 
@@ -237,7 +275,7 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 | RF-CO-01 | Definir fichas de costo por ruta/tipo de vehículo | **Crítica** | Media | ⏳ Pendiente |
 | RF-CO-02 | Registrar costos fijos mensuales (salarios, seguros, impuestos, depreciación) | Alta | Baja | ⏳ Pendiente |
 | RF-CO-03 | Registrar costos variables por viaje (combustible, peajes, mantenimiento) | Alta | Baja | ⏳ Pendiente |
-| RF-CO-04 | Calcular costo por kilómetro en tiempo real | **Crítica** | Media | ⏳ Pendiente |
+| **RF-CO-04** | **🆕 Calcular costo por kilómetro en tiempo real, incluyendo costo de combustible por tipo de vehículo** | **Crítica** | **Media** | ⏳ Pendiente |
 | RF-CO-05 | Calcular costo real de cada envío | Alta | Media | ⏳ Pendiente |
 | RF-CO-06 | Calcular utilidad neta por viaje (ingreso - costo total) | **Crítica** | Media | ⏳ Pendiente |
 | RF-CO-07 | Generar reporte de rentabilidad por cliente, ruta, vehículo y chofer | Alta | Media | ⏳ Pendiente |
@@ -250,6 +288,17 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 | **RF-CO-14** | **Módulo de Costos de Aduana y Gastos de Importación** | **Crítica** | **Alta** | ⏳ Pendiente |
 | **RF-CO-15** | **Ficha de Costo Detallada por Ruta** | **Crítica** | **Alta** | ⏳ Pendiente |
 
+**🆕 Especificación Detallada de RF-CO-04 (Costo por Kilómetro con Combustible):**
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Fórmula** | `costo_km = (combustible_consumido × precio_combustible + mantenimiento + depreciación + otros) / distancia` |
+| **Combustible por Vehículo** | Cada vehículo tiene un consumo específico (L/100km) según tipo de combustible y modelo |
+| **Actualización** | Los precios de combustible se actualizan manualmente desde Parámetros del Sistema |
+| **Desglose** | El reporte de costo por km debe desglosar: combustible, mantenimiento, depreciación, seguros, administrativos |
+
+---
+
 ### MÓDULO 6: APP PARA CHOFERES (RF-MOBILE) - ⏳ PENDIENTE
 
 | ID | Requisito | Prioridad | Complejidad | Estado |
@@ -258,13 +307,26 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 | RF-MO-02 | Ver ruta asignada del día (lista de entregas ordenadas) | Alta | Baja | ⏳ Pendiente |
 | RF-MO-03 | Visualizar mapa con ruta y paradas | Alta | Media | ⏳ Pendiente |
 | RF-MO-04 | Registrar inicio y fin de cada entrega (timestamp) | Alta | Baja | ⏳ Pendiente |
-| RF-MO-05 | Registrar incidencias por entrega (no encontrado, dañado, etc.) | Alta | Baja | ⏳ Pendiente |
+| **RF-MO-05** | **🆕 Registrar incidencias por entrega (no encontrado, dañado, etc.) y solicitar reoptimización automática de ruta** | **Alta** | **Media** | ⏳ Pendiente |
 | RF-MO-06 | Registrar costos reales (combustible cargado, peajes pagados) | Alta | Baja | ⏳ Pendiente |
 | RF-MO-07 | Capturar firma digital del cliente al recibir | Media | Media | ⏳ Pendiente |
 | RF-MO-08 | Geolocalización en tiempo real (tracking) | Media | Media | ⏳ Pendiente |
 | RF-MO-09 | Funcionar sin internet (modo offline) con sincronización automática | **Crítica** | **Alta** | ⏳ Pendiente |
 | RF-MO-10 | Notificar llegada a destino (push notification al admin) | Baja | Media | ⏳ Pendiente |
 | RF-MO-11 | Visualizar historial de entregas propias | Media | Baja | ⏳ Pendiente |
+| **RF-MO-12** | **🆕 Solicitar reoptimización de ruta ante incidencias (cliente no encontrado, tráfico, nuevo pedido urgente)** | **Alta** | **Media** | ⏳ Pendiente |
+
+**🆕 Especificación Detallada de RF-MO-12 (Solicitud de Reoptimización):**
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Acceso** | Botón "Reoptimizar Ruta" en la app del chofer |
+| **Motivos** | Cliente no encontrado, tráfico, avería, nuevo pedido urgente |
+| **Tiempo de Respuesta** | <5 segundos |
+| **Resultado** | El chofer recibe la nueva ruta optimizada en su app |
+| **Historial** | Cada reoptimización queda registrada para auditoría |
+
+---
 
 ### MÓDULO 7: DASHBOARD Y REPORTES (RF-DASH) - ⏳ PENDIENTE
 
@@ -275,9 +337,23 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 | RF-DA-03 | Gráfico de evolución de costos (mensual) | Alta | Media | ⏳ Pendiente |
 | RF-DA-04 | Reporte de desempeño de choferes | Alta | Media | ⏳ Pendiente |
 | RF-DA-05 | Reporte de estado de la flota (vehículos en ruta, en taller, disponibles) | Alta | Media | ⏳ Pendiente |
-| RF-DA-06 | Exportar reportes a CSV/PDF | Media | Baja | ⏳ Pendiente |
+| **RF-DA-06** | **🆕 Exportar reportes a CSV/PDF, incluyendo análisis post-ruta y métricas de eficiencia** | **Alta** | **Media** | ⏳ Pendiente |
 | RF-DA-07 | Alertas automáticas (mantenimiento vencido, consumo anómalo) | Media | Media | ⏳ Pendiente |
 | RF-DA-08 | Mapa de calor de entregas por zona | Media | Media | ⏳ Pendiente |
+| **RF-DA-09** | **🆕 Panel de Análisis Post-Ruta: comparación planificado vs real, eficiencia por chofer/vehículo/zona** | **Alta** | **Media** | ⏳ Pendiente |
+
+**🆕 Especificación Detallada de RF-DA-09 (Panel de Análisis Post-Ruta):**
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Comparación** | Muestra ruta planificada vs ruta real (distancia, tiempo, combustible) |
+| **Métricas por Chofer** | Entregas a tiempo, eficiencia de combustible, incidencias |
+| **Métricas por Vehículo** | Consumo real vs esperado, kilómetros recorridos |
+| **Métricas por Zona** | Tiempo promedio de entrega por provincia/municipio |
+| **Recomendaciones** | Sugerencias automáticas para mejorar eficiencia |
+| **Exportación** | Reporte exportable a PDF y CSV |
+
+---
 
 ### MÓDULO 8: PORTAL DEL CLIENTE (RF-PORTAL) - ⏳ PENDIENTE
 
@@ -324,6 +400,7 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 | RF-AU-04 | Exportar logs de auditoría a CSV | Media | Baja | ⏳ Pendiente |
 | RF-AU-05 | Alertas de seguridad (múltiples intentos fallidos, accesos sospechosos) | Media | Media | ⏳ Pendiente |
 | RF-AU-06 | Trazabilidad de acciones offline (registro local + sincronización) | Alta | Media | ⏳ Pendiente |
+| **RF-AU-07** | **🆕 Registrar eventos de reoptimización de rutas (disparador, tiempo, resultado)** | **Alta** | **Media** | ⏳ Pendiente |
 
 ### MÓDULO 12: AUTOMATIZACIÓN DE FACTURACIÓN DE ADUANA (RF-ADUANA) - ⏳ PENDIENTE
 
@@ -362,7 +439,7 @@ https://www.aerovaradero.com.cu/payment/?cod_la=230&cod_awb=66684660&cod_house=2
 
 | ID | Requisito | Especificación | Prioridad | Estado |
 |----|-----------|----------------|-----------|--------|
-| RNF-01 | Rendimiento | Dashboard cargue en <3 segundos; optimización de ruta en <30 segundos para ≤50 envíos | Alta | ⏳ Pendiente |
+| **RNF-01** | **🆕 Rendimiento** | **Dashboard cargue en <3 segundos; optimización de ruta en <30 segundos para ≤50 envíos; reoptimización en <5 segundos** | **Alta** | ⏳ Pendiente |
 | RNF-02 | Disponibilidad | 99.5% de uptime para sistema web | Alta | ⏳ Pendiente |
 | RNF-03 | Seguridad | Autenticación por usuario/rol; contraseñas hasheadas; HTTPS obligatorio | Alta | ⏳ Pendiente |
 | RNF-04 | Escalabilidad | Soporte para hasta 1,000 envíos/día y 50 choferes | Media | ⏳ Pendiente |
@@ -385,7 +462,7 @@ https://www.aerovaradero.com.cu/payment/?cod_la=230&cod_awb=66684660&cod_house=2
 | **RNF-21** | **Conventional Commits** | **Los mensajes de commit deben seguir el estándar Conventional Commits (`feat:`, `fix:`, `docs:`, etc.) para mantener un historial claro y permitir la generación automática de changelogs** | Media | **✅ Implementado** |
 | **RNF-22** | **Cobertura de Documentación** | **≥80% de las funciones, clases e interfaces públicas deben tener documentación JSDoc/comentarios** | Media | **✅ Implementado** |
 | **RNF-23** | **Cobertura de Estándares** | **≥95% de las líneas de código deben cumplir con los estándares de codificación definidos (ESLint, Prettier, Dart Analyzer)** | **Alta** | **✅ Implementado** |
-| RNF-24 | Precisión en Cálculo de Combustible | El sistema debe usar el precio del combustible configurado (RF-CO-12) para calcular el costo exacto por litro consumido en las rutas, permitiendo un seguimiento y reporte preciso de este gasto. | **Alta** | ⏳ Pendiente |
+| **RNF-24** | **🆕 Precisión en Cálculo de Combustible** | **El sistema debe usar el precio del combustible configurado (RF-CO-12) y el consumo específico de cada vehículo para calcular el costo exacto por litro consumido en las rutas, permitiendo un seguimiento y reporte preciso de este gasto** | **Alta** | ⏳ Pendiente |
 | RNF-25 | Integración Robusta con Sitio de Aduana | La integración con el sitio de Aerovaradero (URL de payment) debe ser robusta ante cambios en la estructura del sitio web. Se debe implementar un sistema de alertas para notificar fallos en la extracción de datos y permitir la entrada manual del costo de aduana como contingencia. | **Alta** | ⏳ Pendiente |
 | RNF-26 | Precisión en Cálculo de Ficha de Costo | El sistema debe calcular la ficha de costo con una precisión de 2 decimales. Todos los costos deben calcularse en CUP utilizando la tasa de cambio configurada (RF-CO-12). Los cálculos deben ser auditables y reproducibles. El tiempo de generación de la ficha debe ser menor a 5 segundos por ruta. | **Alta** | ⏳ Pendiente |
 | **RNF-27** | **Alojamiento en VPS ETECSA** | **El sistema debe ser desplegable en un VPS de ETECSA con Ubuntu 22.04 LTS o 24.04 LTS, y debe funcionar correctamente con los recursos mínimos (2 GB RAM, 50 GB disco).** | **Alta** | ⏳ Pendiente |
@@ -394,27 +471,34 @@ https://www.aerovaradero.com.cu/payment/?cod_la=230&cod_awb=66684660&cod_house=2
 | **RNF-30** | **SSL/HTTPS Obligatorio** | **Todos los servicios (backend, frontend web) deben operar exclusivamente bajo HTTPS con certificados Let's Encrypt. El acceso por HTTP debe redirigir automáticamente a HTTPS.** | **Alta** | ⏳ Pendiente |
 | **RNF-31** | **Sistema Operativo del Servidor** | **El servidor de producción debe ejecutar Ubuntu 22.04 LTS o 24.04 LTS.** | **Alta** | ⏳ Pendiente |
 | **RNF-32** | **Descarga Directa de APK** | **El sitio web debe ofrecer la opción de descarga directa del archivo APK firmado para usuarios que no puedan acceder a Google Play Store o APKlis.** | **Media** | ⏳ Pendiente |
+| **🆕 RNF-33** | **🆕 Análisis Post-Ruta** | **El sistema debe generar un análisis post-ruta comparando la ruta planificada vs la ruta real, con métricas de eficiencia por chofer, vehículo y zona, exportable a PDF/CSV** | **Alta** | ⏳ Pendiente |
+| **🆕 RNF-34** | **🆕 Reoptimización Dinámica** | **El sistema debe permitir reoptimización dinámica en tiempo real ante incidencias, con un tiempo de respuesta <5 segundos y registro en auditoría** | **Alta** | ⏳ Pendiente |
+| **🆕 RNF-35** | **🆕 Sistema de Estimación de Tiempos con IA** | **El sistema debe utilizar un modelo de regresión lineal (entrenado con datos históricos) para estimar tiempos de entrega, mejorando la precisión de las ventanas de tiempo** | **Media** | ⏳ Pendiente |
+| **🆕 RNF-36** | **🆕 Precisión de Estimación** | **El sistema debe mantener una precisión ≥85% en las estimaciones de tiempo de entrega, con reentrenamiento automático del modelo IA cuando se acumulen nuevos datos** | **Media** | ⏳ Pendiente |
 
 ---
 
 ## 5. MODELO DE DATOS (COMPLETO)
 
-```
+```sql
+-- USUARIO
 USUARIO
 ├── id_usuario (PK)
 ├── nombre, email, password_hash
 ├── rol (admin, jefe_operaciones, agencia, chofer, cliente_remitente, cliente_destinatario, auditor)
 └── activo
 
+-- VEHICULO
 VEHICULO
 ├── id_vehiculo (PK)
 ├── matricula, marca, modelo, año
 ├── capacidad_kg, capacidad_m3
-├── tipo_combustible, consumo_promedio
+├── tipo_combustible, consumo_promedio  -- 🆕 consumo_promedio en L/100km
 ├── kilometraje_total
 ├── disponible
 └── fecha_registro
 
+-- CHOFER
 CHOFER
 ├── id_chofer (PK)
 ├── nombre, identificacion
@@ -427,13 +511,14 @@ CHOFER
 ├── salario_por_km (DECIMAL, opcional)
 └── salario_por_entrega (DECIMAL, opcional)
 
-CLIENTE                          ✅ IMPLEMENTADO
+-- CLIENTE                          ✅ IMPLEMENTADO
 ├── id_cliente (PK)
 ├── nombre_empresa
 ├── contacto_nombre, contacto_telefono, contacto_email
 ├── tarifa_preferencial
 └── activo
 
+-- PROSPECTO
 PROSPECTO
 ├── id_prospecto (PK)
 ├── nombre_empresa, contacto_nombre
@@ -442,7 +527,7 @@ PROSPECTO
 ├── estado (contactado, cotizado, cliente, inactivo)
 └── fecha_registro
 
-ENVIO                            ✅ IMPLEMENTADO
+-- ENVIO                           ✅ IMPLEMENTADO
 ├── id_envio (PK)
 ├── id_cliente (FK)              -- Agencia de envíos
 ├── id_cliente_remitente (FK)    -- Persona que envía
@@ -472,6 +557,9 @@ ENVIO                            ✅ IMPLEMENTADO
 ├── numero_factura_aduana (VARCHAR(50))        ⏳ Pendiente
 ├── fecha_ultima_consulta_aduana (TIMESTAMP)   ⏳ Pendiente
 ├── intentos_consulta_aduana (INTEGER)         ⏳ Pendiente
+├── 🆕 tiempo_estimado_ia (DECIMAL(10,2))     -- Tiempo estimado por IA (minutos)
+├── 🆕 tiempo_real_entrega (DECIMAL(10,2))    -- Tiempo real de entrega (minutos)
+├── 🆕 precision_estimacion (DECIMAL(5,2))    -- Precisión de la estimación (%)
 ├── fecha_arribado (TIMESTAMP)                 ⏳ Pendiente
 ├── fecha_facturado (TIMESTAMP)                ⏳ Pendiente
 ├── fecha_recogido (TIMESTAMP)                 ⏳ Pendiente
@@ -487,23 +575,34 @@ ENVIO                            ✅ IMPLEMENTADO
 ├── created_at (TIMESTAMP)
 └── updated_at (TIMESTAMP)
 
-RUTA                             ⏳ PENDIENTE
+-- RUTA                             ⏳ PENDIENTE
 ├── id_ruta (PK)
 ├── id_vehiculo (FK)
 ├── id_chofer (FK)
 ├── fecha
 ├── secuencia_paradas (JSON)
 ├── distancia_total, tiempo_estimado
-├── combustible_estimado
+├── 🆕 combustible_estimado (DECIMAL(10,2))  -- Litros estimados
+├── 🆕 combustible_real (DECIMAL(10,2))      -- Litros reales consumidos
+├── 🆕 costo_combustible (DECIMAL(12,2))     -- Costo total de combustible
+├── 🆕 costo_combustible_por_km (DECIMAL(10,2)) -- Costo de combustible por km
 ├── costo_total_estimado, costo_total_real
 ├── pago_chofer (DECIMAL(12,2))      -- Monto calculado para el chofer
 ├── ficha_costo (JSON)               -- Ficha de costo completa en formato JSON
 ├── ingresos (DECIMAL(12,2))          -- Ingresos totales de la ruta
 ├── utilidad_neta (DECIMAL(12,2))     -- Utilidad neta calculada
 ├── margen_utilidad (DECIMAL(5,2))    -- Margen de utilidad en porcentaje
+├── 🆕 analisis_post_ruta (JSON)      -- Análisis completo post-ruta
+├── 🆕 eficiencia_chofer (DECIMAL(5,2)) -- Eficiencia del chofer en %
+├── 🆕 eficiencia_vehiculo (DECIMAL(5,2)) -- Eficiencia del vehículo en %
+├── 🆕 desviacion_distancia (DECIMAL(5,2)) -- Desviación de distancia planificada vs real
+├── 🆕 desviacion_tiempo (DECIMAL(5,2))    -- Desviación de tiempo planificado vs real
+├── 🆕 desviacion_combustible (DECIMAL(5,2)) -- Desviación de combustible planificado vs real
+├── 🆕 reoptimizaciones (INTEGER)        -- Número de reoptimizaciones en la ruta
+├── 🆕 incidencias_ruta (JSON)           -- Lista de incidencias durante la ruta
 └── estado (planificada, en_curso, completada, cancelada)
 
-COSTO                            ⏳ PENDIENTE
+-- COSTO                            ⏳ PENDIENTE
 ├── id_costo (PK)
 ├── tipo (fijo, variable)
 ├── categoria (combustible, peaje, mantenimiento, neumatico, salario, depreciacion, seguro, administrativo, impuesto, aduana, importacion)
@@ -518,7 +617,7 @@ COSTO                            ⏳ PENDIENTE
 ├── id_envio (FK, opcional)
 └── facturado (boolean)
 
-PARAMETROS_SISTEMA               ⏳ PENDIENTE
+-- PARAMETROS_SISTEMA               ⏳ PENDIENTE
 ├── id_parametro (PK)
 ├── clave (VARCHAR(50))              -- ej. 'tasa_cambio', 'precio_gasolina', 'precio_diesel'
 ├── valor (DECIMAL(12,2))
@@ -526,7 +625,7 @@ PARAMETROS_SISTEMA               ⏳ PENDIENTE
 ├── unidad (VARCHAR(20))             -- ej. 'CUP', 'CUP/L', 'USD', 'CUP/km'
 └── fecha_actualizacion (TIMESTAMP)
 
-HISTORIAL_PARAMETROS             ⏳ PENDIENTE
+-- 🆕 HISTORIAL_PARAMETROS          ⏳ PENDIENTE
 ├── id_historial (PK)
 ├── id_parametro (FK)
 ├── valor_anterior (DECIMAL(12,2))
@@ -534,7 +633,7 @@ HISTORIAL_PARAMETROS             ⏳ PENDIENTE
 ├── fecha_cambio (TIMESTAMP)
 └── usuario (VARCHAR(50))
 
-MANTENIMIENTO                    ⏳ PENDIENTE
+-- MANTENIMIENTO                    ⏳ PENDIENTE
 ├── id_mantenimiento (PK)
 ├── id_vehiculo (FK)
 ├── fecha
@@ -545,7 +644,7 @@ MANTENIMIENTO                    ⏳ PENDIENTE
 ├── proximo_mantenimiento_km
 └── taller (opcional)
 
-FACTURA                          ⏳ PENDIENTE
+-- FACTURA                          ⏳ PENDIENTE
 ├── id_factura (PK)
 ├── id_cliente (FK)
 ├── numero_factura (unique)
@@ -554,7 +653,7 @@ FACTURA                          ⏳ PENDIENTE
 ├── estado (emitida, pagada, vencida, anulada)
 └── fecha_pago (opcional)
 
-INCIDENTE                        ⏳ PENDIENTE
+-- INCIDENTE                        ⏳ PENDIENTE
 ├── id_incidente (PK)
 ├── id_envio (FK)
 ├── id_chofer (FK)
@@ -563,25 +662,45 @@ INCIDENTE                        ⏳ PENDIENTE
 ├── fecha
 ├── prioridad (alta, media, baja)
 ├── estado (abierto, en_proceso, resuelto, cerrado)
+├── 🆕 solicito_reoptimizacion (BOOLEAN) -- Si se solicitó reoptimización
 └── solucion (opcional)
 
-AUDITORIA                        ⏳ PENDIENTE
+-- AUDITORIA                        ⏳ PENDIENTE
 ├── id_auditoria (PK)
 ├── id_usuario (FK)
-├── accion (crear, leer, actualizar, eliminar, login, logout, consultar_aduana, facturar_aduana)
+├── accion (crear, leer, actualizar, eliminar, login, logout, consultar_aduana, facturar_aduana, reoptimizar_ruta, generar_analisis_post_ruta)
 ├── entidad (envio, ruta, vehiculo, chofer, cliente, parametro, ficha_costo, etc.)
 ├── id_entidad
 ├── detalle (JSON con cambios)
 ├── ip
 └── fecha
 
-ENVIO_BODEGA                     ⏳ PENDIENTE
+-- ENVIO_BODEGA                     ⏳ PENDIENTE
 ├── id_envio_bodega (PK)
 ├── id_envio (FK)
 ├── ubicacion (rack/estante)
 ├── fecha_ingreso
 ├── fecha_salida
 └── estado (almacenado, retirado)
+
+-- 🆕 MODELO_IA                      ⏳ PENDIENTE
+├── id_modelo (PK)
+├── version (VARCHAR(10))
+├── parametros (JSON)               -- Pesos del modelo de regresión lineal
+├── precision (DECIMAL(5,2))        -- Precisión actual del modelo (%)
+├── fecha_entrenamiento (TIMESTAMP)
+├── num_datos_entrenamiento (INTEGER)
+└── activo (BOOLEAN)                -- Si es el modelo activo actualmente
+
+-- 🆕 REOPTIMIZACION                ⏳ PENDIENTE
+├── id_reoptimizacion (PK)
+├── id_ruta (FK)
+├── id_chofer (FK)
+├── motivo (cliente_no_encontrado, trafico, averia, nuevo_pedido_urgente, otro)
+├── tiempo_respuesta (DECIMAL(5,2)) -- Tiempo de respuesta en segundos
+├── entregas_afectadas (INTEGER)
+├── resultado (JSON)                -- Nueva ruta optimizada
+└── fecha (TIMESTAMP)
 ```
 
 ---
@@ -593,18 +712,19 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 | Flota | RF-FL-01 a RF-FL-08 | Backend + BD | **P1 (Fundacional)** | ⏳ Pendiente |
 | Choferes | RF-CH-01 a RF-CH-06 | Backend + BD | P2 (Alta) | ⏳ Pendiente |
 | **Clientes/Envíos** | **RF-CL-01a a RF-CL-06** | **Backend + BD** | **P1 (Fundacional)** | **✅ Implementado** |
-| Rutas | RF-RU-00a a RF-RU-08 | Backend + OSRM | **P1 (Fundacional)** | ⏳ Pendiente |
+| **🆕 Rutas** | **RF-RU-00a a RF-RU-08** | **Backend + OSRM + IA** | **P1 (Fundacional)** | ⏳ Pendiente |
 | **Costos/Finanzas** | **RF-CO-01 a RF-CO-15** | **Backend + BD + Web Scraping** | **P1 (Fundacional)** | ⏳ Pendiente |
 | **Automatización de Aduana** | **RF-ADU-01** | **Backend + Web Scraping + Cron** | **P1 (Fundacional)** | ⏳ Pendiente |
-| App Chofer | RF-MO-01 a RF-MO-11 | Mobile + API | **P1 (Fundacional)** | ⏳ Pendiente |
-| Dashboard | RF-DA-01 a RF-DA-08 | Frontend + Backend | P2 (Alta) | ⏳ Pendiente |
+| App Chofer | RF-MO-01 a RF-MO-12 | Mobile + API | **P1 (Fundacional)** | ⏳ Pendiente |
+| Dashboard | RF-DA-01 a RF-DA-09 | Frontend + Backend | P2 (Alta) | ⏳ Pendiente |
 | Portal Cliente | RF-PO-01 a RF-PO-07 | Frontend + Backend | P2 (Alta) | ⏳ Pendiente |
 | Almacén | RF-AL-01 a RF-AL-06 | Backend + BD | P2 (Alta) | ⏳ Pendiente |
 | Marketing | RF-MK-01 a RF-MK-07 | Backend + BD | P2 (Alta) | ⏳ Pendiente |
-| Auditoría | RF-AU-01 a RF-AU-06 | Backend + BD | **P1 (Fundacional)** | ⏳ Pendiente |
+| Auditoría | RF-AU-01 a RF-AU-07 | Backend + BD | **P1 (Fundacional)** | ⏳ Pendiente |
 | **Estándares de Codificación** | **RNF-13 a RNF-23** | **Todo el sistema** | **P1 (Fundacional)** | **✅ Implementado** |
 | **Finanzas y Aduana** | **RNF-24 a RNF-26** | **Backend + Web Scraping** | **P1 (Fundacional)** | ⏳ Pendiente |
 | **Infraestructura y Distribución** | **RNF-27 a RNF-32** | **Backend + DevOps** | **P1 (Fundacional)** | ⏳ Pendiente |
+| **🆕 Optimización Avanzada** | **RNF-33 a RNF-36** | **Backend + IA + OSRM** | **P1 (Fundacional)** | ⏳ Pendiente |
 
 ---
 
@@ -630,31 +750,39 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 - [ ] El sistema maneja errores de conexión y reintenta en la siguiente ejecución
 - [ ] El sistema registra todas las consultas y cambios de estado
 
-### Módulo de Rutas ⏳ PENDIENTE
+### 🆕 Módulo de Rutas (Optimización Avanzada) ⏳ PENDIENTE
 - [ ] Ruta optimizada reduce distancia en ≥15% vs. planificación manual
 - [ ] Tiempo de cálculo <30 segundos para ≤50 paradas
+- [ ] 🆕 Optimización de combustible considera consumo específico de cada vehículo
+- [ ] 🆕 Envíos urgentes colocados en las primeras 3 posiciones de la ruta
+- [ ] 🆕 Reoptimización en <5 segundos ante incidencias
+- [ ] 🆕 Análisis post-ruta generado con métricas de eficiencia
 - [ ] Mapa muestra ruta correctamente
 - [ ] Drag and drop funciona correctamente
 - [ ] Manifiesto de ruta generado en formato legible
 
-### App Móvil ⏳ PENDIENTE
+### 🆕 App Móvil ⏳ PENDIENTE
 - [ ] Funciona sin internet (offline)
 - [ ] Sincronización automática al recuperar conexión
 - [ ] Registro de incidencias y costos en <3 clics
 - [ ] Firma digital capturada correctamente
 - [ ] Geolocalización enviada cuando hay conexión
+- [ ] 🆕 Solicitud de reoptimización en <3 clics
+- [ ] 🆕 Recepción de ruta reoptimizada en <5 segundos
 
-### Dashboard ⏳ PENDIENTE
+### 🆕 Dashboard ⏳ PENDIENTE
 - [ ] KPIs se actualizan automáticamente
 - [ ] Gráficos interactivos
 - [ ] Alertas automáticas generadas correctamente
 - [ ] Exportación a PDF/CSV funciona
+- [ ] 🆕 Panel de Análisis Post-Ruta visible y funcional
 
 ### Auditoría ⏳ PENDIENTE
 - [ ] Todas las acciones quedan registradas
 - [ ] Historial de cambios por entidad visible
 - [ ] Intentos de login fallidos registrados
 - [ ] Exportación de logs a CSV funciona
+- [ ] 🆕 Eventos de reoptimización registrados
 
 ### Módulo Financiero y Aduana ⏳ PENDIENTE
 - [ ] Consulta automática de costos de aduana para ≥95% de los envíos en <5 minutos utilizando la URL de payment
@@ -665,9 +793,11 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 - [ ] Manejo de errores en consulta a Aerovaradero con entrada manual de contingencia
 - [ ] Historial de cambios en parámetros financieros guardado para auditoría
 
-### Ficha de Costo Detallada ⏳ PENDIENTE
+### 🆕 Ficha de Costo Detallada ⏳ PENDIENTE
 - [ ] Generación de ficha de costo en <5 segundos por ruta
 - [ ] Inclusión de todos los componentes: costos directos (combustible, peajes, mantenimiento, neumáticos, salario), indirectos (depreciación, seguros, administrativos, impuestos) y de importación (costos de aduana)
+- [ ] 🆕 Desglose de costo de combustible por tipo de vehículo
+- [ ] 🆕 Comparativa de combustible estimado vs real
 - [ ] Precisión de 2 decimales en todos los cálculos
 - [ ] Exportación a PDF y CSV funcionando correctamente
 - [ ] Cálculos auditables y reproducibles
@@ -688,6 +818,12 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 - [x] API documentada con OpenAPI (Swagger)
 - [x] Pipeline de CI/CD incluye verificación automática de estándares
 - [x] Mensajes de commit siguen Conventional Commits
+
+### 🆕 Sistema de Estimación con IA ⏳ PENDIENTE
+- [ ] Modelo de regresión lineal implementado
+- [ ] Precisión ≥85% en estimaciones de tiempo
+- [ ] Reentrenamiento automático con nuevos datos
+- [ ] Integración con el algoritmo de optimización de rutas
 
 ---
 
@@ -712,6 +848,8 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 | **Google Play Store bloqueada desde Cuba** | **Alta** | **Medio** | **Distribuir también vía APKlis y descarga directa** | ⏳ Pendiente |
 | **Configuración de SSL/HTTPS** | **Baja** | **Medio** | **Documentación detallada, uso de Let's Encrypt, renovación automática** | ⏳ Pendiente |
 | **Recursos limitados del VPS ETECSA** | **Media** | **Medio** | **Optimización de recursos, caché con Redis, monitoreo de rendimiento** | ⏳ Pendiente |
+| **🆕 Falla en el modelo de IA para estimación de tiempos** | **Media** | **Medio** | **Fallback a estimación por defecto, reentrenamiento automático, monitoreo de precisión** | ⏳ Pendiente |
+| **🆕 Tiempo de reoptimización excede el límite de 5 segundos** | **Media** | **Alto** | **Optimización del algoritmo, límite de envíos reoptimizables, notificación al usuario** | ⏳ Pendiente |
 
 ---
 
@@ -727,16 +865,22 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 
 ## 📌 CONCLUSIÓN
 
-Este SRS Versión 3.6 ahora incluye:
+Este SRS Versión 3.8 ahora incluye:
 
 - ✅ **12 módulos funcionales** (1 nuevo: RF-ADU-01 Automatización de Facturación de Aduana)
-- ✅ **86 requisitos funcionales** (1 nuevo: RF-ADU-01)
-- ✅ **32 requisitos no funcionales** (6 nuevos: RNF-27 a RNF-32 sobre infraestructura y distribución)
+- ✅ **🆕 93 requisitos funcionales** (7 nuevos: RF-CL-05 actualizado a Alta, RF-RU-03 actualizado, RF-RU-08 actualizado, RF-MO-12, RF-DA-09, RF-AU-07)
+- ✅ **🆕 36 requisitos no funcionales** (4 nuevos: RNF-33 a RNF-36)
+- ✅ **🆕 Optimización de Combustible** integrada en el algoritmo VRPTW
+- ✅ **🆕 Reoptimización Dinámica** en tiempo real (<5 segundos)
+- ✅ **🆕 Sistema de Estimación de Tiempos con IA** (regresión lineal)
+- ✅ **🆕 Análisis Post-Ruta** con métricas de eficiencia por chofer, vehículo y zona
+- ✅ **🆕 Panel de Análisis Post-Ruta** en el Dashboard
+- ✅ **🆕 Modelo de Datos ampliado** con nuevas tablas y campos
 - ✅ **Auditoría completa** para trazabilidad total
 - ✅ **Marketing y CRM** para crecimiento del negocio
 - ✅ **Portal del cliente** para transparencia
 - ✅ **Gestión de almacén** para control de inventario
-- ✅ **Modelo de datos completo** (23 entidades, con nuevas tablas y campos para automatización de aduana)
+- ✅ **Modelo de datos completo** (25 entidades, con nuevas tablas y campos)
 - ✅ **Matriz de trazabilidad** actualizada
 - ✅ **Estándares de codificación** para TypeScript, React y Flutter
 - ✅ **Estrategia de documentación** con JSDoc, OpenAPI y READMEs
@@ -755,4 +899,6 @@ Este SRS Versión 3.6 ahora incluye:
 - ✅ **Sprint 0 y 1 completados** (13-15/08/2026) con módulos de Clientes y Envíos implementados al 100%
 - ✅ **Estándares de codificación y documentación** completamente implementados
 
-**Este documento es la base técnica definitiva para construir el sistema de gestión de transporte más completo y de mayor calidad del nicho cubano y regional.**
+**Este documento es la base técnica definitiva para construir el sistema de gestión de transporte más completo y de mayor calidad del nicho cubano y regional, con capacidades de optimización de rutas de nivel mundial.**
+
+---
