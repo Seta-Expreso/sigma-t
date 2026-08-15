@@ -4,31 +4,54 @@
  */
 
 import axios from 'axios';
+import logger from '../utils/logger.js';
 
 const OSRM_URL = process.env.OSRM_URL || 'http://osrm:5000';
 
+// 🆕 Definir tipos específicos en lugar de any
+export interface OSRMStep {
+  distance: number;
+  duration: number;
+  geometry: string;
+  name: string;
+  mode: string;
+  maneuver: {
+    location: [number, number];
+    bearing_before: number;
+    bearing_after: number;
+    type: string;
+    modifier?: string;
+  };
+}
+
+export interface OSRMLeg {
+  steps: OSRMStep[];
+  summary: string;
+  weight: number;
+  duration: number;
+  distance: number;
+}
+
+export interface OSRMRoute {
+  geometry: string;
+  legs: OSRMLeg[];
+  weight_name: string;
+  weight: number;
+  duration: number;
+  distance: number;
+}
+
+export interface OSRMWaypoint {
+  hint: string;
+  distance: number;
+  name: string;
+  location: [number, number];
+}
+
 export interface OSRMResponse {
   code: string;
-  routes?: Array<{
-    geometry: string;
-    legs: Array<{
-      steps: any[];
-      summary: string;
-      weight: number;
-      duration: number;
-      distance: number;
-    }>;
-    weight_name: string;
-    weight: number;
-    duration: number;
-    distance: number;
-  }>;
-  waypoints: Array<{
-    hint: string;
-    distance: number;
-    name: string;
-    location: [number, number];
-  }>;
+  routes?: OSRMRoute[];
+  waypoints?: OSRMWaypoint[];
 }
 
 export interface Coordinate {
@@ -64,7 +87,8 @@ export async function getRoute(
 
     throw new Error('No se encontró ruta entre los puntos');
   } catch (error) {
-    console.error('Error en OSRM:', error);
+    // 🆕 Usar logger en lugar de console
+    logger.error('Error en OSRM:', error);
     throw new Error('Error al calcular la ruta');
   }
 }

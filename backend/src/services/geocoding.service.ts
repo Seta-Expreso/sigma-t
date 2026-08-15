@@ -4,8 +4,20 @@
  */
 
 import axios from 'axios';
+import logger from '../utils/logger.js';
 
 const NOMINATIM_URL = 'https://nominatim.openstreetmap.org/search';
+
+// 🆕 Definir tipo específico para la respuesta de Nominatim
+export interface NominatimResult {
+  lat: string;
+  lon: string;
+  display_name: string;
+  place_id: number;
+  class: string;
+  type: string;
+  importance: number;
+}
 
 export interface GeocodingResult {
   lat: number;
@@ -19,7 +31,7 @@ export interface GeocodingResult {
  */
 export async function geocodeAddress(address: string): Promise<GeocodingResult | null> {
   try {
-    const response = await axios.get(NOMINATIM_URL, {
+    const response = await axios.get<Array<NominatimResult>>(NOMINATIM_URL, {
       params: {
         q: address,
         format: 'json',
@@ -43,7 +55,7 @@ export async function geocodeAddress(address: string): Promise<GeocodingResult |
 
     return null;
   } catch (error) {
-    console.error('Error en geocodificación:', error);
+    logger.error('Error en geocodificación:', error);
     return null;
   }
 }
@@ -51,8 +63,10 @@ export async function geocodeAddress(address: string): Promise<GeocodingResult |
 /**
  * Geocodifica múltiples direcciones
  */
-export async function geocodeAddresses(addresses: string[]): Promise<(GeocodingResult | null)[]> {
-  const results: (GeocodingResult | null)[] = [];
+export async function geocodeAddresses(
+  addresses: string[]
+): Promise<Array<GeocodingResult | null>> {
+  const results: Array<GeocodingResult | null> = [];
 
   for (const address of addresses) {
     const result = await geocodeAddress(address);
