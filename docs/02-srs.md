@@ -357,26 +357,26 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 
 ### MÓDULO 8: PORTAL DEL CLIENTE (RF-PORTAL) - ⏳ PENDIENTE
 
-| ID | Requisito | Prioridad | Complejidad | Estado |
-|----|-----------|-----------|-------------|--------|
-| RF-PO-01 | Login para clientes | Alta | Media | ⏳ Pendiente |
-| RF-PO-02 | Visualizar todos los envíos de la empresa con estado actualizado | Alta | Media | ⏳ Pendiente |
-| RF-PO-03 | Buscar envío por número de House | Alta | Baja | ⏳ Pendiente |
-| RF-PO-04 | Ver ubicación en tiempo real del vehículo en ruta | Alta | Media | ⏳ Pendiente |
-| RF-PO-05 | Recibir notificaciones de cambio de estado (email/push) | Media | Media | ⏳ Pendiente |
-| RF-PO-06 | Descargar comprobante de entrega (PDF con firma) | Alta | Media | ⏳ Pendiente |
-| RF-PO-07 | Estadísticas de envíos (entregados, pendientes, incidencias) | Media | Media | ⏳ Pendiente |
+| ID       | Requisito                                                        | Prioridad | Complejidad | Estado       |
+|----------|------------------------------------------------------------------|-----------|-------------|--------------|
+| RF-PO-01 | Login para clientes                                              | Alta      | Media       | ⏳ Pendiente |
+| RF-PO-02 | Visualizar todos los envíos de la empresa con estado actualizado | Alta      | Media       | ⏳ Pendiente |
+| RF-PO-03 | Buscar envío por número de House                                 | Alta      | Baja        | ⏳ Pendiente |
+| RF-PO-04 | Ver ubicación en tiempo real del vehículo en ruta                | Alta      | Media       | ⏳ Pendiente |
+| RF-PO-05 | Recibir notificaciones de cambio de estado (email/push)          | Media     | Media       | ⏳ Pendiente |
+| RF-PO-06 | Descargar comprobante de entrega (PDF con firma)                 | Alta      | Media       | ⏳ Pendiente |
+| RF-PO-07 | Estadísticas de envíos (entregados, pendientes, incidencias)     | Media     | Media       | ⏳ Pendiente |
 
 ### MÓDULO 9: GESTIÓN DE ALMACÉN (RF-ALMACEN) - ⏳ PENDIENTE
 
-| ID | Requisito | Prioridad | Complejidad | Estado |
-|----|-----------|-----------|-------------|--------|
-| RF-AL-01 | Registrar entrada de paquetes a bodega | Alta | Baja | ⏳ Pendiente |
-| RF-AL-02 | Registrar salida de paquetes (asignación a ruta) | Alta | Baja | ⏳ Pendiente |
-| RF-AL-03 | Asignar ubicación física en bodega (rack/estante) | Media | Baja | ⏳ Pendiente |
-| RF-AL-04 | Visualizar mapa de bodega con ubicación de paquetes | Media | Media | ⏳ Pendiente |
-| RF-AL-05 | Buscar paquete por número de House | Alta | Baja | ⏳ Pendiente |
-| RF-AL-06 | Reporte de inventario (paquetes en bodega) | Alta | Baja | ⏳ Pendiente |
+| ID       | Requisito                                           | Prioridad | Complejidad | Estado       |
+|----------|-----------------------------------------------------|-----------|-------------|--------------|
+| RF-AL-01 | Registrar entrada de paquetes a bodega              | Alta      | Baja        | ⏳ Pendiente |
+| RF-AL-02 | Registrar salida de paquetes (asignación a ruta)    | Alta      | Baja        | ⏳ Pendiente |
+| RF-AL-03 | Asignar ubicación física en bodega (rack/estante)   | Media     | Baja        | ⏳ Pendiente |
+| RF-AL-04 | Visualizar mapa de bodega con ubicación de paquetes | Media     | Media       | ⏳ Pendiente |
+| RF-AL-05 | Buscar paquete por número de House                  | Alta      | Baja        | ⏳ Pendiente |
+| RF-AL-06 | Reporte de inventario (paquetes en bodega)          | Alta      | Baja        | ⏳ Pendiente |
 
 ### MÓDULO 10: GESTIÓN DE PROSPECTOS Y MARKETING (RF-MARKETING) - ⏳ PENDIENTE
 
@@ -404,9 +404,9 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 
 ### MÓDULO 12: AUTOMATIZACIÓN DE FACTURACIÓN DE ADUANA (RF-ADUANA) - ⏳ PENDIENTE
 
-| ID | Requisito | Prioridad | Complejidad | Estado |
-|----|-----------|-----------|-------------|--------|
-| **RF-ADU-01** | **Automatización de Facturación de Aduana** | **Crítica** | **Alta** | ⏳ Pendiente |
+| ID            | Requisito                                   | Prioridad   | Complejidad | Estado       |
+|---------------|---------------------------------------------|-------------|-------------|--------------|
+| **RF-ADU-01** | **Automatización de Facturación de Aduana** | **Crítica** | **Alta**    | ⏳ Pendiente |
 
 **Especificación:**
 
