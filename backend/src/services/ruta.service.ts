@@ -21,6 +21,12 @@ interface ReoptimizacionData {
   motivo: string;
 }
 
+// ✅ Interface en lugar de type
+interface RutaConRelaciones {
+  vehiculo?: { matricula: string };
+  chofer?: { nombre: string };
+}
+
 export class RutaService {
   private rutaRepository = AppDataSource.getRepository(RutaModel);
   private envioRepository = AppDataSource.getRepository(Envio);
@@ -214,11 +220,7 @@ export class RutaService {
       return ruta.ficha_costo;
     }
 
-    // ✅ Usar unknown en lugar de any (ESLint no permite any)
-    type RutaConRelaciones = {
-      vehiculo?: { matricula: string };
-      chofer?: { nombre: string };
-    };
+    // ✅ Usar interface definida arriba
     const rutaConRelaciones = ruta as unknown as RutaConRelaciones;
 
     const vehiculoMatricula = rutaConRelaciones.vehiculo?.matricula || 'No asignado';
