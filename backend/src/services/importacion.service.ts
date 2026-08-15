@@ -46,7 +46,7 @@ export class ImportacionService {
    */
   async importarManifiesto(
     file: Express.Multer.File,
-    mapeo: MapeoColumnas
+    mapeo: Record<string, string> | null
   ): Promise<ImportacionResultado> {
     // 1. Validar que se proporcionó mapeo
     if (!mapeo) {
@@ -57,14 +57,14 @@ export class ImportacionService {
     const workbook = XLSX.read(file.buffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
-    const datos: any[] = XLSX.utils.sheet_to_json(worksheet);
+    const datos: Array<Record<string, unknown>> = XLSX.utils.sheet_to_json(worksheet);
 
     // 3. Validar que hay datos
     if (!datos || datos.length === 0) {
       throw new Error('El archivo no contiene datos');
     }
 
-    // 4. Obtener el cliente por defecto (o usar el que venga en el mapeo)
+    // 4. Obtener el cliente por defecto
     const cliente = await this.clienteRepository.findOne({
       where: { activo: true },
       order: { id_cliente: 'ASC' },
@@ -75,7 +75,7 @@ export class ImportacionService {
     }
 
     // 5. Procesar cada registro
-    const enviosValidos: Partial<Envio>[] = [];
+    const enviosValidos: Array<Partial<Envio>> = [];
     const errores: RegistroError[] = [];
 
     for (let i = 0; i < datos.length; i++) {
@@ -95,7 +95,6 @@ export class ImportacionService {
         } else if (!/^CACC-[0-9]{8}$/.test(house)) {
           erroresFila.push('House debe tener formato CACC-XXXXXXXX');
         } else {
-          // Verificar que no esté duplicado
           const existente = await this.envioRepository.findOne({
             where: { house },
           });
@@ -122,7 +121,7 @@ export class ImportacionService {
         }
 
         // Bultos (obligatorio)
-        const bultos = parseInt(this.obtenerValor(fila, mapeo.bultos));
+        const bultos = parseInt(this.obtenerValor(fila, mapeo.bultos), 10);
         if (isNaN(bultos) || bultos <= 0) {
           erroresFila.push('Bultos debe ser mayor a 0');
         } else {
@@ -209,7 +208,7 @@ export class ImportacionService {
         enviosValidos.push(envioData);
       } else {
         errores.push({
-          fila: i + 2, // +2 por cabecera y base 0
+          fila: i + 2,
           house: envioData.house || undefined,
           errores: erroresFila,
         });
@@ -243,7 +242,7 @@ export class ImportacionService {
   /**
    * Obtener valor de un campo del Excel
    */
-  private obtenerValor(fila: any, columna: string | undefined): string {
+  private obtenerValor(fila: Record<string, unknown>, columna: string | undefined): string {
     if (!columna) return '';
     const valor = fila[columna];
     if (valor === undefined || valor === null) return '';

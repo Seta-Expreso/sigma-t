@@ -4,17 +4,17 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import { EnvioService } from '../services/envio.service.js';
-import { ImportacionService } from '../services/importacion.service.js';
-import { Envio } from '../models/envio.model.js';
+import type { EnvioService } from '../services/envio.service.js';
+import type { ImportacionService } from '../services/importacion.service.js';
+import type { Envio } from '../models/envio.model.js';
 
 export class EnvioController {
   private envioService: EnvioService;
   private importacionService: ImportacionService;
 
-  constructor() {
-    this.envioService = new EnvioService();
-    this.importacionService = new ImportacionService();
+  constructor(envioService: EnvioService, importacionService: ImportacionService) {
+    this.envioService = envioService;
+    this.importacionService = importacionService;
   }
 
   /**
@@ -55,7 +55,7 @@ export class EnvioController {
    */
   async findById(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const id = parseInt(req.params.id);
+      const id = parseInt(req.params.id, 10);
       const resultado = await this.envioService.findById(id);
 
       if (!resultado) {
@@ -105,7 +105,7 @@ export class EnvioController {
    */
   async update(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const id = parseInt(req.params.id);
+      const id = parseInt(req.params.id, 10);
       const envioData: Partial<Envio> = req.body;
       const resultado = await this.envioService.update(id, envioData);
 
@@ -132,7 +132,7 @@ export class EnvioController {
    */
   async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const id = parseInt(req.params.id);
+      const id = parseInt(req.params.id, 10);
       const resultado = await this.envioService.delete(id);
 
       if (!resultado) {
@@ -143,10 +143,7 @@ export class EnvioController {
         return;
       }
 
-      res.status(204).json({
-        success: true,
-        message: 'Envío eliminado exitosamente',
-      });
+      res.status(204).send();
     } catch (error) {
       next(error as Error);
     }
@@ -173,7 +170,19 @@ export class EnvioController {
   async importarManifiesto(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const file = req.file;
-      const mapeo = req.body.mapeo ? JSON.parse(req.body.mapeo) : null;
+      let mapeo: Record<string, string> | null = null;
+
+      if (req.body.mapeo) {
+        try {
+          mapeo = JSON.parse(req.body.mapeo);
+        } catch {
+          res.status(400).json({
+            success: false,
+            message: 'El mapeo debe ser un JSON válido',
+          });
+          return;
+        }
+      }
 
       if (!file) {
         res.status(400).json({

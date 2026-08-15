@@ -1,89 +1,57 @@
 /**
- * @fileoverview Rutas para la gestión de envíos
+ * @fileoverview Rutas de Envíos
  * @module routes/envio
  */
 
 import { Router } from 'express';
 import { EnvioController } from '../controllers/envio.controller.js';
+import { EnvioService } from '../services/envio.service.js';
+import { ImportacionService } from '../services/importacion.service.js';
+import { authMiddleware } from '../middleware/auth.middleware.js';
+import multer from 'multer';
 
 const router = Router();
+const upload = multer({ dest: 'uploads/' });
 
-/**
- * GET /api/envios
- * @description Obtiene todos los envíos con filtros opcionales
- * @param {string} estado - Filtrar por estado (query param)
- * @param {number} clienteId - Filtrar por cliente (query param)
- * @param {string} fechaInicio - Fecha de inicio (query param)
- * @param {string} fechaFin - Fecha de fin (query param)
- * @param {string} search - Búsqueda por texto (query param)
- * @returns {Object} Lista de envíos
- */
-router.get('/', EnvioController.getAll);
+const envioService = new EnvioService();
+const importacionService = new ImportacionService();
+const envioController = new EnvioController(envioService, importacionService);
 
-/**
- * GET /api/envios/estadisticas
- * @description Obtiene estadísticas de envíos
- * @param {number} clienteId - Filtrar por cliente (query param, opcional)
- * @returns {Object} Estadísticas de envíos
- */
-router.get('/estadisticas', EnvioController.getEstadisticas);
+// Todas las rutas requieren autenticación
+router.use(authMiddleware);
 
-/**
- * GET /api/envios/house/:house
- * @description Obtiene un envío por su número de House
- * @param {string} house - Número de House (path param)
- * @returns {Object} Datos del envío
- */
-router.get('/house/:house', EnvioController.getByHouse);
+// Importar manifiesto
+router.post('/importar', upload.single('file'), (req, res, next) => {
+  envioController.importarManifiesto(req, res, next);
+});
 
-/**
- * GET /api/envios/cliente/:id/historial
- * @description Obtiene el historial de envíos de un cliente
- * @param {number} id - ID del cliente (path param)
- * @returns {Object} Lista de envíos del cliente
- */
-router.get('/cliente/:id/historial', EnvioController.getHistorialByCliente);
+// CRUD de envíos
+router.post('/', (req, res, next) => {
+  envioController.create(req, res, next);
+});
 
-/**
- * GET /api/envios/:id
- * @description Obtiene un envío por su ID
- * @param {number} id - ID del envío (path param)
- * @returns {Object} Datos del envío
- */
-router.get('/:id', EnvioController.getById);
+router.get('/', (req, res, next) => {
+  envioController.findAll(req, res, next);
+});
 
-/**
- * POST /api/envios
- * @description Crea un nuevo envío manualmente
- * @param {Object} body - Datos del envío
- * @returns {Object} Envío creado
- */
-router.post('/', EnvioController.create);
+router.get('/buscar/:house', (req, res, next) => {
+  envioController.findByHouse(req, res, next);
+});
 
-/**
- * PUT /api/envios/:id
- * @description Actualiza un envío existente
- * @param {number} id - ID del envío (path param)
- * @param {Object} body - Datos a actualizar
- * @returns {Object} Envío actualizado
- */
-router.put('/:id', EnvioController.update);
+router.get('/estadisticas', (req, res, next) => {
+  envioController.getEstadisticas(req, res, next);
+});
 
-/**
- * PATCH /api/envios/:id/estado
- * @description Actualiza el estado de un envío
- * @param {number} id - ID del envío (path param)
- * @param {Object} body - { estado: string, incidencia?: string }
- * @returns {Object} Envío actualizado
- */
-router.patch('/:id/estado', EnvioController.updateEstado);
+router.get('/:id', (req, res, next) => {
+  envioController.findById(req, res, next);
+});
 
-/**
- * DELETE /api/envios/:id
- * @description Elimina un envío
- * @param {number} id - ID del envío (path param)
- * @returns {Object} Confirmación de eliminación
- */
-router.delete('/:id', EnvioController.delete);
+router.put('/:id', (req, res, next) => {
+  envioController.update(req, res, next);
+});
+
+router.delete('/:id', (req, res, next) => {
+  envioController.delete(req, res, next);
+});
 
 export default router;

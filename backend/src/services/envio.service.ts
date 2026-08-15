@@ -6,7 +6,8 @@
 import { AppDataSource } from '../config/database.config.js';
 import { Envio, EstadoEnvio } from '../models/envio.model.js';
 import { Cliente } from '../models/cliente.model.js';
-import { Between, Like, FindOptionsWhere } from 'typeorm';
+import { Between, Like } from 'typeorm';
+import type { FindOptionsWhere } from 'typeorm';
 
 interface EnvioFilters {
   estado?: EstadoEnvio;
