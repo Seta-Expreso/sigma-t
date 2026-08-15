@@ -33,9 +33,8 @@ export class ImportacionService {
       throw new Error('Se requiere el mapeo de columnas');
     }
 
-    // ✅ Usar file.buffer correctamente tipado
-    const buffer = file.buffer;
-    const workbook = XLSX.read(buffer, { type: 'buffer' });
+    // ✅ Usar file.buffer directamente con tipado
+    const workbook = XLSX.read(file.buffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     const datos: Array<Record<string, unknown>> = XLSX.utils.sheet_to_json(worksheet);
@@ -205,9 +204,8 @@ export class ImportacionService {
       throw new Error('Se requiere el mapeo de columnas');
     }
 
-    // ✅ Usar file.buffer correctamente tipado
-    const buffer = file.buffer;
-    const workbook = XLSX.read(buffer, { type: 'buffer' });
+    // ✅ Usar file.buffer directamente
+    const workbook = XLSX.read(file.buffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     const datos: Array<Record<string, unknown>> = XLSX.utils.sheet_to_json(worksheet);

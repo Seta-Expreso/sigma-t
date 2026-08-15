@@ -145,11 +145,10 @@ export class EnvioController {
 
   async importarManifiesto(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const file = req.file;
+      // ✅ Acceso directo a req.file y req.body
+      const body = req.body as Record<string, unknown>;
       let mapeo: Record<string, string> | null = null;
 
-      // ✅ Acceso seguro a req.body.mapeo
-      const body = req.body as Record<string, unknown>;
       if (body.mapeo) {
         try {
           const mapeoData = body.mapeo;
@@ -167,7 +166,8 @@ export class EnvioController {
         }
       }
 
-      if (!file) {
+      // ✅ Usar req.file directamente sin asignación
+      if (!req.file) {
         res.status(400).json({
           success: false,
           message: 'No se proporcionó ningún archivo',
@@ -175,7 +175,7 @@ export class EnvioController {
         return;
       }
 
-      const resultado = await this.importacionService.importarManifiesto(file, mapeo);
+      const resultado = await this.importacionService.importarManifiesto(req.file, mapeo);
 
       res.status(200).json({
         success: true,

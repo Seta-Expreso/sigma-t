@@ -15,11 +15,9 @@ export class ImportacionController {
 
   async importarManifiesto(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const file = req.file;
+      const body = req.body as Record<string, unknown>;
       let mapeo: Record<string, string> | null = null;
 
-      // ✅ Acceso seguro a req.body.mapeo
-      const body = req.body as Record<string, unknown>;
       if (body.mapeo) {
         try {
           const mapeoData = body.mapeo;
@@ -37,7 +35,7 @@ export class ImportacionController {
         }
       }
 
-      if (!file) {
+      if (!req.file) {
         res.status(400).json({
           success: false,
           message: 'No se proporcionó ningún archivo',
@@ -45,7 +43,7 @@ export class ImportacionController {
         return;
       }
 
-      const resultado = await this.importacionService.importarManifiesto(file, mapeo);
+      const resultado = await this.importacionService.importarManifiesto(req.file, mapeo);
 
       res.status(200).json({
         success: true,
@@ -59,11 +57,9 @@ export class ImportacionController {
 
   vistaPrevia(req: Request, res: Response, next: NextFunction): void {
     try {
-      const file = req.file;
+      const body = req.body as Record<string, unknown>;
       let mapeo: Record<string, string> | null = null;
 
-      // ✅ Acceso seguro a req.body.mapeo
-      const body = req.body as Record<string, unknown>;
       if (body.mapeo) {
         try {
           const mapeoData = body.mapeo;
@@ -81,7 +77,7 @@ export class ImportacionController {
         }
       }
 
-      if (!file) {
+      if (!req.file) {
         res.status(400).json({
           success: false,
           message: 'No se proporcionó ningún archivo',
@@ -89,7 +85,7 @@ export class ImportacionController {
         return;
       }
 
-      const resultado = this.importacionService.vistaPrevia(file, mapeo);
+      const resultado = this.importacionService.vistaPrevia(req.file, mapeo);
 
       res.status(200).json({
         success: true,
