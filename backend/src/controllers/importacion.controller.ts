@@ -3,7 +3,7 @@
  * @module controllers/importacion
  */
 
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { ImportacionService } from '../services/importacion.service.js';
 
 export class ImportacionController {
@@ -13,13 +13,22 @@ export class ImportacionController {
     this.importacionService = new ImportacionService();
   }
 
-  /**
-   * Importar manifiesto desde Excel/CSV
-   */
   async importarManifiesto(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const file = req.file;
-      const mapeo = req.body.mapeo ? JSON.parse(req.body.mapeo) : null;
+      let mapeo: Record<string, string> | null = null;
+
+      if (req.body.mapeo) {
+        try {
+          mapeo = JSON.parse(req.body.mapeo) as Record<string, string>;
+        } catch {
+          res.status(400).json({
+            success: false,
+            message: 'El mapeo debe ser un JSON válido',
+          });
+          return;
+        }
+      }
 
       if (!file) {
         res.status(400).json({
@@ -41,13 +50,22 @@ export class ImportacionController {
     }
   }
 
-  /**
-   * Obtener vista previa de importación
-   */
   async vistaPrevia(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const file = req.file;
-      const mapeo = req.body.mapeo ? JSON.parse(req.body.mapeo) : null;
+      let mapeo: Record<string, string> | null = null;
+
+      if (req.body.mapeo) {
+        try {
+          mapeo = JSON.parse(req.body.mapeo) as Record<string, string>;
+        } catch {
+          res.status(400).json({
+            success: false,
+            message: 'El mapeo debe ser un JSON válido',
+          });
+          return;
+        }
+      }
 
       if (!file) {
         res.status(400).json({
@@ -57,7 +75,7 @@ export class ImportacionController {
         return;
       }
 
-      const resultado = await this.importacionService.vistaPrevia(file, mapeo);
+      const resultado = this.importacionService.vistaPrevia(file, mapeo);
 
       res.status(200).json({
         success: true,
@@ -68,13 +86,10 @@ export class ImportacionController {
     }
   }
 
-  /**
-   * Obtener reporte de errores de importación
-   */
   async reporteErrores(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { archivoId } = req.params;
-      const resultado = await this.importacionService.obtenerReporteErrores(archivoId);
+      const resultado = this.importacionService.obtenerReporteErrores(archivoId);
 
       res.status(200).json({
         success: true,

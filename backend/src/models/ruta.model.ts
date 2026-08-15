@@ -15,6 +15,10 @@ import {
 import { Vehiculo } from './vehiculo.model.js';
 import { Chofer } from './chofer.model.js';
 
+// ============================================================
+// TIPOS Y ENUMS
+// ============================================================
+
 export type EstadoRuta = 'planificada' | 'en_curso' | 'completada' | 'cancelada';
 
 export interface Parada {
@@ -88,11 +92,17 @@ export interface AnalisisPostRuta {
   recomendaciones: string[];
 }
 
+// ============================================================
+// ENTIDAD RUTA
+// ============================================================
+
 @Entity('rutas')
 export class Ruta {
+  // ============ IDENTIFICADOR ============
   @PrimaryGeneratedColumn()
   id_ruta!: number;
 
+  // ============ RELACIONES ============
   @Column({ type: 'int' })
   id_vehiculo!: number;
 
@@ -107,6 +117,7 @@ export class Ruta {
   @JoinColumn({ name: 'id_chofer' })
   chofer?: Chofer;
 
+  // ============ INFORMACIÓN DE LA RUTA ============
   @Column({ type: 'date' })
   fecha!: Date;
 
@@ -117,14 +128,16 @@ export class Ruta {
   distancia_total!: number;
 
   @Column({ type: 'int' })
-  tiempo_estimado!: number;
+  tiempo_estimado!: number; // Minutos
+
+  // ============ COMBUSTIBLE ============
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  combustible_estimado?: number; // Litros
 
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
-  combustible_estimado?: number;
+  combustible_real?: number; // Litros
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
-  combustible_real?: number;
-
+  // ============ COSTOS ============
   @Column({ type: 'decimal', precision: 12, scale: 2 })
   costo_total_estimado!: number;
 
@@ -137,6 +150,7 @@ export class Ruta {
   @Column({ type: 'jsonb', nullable: true })
   ficha_costo?: FichaCosto;
 
+  // ============ FINANZAS ============
   @Column({ type: 'decimal', precision: 12, scale: 2, nullable: true })
   ingresos?: number;
 
@@ -146,9 +160,11 @@ export class Ruta {
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
   margen_utilidad?: number;
 
+  // ============ ANÁLISIS POST-RUTA (Sprint 2) ============
   @Column({ type: 'jsonb', nullable: true })
   analisis_post_ruta?: AnalisisPostRuta;
 
+  // ============ ESTADO ============
   @Column({
     type: 'enum',
     enum: ['planificada', 'en_curso', 'completada', 'cancelada'],
@@ -156,6 +172,7 @@ export class Ruta {
   })
   estado!: EstadoRuta;
 
+  // ============ AUDITORÍA ============
   @CreateDateColumn({ type: 'timestamp' })
   created_at!: Date;
 

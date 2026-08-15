@@ -8,9 +8,6 @@ import { AppDataSource } from '../config/database.config.js';
 import { Envio, EstadoEnvio } from '../models/envio.model.js';
 import { Cliente } from '../models/cliente.model.js';
 
-// Nota: MapeoColumnas ahora es un tipo Record<string, string>
-// que se pasa desde el controlador
-
 interface RegistroError {
   fila: number;
   house?: string;
@@ -28,30 +25,24 @@ export class ImportacionService {
   private envioRepository = AppDataSource.getRepository(Envio);
   private clienteRepository = AppDataSource.getRepository(Cliente);
 
-  /**
-   * Importar manifiesto desde archivo Excel/CSV
-   */
   async importarManifiesto(
     file: Express.Multer.File,
     mapeo: Record<string, string> | null
   ): Promise<ImportacionResultado> {
-    // 1. Validar que se proporcionó mapeo
     if (!mapeo) {
       throw new Error('Se requiere el mapeo de columnas');
     }
 
-    // 2. Leer el archivo
+    // ✅ Usar file.buffer correctamente
     const workbook = XLSX.read(file.buffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     const datos: Array<Record<string, unknown>> = XLSX.utils.sheet_to_json(worksheet);
 
-    // 3. Validar que hay datos
     if (!datos || datos.length === 0) {
       throw new Error('El archivo no contiene datos');
     }
 
-    // 4. Obtener el cliente por defecto
     const cliente = await this.clienteRepository.findOne({
       where: { activo: true },
       order: { id_cliente: 'ASC' },
@@ -61,7 +52,6 @@ export class ImportacionService {
       throw new Error('No hay clientes activos en el sistema');
     }
 
-    // 5. Procesar cada registro
     const enviosValidos: Array<Partial<Envio>> = [];
     const errores: RegistroError[] = [];
 
@@ -74,23 +64,21 @@ export class ImportacionService {
       };
 
       try {
-        // House (obligatorio)
+        // House
         const house = this.obtenerValor(fila, mapeo.house);
         if (!house) {
           erroresFila.push('House es obligatorio');
         } else if (!/^CACC-[0-9]{8}$/.test(house)) {
           erroresFila.push('House debe tener formato CACC-XXXXXXXX');
         } else {
-          const existente = await this.envioRepository.findOne({
-            where: { house },
-          });
+          const existente = await this.envioRepository.findOne({ where: { house } });
           if (existente) {
             erroresFila.push(`House "${house}" ya existe en el sistema`);
           }
           envioData.house = house;
         }
 
-        // Descripción (obligatorio)
+        // Descripción
         const descripcion = this.obtenerValor(fila, mapeo.descripcion);
         if (!descripcion) {
           erroresFila.push('Descripción es obligatoria');
@@ -98,7 +86,7 @@ export class ImportacionService {
           envioData.descripcion = descripcion;
         }
 
-        // Peso (obligatorio)
+        // Peso
         const peso = parseFloat(this.obtenerValor(fila, mapeo.peso));
         if (isNaN(peso) || peso <= 0) {
           erroresFila.push('Peso debe ser mayor a 0');
@@ -106,7 +94,7 @@ export class ImportacionService {
           envioData.peso = peso;
         }
 
-        // Bultos (obligatorio)
+        // Bultos
         const bultos = parseInt(this.obtenerValor(fila, mapeo.bultos), 10);
         if (isNaN(bultos) || bultos <= 0) {
           erroresFila.push('Bultos debe ser mayor a 0');
@@ -114,7 +102,7 @@ export class ImportacionService {
           envioData.bultos = bultos;
         }
 
-        // Remitente (obligatorio)
+        // Remitente
         const remitente = this.obtenerValor(fila, mapeo.remitente_nombre);
         if (!remitente) {
           erroresFila.push('Remitente es obligatorio');
@@ -122,15 +110,12 @@ export class ImportacionService {
           envioData.remitente_nombre = remitente;
         }
 
-        // Passport (opcional)
         if (mapeo.remitente_passport) {
           const passport = this.obtenerValor(fila, mapeo.remitente_passport);
-          if (passport) {
-            envioData.remitente_passport = passport;
-          }
+          if (passport) envioData.remitente_passport = passport;
         }
 
-        // Destinatario (obligatorio)
+        // Destinatario
         const destinatario = this.obtenerValor(fila, mapeo.destinatario_nombre);
         if (!destinatario) {
           erroresFila.push('Destinatario es obligatorio');
@@ -138,7 +123,7 @@ export class ImportacionService {
           envioData.destinatario_nombre = destinatario;
         }
 
-        // Carnet (obligatorio - 11 dígitos)
+        // Carnet
         const carnet = this.obtenerValor(fila, mapeo.destinatario_identificacion);
         if (!carnet) {
           erroresFila.push('Carnet de Identidad es obligatorio');
@@ -148,7 +133,7 @@ export class ImportacionService {
           envioData.destinatario_identificacion = carnet;
         }
 
-        // Teléfono (obligatorio)
+        // Teléfono
         const telefono = this.obtenerValor(fila, mapeo.destinatario_telefono);
         if (!telefono) {
           erroresFila.push('Teléfono es obligatorio');
@@ -156,7 +141,7 @@ export class ImportacionService {
           envioData.destinatario_telefono = telefono;
         }
 
-        // Dirección (obligatorio)
+        // Dirección
         const direccion = this.obtenerValor(fila, mapeo.destinatario_direccion);
         if (!direccion) {
           erroresFila.push('Dirección es obligatoria');
@@ -164,13 +149,12 @@ export class ImportacionService {
           envioData.destinatario_direccion = direccion;
         }
 
-        // Cobrado en origen (opcional)
         if (mapeo.cobrado_origen) {
           const cobrado = this.obtenerValor(fila, mapeo.cobrado_origen);
           envioData.cobrado_origen = cobrado === 'Si' || cobrado === 'Sí' || cobrado === 'true' || cobrado === 'TRUE';
         }
 
-        // Unidad Destino (obligatorio)
+        // Unidad Destino
         const unidadDestino = this.obtenerValor(fila, mapeo.unidad_destino);
         if (!unidadDestino) {
           erroresFila.push('Unidad de Destino es obligatoria');
@@ -178,7 +162,6 @@ export class ImportacionService {
           envioData.unidad_destino = unidadDestino;
         }
 
-        // Prioridad (opcional)
         if (mapeo.prioridad) {
           const prioridad = this.obtenerValor(fila, mapeo.prioridad)?.toLowerCase();
           if (prioridad && ['urgente', 'normal', 'economico'].includes(prioridad)) {
@@ -223,13 +206,11 @@ export class ImportacionService {
     };
   }
 
-  /**
-   * Vista previa de importación
-   */
-  async vistaPrevia(
+  // ✅ Eliminar async si no tiene await, o usar async con await
+  vistaPrevia(
     file: Express.Multer.File,
     mapeo: Record<string, string> | null
-  ): Promise<{ total: number; registros: Array<{ fila: number; datos: Record<string, unknown> }> }> {
+  ): { total: number; registros: Array<{ fila: number; datos: Record<string, unknown> }> } {
     if (!mapeo) {
       throw new Error('Se requiere el mapeo de columnas');
     }
@@ -250,19 +231,13 @@ export class ImportacionService {
     };
   }
 
-  /**
-   * Obtener reporte de errores
-   */
-  async obtenerReporteErrores(archivoId: string): Promise<{ errores: string[] }> {
-    // Este método se implementará cuando se guarde el historial de importaciones
+  // ✅ Marcar parámetro no usado con _
+  obtenerReporteErrores(_archivoId: string): { errores: string[] } {
     return {
       errores: ['Funcionalidad en desarrollo'],
     };
   }
 
-  /**
-   * Obtener valor de un campo del Excel
-   */
   private obtenerValor(fila: Record<string, unknown>, columna: string | undefined): string {
     if (!columna) return '';
     const valor = fila[columna];

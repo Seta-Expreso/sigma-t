@@ -13,13 +13,46 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Cliente } from './cliente.model.js';
-import { Ruta } from './ruta.model.js';
+import type { Ruta } from './ruta.model.js';
 
-export type EstadoEnvio = 'pendiente' | 'en_bodega' | 'en_ruta' | 'entregado' | 'incidencia';
-export type EstadoAerovaradero = 'faltante_origen' | 'presencial' | 'arribado' | 'facturado' | 'entregado_aerovaradero';
-export type EstadoSetaExpreso = 'clasificacion' | 'proceso_entrega' | 'entregado' | 'no_entregado';
-export type EstadoAduana = 'pendiente' | 'consultado' | 'error';
+// ============================================================
+// ENUMS
+// ============================================================
+
+export enum EstadoEnvio {
+  PENDIENTE = 'pendiente',
+  EN_BODEGA = 'en_bodega',
+  EN_RUTA = 'en_ruta',
+  ENTREGADO = 'entregado',
+  INCIDENCIA = 'incidencia',
+}
+
+export enum EstadoAerovaradero {
+  FALTANTE_ORIGEN = 'faltante_origen',
+  PRESENCIAL = 'presencial',
+  ARRIBADO = 'arribado',
+  FACTURADO = 'facturado',
+  ENTREGADO_AEROVARADERO = 'entregado_aerovaradero',
+}
+
+export enum EstadoSetaExpreso {
+  CLASIFICACION = 'clasificacion',
+  PROCESO_ENTREGA = 'proceso_entrega',
+  ENTREGADO = 'entregado',
+  NO_ENTREGADO = 'no_entregado',
+}
+
+export enum EstadoAduana {
+  PENDIENTE = 'pendiente',
+  CONSULTADO = 'consultado',
+  ERROR = 'error',
+}
+
 export type PrioridadEnvio = 'urgente' | 'normal' | 'economico';
+
+// ============================================================
+// ENTIDAD ENVIO
+// ============================================================
 
 @Entity('envios')
 export class Envio {
@@ -118,22 +151,22 @@ export class Envio {
   // ============ ESTADO EN SISTEMA ============
   @Column({
     type: 'enum',
-    enum: ['pendiente', 'en_bodega', 'en_ruta', 'entregado', 'incidencia'],
-    default: 'pendiente',
+    enum: EstadoEnvio,
+    default: EstadoEnvio.PENDIENTE,
   })
   estado!: EstadoEnvio;
 
   // ============ ESTADOS AEROVARADERO (9 estados del paquete) ============
   @Column({
     type: 'enum',
-    enum: ['faltante_origen', 'presencial', 'arribado', 'facturado', 'entregado_aerovaradero'],
+    enum: EstadoAerovaradero,
     nullable: true,
   })
   estado_aerovaradero?: EstadoAerovaradero;
 
   @Column({
     type: 'enum',
-    enum: ['clasificacion', 'proceso_entrega', 'entregado', 'no_entregado'],
+    enum: EstadoSetaExpreso,
     nullable: true,
   })
   estado_seta_expreso?: EstadoSetaExpreso;
@@ -198,8 +231,8 @@ export class Envio {
 
   @Column({
     type: 'enum',
-    enum: ['pendiente', 'consultado', 'error'],
-    default: 'pendiente',
+    enum: EstadoAduana,
+    default: EstadoAduana.PENDIENTE,
   })
   estado_aduana!: EstadoAduana;
 
