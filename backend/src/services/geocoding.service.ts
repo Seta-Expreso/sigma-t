@@ -31,7 +31,8 @@ export interface GeocodingResult {
  */
 export async function geocodeAddress(address: string): Promise<GeocodingResult | null> {
   try {
-    const response = await axios.get<Array<NominatimResult>>(NOMINATIM_URL, {
+    // ✅ Array type corregido: NominatimResult[]
+    const response = await axios.get<NominatimResult[]>(NOMINATIM_URL, {
       params: {
         q: address,
         format: 'json',
