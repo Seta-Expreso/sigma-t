@@ -16,5 +16,15 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': ['framer-motion', 'react-toastify'],
+          'data-vendor': ['axios', '@tanstack/react-table', 'zustand'],
+          'map-vendor': ['leaflet', 'react-leaflet'],
+        },
+      },
+    },
   },
 });
