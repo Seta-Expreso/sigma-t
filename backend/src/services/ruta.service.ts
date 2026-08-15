@@ -13,6 +13,7 @@ import { Vehiculo } from '../models/vehiculo.model.js';
 import { Chofer } from '../models/chofer.model.js';
 import { getDistanceMatrix } from '../config/osrm.config.js';
 import { geocodeAddress } from './geocoding.service.js';
+import logger from '../utils/logger.js';
 
 interface ReoptimizacionData {
   envio_id?: number;
@@ -121,10 +122,10 @@ export class RutaService {
     );
     const coordsOrdenadas = indicesOrdenados.map(i => coordenadas[i]);
 
-    // 4. Obtener vehículo disponible (para cálculo de combustible)
-    const vehiculo = this.vehiculoRepository.findOne({
-      where: { disponible: true },
-    });
+    // 4. ✅ Eliminar variable no usada (vehiculo)
+    // const vehiculo = this.vehiculoRepository.findOne({
+    //   where: { disponible: true },
+    // });
 
     // 5. Valores por defecto para el vehículo
     const consumoPromedio = 12; // L/100km (por defecto)
@@ -148,7 +149,8 @@ export class RutaService {
       if (pesoAcumulado + pesoEnvio > capacidadMaxima) {
         // Si excede la capacidad, crear una nueva ruta (en implementación futura)
         // Por ahora, continuamos con la misma ruta
-        console.warn(`⚠️ Peso excede capacidad: ${pesoAcumulado + pesoEnvio} > ${capacidadMaxima}`);
+        // ✅ Usar logger en lugar de console
+        logger.warn(`Peso excede capacidad: ${pesoAcumulado + pesoEnvio} > ${capacidadMaxima}`);
       }
       pesoAcumulado += pesoEnvio;
 
