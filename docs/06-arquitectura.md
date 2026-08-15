@@ -1,11 +1,15 @@
-# 📄 DOCUMENTO DE ARQUITECTURA DE SOFTWARE - SIGMA-T (VERSIÓN 2.4 - TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA)
+Tiene toda la razón, Líder. Perdón por la omisión. A continuación le entrego el **Documento de Arquitectura de Software - SIGMA-T (VERSIÓN 2.5)** completo, sin atajos ni secciones resumidas.
+
+---
+
+## 📄 DOCUMENTO DE ARQUITECTURA DE SOFTWARE - SIGMA-T (VERSIÓN 2.5 - TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 14/08/2026)
 
 **Basado en IEEE 1016 - Descripción de Diseño de Software (SDD) y estándares de arquitectura de sistemas**
 
 **Proyecto:** SIGMA-T (Sistema Integral de Gestión para MiPYME de Transporte)  
 **Cliente / Sponsor:** Osleyder Gonzalez Acosta  
-**Fecha de Emisión:** 13 de agosto de 2026  
-**Versión del Documento:** 2.4 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - SPRINTS 0 y 1 COMPLETADOS)
+**Fecha de Emisión:** 14 de agosto de 2026
+**Versión del Documento:** 2.5 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - SPRINTS 0 y 1 COMPLETADOS - ACTUALIZACIÓN 14/08/2026)
 
 ---
 
@@ -28,8 +32,8 @@ El alcance de este documento cubre todos los componentes del sistema, incluyendo
 ### 1.4 Referencias
 - **IEEE 1016:** Estándar para Descripción de Diseño de Software.
 - **ISO/IEC/IEEE 42010:** Prácticas recomendadas para la descripción de arquitectura de sistemas.
-- **SRS v3.4:** Especificación de Requisitos del Software (documento de requisitos funcionales y no funcionales).
-- **SPMP v3.4:** Plan de Gestión del Proyecto de Software (cronograma, sprints, gestión de riesgos).
+- **SRS v3.5:** Especificación de Requisitos del Software (documento de requisitos funcionales y no funcionales).
+- **SPMP v3.5:** Plan de Gestión del Proyecto de Software (cronograma, sprints, gestión de riesgos).
 - **Conventional Commits:** Estándar para mensajes de commit (formato: tipo(alcance): descripción).
 - **JSDoc:** Estándar de documentación para código JavaScript/TypeScript.
 - **OpenAPI 3.0:** Especificación para documentación de APIs REST.
@@ -58,26 +62,28 @@ El diseño de SIGMA-T se rige por los siguientes principios fundamentales, que g
 
 ### 2.2 Stack Tecnológico Confirmado
 
-| Capa | Tecnología | Versión | Justificación |
-|------|------------|---------|---------------|
-| **Backend** | Node.js + TypeScript | Node 20.x, TS 5.x | Alto rendimiento para operaciones I/O intensivas, ecosistema maduro con librerías para todo (Excel, mapas, web scraping), tipado estático que reduce errores en producción. |
-| **API** | Express.js | 4.x | Estándar de la industria, minimalista y extensible, amplia documentación y comunidad. |
-| **Frontend Web** | React + Vite + Tailwind CSS | React 18.x | Interfaz reactiva y dinámica, desarrollo rápido con Vite (hot-reload), diseño moderno con Tailwind CSS. |
-| **Mobile** | Flutter | 3.x | Multiplataforma (iOS y Android) con una sola base de código, rendimiento nativo, SQLite para offline robusto. |
-| **Base de Datos** | PostgreSQL + PostGIS | 15.x | Robusta, geoespacial (PostGIS para consultas de distancia y ubicación), estándar de la industria, escalable. |
-| **Almacenamiento Local** | SQLite | 3.x | Ligero, embeddable, ideal para modo offline en dispositivos móviles. |
-| **Mapas y Rutas** | OpenStreetMap + OSRM | OSRM 5.x | 100% open source, editable colaborativamente (choferes pueden mejorar mapas), OSRM es el motor de rutas open source más rápido. |
-| **Autenticación** | JWT (JSON Web Tokens) | - | Stateless, seguro, estándar de la industria para APIs REST. |
-| **Cache** | Redis (opcional) | 7.x | Para mejorar rendimiento de consultas frecuentes y reducir carga en la base de datos. |
-| **Contenedores** | Docker | 24.x | Portabilidad, consistencia en entornos de desarrollo, staging y producción. |
-| **Orquestación** | Docker Compose | 2.x | Orquestación simple para entornos de desarrollo y pruebas. |
-| **CI/CD** | GitHub Actions | - | Automatización de pruebas, análisis estático, generación de documentación y despliegues. |
-| **Monitoreo** | Prometheus + Grafana | - | Monitoreo de métricas, alertas en producción, visualización de rendimiento. |
-| **Web Scraping** | Cheerio / Puppeteer | Cheerio 1.x, Puppeteer 22.x | Extracción de datos del sitio web de Aerovaradero (URL de payment). Cheerio para parseo rápido de HTML, Puppeteer como contingencia para sitios con JavaScript. |
-| **Generación de PDF** | PDFKit / jsPDF | - | Generación de documentos PDF para fichas de costo y reportes. |
-| **Servidor Web** | Nginx | 1.18+ | Proxy inverso, servidor de archivos estáticos, SSL/HTTPS. |
-| **Gestor de Procesos** | PM2 | 5.x | Gestión de procesos Node.js en producción. |
-| **SSL/HTTPS** | Let's Encrypt / Certbot | - | Certificados SSL gratuitos para comunicaciones seguras. |
+| Capa | Tecnología | Versión | Justificación | Estado |
+|------|------------|---------|---------------|--------|
+| **Backend** | Node.js + TypeScript | Node 22.14.x, TS 5.8.x | Alto rendimiento para operaciones I/O intensivas, ecosistema maduro con librerías para todo (Excel, mapas, web scraping), tipado estático que reduce errores en producción. | ✅ Configurado |
+| **API** | Express.js | 5.0.0 | Estándar de la industria, minimalista y extensible, amplia documentación y comunidad. | ✅ Configurado |
+| **ORM** | TypeORM | 0.3.20 | ORM para PostgreSQL con soporte para PostGIS. | ✅ Configurado |
+| **Frontend Web** | React + Vite + Tailwind CSS | React 18.x | Interfaz reactiva y dinámica, desarrollo rápido con Vite (hot-reload), diseño moderno con Tailwind CSS. | ✅ Configurado |
+| **Mobile** | Flutter | 3.x | Multiplataforma (iOS y Android) con una sola base de código, rendimiento nativo, SQLite para offline robusto. | ✅ Configurado |
+| **Base de Datos** | PostgreSQL + PostGIS | 15.x | Robusta, geoespacial (PostGIS para consultas de distancia y ubicación), estándar de la industria, escalable. | ✅ Configurado |
+| **Almacenamiento Local** | SQLite | 3.x | Ligero, embeddable, ideal para modo offline en dispositivos móviles. | ✅ Configurado |
+| **Mapas y Rutas** | OpenStreetMap + OSRM | OSRM 5.x | 100% open source, editable colaborativamente (choferes pueden mejorar mapas), OSRM es el motor de rutas open source más rápido. | ⏳ Pendiente |
+| **Autenticación** | JWT (JSON Web Tokens) | - | Stateless, seguro, estándar de la industria para APIs REST. | ⏳ Pendiente |
+| **Cache** | Redis (opcional) | 7.x | Para mejorar rendimiento de consultas frecuentes y reducir carga en la base de datos. | ⏳ Pendiente |
+| **Contenedores** | Docker | 24.x | Portabilidad, consistencia en entornos de desarrollo, staging y producción. | ✅ Configurado |
+| **Orquestación** | Docker Compose | 2.x | Orquestación simple para entornos de desarrollo y pruebas. | ✅ Configurado |
+| **CI/CD** | GitHub Actions | - | Automatización de pruebas, análisis estático, generación de documentación y despliegues. | ✅ Configurado |
+| **Monitoreo** | Prometheus + Grafana | - | Monitoreo de métricas, alertas en producción, visualización de rendimiento. | ⏳ Pendiente |
+| **Web Scraping** | Cheerio / Puppeteer | Cheerio 1.x, Puppeteer 22.x | Extracción de datos del sitio web de Aerovaradero (URL de payment). Cheerio para parseo rápido de HTML, Puppeteer como contingencia para sitios con JavaScript. | ⏳ Pendiente |
+| **Generación de PDF** | PDFKit / jsPDF | - | Generación de documentos PDF para fichas de costo y reportes. | ⏳ Pendiente |
+| **Servidor Web** | Nginx | 1.18+ | Proxy inverso, servidor de archivos estáticos, SSL/HTTPS. | ⏳ Pendiente |
+| **Gestor de Procesos** | PM2 | 5.x | Gestión de procesos Node.js en producción. | ⏳ Pendiente |
+| **SSL/HTTPS** | Let's Encrypt / Certbot | - | Certificados SSL gratuitos para comunicaciones seguras. | ⏳ Pendiente |
+| **Análisis de Calidad** | SonarQube (Community) | Latest | Análisis de duplicación, deuda técnica y seguridad. | ⏳ Pendiente (configurar en Docker) |
 
 ### 2.3 Justificación del Stack
 1. **Node.js + TypeScript:**
@@ -138,7 +144,7 @@ flowchart TB
     end
 
     subgraph Backend["Capa de Backend (Microservicios)"]
-        EnvioSvc["Servicio de Envíos ✅<br>CRUD + Importación Excel"]
+        EnvioSvc["Servicio de Envíos ⚠️<br>CRUD + Importación Excel (parcial)"]
         RutaSvc["Servicio de Rutas ⏳<br>Optimización VRPTW"]
         FlotaSvc["Servicio de Flota ⏳<br>Vehículos + Mantenimiento"]
         ChoferSvc["Servicio de Choferes ⏳<br>Gestión + Desempeño"]
@@ -215,7 +221,7 @@ flowchart TB
 | **Navegador Web** | Interfaz de usuario para administradores, dispatchers y clientes, construida con React. | ✅ Configurado |
 | **App Móvil** | Aplicación para choferes, construida con Flutter, con funcionalidad offline. | ✅ Configurado |
 | **API Gateway** | Punto de entrada único para todas las solicitudes, maneja autenticación y rate limiting. | ✅ Configurado |
-| **Servicios Backend** | Microservicios especializados por dominio de negocio. | ✅ EnvioSvc + ClienteSvc implementados |
+| **Servicios Backend** | Microservicios especializados por dominio de negocio. | ⚠️ Parcial (EnvioSvc + ClienteSvc implementados) |
 | **Base de Datos** | PostgreSQL para almacenamiento persistente, SQLite para caché local en móvil. | ✅ Configurado |
 | **Servicios Externos** | OSRM para rutas, OpenStreetMap para mapas, Aerovaradero (URL de payment) para costos de aduana. | ⏳ Pendiente configuración |
 
@@ -225,7 +231,7 @@ El siguiente diagrama muestra los flujos de datos principales del sistema, inclu
 
 ```mermaid
 flowchart LR
-    subgraph Importación["Flujo de Importación ✅ IMPLEMENTADO"]
+    subgraph Importación["Flujo de Importación ⚠️ PARCIAL"]
         Excel[Archivo Excel<br>Manifiesto] --> Importador[Importador<br>Excel Parser]
         Importador --> Validador[Validador de Datos]
         Validador --> EnvioSvc
@@ -277,7 +283,7 @@ flowchart LR
 
 | Flujo | Descripción | Estado |
 |-------|-------------|--------|
-| **Importación** | El administrador importa un manifiesto Excel, el sistema valida los datos y los guarda en la base de datos. | ✅ Implementado |
+| **Importación** | El administrador importa un manifiesto Excel, el sistema valida los datos y los guarda en la base de datos. | ⚠️ Parcial (requiere mapeo flexible) |
 | **Optimización** | El sistema calcula rutas óptimas usando el algoritmo VRPTW y OSRM, almacenando las rutas generadas. | ⏳ Pendiente |
 | **Aduana** | El sistema consulta el sitio web de Aerovaradero (URL de payment) para obtener costos de aduana de cada envío y actualiza la base de datos. | ⏳ Pendiente |
 | **Finanzas** | El sistema gestiona parámetros financieros (tasa de cambio, precios, costos por km) y calcula pagos a choferes. | ⏳ Pendiente |
@@ -333,7 +339,7 @@ backend/
 │   ├── services/             # Servicios (lógica de negocio compleja)
 │   │   ├── optimizacion.service.ts   ⏳ Pendiente
 │   │   ├── geocoding.service.ts      ⏳ Pendiente
-│   │   ├── importacion.service.ts    ✅ Implementado
+│   │   ├── importacion.service.ts    ⚠️ Parcial (requiere mapeo flexible)
 │   │   ├── sincronizacion.service.ts ⏳ Pendiente
 │   │   ├── reportes.service.ts       ⏳ Pendiente
 │   │   ├── aduana.service.ts         ⏳ Pendiente
@@ -363,7 +369,7 @@ backend/
 │   │   ├── validators/
 │   │   │   ├── envio.validator.ts   ✅ Implementado
 │   │   │   └── index.ts
-│   │   ├── excel.parser.ts          ✅ Implementado
+│   │   ├── excel.parser.ts          ⚠️ Parcial (requiere mapeo flexible)
 │   │   ├── scraper.helper.ts        ⏳ Pendiente
 │   │   ├── logger.ts
 │   │   ├── pdf.generator.ts         ⏳ Pendiente
@@ -390,36 +396,40 @@ backend/
 
 **Servicios Implementados (Sprint 0 y 1):**
 
-| Servicio | Estado | Endpoints Principales |
-|----------|--------|-----------------------|
-| **ClienteService** | ✅ Implementado | `POST /api/clientes`, `GET /api/clientes`, `GET /api/clientes/:id`, `PUT /api/clientes/:id`, `DELETE /api/clientes/:id` |
-| **EnvioService** | ✅ Implementado | `POST /api/envios`, `GET /api/envios`, `GET /api/envios/:id`, `PUT /api/envios/:id`, `DELETE /api/envios/:id`, `GET /api/envios/estadisticas` |
-| **ImportacionService** | ✅ Implementado | `POST /api/envios/importar` (Excel/CSV), validación de datos, vista previa y reporte de errores. |
+| Servicio | Estado | Endpoints Principales | Observaciones |
+|----------|--------|-----------------------|---------------|
+| **ClienteService** | ✅ Implementado | `POST /api/clientes`, `GET /api/clientes`, `GET /api/clientes/:id`, `PUT /api/clientes/:id`, `DELETE /api/clientes/:id` | CRUD completo |
+| **EnvioService** | ⚠️ Parcial | `POST /api/envios`, `GET /api/envios`, `GET /api/envios/:id`, `PUT /api/envios/:id`, `DELETE /api/envios/:id`, `GET /api/envios/estadisticas` | CRUD básico, faltan validaciones y exportación |
+| **ImportacionService** | ⚠️ Parcial | `POST /api/envios/importar` (Excel/CSV) | Requiere mapeo flexible de columnas |
 
-**Dependencias Clave del Backend**
+**Dependencias Clave del Backend (Actualizadas 14/08/2026)**
 
 | Librería | Versión | Propósito | Estado |
 |----------|---------|-----------|--------|
-| express | 4.x | Framework web para construir la API REST | ✅ |
-| typeorm | 0.3.x | ORM para PostgreSQL con soporte para PostGIS | ✅ |
-| pg | 8.x | Driver de PostgreSQL | ✅ |
-| jsonwebtoken | 9.x | Generación y verificación de JWT para autenticación | ✅ |
-| bcrypt | 5.x | Hash de contraseñas para almacenamiento seguro | ✅ |
-| xlsx | 0.18.x | Lectura/escritura de archivos Excel (manifiestos) | ✅ |
-| axios | 1.x | Cliente HTTP para comunicarse con OSRM y Aerovaradero | ✅ |
-| dotenv | 16.x | Carga de variables de entorno | ✅ |
-| joi | 17.x | Validación de datos de entrada | ✅ |
-| winston | 3.x | Logging estructurado | ✅ |
-| jest | 29.x | Pruebas unitarias | ✅ |
-| supertest | 6.x | Pruebas de integración de API | ✅ |
-| cheerio | 1.x | Web scraping - parseo y extracción de datos de HTML | ⏳ Pendiente |
-| puppeteer | 22.x | Web scraping - navegación en sitios con JavaScript (contingencia) | ⏳ Pendiente |
-| pdfkit | 0.14.x | Generación de documentos PDF (ficha de costo, reportes) | ⏳ Pendiente |
-| eslint | 8.x | Análisis estático de código y detección de errores | ✅ |
-| prettier | 3.x | Formateo automático de código | ✅ |
-| typedoc | 0.25.x | Generación de documentación técnica a partir de JSDoc | ✅ |
-| eslint-plugin-jsdoc | 46.x | Validación de cobertura y calidad de JSDoc | ✅ |
-| redis | 4.x | Cliente para Redis (caché de consultas frecuentes) | ⏳ Pendiente |
+| express | 5.0.0 | Framework web para construir la API REST | ✅ |
+| typeorm | 0.3.20 | ORM para PostgreSQL con soporte para PostGIS | ✅ |
+| pg | 8.14.1 | Driver de PostgreSQL | ✅ |
+| jsonwebtoken | ^9.0.2 | Generación y verificación de JWT para autenticación | ✅ |
+| bcrypt | ^5.1.1 | Hash de contraseñas para almacenamiento seguro | ✅ |
+| xlsx | ^0.18.5 | Lectura/escritura de archivos Excel (manifiestos) | ✅ |
+| axios | ^1.8.4 | Cliente HTTP para comunicarse con OSRM y Aerovaradero | ✅ |
+| dotenv | ^16.4.7 | Carga de variables de entorno | ✅ |
+| joi | ^17.13.3 | Validación de datos de entrada | ✅ |
+| winston | ^3.17.0 | Logging estructurado | ✅ |
+| multer | ^1.4.5-lts.1 | Manejo de upload de archivos (Excel) | ✅ |
+| cors | ^2.8.5 | Habilitar CORS en la API | ✅ |
+| helmet | ^8.1.0 | Seguridad de cabeceras HTTP | ✅ |
+| express-rate-limit | ^7.5.0 | Rate limiting para prevenir ataques | ✅ |
+| jest | ^29.7.0 | Pruebas unitarias | ✅ |
+| supertest | ^7.1.3 | Pruebas de integración de API | ✅ |
+| cheerio | ^1.0.0 | Web scraping - parseo y extracción de datos de HTML | ⏳ Pendiente |
+| puppeteer | ^22.0.0 | Web scraping - navegación en sitios con JavaScript | ⏳ Pendiente |
+| pdfkit | ^0.14.0 | Generación de documentos PDF (ficha de costo, reportes) | ⏳ Pendiente |
+| eslint | ^9.22.0 | Análisis estático de código y detección de errores | ✅ |
+| prettier | ^3.5.3 | Formateo automático de código | ✅ |
+| typedoc | ^0.28.1 | Generación de documentación técnica a partir de JSDoc | ✅ |
+| typescript | ^5.8.3 | Compilador de TypeScript | ✅ |
+| ts-node-dev | ^2.0.0 | Desarrollo con hot-reload | ✅ |
 
 ### 4.2 Servicio de Aduana (NUEVO) - ⏳ PENDIENTE
 
@@ -616,7 +626,7 @@ frontend/
 │   │   │   ├── Chart.tsx
 │   │   │   └── index.ts
 │   │   ├── envios/
-│   │   │   ├── ImportForm.tsx      ✅ Implementado
+│   │   │   ├── ImportForm.tsx      ⚠️ Parcial (requiere mapeo de columnas)
 │   │   │   ├── EnvioList.tsx       ✅ Implementado
 │   │   │   ├── EnvioDetail.tsx     ✅ Implementado
 │   │   │   ├── EnvioFilters.tsx    ✅ Implementado
@@ -871,7 +881,7 @@ mobile/
 
 ## 5. DIAGRAMAS DE SECUENCIA (FLUJOS CLAVE)
 
-### 5.1 Flujo: Importación de Manifiesto Excel ✅ IMPLEMENTADO
+### 5.1 Flujo: Importación de Manifiesto Excel ⚠️ PARCIAL (Requiere mapeo flexible)
 
 Este diagrama muestra la secuencia completa del proceso de importación de un manifiesto Excel, desde que el administrador selecciona el archivo hasta que los datos se guardan en la base de datos.
 
@@ -882,6 +892,7 @@ sequenceDiagram
     participant API as API Gateway
     participant ImportSvc as Importación Service
     participant ExcelParser as Excel Parser
+    participant Mapeador as Mapeador de Columnas
     participant Validator as Validador
     participant BD as PostgreSQL
     participant Audit as Auditoría
@@ -893,8 +904,11 @@ sequenceDiagram
     API->>ImportSvc: importarManifiesto(file)
     ImportSvc->>ExcelParser: parsearExcel(file)
     ExcelParser->>ExcelParser: Lee archivo .xlsx
-    ExcelParser-->>ImportSvc: Datos crudos (JSON)
-    ImportSvc->>Validator: validarDatos(datos)
+    ExcelParser-->>ImportSvc: Datos crudos + nombres columnas
+    ImportSvc->>Mapeador: obtenerMapaColumnas()
+    Note over Mapeador: El usuario selecciona qué columna del Excel corresponde a cada campo del sistema
+    Mapeador-->>ImportSvc: Configuración de mapeo
+    ImportSvc->>Validator: validarDatos(datos, mapeo)
     
     alt Datos Válidos
         Validator-->>ImportSvc: ✅ Válido
@@ -911,7 +925,7 @@ sequenceDiagram
         Validator-->>ImportSvc: ❌ Error en fila 5
         ImportSvc-->>API: { success: false, errors: [...] }
         API-->>UI: 400 Bad Request
-        UI-->>Admin: ⚠️ "Error en fila 5: Peso inválido"
+        UI-->>Admin: ⚠️ "Error en fila 5: Carnet de Identidad inválido (debe tener 11 dígitos)"
     end
 ```
 
@@ -1247,40 +1261,41 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
                                           └─────────────┘
 ```
 
-### 6.2 Tabla Detallada de la Entidad ENVIO ✅ IMPLEMENTADO
+### 6.2 Tabla Detallada de la Entidad ENVIO ✅ PARCIAL
 
 | Campo | Tipo | Restricciones | Descripción | Estado |
 |-------|------|---------------|-------------|--------|
 | id_envio | SERIAL | PRIMARY KEY | Identificador único del envío | ✅ |
 | id_cliente | INTEGER | FOREIGN KEY (cliente.id_cliente) | Cliente que contrató el servicio | ✅ |
-| id_chofer | INTEGER | FOREIGN KEY (chofer.id_chofer) | Chofer asignado (puede ser null) | ⏳ |
-| id_vehiculo | INTEGER | FOREIGN KEY (vehiculo.id_vehiculo) | Vehículo asignado (puede ser null) | ⏳ |
-| id_ruta | INTEGER | FOREIGN KEY (ruta.id_ruta) | Ruta a la que pertenece | ⏳ |
-| house | VARCHAR(20) | UNIQUE, NOT NULL | Número de House del manifiesto | ✅ |
-| awb | VARCHAR(20) | - | Air Way Bill (ej. 230-66684660) | ⏳ |
+| id_chofer | INTEGER | FOREIGN KEY (chofer.id_chofer) | Chofer asignado (puede ser null) | ⏳ Pendiente |
+| id_vehiculo | INTEGER | FOREIGN KEY (vehiculo.id_vehiculo) | Vehículo asignado (puede ser null) | ⏳ Pendiente |
+| id_ruta | INTEGER | FOREIGN KEY (ruta.id_ruta) | Ruta a la que pertenece | ⏳ Pendiente |
+| house | VARCHAR(20) | UNIQUE, NOT NULL | Número de House del manifiesto (formato CACC-XXXXX) | ✅ |
+| awb | VARCHAR(20) | - | Air Way Bill (ej. 230-66684660) | ⏳ Pendiente |
 | descripcion | TEXT | NOT NULL | Naturaleza y cantidad del paquete | ✅ |
 | peso | DECIMAL(10,2) | CHECK (peso > 0) | Peso en kilogramos | ✅ |
 | volumen | DECIMAL(10,2) | DEFAULT 0 | Volumen en metros cúbicos | ✅ |
 | bultos | INTEGER | CHECK (bultos > 0) | Cantidad de bultos | ✅ |
 | remitente_nombre | VARCHAR(150) | NOT NULL | Nombre del remitente | ✅ |
-| remitente_passport | VARCHAR(20) | - | Passport del remitente | ✅ |
+| remitente_passport | VARCHAR(20) | - | Passport del remitente (opcional, puede ser NULL) | ✅ |
 | destinatario_nombre | VARCHAR(150) | NOT NULL | Nombre del destinatario | ✅ |
 | destinatario_direccion | TEXT | NOT NULL | Dirección completa | ✅ |
 | destinatario_telefono | VARCHAR(30) | NOT NULL | Teléfono del destinatario | ✅ |
-| cobrado_origen | BOOLEAN | DEFAULT FALSE | ¿Cobrado en origen? | ✅ |
-| unidad_destino | VARCHAR(10) | - | Código de provincia (CMW, HOG, etc.) | ✅ |
-| prioridad | ENUM('urgente','normal','economico') | DEFAULT 'normal' | Prioridad de entrega | ⏳ |
-| fecha_limite | DATE | - | Fecha límite de entrega | ⏳ |
-| fecha_asignacion | TIMESTAMP | - | Fecha de asignación a ruta | ⏳ |
-| fecha_entrega_real | TIMESTAMP | - | Fecha real de entrega | ⏳ |
+| destinatario_identificacion | VARCHAR(11) | CHECK (LENGTH = 11) | Carnet de Identidad (11 dígitos exactos) | ⚠️ NUEVO |
+| cobrado_origen | BOOLEAN | DEFAULT FALSE | ¿Cobrado en origen? (opcional) | ✅ |
+| unidad_destino | VARCHAR(10) | NOT NULL | Código de provincia (obligatorio) | ⚠️ NUEVO |
+| prioridad | ENUM('urgente','normal','economico') | DEFAULT 'normal' | Prioridad de entrega | ⏳ Pendiente |
+| fecha_limite | DATE | - | Fecha límite de entrega | ⏳ Pendiente |
+| fecha_asignacion | TIMESTAMP | - | Fecha de asignación a ruta | ⏳ Pendiente |
+| fecha_entrega_real | TIMESTAMP | - | Fecha real de entrega | ⏳ Pendiente |
 | estado | ENUM('pendiente','en_bodega','en_ruta','entregado','incidencia') | DEFAULT 'pendiente' | Estado del envío | ✅ |
-| incidencia | TEXT | - | Descripción de la incidencia (si aplica) | ⏳ |
-| firma_digital | TEXT | - | Imagen de la firma (Base64) | ⏳ |
-| foto_evidencia | TEXT | - | Imagen de evidencia (Base64) | ⏳ |
-| costo_aduana | DECIMAL(12,2) | - | Costo de aduana obtenido de Aerovaradero (URL de payment) | ⏳ |
-| costo_importacion | DECIMAL(12,2) | - | Otros costos de importación | ⏳ |
-| fecha_consulta_aduana | TIMESTAMP | - | Fecha de última consulta a Aerovaradero | ⏳ |
-| estado_aduana | ENUM('pendiente','consultado','error') | DEFAULT 'pendiente' | Estado de la consulta aduanera | ⏳ |
+| incidencia | TEXT | - | Descripción de la incidencia (si aplica) | ⏳ Pendiente |
+| firma_digital | TEXT | - | Imagen de la firma (Base64) | ⏳ Pendiente |
+| foto_evidencia | TEXT | - | Imagen de evidencia (Base64) | ⏳ Pendiente |
+| costo_aduana | DECIMAL(12,2) | - | Costo de aduana obtenido de Aerovaradero (URL de payment) | ⏳ Pendiente |
+| costo_importacion | DECIMAL(12,2) | - | Otros costos de importación | ⏳ Pendiente |
+| fecha_consulta_aduana | TIMESTAMP | - | Fecha de última consulta a Aerovaradero | ⏳ Pendiente |
+| estado_aduana | ENUM('pendiente','consultado','error') | DEFAULT 'pendiente' | Estado de la consulta aduanera | ⏳ Pendiente |
 | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de creación | ✅ |
 | updated_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de última actualización | ✅ |
 
@@ -1293,7 +1308,7 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
 | contacto_nombre | VARCHAR(150) | NOT NULL | Nombre del contacto | ✅ |
 | contacto_telefono | VARCHAR(30) | NOT NULL | Teléfono del contacto | ✅ |
 | contacto_email | VARCHAR(100) | - | Email del contacto | ✅ |
-| tarifa_preferencial | DECIMAL(12,2) | - | Tarifa negociada | ⏳ |
+| tarifa_preferencial | DECIMAL(12,2) | - | Tarifa negociada | ⏳ Pendiente |
 | activo | BOOLEAN | DEFAULT TRUE | ¿Cliente activo? | ✅ |
 | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de creación | ✅ |
 | updated_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de última actualización | ✅ |
@@ -1401,20 +1416,20 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
 |-------|------------|---------------|-----------|--------|
 | envio | house | UNIQUE | Búsqueda rápida por House | ✅ |
 | envio | id_cliente, estado | BTREE | Filtrar envíos por cliente y estado | ✅ |
-| envio | fecha_limite | BTREE | Envíos próximos a vencer | ⏳ |
-| envio | id_ruta | BTREE | Envíos por ruta | ⏳ |
-| envio | destinatario_direccion | GIST (geográfico) | Búsquedas geoespaciales | ⏳ |
-| envio | awb | BTREE | Búsqueda por Air Way Bill | ⏳ |
-| envio | estado_aduana | BTREE | Filtrado por estado de aduana | ⏳ |
-| ruta | fecha | BTREE | Planificación semanal | ⏳ |
-| ruta | id_chofer, estado | BTREE | Rutas por chofer | ⏳ |
-| ruta | ficha_costo | GIN (JSON) | Búsqueda en ficha de costo | ⏳ |
-| chofer | identificacion | UNIQUE | Búsqueda por identificación | ⏳ |
-| chofer | disponible | BTREE | Choferes disponibles | ⏳ |
-| auditoria | id_usuario, fecha | BTREE | Auditoría por usuario | ⏳ |
-| auditoria | entidad, id_entidad | BTREE | Historial por entidad | ⏳ |
-| parametros_sistema | clave | UNIQUE | Búsqueda por clave de parámetro | ⏳ |
-| historial_parametros | id_parametro, fecha_cambio | BTREE | Historial por parámetro | ⏳ |
+| envio | fecha_limite | BTREE | Envíos próximos a vencer | ⏳ Pendiente |
+| envio | id_ruta | BTREE | Envíos por ruta | ⏳ Pendiente |
+| envio | destinatario_direccion | GIST (geográfico) | Búsquedas geoespaciales | ⏳ Pendiente |
+| envio | awb | BTREE | Búsqueda por Air Way Bill | ⏳ Pendiente |
+| envio | estado_aduana | BTREE | Filtrado por estado de aduana | ⏳ Pendiente |
+| ruta | fecha | BTREE | Planificación semanal | ⏳ Pendiente |
+| ruta | id_chofer, estado | BTREE | Rutas por chofer | ⏳ Pendiente |
+| ruta | ficha_costo | GIN (JSON) | Búsqueda en ficha de costo | ⏳ Pendiente |
+| chofer | identificacion | UNIQUE | Búsqueda por identificación | ⏳ Pendiente |
+| chofer | disponible | BTREE | Choferes disponibles | ⏳ Pendiente |
+| auditoria | id_usuario, fecha | BTREE | Auditoría por usuario | ⏳ Pendiente |
+| auditoria | entidad, id_entidad | BTREE | Historial por entidad | ⏳ Pendiente |
+| parametros_sistema | clave | UNIQUE | Búsqueda por clave de parámetro | ⏳ Pendiente |
+| historial_parametros | id_parametro, fecha_cambio | BTREE | Historial por parámetro | ⏳ Pendiente |
 
 ---
 
@@ -1437,23 +1452,23 @@ https://api.sigma-t.com/v1
 
 | Método | Endpoint | Descripción | Autenticación | Estado |
 |--------|----------|-------------|---------------|--------|
-| POST | `/api/auth/login` | Iniciar sesión | Pública | ⏳ |
-| POST | `/api/auth/refresh` | Refrescar token | Pública | ⏳ |
-| POST | `/api/auth/logout` | Cerrar sesión | Admin/Dispatcher | ⏳ |
-| GET | `/api/auth/me` | Obtener perfil del usuario | Admin/Dispatcher | ⏳ |
+| POST | `/api/auth/login` | Iniciar sesión | Pública | ⏳ Pendiente |
+| POST | `/api/auth/refresh` | Refrescar token | Pública | ⏳ Pendiente |
+| POST | `/api/auth/logout` | Cerrar sesión | Admin/Dispatcher | ⏳ Pendiente |
+| GET | `/api/auth/me` | Obtener perfil del usuario | Admin/Dispatcher | ⏳ Pendiente |
 
 **Módulo de Envíos** - ✅ IMPLEMENTADO
 
 | Método | Endpoint | Descripción | Autenticación | Estado |
 |--------|----------|-------------|---------------|--------|
-| POST | `/api/envios/importar` | Importar manifiesto desde Excel | Admin/Dispatcher | ✅ |
+| POST | `/api/envios/importar` | Importar manifiesto desde Excel | Admin/Dispatcher | ⚠️ Parcial |
 | POST | `/api/envios` | Crear envío manual | Admin/Dispatcher | ✅ |
 | GET | `/api/envios` | Listar envíos (con filtros) | Admin/Dispatcher | ✅ |
 | GET | `/api/envios/:id` | Obtener detalle de envío | Admin/Dispatcher | ✅ |
 | PUT | `/api/envios/:id` | Actualizar envío | Admin/Dispatcher | ✅ |
 | DELETE | `/api/envios/:id` | Eliminar envío | Admin | ✅ |
 | GET | `/api/envios/buscar/:house` | Buscar por House | Admin/Dispatcher | ✅ |
-| GET | `/api/envios/buscar/awb/:awb` | Buscar por Air Way Bill | Admin/Dispatcher | ⏳ |
+| GET | `/api/envios/buscar/awb/:awb` | Buscar por Air Way Bill | Admin/Dispatcher | ⏳ Pendiente |
 | GET | `/api/envios/estadisticas` | Estadísticas de envíos | Admin/Dispatcher | ✅ |
 
 **Módulo de Clientes** - ✅ IMPLEMENTADO
@@ -1470,96 +1485,110 @@ https://api.sigma-t.com/v1
 
 | Método | Endpoint | Descripción | Autenticación | Estado |
 |--------|----------|-------------|---------------|--------|
-| POST | `/api/rutas/optimizar` | Optimizar rutas (VRPTW) | Admin/Dispatcher | ⏳ |
-| GET | `/api/rutas/semana/:fecha` | Obtener rutas de una semana | Admin/Dispatcher | ⏳ |
-| GET | `/api/rutas/:id` | Obtener detalle de ruta | Admin/Dispatcher | ⏳ |
-| PUT | `/api/rutas/:id` | Actualizar ruta (manual) | Admin/Dispatcher | ⏳ |
-| POST | `/api/rutas/:id/asignar` | Asignar ruta a chofer | Admin | ⏳ |
-| GET | `/api/rutas/:id/manifiesto` | Generar manifiesto PDF | Admin/Dispatcher | ⏳ |
-| POST | `/api/rutas/:id/reoptimizar` | Reoptimizar ruta ante incidencias | Admin/Dispatcher | ⏳ |
-| GET | `/api/rutas/:id/ficha-costo` | Obtener ficha de costo de una ruta | Admin/Dispatcher | ⏳ |
-| GET | `/api/rutas/:id/ficha-costo/exportar` | Exportar ficha de costo a PDF | Admin | ⏳ |
-| GET | `/api/rutas/:id/ficha-costo/exportar/csv` | Exportar ficha de costo a CSV | Admin | ⏳ |
+| POST | `/api/rutas/optimizar` | Optimizar rutas (VRPTW) | Admin/Dispatcher | ⏳ Pendiente |
+| GET | `/api/rutas/semana/:fecha` | Obtener rutas de una semana | Admin/Dispatcher | ⏳ Pendiente |
+| GET | `/api/rutas/:id` | Obtener detalle de ruta | Admin/Dispatcher | ⏳ Pendiente |
+| PUT | `/api/rutas/:id` | Actualizar ruta (manual) | Admin/Dispatcher | ⏳ Pendiente |
+| POST | `/api/rutas/:id/asignar` | Asignar ruta a chofer | Admin | ⏳ Pendiente |
+| GET | `/api/rutas/:id/manifiesto` | Generar manifiesto PDF | Admin/Dispatcher | ⏳ Pendiente |
+| POST | `/api/rutas/:id/reoptimizar` | Reoptimizar ruta ante incidencias | Admin/Dispatcher | ⏳ Pendiente |
+| GET | `/api/rutas/:id/ficha-costo` | Obtener ficha de costo de una ruta | Admin/Dispatcher | ⏳ Pendiente |
+| GET | `/api/rutas/:id/ficha-costo/exportar` | Exportar ficha de costo a PDF | Admin | ⏳ Pendiente |
+| GET | `/api/rutas/:id/ficha-costo/exportar/csv` | Exportar ficha de costo a CSV | Admin | ⏳ Pendiente |
 
 **Módulo de Flota** - ⏳ PENDIENTE
 
 | Método | Endpoint | Descripción | Autenticación | Estado |
 |--------|----------|-------------|---------------|--------|
-| POST | `/api/flota/vehiculos` | Registrar vehículo | Admin | ⏳ |
-| GET | `/api/flota/vehiculos` | Listar vehículos | Admin/Dispatcher | ⏳ |
-| GET | `/api/flota/vehiculos/:id` | Obtener detalle | Admin/Dispatcher | ⏳ |
-| PUT | `/api/flota/vehiculos/:id` | Actualizar vehículo | Admin | ⏳ |
-| DELETE | `/api/flota/vehiculos/:id` | Eliminar vehículo | Admin | ⏳ |
-| POST | `/api/flota/mantenimiento` | Registrar mantenimiento | Admin | ⏳ |
-| GET | `/api/flota/mantenimiento/:id_vehiculo` | Historial de mantenimiento | Admin | ⏳ |
-| GET | `/api/flota/mantenimiento/alertas` | Alertas de mantenimiento | Admin | ⏳ |
+| POST | `/api/flota/vehiculos` | Registrar vehículo | Admin | ⏳ Pendiente |
+| GET | `/api/flota/vehiculos` | Listar vehículos | Admin/Dispatcher | ⏳ Pendiente |
+| GET | `/api/flota/vehiculos/:id` | Obtener detalle | Admin/Dispatcher | ⏳ Pendiente |
+| PUT | `/api/flota/vehiculos/:id` | Actualizar vehículo | Admin | ⏳ Pendiente |
+| DELETE | `/api/flota/vehiculos/:id` | Eliminar vehículo | Admin | ⏳ Pendiente |
+| POST | `/api/flota/mantenimiento` | Registrar mantenimiento | Admin | ⏳ Pendiente |
+| GET | `/api/flota/mantenimiento/:id_vehiculo` | Historial de mantenimiento | Admin | ⏳ Pendiente |
+| GET | `/api/flota/mantenimiento/alertas` | Alertas de mantenimiento | Admin | ⏳ Pendiente |
 
 **Módulo de Choferes** - ⏳ PENDIENTE
 
 | Método | Endpoint | Descripción | Autenticación | Estado |
 |--------|----------|-------------|---------------|--------|
-| POST | `/api/choferes` | Registrar chofer | Admin | ⏳ |
-| GET | `/api/choferes` | Listar choferes | Admin/Dispatcher | ⏳ |
-| GET | `/api/choferes/:id` | Obtener detalle | Admin/Dispatcher | ⏳ |
-| PUT | `/api/choferes/:id` | Actualizar chofer | Admin | ⏳ |
-| DELETE | `/api/choferes/:id` | Eliminar chofer | Admin | ⏳ |
-| GET | `/api/choferes/:id/desempeno` | Desempeño del chofer | Admin | ⏳ |
-| GET | `/api/choferes/:id/rutas` | Rutas del chofer | Admin/Dispatcher | ⏳ |
-| POST | `/api/choferes/calcular-pago` | Calcular pago de chofer | Admin | ⏳ |
-| GET | `/api/choferes/:id/pagos` | Historial de pagos | Admin | ⏳ |
+| POST | `/api/choferes` | Registrar chofer | Admin | ⏳ Pendiente |
+| GET | `/api/choferes` | Listar choferes | Admin/Dispatcher | ⏳ Pendiente |
+| GET | `/api/choferes/:id` | Obtener detalle | Admin/Dispatcher | ⏳ Pendiente |
+| PUT | `/api/choferes/:id` | Actualizar chofer | Admin | ⏳ Pendiente |
+| DELETE | `/api/choferes/:id` | Eliminar chofer | Admin | ⏳ Pendiente |
+| GET | `/api/choferes/:id/desempeno` | Desempeño del chofer | Admin | ⏳ Pendiente |
+| GET | `/api/choferes/:id/rutas` | Rutas del chofer | Admin/Dispatcher | ⏳ Pendiente |
+| POST | `/api/choferes/calcular-pago` | Calcular pago de chofer | Admin | ⏳ Pendiente |
+| GET | `/api/choferes/:id/pagos` | Historial de pagos | Admin | ⏳ Pendiente |
 
 **Módulo de Finanzas** - ⏳ PENDIENTE
 
 | Método | Endpoint | Descripción | Autenticación | Estado |
 |--------|----------|-------------|---------------|--------|
-| POST | `/api/finanzas/ingreso` | Registrar ingreso | Admin | ⏳ |
-| POST | `/api/finanzas/gasto` | Registrar gasto | Admin | ⏳ |
-| GET | `/api/finanzas/resumen` | Resumen financiero | Admin | ⏳ |
-| POST | `/api/finanzas/factura` | Generar factura | Admin | ⏳ |
-| GET | `/api/finanzas/facturas` | Listar facturas | Admin | ⏳ |
-| GET | `/api/finanzas/facturas/:id` | Obtener detalle de factura | Admin | ⏳ |
-| PUT | `/api/finanzas/facturas/:id` | Actualizar factura | Admin | ⏳ |
-| POST | `/api/finanzas/facturas/:id/pagar` | Registrar pago de factura | Admin | ⏳ |
-| POST | `/api/finanzas/consultar-aduana` | Consultar costos de aduana (URL de payment) | Admin | ⏳ |
-| GET | `/api/finanzas/costos-aduana` | Reporte de costos de aduana | Admin | ⏳ |
+| POST | `/api/finanzas/ingreso` | Registrar ingreso | Admin | ⏳ Pendiente |
+| POST | `/api/finanzas/gasto` | Registrar gasto | Admin | ⏳ Pendiente |
+| GET | `/api/finanzas/resumen` | Resumen financiero | Admin | ⏳ Pendiente |
+| POST | `/api/finanzas/factura` | Generar factura | Admin | ⏳ Pendiente |
+| GET | `/api/finanzas/facturas` | Listar facturas | Admin | ⏳ Pendiente |
+| GET | `/api/finanzas/facturas/:id` | Obtener detalle de factura | Admin | ⏳ Pendiente |
+| PUT | `/api/finanzas/facturas/:id` | Actualizar factura | Admin | ⏳ Pendiente |
+| POST | `/api/finanzas/facturas/:id/pagar` | Registrar pago de factura | Admin | ⏳ Pendiente |
+| POST | `/api/finanzas/consultar-aduana` | Consultar costos de aduana (URL de payment) | Admin | ⏳ Pendiente |
+| GET | `/api/finanzas/costos-aduana` | Reporte de costos de aduana | Admin | ⏳ Pendiente |
 
 **Módulo de Parámetros** - ⏳ PENDIENTE
 
 | Método | Endpoint | Descripción | Autenticación | Estado |
 |--------|----------|-------------|---------------|--------|
-| GET | `/api/parametros` | Obtener todos los parámetros | Admin | ⏳ |
-| GET | `/api/parametros/:clave` | Obtener un parámetro por clave | Admin | ⏳ |
-| PUT | `/api/parametros/:clave` | Actualizar un parámetro | Admin | ⏳ |
-| GET | `/api/parametros/historial/:clave` | Obtener historial de un parámetro | Admin | ⏳ |
+| GET | `/api/parametros` | Obtener todos los parámetros | Admin | ⏳ Pendiente |
+| GET | `/api/parametros/:clave` | Obtener un parámetro por clave | Admin | ⏳ Pendiente |
+| PUT | `/api/parametros/:clave` | Actualizar un parámetro | Admin | ⏳ Pendiente |
+| GET | `/api/parametros/historial/:clave` | Obtener historial de un parámetro | Admin | ⏳ Pendiente |
 
 **Módulo de Reportes** - ⏳ PENDIENTE
 
 | Método | Endpoint | Descripción | Autenticación | Estado |
 |--------|----------|-------------|---------------|--------|
-| GET | `/api/reportes/dashboard` | Datos del dashboard principal | Admin/Dispatcher | ⏳ |
-| GET | `/api/reportes/rentabilidad` | Reporte de rentabilidad | Admin | ⏳ |
-| GET | `/api/reportes/choferes` | Reporte de desempeño de choferes | Admin | ⏳ |
-| GET | `/api/reportes/flota` | Reporte de estado de flota | Admin | ⏳ |
-| GET | `/api/reportes/exportar` | Exportar reporte a PDF/CSV | Admin | ⏳ |
+| GET | `/api/reportes/dashboard` | Datos del dashboard principal | Admin/Dispatcher | ⏳ Pendiente |
+| GET | `/api/reportes/rentabilidad` | Reporte de rentabilidad | Admin | ⏳ Pendiente |
+| GET | `/api/reportes/choferes` | Reporte de desempeño de choferes | Admin | ⏳ Pendiente |
+| GET | `/api/reportes/flota` | Reporte de estado de flota | Admin | ⏳ Pendiente |
+| GET | `/api/reportes/exportar` | Exportar reporte a PDF/CSV | Admin | ⏳ Pendiente |
 
 **Módulo de Auditoría** - ⏳ PENDIENTE
 
 | Método | Endpoint | Descripción | Autenticación | Estado |
 |--------|----------|-------------|---------------|--------|
-| GET | `/api/auditoria/logs` | Obtener logs de auditoría | Admin/Auditor | ⏳ |
-| GET | `/api/auditoria/entidad/:entidad/:id` | Historial por entidad | Admin/Auditor | ⏳ |
-| GET | `/api/auditoria/exportar` | Exportar logs | Admin | ⏳ |
+| GET | `/api/auditoria/logs` | Obtener logs de auditoría | Admin/Auditor | ⏳ Pendiente |
+| GET | `/api/auditoria/entidad/:entidad/:id` | Historial por entidad | Admin/Auditor | ⏳ Pendiente |
+| GET | `/api/auditoria/exportar` | Exportar logs | Admin | ⏳ Pendiente |
 
 ### 7.4 Ejemplos de API
 
-**Importar Manifiesto** - ✅ IMPLEMENTADO
+**Importar Manifiesto** - ⚠️ PARCIAL
 ```http
 POST /api/envios/importar
 Content-Type: multipart/form-data
 Authorization: Bearer <token>
 
 {
-  "file": "manifiesto.xlsx"
+  "file": "manifiesto.xlsx",
+  "mapeo": {
+    "house": "House",
+    "descripcion": "Naturaleza y Cantidad",
+    "peso": "Peso",
+    "bultos": "Bultos",
+    "remitente_nombre": "Remitente",
+    "remitente_passport": "Passport",
+    "destinatario_nombre": "Destinatario",
+    "destinatario_identificacion": "Carnet de Identidad",
+    "destinatario_telefono": "Teléfono",
+    "destinatario_direccion": "Dirección",
+    "cobrado_origen": "Cobrado/No Cobrado",
+    "unidad_destino": "Unidad de destino"
+  }
 }
 ```
 
@@ -1574,6 +1603,8 @@ Authorization: Bearer <token>
     {
       "house": "CACC-24014926",
       "destinatario": "ANILEX MARIAM PEREZ FONSECA",
+      "destinatario_identificacion": "90123112345",
+      "unidad_destino": "CMW",
       "peso": 30.0,
       "estado": "pendiente"
     }
@@ -1895,21 +1926,21 @@ La app móvil está diseñada para funcionar completamente sin conexión a inter
 
 | Capa | Mecanismo | Propósito | Estado |
 |------|-----------|-----------|--------|
-| **Autenticación** | JWT (JSON Web Token) | Validar identidad del usuario | ⏳ |
-| **Autorización** | Roles y permisos | Controlar acceso a recursos | ⏳ |
+| **Autenticación** | JWT (JSON Web Token) | Validar identidad del usuario | ⏳ Pendiente |
+| **Autorización** | Roles y permisos | Controlar acceso a recursos | ⏳ Pendiente |
 | **Seguridad de Datos** | Encriptación (AES-256) | Proteger información sensible | ✅ |
-| **HTTPS** | TLS 1.3 | Cifrar comunicaciones | ⏳ |
-| **Rate Limiting** | Express-rate-limit | Prevenir ataques de fuerza bruta | ⏳ |
+| **HTTPS** | TLS 1.3 | Cifrar comunicaciones | ⏳ Pendiente |
+| **Rate Limiting** | Express-rate-limit | Prevenir ataques de fuerza bruta | ⏳ Pendiente |
 
 ### 10.2 Roles y Permisos
 
 | Rol | Permisos | Estado |
 |-----|----------|--------|
-| **Admin** | Acceso total a todas las funcionalidades, gestión de usuarios, parámetros del sistema, gestión de aduana, ficha de costo | ⏳ |
-| **Dispatcher** | Crear/editar rutas, asignar choferes, ver envíos, consultar costos de aduana, ver fichas de costo | ⏳ |
-| **Chofer** | Ver su ruta, registrar entregas, registrar costos, ver su historial, ver fichas de costo de sus rutas | ⏳ |
-| **Cliente** | Ver sus envíos, tracking, descargar comprobantes de entrega | ⏳ |
-| **Auditor** | Solo lectura de todos los módulos, acceso a logs de auditoría | ⏳ |
+| **Admin** | Acceso total a todas las funcionalidades, gestión de usuarios, parámetros del sistema, gestión de aduana, ficha de costo | ⏳ Pendiente |
+| **Dispatcher** | Crear/editar rutas, asignar choferes, ver envíos, consultar costos de aduana, ver fichas de costo | ⏳ Pendiente |
+| **Chofer** | Ver su ruta, registrar entregas, registrar costos, ver su historial, ver fichas de costo de sus rutas | ⏳ Pendiente |
+| **Cliente** | Ver sus envíos, tracking, descargar comprobantes de entrega | ⏳ Pendiente |
+| **Auditor** | Solo lectura de todos los módulos, acceso a logs de auditoría | ⏳ Pendiente |
 
 ### 10.3 Registro de Auditoría
 Todas las acciones de los usuarios se registran en la tabla `auditoria`, incluyendo:
@@ -2203,8 +2234,8 @@ sudo systemctl status certbot.timer
 | Fase | Entorno | Propósito | Acceso | Estado |
 |------|---------|-----------|--------|--------|
 | **Desarrollo** | Local (Docker) | Desarrollo y pruebas unitarias | Equipo de desarrollo | ✅ |
-| **Staging** | VPS ETECSA (pruebas) | Pruebas de integración y QA | Equipo + Líder | ⏳ |
-| **Producción** | VPS ETECSA (producción) | Operación real | Equipo + Líder | ⏳ |
+| **Staging** | VPS ETECSA (pruebas) | Pruebas de integración y QA | Equipo + Líder | ⏳ Pendiente |
+| **Producción** | VPS ETECSA (producción) | Operación real | Equipo + Líder | ⏳ Pendiente |
 
 ### 12.4 Variables de Entorno
 
@@ -2252,9 +2283,9 @@ DEFAULT_COSTO_IMPUESTO_POR_KM=2.00
 
 | Plataforma | Propósito | URL / Acceso | Estado |
 |------------|-----------|--------------|--------|
-| **Google Play Store** | Distribución global | play.google.com | ⏳ |
-| **APKlis** | Tienda oficial cubana | apklis.cu (acceso nacional) | ⏳ |
-| **Descarga Directa** | Distribución desde el sitio web | sigma-t.com/download | ⏳ |
+| **Google Play Store** | Distribución global | play.google.com | ⏳ Pendiente |
+| **APKlis** | Tienda oficial cubana | apklis.cu (acceso nacional) | ⏳ Pendiente |
+| **Descarga Directa** | Distribución desde el sitio web | sigma-t.com/download | ⏳ Pendiente |
 
 **Pasos para Publicar en Google Play Store:**
 
@@ -2289,9 +2320,9 @@ DEFAULT_COSTO_IMPUESTO_POR_KM=2.00
 |---------|------------|--------|
 | **Código** | TypeScript (tipado estático), ESLint, Prettier | ✅ |
 | **Documentación** | Comentarios en código, JSDoc, documentación externa | ✅ |
-| **Pruebas** | Unitarias (Jest), Integración (Supertest), E2E (Cypress) | ⏳ |
+| **Pruebas** | Unitarias (Jest), Integración (Supertest), E2E (Cypress) | ⏳ Pendiente |
 | **CI/CD** | GitHub Actions (pruebas automáticas, análisis estático, generación de documentación, despliegue) | ✅ |
-| **Monitoreo** | Prometheus + Grafana (métricas, alertas) | ⏳ |
+| **Monitoreo** | Prometheus + Grafana (métricas, alertas) | ⏳ Pendiente |
 | **Logging** | Winston (logs estructurados con niveles: error, warn, info, debug) | ✅ |
 | **Versionado** | SemVer (MAJOR.MINOR.PATCH) | ✅ |
 | **Gestión de Dependencias** | Renovación automática con Dependabot | ✅ |
@@ -2300,11 +2331,11 @@ DEFAULT_COSTO_IMPUESTO_POR_KM=2.00
 
 | Hito | Fecha | Entregable | Estado |
 |------|-------|------------|--------|
-| **MVP** | 15/01/2027 | Módulos de Envíos, Rutas, App Chofer, Ficha de Costo básica | ⏳ |
-| **Versión 1.0** | 01/04/2027 | Sistema completo con finanzas, aduana (URL de payment) y ficha de costo | ⏳ |
-| **Versión 1.1** | 01/06/2027 | Mejoras UX, reportes avanzados, optimización de scraping | ⏳ |
-| **Versión 1.2** | 01/09/2027 | IA predictiva para estimación de costos de aduana (opcional) | ⏳ |
-| **Versión 2.0** | 01/01/2028 | Escalabilidad, integraciones con sistemas externos | ⏳ |
+| **MVP** | 15/01/2027 | Módulos de Envíos, Rutas, App Chofer, Ficha de Costo básica | ⏳ Pendiente |
+| **Versión 1.0** | 01/04/2027 | Sistema completo con finanzas, aduana (URL de payment) y ficha de costo | ⏳ Pendiente |
+| **Versión 1.1** | 01/06/2027 | Mejoras UX, reportes avanzados, optimización de scraping | ⏳ Pendiente |
+| **Versión 1.2** | 01/09/2027 | IA predictiva para estimación de costos de aduana (opcional) | ⏳ Pendiente |
+| **Versión 2.0** | 01/01/2028 | Escalabilidad, integraciones con sistemas externos | ⏳ Pendiente |
 
 ### 13.3 Estrategia de Backups
 
@@ -2584,8 +2615,8 @@ tipo(alcance): descripción corta (máximo 50 caracteres)
 |---------|----------|----------|------------|--------|
 | **Cobertura de Documentación** | ≥80% de funciones públicas documentadas | ESLint-plugin-jsdoc | Cada PR | ✅ |
 | **Cumplimiento de Estándares** | ≥95% del código sin violaciones de ESLint/Dart Analyzer | ESLint / Dart Analyzer | Cada PR | ✅ |
-| **Deuda Técnica** | <5% de deuda técnica identificada | SonarQube (opcional) | Mensual | ⏳ |
-| **Código Duplicado** | <3% de código duplicado | SonarQube (opcional) | Mensual | ⏳ |
+| **Deuda Técnica** | <5% de deuda técnica identificada | SonarQube (opcional) | Mensual | ⏳ Pendiente |
+| **Código Duplicado** | <3% de código duplicado | SonarQube (opcional) | Mensual | ⏳ Pendiente |
 | **Complejidad Ciclomática** | <10 por función | ESLint (complexity) | Cada PR | ✅ |
 
 ### 15.6 Plan de Formación Continua
@@ -2606,26 +2637,21 @@ El equipo de desarrollo recibirá formación continua en:
 
 Este documento establece la base técnica sólida y de clase mundial sobre la cual se construirá SIGMA-T. Con una arquitectura moderna, escalable y adaptada a las condiciones específicas de Cuba, y con estándares de codificación y documentación de primer nivel, SIGMA-T está posicionado para convertirse en el sistema de gestión de transporte líder en su nicho.
 
-**Novedades incorporadas en esta versión 2.4:**
+**Novedades incorporadas en esta versión 2.5:**
 
-- ✅ **Estado de implementación agregado** a todos los componentes y servicios
+- ✅ **Estado de implementación actualizado** en todos los componentes y servicios
 - ✅ **Servicios implementados en Sprint 0 y 1:** ClienteService, EnvioService, ImportacionService
-- ✅ **Indicadores de estado** en diagramas de arquitectura y flujos de datos
-- ✅ **Sección actualizada** de dependencias con estado de implementación
-- ✅ **Progreso del proyecto** reflejado en todas las secciones
-- ✅ **Servicio de Aduana:** Integración con Aerovaradero utilizando URL de payment (`https://www.aerovaradero.com.cu/payment/?cod_la={cod_la}&cod_awb={cod_awb}&cod_house={house}`), con manejo de errores y entrada manual de contingencia.
-- ✅ **Servicio de Parámetros Financieros:** Gestión de tasa de cambio USD/CUP, precios de combustible y **costos por km (mantenimiento, neumáticos, depreciación, seguros, administrativos, impuestos)**.
-- ✅ **Servicio de Pago a Choferes:** Cálculo de salarios con esquemas flexibles (fijo, por km, por entrega, combinado).
-- ✅ **Servicio de Ficha de Costo:** Cálculo automático de ficha de costo detallada por ruta, incluyendo costos directos, indirectos y de importación.
-- ✅ **Nuevos endpoints API:** Consulta de aduana, cálculo de pago, gestión de parámetros, generación de ficha de costo, exportación a PDF/CSV.
-- ✅ **Nuevas tablas en BD:** `PARAMETROS_SISTEMA` (actualizada con costos por km), `HISTORIAL_PARAMETROS`.
-- ✅ **Campos nuevos en ENVIO:** `awb`, `costo_aduana`, `costo_importacion`, `fecha_consulta_aduana`, `estado_aduana`.
-- ✅ **Campos nuevos en CHOFER:** `esquema_pago`, `salario_por_km`, `salario_por_entrega`.
-- ✅ **Campos nuevos en RUTA:** `pago_chofer`, `ficha_costo`, `ingresos`, `utilidad_neta`, `margen_utilidad`.
-- ✅ **Campos nuevos en COSTO:** `cantidad`, `precio_unitario`, `es_estimado`.
-- ✅ **Diagramas de secuencia** para los nuevos flujos de aduana (URL de payment), pago a choferes y ficha de costo.
-- ✅ **Modelo de datos completo** con todas las entidades y relaciones actualizadas.
-- ✅ **Especificación de API** con todos los endpoints incluyendo los nuevos.
-- ✅ **Infraestructura de Producción:** Guía completa de despliegue en VPS ETECSA con Ubuntu 22.04 LTS, Nginx, SSL/HTTPS con Let's Encrypt, PM2.
-- ✅ **Estrategia de Distribución:** Publicación en Google Play Store, APKlis (tienda cubana) y descarga directa.
-- ✅ **Estado del proyecto:** Sprints 0 y 1 completados (13/08/2026), Sprint 2 próximo.
+- ✅ **Indicadores de estado actualizados** (✅ / ⚠️ / ⏳) en diagramas de arquitectura y flujos de datos
+- ✅ **Dependencias actualizadas** con nuevas librerías (multer, cors, helmet, express-rate-limit)
+- ✅ **Versiones de tecnología actualizadas** (Node 22.14.x, Express 5.0.0, TypeORM 0.3.20)
+- ✅ **Nuevos campos en ENVIO:** `destinatario_identificacion` (11 dígitos) y `unidad_destino` (obligatorio)
+- ✅ **Mapeo flexible de columnas** para importación de Excel
+- ✅ **Servicio de Aduana:** Integración con Aerovaradero utilizando URL de payment
+- ✅ **Servicio de Parámetros Financieros:** Gestión de tasa de cambio, precios y costos por km
+- ✅ **Servicio de Pago a Choferes:** Esquemas flexibles (fijo, por km, por entrega, combinado)
+- ✅ **Servicio de Ficha de Costo:** Cálculo automático con costos directos, indirectos y de importación
+- ✅ **Infraestructura de Producción:** Guía completa en VPS ETECSA con SSL/HTTPS
+- ✅ **Estrategia de Distribución:** Google Play Store, APKlis y descarga directa
+- ✅ **SonarQube** agregado al stack tecnológico para análisis de calidad
+
+**Este documento es la guía técnica definitiva para construir el sistema de gestión de transporte más completo y de mayor calidad del nicho cubano y regional.**

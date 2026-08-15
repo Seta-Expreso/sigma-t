@@ -1,4 +1,4 @@
-## 📄 DOCUMENTO SPMP - SIGMA-T (VERSIÓN 3.4 - ACTUALIZADO CON SPRINTS 0 Y 1 COMPLETADOS)
+# 📄 DOCUMENTO SPMP - SIGMA-T (VERSIÓN 3.5 - ACTUALIZADO CON SPRINTS 0 Y 1 COMPLETADOS Y NUEVOS REQUISITOS)
 
 **Basado en IEEE 1058 - Plan de Gestión de Proyectos de Software**
 
@@ -6,41 +6,41 @@
 **Cliente / Sponsor:** Osleyder Gonzalez Acosta  
 **Fecha de Inicio del Proyecto:** 13 de agosto de 2026  
 **Fecha Estimada de Finalización:** 01 de abril de 2027 (MVP)  
-**Versión del Documento:** 3.4 (Completo - Top Mundial con Sprints 0 y 1 Completados)
+**Versión del Documento:** 3.5 (Completo - Top Mundial con Sprints 0 y 1 Completados - Actualización 14/08/2026)
 
 ---
 
-### 1. INTRODUCCIÓN
+## 1. INTRODUCCIÓN
 
-#### 1.1 Propósito y Alcance del Documento
+### 1.1 Propósito y Alcance del Documento
 Este documento define la dirección, la organización y el plan de trabajo para el desarrollo exitoso del sistema SIGMA-T. Su propósito es proporcionar una guía clara y exhaustiva para todos los involucrados, asegurando que el proyecto se ejecute de manera controlada, eficiente y alineada con los objetivos de convertirse en la solución líder en su nicho.
 
 El alcance de este SPMP cubre todas las fases del ciclo de vida del software, desde la concepción hasta el despliegue y la operación inicial, incluyendo la gestión de riesgos, la calidad, la comunicación, los estándares de codificación, las funcionalidades financieras, la integración con aduana (utilizando la URL de payment), la generación de la ficha de costo detallada por ruta, la configuración del entorno de desarrollo, el despliegue en VPS ETECSA con SSL/HTTPS, y la distribución de la app móvil en Google Play Store y APKlis.
 
-#### 1.2 Productos de Trabajo y Entregables Clave
+### 1.2 Productos de Trabajo y Entregables Clave
 Los principales entregables del proyecto se organizan por fases:
 
-| Fase | Entregable | Descripción |
-| :--- | :--- | :--- |
-| **Iniciación** | Documento de Visión | Definición de la visión, los stakeholders y el alcance de alto nivel del sistema. |
-| **Planificación** | **SRS (v3.3)** | Especificación detallada de todos los requisitos funcionales y no funcionales, incluyendo los nuevos requisitos de finanzas, aduana, ficha de costo e infraestructura. |
-| **Planificación** | **SPMP (v3.4)** | Este documento: Plan de gestión del proyecto actualizado con el estado de los Sprints 0 y 1. |
-| **Planificación** | **Arquitectura (v2.3)** | Documento de Arquitectura de Software (Diagramas, modelo de datos, APIs, estándares, servicios de aduana, finanzas, ficha de costo e infraestructura VPS ETECSA). |
-| **Planificación** | **Prototipos UI/UX** | Maquetas de alta fidelidad de todas las interfaces, incluyendo la nueva pantalla de gestión de parámetros financieros, aduana y ficha de costo. |
-| **Ejecución** | Código Fuente | Repositorio con el código de backend, frontend web y app móvil. |
-| **Ejecución** | Pruebas y QA | Conjunto de planes de pruebas, casos de prueba y reportes de calidad. |
-| **Ejecución** | Documentación Técnica | Documentación generada automáticamente (TypeDoc, Swagger) y manuales. |
-| **Ejecución** | Entorno de Desarrollo | Configuración completa del entorno con Docker, VSCode tasks.json, CI/CD. |
-| **Cierre** | Manuales de Usuario | Guías para administradores, dispatchers y choferes. |
-| **Cierre** | Plan de Despliegue | Guía paso a paso para la instalación y operación del sistema en VPS ETECSA. |
-| **Cierre** | Sistema Productivo | Sistema SIGMA-T operativo en el entorno de producción del cliente (VPS ETECSA). |
-| **Cierre** | App Publicada | App móvil disponible en Google Play Store, APKlis y descarga directa. |
+| Fase | Entregable | Descripción | Estado |
+| :--- | :--- | :--- | :--- |
+| **Iniciación** | Documento de Visión | Definición de la visión, los stakeholders y el alcance de alto nivel del sistema. | ✅ Completado |
+| **Planificación** | **SRS (v3.5)** | Especificación detallada de todos los requisitos funcionales y no funcionales. | ✅ Actualizado |
+| **Planificación** | **SPMP (v3.5)** | Este documento: Plan de gestión del proyecto. | ✅ Actualizado |
+| **Planificación** | **Arquitectura (v2.5)** | Documento de Arquitectura de Software actualizado. | ⏳ Pendiente |
+| **Planificación** | **Prototipos UI/UX** | Maquetas de alta fidelidad de todas las interfaces. | ⏳ Pendiente |
+| **Ejecución** | Código Fuente | Repositorio con el código de backend, frontend web y app móvil. | ⚠️ En progreso |
+| **Ejecución** | Pruebas y QA | Conjunto de planes de pruebas, casos de prueba y reportes de calidad. | ⏳ Pendiente |
+| **Ejecución** | Documentación Técnica | Documentación generada automáticamente (TypeDoc, Swagger) y manuales. | ⚠️ Parcial |
+| **Ejecución** | Entorno de Desarrollo | Configuración completa del entorno con Docker, VSCode tasks.json, CI/CD. | ✅ Completado |
+| **Cierre** | Manuales de Usuario | Guías para administradores, dispatchers y choferes. | ⏳ Pendiente |
+| **Cierre** | Plan de Despliegue | Guía paso a paso para la instalación y operación del sistema en VPS ETECSA. | ⏳ Pendiente |
+| **Cierre** | Sistema Productivo | Sistema SIGMA-T operativo en el entorno de producción del cliente. | ⏳ Pendiente |
+| **Cierre** | App Publicada | App móvil disponible en Google Play Store, APKlis y descarga directa. | ⏳ Pendiente |
 
 ---
 
-### 2. ORGANIZACIÓN DEL PROYECTO
+## 2. ORGANIZACIÓN DEL PROYECTO
 
-#### 2.1 Estructura Organizativa
+### 2.1 Estructura Organizativa
 El proyecto se gestionará siguiendo una estructura matricial, donde el equipo de desarrollo central colabora con el cliente y otros stakeholders.
 
 ```mermaid
@@ -59,7 +59,7 @@ flowchart TD
     end
 ```
 
-#### 2.2 Roles y Responsabilidades
+### 2.2 Roles y Responsabilidades
 
 | Rol | Responsabilidad | Asignado a |
 | :--- | :--- | :--- |
@@ -73,7 +73,7 @@ flowchart TD
 | **Documentalista** | Mantener al día toda la documentación técnica y los manuales de usuario, asegurar la generación automática de documentación. Documentar nuevos módulos financieros, de aduana, de ficha de costo e infraestructura. | Equipo SIGMA-T |
 | **DevOps Engineer** | Configurar el entorno de desarrollo (Docker, VSCode tasks.json), gestionar el despliegue en VPS ETECSA, configurar SSL/HTTPS con Let's Encrypt, Nginx y PM2. | Equipo SIGMA-T |
 
-#### 2.3 Comunicación y Reportes
+### 2.3 Comunicación y Reportes
 
 | Stakeholder | Frecuencia | Canal | Propósito |
 | :--- | :--- | :--- | :--- |
@@ -85,25 +85,26 @@ flowchart TD
 
 ---
 
-### 3. PLAN DE TRABAJO Y CRONOGRAMA (SPRINTS) - ACTUALIZADO
+## 3. PLAN DE TRABAJO Y CRONOGRAMA (SPRINTS) - ACTUALIZADO
 
-#### 3.1 Metodología: Ágil con Scrum
+### 3.1 Metodología: Ágil con Scrum
 El proyecto se desarrollará utilizando una metodología ágil con sprints de **2 semanas de duración**. Este enfoque permite una adaptación rápida a los cambios, una entrega temprana de valor y una mejora continua del producto.
 
-#### 3.2 Planificación por Sprints Detallada (Actualizada)
+### 3.2 Planificación por Sprints Detallada (Actualizada)
 
 | Sprint | Nombre / Módulo | Duración | Estado | Entregables Clave |
 | :--- | :--- | :--- | :--- | :--- |
 | **0** | **Fundación** | 1 día | ✅ Completado | Docker, Repos, BD, CI/CD, ESLint, Prettier, Dart Analyzer, guía de estándares, archivo tasks.json de VSCode, extensiones recomendadas, documentación completa. |
-| **1** | **Core de Envíos** | 1 día | ✅ Completado | API de Envíos, Importación Excel, UI de listado, CRUD Clientes, CRUD Envíos, documentación JSDoc. |
+| **1** | **Core de Envíos** | 1 día | ⚠️ En progreso (60%) | API de Envíos, Importación Excel con mapeo flexible, UI de listado, CRUD Clientes, CRUD Envíos, documentación JSDoc. |
 | **2** | **Optimización de Rutas** | 2 Semanas | ⏳ Pendiente | Algoritmo VRPTW, Mapa interactivo, UI de planificación, documentación OpenAPI. |
 | **3** | **App del Chofer (MVP)** | 2 Semanas | ⏳ Pendiente | App Flutter, sincronización, registro de incidencias, documentación Dart. |
 | **4** | **Dashboard y KPIs** | 2 Semanas | ⏳ Pendiente | Dashboard, Gráficos de costos, Reportes, documentación de módulos. |
 | **5** | **Funcionalidades Premium y Finanzas** | 2 Semanas | ⏳ Pendiente | Firma digital, Edición manual, Personalización, Gestión de parámetros financieros (incluyendo costos por km), Consulta de aduana (URL de payment), Cálculo de pago a choferes, Ficha de costo detallada por ruta. |
+| **5.5** | **Calidad de Código (SonarQube)** | 1 día | ⏳ Pendiente | Configuración de SonarQube en Docker, integración con CI/CD, informes de calidad. |
 | **6** | **Piloto y Ajustes** | 2 Semanas | ⏳ Pendiente | Feedback, Corrección de bugs, Mejoras de UX, verificación de estándares. |
 | **7** | **Lanzamiento y Documentación** | 2 Semanas | ⏳ Pendiente | Sistema en producción (VPS ETECSA), SSL/HTTPS, Manuales, Video-tutoriales, App en Google Play Store, App en APKlis, Descarga directa de APK. |
 
-#### 3.3 Tareas Detalladas por Sprint (Actualizadas)
+### 3.3 Tareas Detalladas por Sprint (Actualizadas)
 
 **Sprint 0: Fundación - ✅ COMPLETADO (13/08/2026)**
 
@@ -125,20 +126,40 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 14 | Documentar extensiones de VSCode recomendadas | Documentalista | ✅ Completado |
 | 15 | Preparar documentación de despliegue en VPS ETECSA | Backend | ✅ Completado |
 
-**Sprint 1: Core de Envíos - ✅ COMPLETADO (13/08/2026)**
+**Sprint 1: Core de Envíos - ⚠️ EN PROGRESO (60%)**
 
 | # | Tarea | Responsable | Estado |
 |---|-------|-------------|--------|
 | 1 | Diseñar modelo de datos (Clientes, Envíos) | Backend | ✅ Completado |
 | 2 | Implementar API CRUD de Clientes | Backend | ✅ Completado |
 | 3 | Implementar API CRUD de Envíos | Backend | ✅ Completado |
-| 4 | Implementar importación de Excel | Backend | ✅ Completado |
-| 5 | Mapear columnas del manifiesto real | Backend | ✅ Completado |
-| 6 | Validación de datos en importación | Backend | ✅ Completado |
-| 7 | Vista previa de importación | Frontend | ✅ Completado |
-| 8 | Formulario manual de registro de envíos | Frontend | ✅ Completado |
-| 9 | UI de gestión de envíos (lista + filtros) | Frontend | ✅ Completado |
-| 10 | Documentar funciones con JSDoc | Backend/Frontend | ✅ Completado |
+| 4 | Formulario manual de registro de envíos | Frontend | ✅ Completado |
+| 5 | UI de gestión de envíos (lista + filtros + búsqueda) | Frontend | ✅ Completado |
+| **6** | **Implementar importación de Excel con mapeo flexible de columnas** | **Backend** | **⏳ Pendiente** |
+| **7** | **Implementar UI de mapeo de columnas** | **Frontend** | **⏳ Pendiente** |
+| **8** | **Implementar validación de datos en importación (incluyendo Carnet: 11 dígitos, Unidad de destino: obligatoria)** | **Backend** | **⏳ Pendiente** |
+| **9** | **Implementar vista previa de importación (todos los registros)** | **Frontend** | **⏳ Pendiente** |
+| **10** | **Implementar reporte de errores en pantalla** | **Frontend** | **⏳ Pendiente** |
+| **11** | **Implementar historial de envíos por cliente con exportación a PDF y CSV** | **Backend/Frontend** | **⏳ Pendiente** |
+| 12 | Documentar funciones con JSDoc | Backend/Frontend | ⚠️ Parcial |
+
+**Decisiones Tomadas para el Sprint 1 (14/08/2026):**
+
+| Aspecto | Decisión |
+|---------|----------|
+| **Mapeo de columnas** | El usuario selecciona manualmente qué columna del Excel corresponde a cada campo del sistema |
+| **Columnas extras** | Ignoradas |
+| **Filas vacías** | Ignoradas (NULL) |
+| **House** | Formato CACC-XXXXX, único en BD |
+| **Carnet de Identidad** | Obligatorio, 11 dígitos exactos |
+| **Unidad de destino** | Obligatorio, no puede ser NULL |
+| **Passport** | Opcional, puede ser NULL |
+| **Cobrado/No Cobrado** | Opcional, puede ser NULL |
+| **Vista previa** | Mostrar todos los registros, no solo 10 |
+| **Errores** | Mostrar todos los errores de una fila juntos en la misma tabla |
+| **Reporte de errores** | En pantalla, sin límite de errores |
+| **Historial por cliente** | Exportable a PDF y CSV |
+| **JSDoc** | Todo el código debe estar documentado |
 
 **Sprint 2: Optimización de Rutas - ⏳ PENDIENTE**
 
@@ -205,6 +226,16 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 | 13 | Implementar exportación de ficha de costo a PDF y CSV | Backend + Frontend | 2 días |
 | 14 | Actualizar documentación | Documentalista | 1 día |
 
+**Sprint 5.5: Calidad de Código con SonarQube - ⏳ PENDIENTE (NUEVO)**
+
+| # | Tarea | Responsable | Estimación |
+|---|-------|-------------|------------|
+| 1 | Configurar SonarQube en Docker Compose | DevOps | 0.5 día |
+| 2 | Integrar SonarQube con GitHub Actions | DevOps | 0.5 día |
+| 3 | Definir umbrales de calidad (cobertura ≥70%, deuda técnica <5%) | QA | 0.5 día |
+| 4 | Ejecutar análisis inicial y corregir hallazgos | Equipo | 1 día |
+| 5 | Documentar configuración en Onboarding Guide | Documentalista | 0.5 día |
+
 **Sprint 6: Piloto y Ajustes - ⏳ PENDIENTE**
 
 | # | Tarea | Responsable | Estimación |
@@ -241,39 +272,39 @@ El proyecto se desarrollará utilizando una metodología ágil con sprints de **
 
 ---
 
-### 4. GESTIÓN DE RIESGOS
+## 4. GESTIÓN DE RIESGOS
 
-#### 4.1 Metodología de Gestión de Riesgos
+### 4.1 Metodología de Gestión de Riesgos
 Se implementará un proceso iterativo de **Identificación → Análisis → Planificación de Respuesta → Monitoreo**. Este proceso se revisará al final de cada sprint para identificar nuevos riesgos y evaluar la efectividad de las respuestas planificadas.
 
-#### 4.2 Matriz de Riesgos
+### 4.2 Matriz de Riesgos
 
-| Riesgo | Prob. | Impacto | Estrategia de Mitigación |
-| :--- | :--- | :--- | :--- |
-| **Conectividad limitada en zonas rurales** | **Alta** | **Alto** | **Diseño robusto de modo offline en la app móvil, sincronización automática al recuperar conexión, y gestión de conflictos de datos.** |
-| **Calidad de datos de OpenStreetMap en Cuba** | **Alta** | **Medio** | **Implementar un sistema de edición colaborativa de mapas por parte de los choferes, y usar datos GPS reales para mejorar la precisión de las rutas.** |
-| **Resistencia al cambio de los choferes** | **Media** | **Alto** | **Diseño de interfaz extremadamente simple, programa de incentivos y gamificación (puntos, rankings), y capacitación presencial con acompañamiento en ruta.** |
-| **Sostenibilidad Financiera** | **Media** | **Medio** | **Modelo open source con opción de soporte profesional, colaboración con universidades y entidades del estado cubano para la adopción.** |
-| **Cambios en normativas cubanas** | **Media** | **Medio** | **Arquitectura modular y flexible para adaptaciones rápidas, y asesoría legal continua.** |
-| **Fuga de Talento** | **Baja** | **Alto** | **Cultura de proyecto desafiante y de alto impacto, y posibilidad de reconocimiento público (proyecto open source referente).** |
-| **Baja calidad de código** | **Media** | **Alto** | **Estándares de codificación estrictos (ESLint, Prettier, Dart Analyzer), análisis estático en CI/CD, revisiones de código obligatorias, y métricas de calidad.** |
-| **Documentación insuficiente** | **Media** | **Medio** | **JSDoc obligatorio para funciones públicas, generación automática de documentación (TypeDoc, Swagger), y cobertura mínima del 80%.** |
-| **Inconsistencia en el estilo de código** | **Media** | **Medio** | **Prettier para formateo automático, guía de estándares documentada, y pre-commit hooks para validación automática.** |
-| **Deuda técnica acumulada** | **Media** | **Alto** | **Refactorización continua, revisiones de código, y sprints dedicados a mejora técnica (Sprint 5).** |
-| **Cambios en el sitio web de Aerovaradero (URL de payment)** | **Alta** | **Alto** | **Sistema de alertas de fallo en extracción, entrada manual de costos de aduana como contingencia, monitoreo periódico del sitio.** |
-| **Fluctuación de la tasa de cambio y precios de combustible** | **Alta** | **Medio** | **Actualización manual/configurable de parámetros, historial de cambios para análisis.** |
-| **Errores en cálculo de pago a choferes** | **Media** | **Alto** | **Validaciones automáticas, auditoría de cálculos, generación de reportes de pago para revisión.** |
-| **Errores en cálculo de ficha de costo** | **Media** | **Alto** | **Validaciones automáticas, auditoría de cálculos, pruebas con datos reales, precisión de 2 decimales.** |
-| **Disponibilidad de VPS ETECSA** | **Media** | **Alto** | **Tener plan de contingencia con servidor alternativo (nube internacional).** |
-| **Google Play Store bloqueada desde Cuba** | **Alta** | **Medio** | **Distribuir también vía APKlis y descarga directa.** |
-| **Configuración de SSL/HTTPS** | **Baja** | **Medio** | **Documentación detallada, uso de Let's Encrypt, renovación automática.** |
-| **Recursos limitados del VPS ETECSA** | **Media** | **Medio** | **Optimización de recursos, caché con Redis, monitoreo de rendimiento.** |
+| Riesgo | Prob. | Impacto | Estrategia de Mitigación | Estado |
+| :--- | :--- | :--- | :--- | :--- |
+| **Conectividad limitada en zonas rurales** | **Alta** | **Alto** | **Diseño robusto de modo offline en la app móvil, sincronización automática al recuperar conexión, y gestión de conflictos de datos.** | ⏳ Pendiente |
+| **Calidad de datos de OpenStreetMap en Cuba** | **Alta** | **Medio** | **Implementar un sistema de edición colaborativa de mapas por parte de los choferes, y usar datos GPS reales para mejorar la precisión de las rutas.** | ⏳ Pendiente |
+| **Resistencia al cambio de los choferes** | **Media** | **Alto** | **Diseño de interfaz extremadamente simple, programa de incentivos y gamificación (puntos, rankings), y capacitación presencial con acompañamiento en ruta.** | ⏳ Pendiente |
+| **Sostenibilidad Financiera** | **Media** | **Medio** | **Modelo open source con opción de soporte profesional, colaboración con universidades y entidades del estado cubano para la adopción.** | ⏳ Pendiente |
+| **Cambios en normativas cubanas** | **Media** | **Medio** | **Arquitectura modular y flexible para adaptaciones rápidas, y asesoría legal continua.** | ⏳ Pendiente |
+| **Fuga de Talento** | **Baja** | **Alto** | **Cultura de proyecto desafiante y de alto impacto, y posibilidad de reconocimiento público (proyecto open source referente).** | ⏳ Pendiente |
+| **Baja calidad de código** | **Media** | **Alto** | **Estándares de codificación estrictos (ESLint, Prettier, Dart Analyzer), análisis estático en CI/CD, revisiones de código obligatorias, y métricas de calidad.** | ✅ Mitigado |
+| **Documentación insuficiente** | **Media** | **Medio** | **JSDoc obligatorio para funciones públicas, generación automática de documentación (TypeDoc, Swagger), y cobertura mínima del 80%.** | ✅ Mitigado |
+| **Inconsistencia en el estilo de código** | **Media** | **Medio** | **Prettier para formateo automático, guía de estándares documentada, y pre-commit hooks para validación automática.** | ✅ Mitigado |
+| **Deuda técnica acumulada** | **Media** | **Alto** | **Refactorización continua, revisiones de código, y sprints dedicados a mejora técnica (Sprint 5.5).** | ⏳ Pendiente |
+| **Cambios en el sitio web de Aerovaradero (URL de payment)** | **Alta** | **Alto** | **Sistema de alertas de fallo en extracción, entrada manual de costos de aduana como contingencia, monitoreo periódico del sitio.** | ⏳ Pendiente |
+| **Fluctuación de la tasa de cambio y precios de combustible** | **Alta** | **Medio** | **Actualización manual/configurable de parámetros, historial de cambios para análisis.** | ⏳ Pendiente |
+| **Errores en cálculo de pago a choferes** | **Media** | **Alto** | **Validaciones automáticas, auditoría de cálculos, generación de reportes de pago para revisión.** | ⏳ Pendiente |
+| **Errores en cálculo de ficha de costo** | **Media** | **Alto** | **Validaciones automáticas, auditoría de cálculos, pruebas con datos reales, precisión de 2 decimales.** | ⏳ Pendiente |
+| **Disponibilidad de VPS ETECSA** | **Media** | **Alto** | **Tener plan de contingencia con servidor alternativo (nube internacional).** | ⏳ Pendiente |
+| **Google Play Store bloqueada desde Cuba** | **Alta** | **Medio** | **Distribuir también vía APKlis y descarga directa.** | ⏳ Pendiente |
+| **Configuración de SSL/HTTPS** | **Baja** | **Medio** | **Documentación detallada, uso de Let's Encrypt, renovación automática.** | ⏳ Pendiente |
+| **Recursos limitados del VPS ETECSA** | **Media** | **Medio** | **Optimización de recursos, caché con Redis, monitoreo de rendimiento.** | ⏳ Pendiente |
 
 ---
 
-### 5. GESTIÓN DE LA CALIDAD Y PRUEBAS (SQA)
+## 5. GESTIÓN DE LA CALIDAD Y PRUEBAS (SQA)
 
-#### 5.1 Estándares de Calidad
+### 5.1 Estándares de Calidad
 El proyecto se adherirá a los siguientes estándares para garantizar un producto de clase mundial:
 
 - **ISO/IEC 25010:** Para definir y evaluar la calidad del producto en términos de funcionalidad, eficiencia, usabilidad y seguridad.
@@ -282,7 +313,7 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 - **IEEE 1016:** Para la descripción del diseño de software.
 - **Estándares de Codificación:** ESLint, Prettier, Dart Analyzer, JSDoc, OpenAPI.
 
-#### 5.2 Estrategia de Pruebas (QA)
+### 5.2 Estrategia de Pruebas (QA)
 
 | Nivel de Prueba | Descripción | Herramientas | Responsable |
 | :--- | :--- | :--- | :--- |
@@ -298,55 +329,57 @@ El proyecto se adherirá a los siguientes estándares para garantizar un product
 | **Pruebas de Cálculo Financiero** | Validar precisión de cálculos de pago a choferes, costos y ficha de costo | Jest (Backend) | QA |
 | **Pruebas de Precisión de Ficha de Costo** | Verificar precisión de 2 decimales en todos los cálculos de la ficha de costo | Jest (Backend) | QA |
 | **Pruebas de Infraestructura** | Verificar funcionamiento en VPS ETECSA, SSL/HTTPS, Nginx, PM2 | Pruebas manuales / Scripts | DevOps / QA |
+| **Pruebas de Calidad (SonarQube)** | Análisis de duplicación, deuda técnica y seguridad | SonarQube Community | QA / DevOps |
 
-#### 5.3 Criterios de Aceptación (Checklist de Calidad)
+### 5.3 Criterios de Aceptación (Checklist de Calidad)
 
-| # | Criterio | Especificación | Herramienta de Verificación |
-|---|----------|----------------|----------------------------|
-| 1 | **Cobertura de Código** | >70% del código nuevo cubierto por pruebas unitarias | Jest / Flutter Test |
-| 2 | **Cero Bugs Críticos** | No se aceptan bugs que bloqueen la funcionalidad principal | Jira / GitHub Issues |
-| 3 | **Cumplimiento de Usabilidad** | Usuarios piloto completan tareas sin asistencia en <2 horas | Pruebas de Usabilidad |
-| 4 | **Rendimiento** | Sistema maneja 1,000 envíos sin degradación significativa | Pruebas de Rendimiento |
-| 5 | **Estándares de Codificación (Backend)** | ≥95% del código TypeScript cumple con ESLint/Prettier | ESLint / Prettier |
-| 6 | **Estándares de Codificación (Mobile)** | ≥95% del código Dart cumple con Dart Analyzer | Dart Analyzer |
-| 7 | **Documentación de Código** | ≥80% de funciones públicas documentadas con JSDoc | ESLint-plugin-jsdoc |
-| 8 | **Documentación de API** | API documentada con OpenAPI (Swagger) | Swagger UI |
-| 9 | **Documentación de Módulos** | Cada módulo tiene README.md actualizado | Revisión manual |
-| 10 | **CI/CD sin Errores** | Pipeline de CI/CD pasa todas las verificaciones | GitHub Actions |
-| 11 | **Conventional Commits** | 100% de mensajes de commit siguen el estándar | Commitlint |
-| 12 | **Integración con Aduana** | **Consulta automática de costos de aduana para ≥95% de los envíos en <5 minutos utilizando la URL de payment** | **Pruebas de Integración** |
-| 13 | **Cálculo de Pago a Choferes** | **Cálculo correcto según esquemas configurados (fijo, por km, por entrega, combinado)** | **Pruebas Unitarias** |
-| 14 | **Gestión de Parámetros** | **Actualización de parámetros financieros (incluyendo costos por km) en tiempo real con historial de cambios** | **Pruebas de Sistema** |
-| 15 | **Ficha de Costo Detallada** | **Generación de ficha de costo en <5 segundos por ruta, con precisión de 2 decimales, incluyendo todos los componentes de costo (directos, indirectos, importación), y exportación a PDF/CSV** | **Pruebas de Sistema / Pruebas de Rendimiento** |
-| 16 | **Despliegue en VPS ETECSA** | **El sistema funciona correctamente en VPS ETECSA con Ubuntu 22.04 LTS** | **Pruebas de Infraestructura** |
-| 17 | **SSL/HTTPS** | **SSL/HTTPS configurado y funcionando correctamente con Let's Encrypt** | **Pruebas de Infraestructura** |
-| 18 | **Publicación en Google Play Store** | **App publicada en Google Play Store** | **Revisión manual** |
-| 19 | **Publicación en APKlis** | **App publicada en APKlis** | **Revisión manual** |
-| 20 | **Descarga Directa de APK** | **Descarga directa de APK disponible desde el sitio web** | **Revisión manual** |
+| # | Criterio | Especificación | Herramienta de Verificación | Estado |
+|---|----------|----------------|----------------------------|--------|
+| 1 | **Cobertura de Código** | >70% del código nuevo cubierto por pruebas unitarias | Jest / Flutter Test | ⏳ Pendiente |
+| 2 | **Cero Bugs Críticos** | No se aceptan bugs que bloqueen la funcionalidad principal | Jira / GitHub Issues | ⏳ Pendiente |
+| 3 | **Cumplimiento de Usabilidad** | Usuarios piloto completan tareas sin asistencia en <2 horas | Pruebas de Usabilidad | ⏳ Pendiente |
+| 4 | **Rendimiento** | Sistema maneja 1,000 envíos sin degradación significativa | Pruebas de Rendimiento | ⏳ Pendiente |
+| 5 | **Estándares de Codificación (Backend)** | ≥95% del código TypeScript cumple con ESLint/Prettier | ESLint / Prettier | ✅ Cumplido |
+| 6 | **Estándares de Codificación (Mobile)** | ≥95% del código Dart cumple con Dart Analyzer | Dart Analyzer | ✅ Cumplido |
+| 7 | **Documentación de Código** | ≥80% de funciones públicas documentadas con JSDoc | ESLint-plugin-jsdoc | ⚠️ Parcial |
+| 8 | **Documentación de API** | API documentada con OpenAPI (Swagger) | Swagger UI | ✅ Cumplido |
+| 9 | **Documentación de Módulos** | Cada módulo tiene README.md actualizado | Revisión manual | ✅ Cumplido |
+| 10 | **CI/CD sin Errores** | Pipeline de CI/CD pasa todas las verificaciones | GitHub Actions | ✅ Cumplido |
+| 11 | **Conventional Commits** | 100% de mensajes de commit siguen el estándar | Commitlint | ✅ Cumplido |
+| 12 | **Integración con Aduana** | **Consulta automática de costos de aduana para ≥95% de los envíos en <5 minutos utilizando la URL de payment** | **Pruebas de Integración** | ⏳ Pendiente |
+| 13 | **Cálculo de Pago a Choferes** | **Cálculo correcto según esquemas configurados (fijo, por km, por entrega, combinado)** | **Pruebas Unitarias** | ⏳ Pendiente |
+| 14 | **Gestión de Parámetros** | **Actualización de parámetros financieros (incluyendo costos por km) en tiempo real con historial de cambios** | **Pruebas de Sistema** | ⏳ Pendiente |
+| 15 | **Ficha de Costo Detallada** | **Generación de ficha de costo en <5 segundos por ruta, con precisión de 2 decimales, incluyendo todos los componentes de costo (directos, indirectos, importación), y exportación a PDF/CSV** | **Pruebas de Sistema / Pruebas de Rendimiento** | ⏳ Pendiente |
+| 16 | **Despliegue en VPS ETECSA** | **El sistema funciona correctamente en VPS ETECSA con Ubuntu 22.04 LTS** | **Pruebas de Infraestructura** | ⏳ Pendiente |
+| 17 | **SSL/HTTPS** | **SSL/HTTPS configurado y funcionando correctamente con Let's Encrypt** | **Pruebas de Infraestructura** | ⏳ Pendiente |
+| 18 | **Publicación en Google Play Store** | **App publicada en Google Play Store** | **Revisión manual** | ⏳ Pendiente |
+| 19 | **Publicación en APKlis** | **App publicada en APKlis** | **Revisión manual** | ⏳ Pendiente |
+| 20 | **Descarga Directa de APK** | **Descarga directa de APK disponible desde el sitio web** | **Revisión manual** | ⏳ Pendiente |
+| 21 | **Análisis de Calidad SonarQube** | **Cobertura de código ≥70%, Deuda Técnica <5%, Cero Bugs Críticos** | **SonarQube** | ⏳ Pendiente |
 
-#### 5.4 Métricas de Calidad de Código
+### 5.4 Métricas de Calidad de Código
 
-| Métrica | Objetivo | Medición | Frecuencia |
-|---------|----------|----------|------------|
-| **Cobertura de Documentación** | ≥80% de funciones públicas documentadas | ESLint-plugin-jsdoc | Cada PR |
-| **Cumplimiento de Estándares** | ≥95% del código sin violaciones de ESLint/Dart Analyzer | ESLint / Dart Analyzer | Cada PR |
-| **Deuda Técnica** | <5% de deuda técnica identificada | SonarQube (opcional) | Mensual |
-| **Código Duplicado** | <3% de código duplicado | SonarQube (opcional) | Mensual |
-| **Complejidad Ciclomática** | <10 por función | ESLint (complexity) | Cada PR |
+| Métrica | Objetivo | Medición | Frecuencia | Estado |
+|---------|----------|----------|------------|--------|
+| **Cobertura de Documentación** | ≥80% de funciones públicas documentadas | ESLint-plugin-jsdoc | Cada PR | ⚠️ Parcial |
+| **Cumplimiento de Estándares** | ≥95% del código sin violaciones de ESLint/Dart Analyzer | ESLint / Dart Analyzer | Cada PR | ✅ Cumplido |
+| **Deuda Técnica** | <5% de deuda técnica identificada | SonarQube | Mensual | ⏳ Pendiente |
+| **Código Duplicado** | <3% de código duplicado | SonarQube | Mensual | ⏳ Pendiente |
+| **Complejidad Ciclomática** | <10 por función | ESLint (complexity) | Cada PR | ✅ Cumplido |
 
 ---
 
-### 6. GESTIÓN DE LA CONFIGURACIÓN Y CONTROL DE VERSIONES
+## 6. GESTIÓN DE LA CONFIGURACIÓN Y CONTROL DE VERSIONES
 
-#### 6.1 Repositorio y Ramas
-- **Plataforma:** GitHub (repositorio privado durante el desarrollo, público post-lanzamiento).
+### 6.1 Repositorio y Ramas
+- **Plataforma:** GitHub (repositorio público post-lanzamiento).
 - **Ramas Principales:**
     - `main`: Código en producción. Solo se actualiza con releases estables.
     - `develop`: Rama de integración donde se fusionan las nuevas funcionalidades.
     - `feature/*`: Rama para desarrollar una nueva característica (ej. `feature/importacion-excel`, `feature/integracion-aduana-payment`, `feature/ficha-costo`, `feature/infraestructura-vps`).
     - `hotfix/*`: Rama para correcciones críticas urgentes en producción.
 
-#### 6.2 Política de Commits
+### 6.2 Política de Commits
 Los mensajes de commit deben seguir el estándar **Conventional Commits**:
 
 ```
@@ -373,7 +406,7 @@ tipo(alcance): descripción corta (máximo 50 caracteres)
 - Dart Analyzer (Flutter)
 - Commitlint (validación de mensajes)
 
-#### 6.3 Versionado Semántico
+### 6.3 Versionado Semántico
 El proyecto utilizará el versionado semántico (SemVer) para las releases:
 - **MAJOR (`v2.0.0`):** Cambios incompatibles en la API.
 - **MINOR (`v1.1.0`):** Nuevas funcionalidades (compatibles con versiones anteriores).
@@ -381,12 +414,12 @@ El proyecto utilizará el versionado semántico (SemVer) para las releases:
 
 ---
 
-### 7. PLAN DE GESTIÓN DEL CAMBIO Y ADOPCIÓN
+## 7. PLAN DE GESTIÓN DEL CAMBIO Y ADOPCIÓN
 
-#### 7.1 Gestión del Cambio (Ágil)
+### 7.1 Gestión del Cambio (Ágil)
 Dado que el proyecto se rige por Scrum, los cambios se gestionan principalmente en las **reuniones de planificación del sprint**. Cualquier cambio en los requisitos se analizará y priorizará con el Líder del Proyecto para su inclusión en el backlog del siguiente sprint.
 
-#### 7.2 Plan de Adopción y Capacitación (Estrategia de Lanzamiento)
+### 7.2 Plan de Adopción y Capacitación (Estrategia de Lanzamiento)
 
 1. **Fase Piloto (Sprint 6):** El sistema se implementará en 2 rutas reales con 2 choferes "early adopters". Se les dará una capacitación intensiva y se recogerá su feedback para realizar ajustes finales.
 
@@ -402,7 +435,7 @@ Dado que el proyecto se rige por Scrum, los cambios se gestionan principalmente 
    - **Publicaciones:** Se escribirán artículos técnicos sobre la solución (ej. "Cómo optimizamos rutas con OSRM en Cuba", "Integración con Aerovaradero utilizando URL de payment para costos de aduana", "Ficha de costo: herramienta clave para la rentabilidad en transporte") para posicionar a SIGMA-T como un referente técnico en el sector.
    - **Documentación Técnica:** Se publicará la documentación técnica generada automáticamente (TypeDoc, Swagger) para que la comunidad pueda entender y contribuir al proyecto.
 
-#### 7.3 Plan de Formación Continua
+### 7.3 Plan de Formación Continua
 El equipo de desarrollo recibirá formación continua en:
 - **Estándares de Codificación:** Talleres iniciales y revisiones periódicas.
 - **Herramientas de Análisis:** Uso de ESLint, Prettier, Dart Analyzer.
@@ -412,10 +445,11 @@ El equipo de desarrollo recibirá formación continua en:
 - **Cálculos Financieros:** Precisión en cálculos de costos, pagos a choferes y ficha de costo.
 - **Despliegue en VPS ETECSA:** Configuración de Nginx, SSL/HTTPS, PM2.
 - **Publicación en Tiendas:** Procesos de Google Play Store y APKlis.
+- **Análisis de Calidad con SonarQube:** Interpretación de métricas y corrección de hallazgos.
 
 ---
 
-### 8. PRESUPUESTO ESTIMADO
+## 8. PRESUPUESTO ESTIMADO
 
 | Concepto | Costo Estimado | Notas |
 |----------|---------------|-------|
@@ -435,7 +469,7 @@ El equipo de desarrollo recibirá formación continua en:
 
 ---
 
-### 9. APROBACIONES
+## 9. APROBACIONES
 
 | Rol | Nombre | Firma | Fecha |
 | :--- | :--- | :--- | :--- |
@@ -447,22 +481,21 @@ El equipo de desarrollo recibirá formación continua en:
 
 ## 📌 CONCLUSIÓN
 
-Este SPMP Versión 3.4 ahora incluye:
+Este SPMP Versión 3.5 ahora incluye:
 
-- ✅ **8 Sprints** con tareas detalladas de estándares de codificación, nuevos módulos financieros, integración con aduana (URL de payment), ficha de costo, configuración del entorno de desarrollo, despliegue en VPS ETECSA, y publicación en tiendas de aplicaciones
+- ✅ **9 Sprints** (incluyendo Sprint 5.5 para SonarQube) con tareas detalladas
 - ✅ **Sprint 0 completado** en 1 día (13/08/2026) con todos los entregables
-- ✅ **Sprint 1 completado** en 1 día (13/08/2026) con todos los entregables
-- ✅ **20 criterios de aceptación** de calidad (incluyendo 5 nuevos para infraestructura y distribución)
-- ✅ **5 métricas de calidad de código** (cobertura de documentación, cumplimiento de estándares, deuda técnica, código duplicado, complejidad ciclomática)
+- ✅ **Sprint 1 en progreso** (60% completado) con tareas pendientes identificadas
+- ✅ **Decisiones del Sprint 1 documentadas** (mapeo flexible, validaciones, JSDoc)
+- ✅ **21 criterios de aceptación** de calidad (incluyendo SonarQube)
+- ✅ **5 métricas de calidad de código** con estado de cumplimiento
 - ✅ **Política de commits** (Conventional Commits) y pre-commit hooks
 - ✅ **Estrategia de pruebas** con análisis estático, verificación de documentación, pruebas de integración con Aerovaradero (URL de payment), pruebas de cálculo financiero, pruebas de precisión de ficha de costo y pruebas de infraestructura
-- ✅ **Plan de formación continua** en estándares de codificación, web scraping, cálculos financieros, ficha de costo, despliegue en VPS ETECSA y publicación en tiendas
-- ✅ **Riesgos de calidad de código, financieros, de ficha de costo, de infraestructura y de distribución** identificados y mitigados
-- ✅ **Nuevos módulos financieros** (gestión de parámetros incluyendo costos por km, consulta de aduana con URL de payment, pago a choferes, ficha de costo detallada)
-- ✅ **Tareas específicas para integración con Aerovaradero (URL de payment), ficha de costo, entorno de desarrollo, VPS ETECSA y publicación en tiendas**
+- ✅ **Plan de formación continua** actualizado con SonarQube
+- ✅ **Riesgos** identificados y mitigados con estados
 - ✅ **Presupuesto actualizado** con costos de VPS ETECSA y publicación en Play Store
-- ✅ **Estado actualizado** del proyecto con Sprints 0 y 1 completados exitosamente
+- ✅ **Estado actualizado** del proyecto con Sprints 0 y 1
 
 ---
 
-**Este documento refleja el estado actual del proyecto, con los Sprints 0 y 1 completados y listo para el Sprint 2 (Optimización de Rutas).**
+**Este documento refleja el estado actual del proyecto, con el Sprint 0 completado, el Sprint 1 en progreso y listo para completar las tareas pendientes antes de pasar al Sprint 2 (Optimización de Rutas).**

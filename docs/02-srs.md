@@ -1,11 +1,11 @@
-# 📄 ESPECIFICACIÓN DE REQUISITOS DEL SOFTWARE (SRS) - VERSIÓN 3.4 (COMPLETA - TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA - SPRINTS 0 Y 1 COMPLETADOS)
+# 📄 ESPECIFICACIÓN DE REQUISITOS DEL SOFTWARE (SRS) - VERSIÓN 3.5 (COMPLETA - TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 14/08/2026)
 
 **Basado en ISO/IEC/IEEE 29148:2018**
 
 **Proyecto:** SIGMA-T (Sistema Integral de Gestión para MiPYME de Transporte)  
 **Cliente:** Osleyder Gonzalez Acosta  
-**Fecha de Emisión:** 13 de agosto de 2026  
-**Versión:** 3.4 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - SPRINTS 0 y 1 COMPLETADOS)
+**Fecha de Emisión:** 14 de agosto de 2026
+**Versión:** 3.5 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - SPRINTS 0 y 1 COMPLETADOS - ACTUALIZACIÓN 14/08/2026)
 
 ---
 
@@ -51,6 +51,9 @@ SIGMA-T es un sistema modular de clase mundial que permite gestionar **todo el c
 | APKlis | Tienda de aplicaciones cubana para Android |
 | SSL | Secure Sockets Layer |
 | HTTPS | Protocolo seguro de transferencia de hipertexto |
+| **Jefe de Oficina** | **Usuario autorizado por una agencia de envíos (ej. Central American Cargo en Panamá) para gestionar manifiestos y supervisar envíos** |
+| **Cliente Remitente** | **Persona que envía un paquete** |
+| **Cliente Destinatario** | **Persona que recibe un paquete** |
 
 ---
 
@@ -63,11 +66,12 @@ SIGMA-T reemplazará el sistema actual basado en hojas de cálculo Excel y Optim
 
 | Perfil | Descripción | Cantidad Estimada |
 |--------|-------------|-------------------|
-| **Administrador / Líder** | Dueño/gerente que gestiona todo el negocio | 1-2 |
-| **Dispatcher / Operador** | Planifica rutas, asigna envíos y gestiona flota | 1-3 |
-| **Chofer** | Conductor que ejecuta entregas en ruta | 5-20 |
-| **Cliente** | Empresa de paquetería que contrata servicios | 1 principal + eventuales |
-| **Prospecto** | Potencial cliente en seguimiento | Variable |
+| **Administrador** | Dueño/gerente que gestiona todo el negocio. Acceso total a todas las funcionalidades. | 1-2 |
+| **Jefe de Oficina (Agencia)** | Usuario autorizado por una agencia de envíos (ej. Central American Cargo en Panamá). Puede cargar manifiestos en Excel, revisar el estado completo de los envíos, y ver todos los House de su agencia. | 2-5 |
+| **Jefe de Operaciones** | Planifica rutas, asigna envíos y gestiona flota. Puede crear, modificar y eliminar rutas. Controla el estado de cada ruta y los House entregados. | 1-3 |
+| **Chofer** | Conductor que ejecuta entregas en ruta. Ve su ruta asignada y registra entregas. | 5-20 |
+| **Cliente Remitente** | Persona que envía un paquete. Solo puede ver el estado de su House, ubicación, fecha de entrega y costo de aduana. | Variable |
+| **Cliente Destinatario** | Persona que recibe un paquete. Solo puede ver el estado de su House, ubicación, fecha de entrega y costo de aduana. | Variable |
 | **Auditor** | Usuario con permisos de solo lectura para revisión | 1 |
 | **Desarrollador** | Equipo técnico que mantiene y evoluciona el sistema | 3-5 |
 | **Administrador de Sistemas** | Personal encargado de la instalación y mantenimiento del servidor | 1 |
@@ -114,20 +118,71 @@ SIGMA-T reemplazará el sistema actual basado en hojas de cálculo Excel y Optim
 | RF-CH-05 | Evaluar desempeño (% entregas a tiempo, consumo) | Media | Media | ⏳ Pendiente |
 | RF-CH-06 | Historial completo de rutas y entregas por chofer | Alta | Media | ⏳ Pendiente |
 
-### MÓDULO 3: GESTIÓN DE CLIENTES Y ENVÍOS (RF-CLIENTE) - ✅ IMPLEMENTADO
+### MÓDULO 3: GESTIÓN DE CLIENTES Y ENVÍOS (RF-CLIENTE) - ✅ PARCIALMENTE IMPLEMENTADO
 
-| ID | Requisito | Prioridad | Complejidad | Estado |
-|----|-----------|-----------|-------------|--------|
-| **RF-CL-01a** | **Importar envíos desde Excel (.xlsx) con formato de manifiesto real** | **Crítica** | Media | **✅ Implementado** |
-| **RF-CL-01b** | **Importar envíos desde CSV (formato alternativo)** | Alta | Baja | **✅ Implementado** |
-| **RF-CL-01c** | **Validación de datos al importar (pesos negativos, campos vacíos)** | Alta | Media | **✅ Implementado** |
-| **RF-CL-01d** | **Vista previa de importación (primeros 10 registros)** | Alta | Media | **✅ Implementado** |
-| **RF-CL-01e** | **Reporte de errores de importación** | Alta | Media | **✅ Implementado** |
-| **RF-CL-02** | **Registrar cliente (empresa de paquetería) con: nombre, contacto, dirección, tarifas negociadas** | Alta | Baja | **✅ Implementado** |
-| **RF-CL-03** | **Registrar envío manual uno a uno con todos los campos del manifiesto** | Alta | Baja | **✅ Implementado** |
-| **RF-CL-04** | **Historial de envíos por cliente** | Alta | Baja | **✅ Implementado** |
-| RF-CL-05 | Categorizar envíos por prioridad (urgente, normal, económico) | Media | Baja | ⏳ Pendiente |
-| **RF-CL-06** | **Registrar novedades de entrega (entregado, no encontrado, dañado, etc.)** | Alta | Baja | **✅ Implementado** |
+| ID | Requisito | Prioridad | Complejidad | Estado | Nota |
+|----|-----------|-----------|-------------|--------|------|
+| **RF-CL-01a** | **Importar envíos desde Excel (.xlsx) con formato de manifiesto real** | **Crítica** | Media | **⚠️ En progreso** | **Requiere mapeo flexible de columnas** |
+| **RF-CL-01b** | **Importar envíos desde CSV (formato alternativo)** | Alta | Baja | **⚠️ En progreso** | **Requiere mapeo flexible de columnas** |
+| **RF-CL-01c** | **Validación de datos al importar** | Alta | Media | **⚠️ En progreso** | **Incluye validación de Carnet (11 dígitos) y Unidad de destino** |
+| **RF-CL-01d** | **Vista previa de importación** | Alta | Media | **⚠️ En progreso** | **Mostrar todos los registros, no solo 10** |
+| **RF-CL-01e** | **Reporte de errores de importación** | Alta | Media | **⚠️ En progreso** | **En pantalla, sin límite de errores** |
+| **RF-CL-02** | **Registrar cliente (empresa de paquetería) con: nombre, contacto, dirección, tarifas negociadas** | Alta | Baja | **✅ Implementado** | |
+| **RF-CL-03** | **Registrar envío manual uno a uno con todos los campos del manifiesto** | Alta | Baja | **✅ Implementado** | |
+| **RF-CL-04** | **Historial de envíos por cliente** | Alta | Baja | **⚠️ En progreso** | **Requiere exportación a PDF y CSV** |
+| RF-CL-05 | Categorizar envíos por prioridad (urgente, normal, económico) | Media | Baja | ⏳ Pendiente | |
+| **RF-CL-06** | **Registrar novedades de entrega (entregado, no encontrado, dañado, etc.)** | Alta | Baja | **✅ Implementado** | |
+
+**Especificación Detallada de RF-CL-01a (Importación de Excel):**
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Mapeo de columnas** | El usuario debe poder seleccionar manualmente qué columna del Excel corresponde a cada campo del sistema mediante un selector desplegable |
+| **Columnas extras** | Las columnas no mapeadas deben ser ignoradas |
+| **Filas vacías** | Deben ser ignoradas |
+| **House** | Formato: CACC-24014926, debe ser único en la base de datos |
+
+**Especificación Detallada de RF-CL-01c (Validación de datos al importar):**
+
+| Campo | Validación | Obligatorio |
+|-------|------------|-------------|
+| `house` | Formato: CACC-24014926, único en BD | ✅ Sí |
+| `descripcion` | No vacío | ✅ Sí |
+| `peso` | > 0 | ✅ Sí |
+| `bultos` | > 0 | ✅ Sí |
+| `remitente_nombre` | No vacío | ✅ Sí |
+| `remitente_passport` | Puede ser NULL | ❌ No |
+| `destinatario_nombre` | No vacío | ✅ Sí |
+| `destinatario_identificacion` | **11 dígitos exactos** | ✅ Sí |
+| `destinatario_telefono` | No vacío | ✅ Sí |
+| `destinatario_direccion` | No vacío | ✅ Sí |
+| `cobrado_origen` | Puede ser NULL | ❌ No |
+| `unidad_destino` | **No puede ser NULL** | ✅ Sí |
+
+**Especificación Detallada de RF-CL-01d (Vista previa de importación):**
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Número de registros** | Mostrar todos los registros con paginación |
+| **Visualización de errores** | Mostrar errores en la misma tabla, con columna "Estado" (✅ Válido / ❌ Error) |
+| **Edición** | Solo lectura, no editable |
+
+**Especificación Detallada de RF-CL-01e (Reporte de errores de importación):**
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Formato** | En pantalla, con opción de copiar/descargar |
+| **Límite** | Sin límite, mostrar todos los errores |
+| **Contenido** | Fila #, House, lista de errores por campo |
+
+**Especificación Detallada de RF-CL-04 (Historial de envíos por cliente):**
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Permisos** | Jefe de Oficina, Administrador, Jefe de Operaciones |
+| **Información visible** | Todos los envíos de la agencia, con estado completo de cada House |
+| **Exportación** | PDF y CSV |
+| **Filtros** | Por fecha, estado, House |
 
 ### MÓDULO 4: PLANIFICACIÓN Y OPTIMIZACIÓN DE RUTAS (RF-RUTA) - ⏳ PENDIENTE
 
@@ -198,7 +253,7 @@ SIGMA-T reemplazará el sistema actual basado en hojas de cálculo Excel y Optim
 
 | ID | Requisito | Prioridad | Complejidad | Estado |
 |----|-----------|-----------|-------------|--------|
-| RF-PO-01 | Login para clientes (empresas de paquetería) | Alta | Media | ⏳ Pendiente |
+| RF-PO-01 | Login para clientes | Alta | Media | ⏳ Pendiente |
 | RF-PO-02 | Visualizar todos los envíos de la empresa con estado actualizado | Alta | Media | ⏳ Pendiente |
 | RF-PO-03 | Buscar envío por número de House | Alta | Baja | ⏳ Pendiente |
 | RF-PO-04 | Ver ubicación en tiempo real del vehículo en ruta | Alta | Media | ⏳ Pendiente |
@@ -242,7 +297,7 @@ SIGMA-T reemplazará el sistema actual basado en hojas de cálculo Excel y Optim
 
 ---
 
-## 4. REQUISITOS NO FUNCIONALES (RNF) - ACTUALIZADO CON INFRAESTRUCTURA
+## 4. REQUISITOS NO FUNCIONALES (RNF)
 
 | ID | Requisito | Especificación | Prioridad | Estado |
 |----|-----------|----------------|-----------|--------|
@@ -281,13 +336,13 @@ SIGMA-T reemplazará el sistema actual basado en hojas de cálculo Excel y Optim
 
 ---
 
-## 5. MODELO DE DATOS (COMPLETO) - ACTUALIZADO
+## 5. MODELO DE DATOS (COMPLETO)
 
 ```
 USUARIO
 ├── id_usuario (PK)
 ├── nombre, email, password_hash
-├── rol (admin, dispatcher, chofer, cliente, auditor)
+├── rol (admin, jefe_oficina, jefe_operaciones, chofer, cliente_remitente, cliente_destinatario, auditor)
 └── activo
 
 VEHICULO
@@ -326,7 +381,7 @@ PROSPECTO
 ├── estado (contactado, cotizado, cliente, inactivo)
 └── fecha_registro
 
-ENVIO                            ✅ IMPLEMENTADO
+ENVIO                            ✅ PARCIALMENTE IMPLEMENTADO
 ├── id_envio (PK)
 ├── id_cliente (FK)
 ├── id_chofer (FK)              ⏳ Pendiente
@@ -338,8 +393,9 @@ ENVIO                            ✅ IMPLEMENTADO
 ├── peso, volumen, bultos
 ├── remitente_nombre, remitente_passport
 ├── destinatario_nombre, destinatario_direccion, destinatario_telefono
+├── destinatario_identificacion   -- ⚠️ 11 dígitos exactos
 ├── cobrado_origen (boolean)
-├── unidad_destino (codigo provincia)
+├── unidad_destino              -- ⚠️ No puede ser NULL
 ├── prioridad (urgente, normal, economico)     ⏳ Pendiente
 ├── fecha_limite                               ⏳ Pendiente
 ├── fecha_asignacion                           ⏳ Pendiente
@@ -374,9 +430,9 @@ COSTO                            ⏳ PENDIENTE
 ├── categoria (combustible, peaje, mantenimiento, neumatico, salario, depreciacion, seguro, administrativo, impuesto, aduana, importacion)
 ├── descripcion
 ├── monto (DECIMAL(12,2))
-├── cantidad (DECIMAL(12,2))          -- Cantidad consumida (ej. litros, km)
-├── precio_unitario (DECIMAL(12,2))   -- Precio por unidad
-├── es_estimado (BOOLEAN)             -- ¿Es un costo estimado o real?
+├── cantidad (DECIMAL(12,2))
+├── precio_unitario (DECIMAL(12,2))
+├── es_estimado (BOOLEAN)
 ├── fecha (TIMESTAMP)
 ├── id_vehiculo (FK, opcional)
 ├── id_ruta (FK, opcional)
@@ -451,13 +507,13 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 
 ---
 
-## 6. MATRIZ DE TRAZABILIDAD DE REQUISITOS (RESUMEN) - ACTUALIZADO
+## 6. MATRIZ DE TRAZABILIDAD DE REQUISITOS (RESUMEN)
 
 | Módulo | Requisitos | Subsistema Técnico | Prioridad | Estado |
 |--------|------------|-------------------|-----------|--------|
 | Flota | RF-FL-01 a RF-FL-08 | Backend + BD | **P1 (Fundacional)** | ⏳ Pendiente |
 | Choferes | RF-CH-01 a RF-CH-06 | Backend + BD | P2 (Alta) | ⏳ Pendiente |
-| **Clientes/Envíos** | **RF-CL-01a a RF-CL-06** | **Backend + BD** | **P1 (Fundacional)** | **✅ Implementado** |
+| **Clientes/Envíos** | **RF-CL-01a a RF-CL-06** | **Backend + BD** | **P1 (Fundacional)** | **⚠️ En progreso (60%)** |
 | Rutas | RF-RU-00a a RF-RU-08 | Backend + OSRM | **P1 (Fundacional)** | ⏳ Pendiente |
 | **Costos/Finanzas** | **RF-CO-01 a RF-CO-15** | **Backend + BD + Web Scraping** | **P1 (Fundacional)** | ⏳ Pendiente |
 | App Chofer | RF-MO-01 a RF-MO-11 | Mobile + API | **P1 (Fundacional)** | ⏳ Pendiente |
@@ -472,16 +528,16 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 
 ---
 
-## 7. CRITERIOS DE ACEPTACIÓN POR MÓDULO - ACTUALIZADO
+## 7. CRITERIOS DE ACEPTACIÓN POR MÓDULO
 
-### Módulo de Envíos ✅ IMPLEMENTADO
-- [x] Importación de Excel se completa en <10 segundos para 127 envíos
-- [x] Validación de datos: campos obligatorios, formatos correctos
-- [x] Vista previa de importación muestra 10 registros
-- [x] Reporte de errores de importación generado correctamente
+### Módulo de Envíos ⚠️ PARCIALMENTE COMPLETADO
 - [x] CRUD de clientes implementado
 - [x] CRUD de envíos implementado
-- [x] Historial de envíos por cliente implementado
+- [ ] Importación de Excel con mapeo flexible de columnas
+- [ ] Validación de datos: campos obligatorios, Carnet (11 dígitos), Unidad de destino obligatoria
+- [ ] Vista previa de importación con todos los registros
+- [ ] Reporte de errores de importación en pantalla
+- [ ] Historial de envíos por cliente con exportación a PDF y CSV
 
 ### Módulo de Rutas ⏳ PENDIENTE
 - [ ] Ruta optimizada reduce distancia en ≥15% vs. planificación manual
@@ -544,7 +600,7 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 
 ---
 
-## 8. RIESGOS Y MITIGACIÓN (ACTUALIZADO)
+## 8. RIESGOS Y MITIGACIÓN
 
 | Riesgo | Probabilidad | Impacto | Mitigación | Estado |
 |--------|--------------|---------|------------|--------|
@@ -579,7 +635,7 @@ ENVIO_BODEGA                     ⏳ PENDIENTE
 
 ## 📌 CONCLUSIÓN
 
-Este SRS Versión 3.4 ahora incluye:
+Este SRS Versión 3.5 ahora incluye:
 
 - ✅ **11 módulos funcionales** completos
 - ✅ **85 requisitos funcionales** (5 nuevos: RF-CO-11 a RF-CO-15)
@@ -600,8 +656,12 @@ Este SRS Versión 3.4 ahora incluye:
 - ✅ **Infraestructura de producción** en VPS ETECSA con Ubuntu 22.04 LTS
 - ✅ **SSL/HTTPS obligatorio** con Let's Encrypt
 - ✅ **Distribución en Google Play Store**, **APKlis** y **descarga directa**
-- ✅ **Estado de implementación** agregado a todos los requisitos (✅ Implementado / ⏳ Pendiente)
-- ✅ **Sprint 0 y 1 completados** (13/08/2026) con módulos de Clientes y Envíos implementados
+- ✅ **Estado de implementación** agregado a todos los requisitos (✅ Implementado / ⚠️ En progreso / ⏳ Pendiente)
+- ✅ **Sprint 0 y 1** (13/08/2026) con módulos de Clientes y Envíos implementados parcialmente
 - ✅ **Estándares de codificación y documentación** completamente implementados
+- ✅ **Perfiles de usuario actualizados:** Administrador, Jefe de Oficina, Jefe de Operaciones, Chofer, Cliente Remitente, Cliente Destinatario
+- ✅ **Validación de Carnet de Identidad:** 11 dígitos exactos
+- ✅ **Validación de Unidad de Destino:** campo obligatorio
+- ✅ **Mapeo flexible de columnas** en importación de Excel
 
 **Este documento es la base técnica definitiva para construir el sistema de gestión de transporte más completo y de mayor calidad del nicho cubano y regional.**

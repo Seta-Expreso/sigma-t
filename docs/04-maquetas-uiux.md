@@ -1,22 +1,22 @@
-## 🎨 DOCUMENTO: MAQUETAS UI/UX - SIGMA-T (VERSIÓN 2.2 - TOP MUNDIAL CON FINANZAS, ADUANA Y FICHA DE COSTO)
+# 🎨 DOCUMENTO: MAQUETAS UI/UX - SIGMA-T (VERSIÓN 2.3 - TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA - ACTUALIZACIÓN 14/08/2026)
 
-**Inspiración:** McLeod Software, OptimoRoute, Turvo, diseño moderno 2026  
+**Inspiración:** McLeod Software, OptimoRoute, Turvo, diseño moderno 2026
 **Herramientas de Referencia:** Figma / Adobe XD (para maquetación de alta fidelidad)  
-**Fecha:** 13 de agosto de 2026  
-**Versión:** 2.2 (Completa - Top Mundial con Finanzas, Aduana y Ficha de Costo)  
-**Total de Pantallas:** 20
+**Fecha:** 14 de agosto de 2026
+**Versión:** 2.3 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - ACTUALIZACIÓN 14/08/2026)
+**Total de Pantallas:** 21
 
 ---
 
-### 1. IDENTIDAD VISUAL Y GUÍA DE ESTILO (Top Mundial)
+## 1. IDENTIDAD VISUAL Y GUÍA DE ESTILO (Top Mundial)
 
-#### 1.1 Fundamentos de Diseño
+### 1.1 Fundamentos de Diseño
 - **Principio Rector:** "Claridad Operativa". Cada elemento debe servir a la toma de decisiones rápida y la ejecución eficiente.
 - **Filosofía:** Minimalista, orientado a datos y a la acción. Reducir la carga cognitiva del usuario.
 - **Accesibilidad:** Contraste suficiente (WCAG 2.1 AA), tamaños de fuente legibles, soporte para lectores de pantalla.
 - **Consistencia:** Mismos patrones de interacción y diseño en toda la plataforma.
 
-#### 1.2 Paleta de Colores
+### 1.2 Paleta de Colores
 
 | Color | Código Hex | Uso Principal |
 | :--- | :--- | :--- |
@@ -32,7 +32,7 @@
 | **Negro (Texto Primario)** | `#212529` | Texto principal, títulos. |
 | **Blanco (Base)** | `#ffffff` | Contenido principal, áreas de lectura. |
 
-#### 1.3 Tipografía
+### 1.3 Tipografía
 - **Fuente Principal:** **Inter**. Elegida por su excelente legibilidad en pantalla y su estilo moderno y limpio. Es la tipografía utilizada por plataformas líderes como Figma.
 - **Fuente Alternativa:** **System Font Stack** (fallback para dispositivos sin Inter).
 - **Jerarquía:**
@@ -42,7 +42,7 @@
     - **Etiquetas y Datos:** Inter Medium, 12-14px.
     - **Énfasis:** Inter Semibold, 14-16px.
 
-#### 1.4 Componentes UI (Patrones de Diseño)
+### 1.4 Componentes UI (Patrones de Diseño)
 - **Tarjetas (Cards):** Se usarán para agrupar información relacionada, con sombras suaves para dar profundidad. Bordes redondeados de 8px.
 - **Tablas:** Limpias, con filas alternadas y hover para facilitar la lectura de datos. Encabezados fijos.
 - **Botones:** Claramente diferenciados por jerarquía (primario, secundario, peligro, éxito). Con estados hover, focus y active.
@@ -51,13 +51,13 @@
 - **Iconos:** Librería Lucide o FontAwesome, siempre acompañados de texto descriptivo.
 - **Gráficos:** Uso de Recharts para visualización de datos en dashboards y reportes.
 
-#### 1.5 Tamaños de Pantalla Soportados
+### 1.5 Tamaños de Pantalla Soportados
 - **Web:** Escritorio (≥1024px), Tablet (768-1024px), Móvil (≥320px) - diseño responsive.
 - **App Móvil:** Smartphones (≥320px), Tablets (≥600px).
 
 ---
 
-### 2. MAPA DE NAVEGACIÓN (SITEMAP) - ACTUALIZADO
+## 2. MAPA DE NAVEGACIÓN (SITEMAP) - ACTUALIZADO
 
 ```mermaid
 flowchart TD
@@ -78,7 +78,7 @@ flowchart TD
     R --> R1[Planificación Semanal]
     R --> R2[Mapa de Rutas]
     R --> R3[Manifiesto de Ruta]
-    R --> R4[Ficha de Costo]   <-- NUEVO
+    R --> R4[Ficha de Costo]
 
     F --> F1[Gestión de Vehículos]
     F --> F2[Mantenimiento]
@@ -95,9 +95,9 @@ flowchart TD
 
 ---
 
-### 3. MAQUETAS DE ALTA FIDELIDAD (20 PANTALLAS)
+## 3. MAQUETAS DE ALTA FIDELIDAD (21 PANTALLAS)
 
-#### 3.1 MAQUETA 1: DASHBOARD PRINCIPAL (Vista del Líder)
+### 3.1 MAQUETA 1: DASHBOARD PRINCIPAL (Vista del Líder)
 
 **Objetivo:** Proporcionar una vista de 30 segundos del estado del negocio.
 
@@ -160,7 +160,7 @@ flowchart TD
 
 ---
 
-#### 3.2 MAQUETA 2: PLANIFICACIÓN DE RUTAS SEMANAL (Vista del Dispatcher)
+### 3.2 MAQUETA 2: PLANIFICACIÓN DE RUTAS SEMANAL (Vista del Dispatcher)
 
 **Objetivo:** Planificar rutas optimizadas con interacción visual drag-and-drop.
 
@@ -218,7 +218,7 @@ flowchart TD
 
 ---
 
-#### 3.3 MAQUETA 3: APP DEL CHOFER - INICIO (Vista Móvil)
+### 3.3 MAQUETA 3: APP DEL CHOFER - INICIO (Vista Móvil)
 
 **Objetivo:** Interfaz simple, clara, funcional sin internet.
 
@@ -282,7 +282,7 @@ flowchart TD
 
 ---
 
-#### 3.4 MAQUETA 4: APP DEL CHOFER - DETALLE DE ENTREGA (Vista Móvil)
+### 3.4 MAQUETA 4: APP DEL CHOFER - DETALLE DE ENTREGA (Vista Móvil)
 
 **Objetivo:** Registrar la entrega con todos los datos necesarios.
 
@@ -330,7 +330,7 @@ flowchart TD
 
 ---
 
-#### 3.5 MAQUETA 5: GESTIÓN DE FLOTA (Web - Escritorio)
+### 3.5 MAQUETA 5: GESTIÓN DE FLOTA (Web - Escritorio)
 
 **Objetivo:** Administrar vehículos, mantenimientos y estado operativo.
 
@@ -388,7 +388,7 @@ flowchart TD
 
 ---
 
-#### 3.6 MAQUETA 6: GESTIÓN DE CHOFERES (Web - Escritorio)
+### 3.6 MAQUETA 6: GESTIÓN DE CHOFERES (Web - Escritorio)
 
 **Objetivo:** Administrar conductores, disponibilidad y desempeño.
 
@@ -449,7 +449,7 @@ flowchart TD
 
 ---
 
-#### 3.7 MAQUETA 7: REPORTES AVANZADOS (Web - Escritorio)
+### 3.7 MAQUETA 7: REPORTES AVANZADOS (Web - Escritorio)
 
 **Objetivo:** Análisis profundo de rentabilidad, costos y eficiencia.
 
@@ -510,7 +510,7 @@ flowchart TD
 
 ---
 
-#### 3.8 MAQUETA 8: CONFIGURACIÓN Y AJUSTES (Web - Escritorio)
+### 3.8 MAQUETA 8: CONFIGURACIÓN Y AJUSTES (Web - Escritorio)
 
 **Objetivo:** Configurar parámetros del sistema (costos, tarifas, etc.).
 
@@ -576,7 +576,7 @@ flowchart TD
 
 ---
 
-#### 3.9 MAQUETA 9: APP DEL CHOFER - PERFIL E HISTORIAL (Móvil)
+### 3.9 MAQUETA 9: APP DEL CHOFER - PERFIL E HISTORIAL (Móvil)
 
 **Objetivo:** Chofer accede a su historial y datos personales.
 
@@ -639,7 +639,7 @@ flowchart TD
 
 ---
 
-#### 3.10 MAQUETA 10: PORTAL DEL CLIENTE (Web - Escritorio)
+### 3.10 MAQUETA 10: PORTAL DEL CLIENTE (Web - Escritorio)
 
 **Objetivo:** El cliente de paquetería puede rastrear sus envíos en tiempo real.
 
@@ -698,7 +698,7 @@ flowchart TD
 
 ---
 
-#### 3.11 MAQUETA 11: GESTIÓN FINANCIERA (Web - Escritorio)
+### 3.11 MAQUETA 11: GESTIÓN FINANCIERA (Web - Escritorio)
 
 **Objetivo:** Control total de ingresos, gastos y rentabilidad.
 
@@ -759,7 +759,7 @@ flowchart TD
 
 ---
 
-#### 3.12 MAQUETA 12: GESTIÓN DE MANTENIMIENTO (Web - Escritorio)
+### 3.12 MAQUETA 12: GESTIÓN DE MANTENIMIENTO (Web - Escritorio)
 
 **Objetivo:** Programación y control de mantenimiento de la flota.
 
@@ -809,7 +809,7 @@ flowchart TD
 
 ---
 
-#### 3.13 MAQUETA 13: GESTIÓN DE ALMACÉN (Web - Escritorio)
+### 3.13 MAQUETA 13: GESTIÓN DE ALMACÉN (Web - Escritorio)
 
 **Objetivo:** Control de entrada/salida de paquetes en bodega.
 
@@ -859,7 +859,7 @@ flowchart TD
 
 ---
 
-#### 3.14 MAQUETA 14: FACTURACIÓN Y COBRANZA (Web - Escritorio)
+### 3.14 MAQUETA 14: FACTURACIÓN Y COBRANZA (Web - Escritorio)
 
 **Objetivo:** Generar facturas y gestionar cobros.
 
@@ -913,7 +913,7 @@ flowchart TD
 
 ---
 
-#### 3.15 MAQUETA 15: GESTIÓN DE INCIDENTES (Web - Escritorio)
+### 3.15 MAQUETA 15: GESTIÓN DE INCIDENTES (Web - Escritorio)
 
 **Objetivo:** Registro, seguimiento y resolución de incidentes.
 
@@ -971,7 +971,7 @@ flowchart TD
 
 ---
 
-#### 3.16 MAQUETA 16: PANEL DE AUDITORÍA (Web - Escritorio)
+### 3.16 MAQUETA 16: PANEL DE AUDITORÍA (Web - Escritorio)
 
 **Objetivo:** Control total de quién hizo qué y cuándo.
 
@@ -1033,7 +1033,7 @@ flowchart TD
 
 ---
 
-#### 3.17 MAQUETA 17: GESTIÓN DE PROSPECTOS Y MARKETING (Web - Escritorio)
+### 3.17 MAQUETA 17: GESTIÓN DE PROSPECTOS Y MARKETING (Web - Escritorio)
 
 **Objetivo:** Capturar y dar seguimiento a nuevos clientes potenciales.
 
@@ -1096,7 +1096,7 @@ flowchart TD
 
 ---
 
-#### 3.18 MAQUETA 18: ENCUESTAS Y CASOS DE ÉXITO (Web - Escritorio)
+### 3.18 MAQUETA 18: ENCUESTAS Y CASOS DE ÉXITO (Web - Escritorio)
 
 **Objetivo:** Medir la calidad del servicio y generar casos de éxito.
 
@@ -1152,7 +1152,7 @@ flowchart TD
 
 ---
 
-#### 3.19 MAQUETA 19: GESTIÓN DE PARÁMETROS FINANCIEROS Y ADUANA (Web - Escritorio)
+### 3.19 MAQUETA 19: GESTIÓN DE PARÁMETROS FINANCIEROS Y ADUANA (Web - Escritorio)
 
 **Objetivo:** Centralizar la configuración de todos los parámetros financieros, gestionar la integración con aduanas para el cálculo de costos reales de importación y configurar los esquemas de pago a choferes.
 
@@ -1257,7 +1257,7 @@ flowchart TD
 
 ---
 
-#### 3.20 MAQUETA 20: FICHA DE COSTO DETALLADA (Web - Escritorio) - **NUEVA**
+### 3.20 MAQUETA 20: FICHA DE COSTO DETALLADA (Web - Escritorio)
 
 **Objetivo:** Mostrar el desglose completo de costos de una ruta, incluyendo costos directos, indirectos y de importación.
 
@@ -1340,9 +1340,85 @@ flowchart TD
 
 ---
 
-### 4. FLUJOS DE USUARIO CLAVE - ACTUALIZADOS
+### 3.21 MAQUETA 21: MAPEO DE COLUMNAS PARA IMPORTACIÓN (Web - Escritorio) - **NUEVA**
 
-#### 4.1 Flujo: El Líder - Gestión de Aduana y Costos
+**Objetivo:** Permitir al usuario mapear manualmente las columnas del Excel a los campos del sistema durante la importación de manifiestos.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│  🚚 SIGMA-T                       [Buscar...]            🔔  👤 Osleyder G.   │
+│  ──────────────────────────────────────────────────────────────────────────── │
+│  Inicio  │  Envíos  │  Rutas  │  Flota  │  Choferes  │  Finanzas  │  Reportes │
+│  ──────────────────────────────────────────────────────────────────────────── │
+│                                                                                │
+│  ┌─── IMPORTAR MANIFIESTO ──────────────────────────────────────────────┐   │
+│  │                                                                        │   │
+│  │  Paso 1: Seleccionar archivo Excel                                    │   │
+│  │  ┌──────────────────────────────────────────────────────────────────┐ │   │
+│  │  │ [ 📁 Seleccionar archivo ]   manifiesto_ago2026.xlsx            │ │   │
+│  │  └──────────────────────────────────────────────────────────────────┘ │   │
+│  │                                                                        │   │
+│  │  Paso 2: Mapear columnas del Excel a campos del sistema               │   │
+│  │                                                                        │   │
+│  │  ┌──────────────────────────────────────────────────────────────────┐ │   │
+│  │  │ Campo del Sistema        │ Columna en Excel (selector)          │ │   │
+│  │  │──────────────────────────┼─────────────────────────────────────│ │   │
+│  │  │ House (obligatorio)      │ [ House ▼ ]                         │ │   │
+│  │  │ Descripción (obligatorio)│ [ Naturaleza y Cantidad ▼ ]         │ │   │
+│  │  │ Peso (kg) (obligatorio)  │ [ Peso ▼ ]                          │ │   │
+│  │  │ Bultos (obligatorio)     │ [ Bultos ▼ ]                        │ │   │
+│  │  │ Remitente (obligatorio)  │ [ Remitente ▼ ]                     │ │   │
+│  │  │ Passport (opcional)      │ [ Passport ▼ ]                      │ │   │
+│  │  │ Destinatario (obligat.)  │ [ Destinatario ▼ ]                  │ │   │
+│  │  │ Carnet Identidad (oblig.)│ [ Carnet de Identidad ▼ ]           │ │   │
+│  │  │ Teléfono (obligatorio)   │ [ Teléfono ▼ ]                      │ │   │
+│  │  │ Dirección (obligatorio)  │ [ Dirección ▼ ]                     │ │   │
+│  │  │ Cobrado/No Cobrado (opc.)│ [ Cobrado/No Cobrado ▼ ]            │ │   │
+│  │  │ Unidad destino (oblig.)  │ [ Unidad de destino ▼ ]             │ │   │
+│  │  └──────────────────────────────────────────────────────────────────┘ │   │
+│  │                                                                        │   │
+│  │  [  ⏭️ SIGUIENTE  ]                                                    │   │
+│  └───────────────────────────────────────────────────────────────────────┘   │
+│                                                                                │
+│  Paso 3: Vista previa de los datos                                           │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │ ⚠️ 127 envíos encontrados | Mostrando todos los registros            │   │
+│  │ ┌──────────┬───────────────┬────────┬────────┬─────────┬───────────┐ │   │
+│  │ │ House    │ Destinatario  │ Peso   │ Bultos │ Estado  │ Errores   │ │   │
+│  │ ├──────────┼───────────────┼────────┼────────┼─────────┼───────────┤ │   │
+│  │ │ CACC-001 │ Anilex Pérez  │ 30.0   │ 2      │ ✅ Válido│ -         │ │   │
+│  │ │ CACC-002 │ Luis González │ 20.6   │ 1      │ ✅ Válido│ -         │ │   │
+│  │ │ CACC-003 │ Adianet Brito │ 24.6   │ 3      │ ✅ Válido│ -         │ │   │
+│  │ │ CACC-004 │ María Gómez   │ 0.0    │ 1      │ ❌ Error │ Peso 0    │ │   │
+│  │ │ CACC-005 │ Pedro Ruiz    │ 15.2   │ 0      │ ❌ Error │ Bultos 0  │ │   │
+│  │ │ ...      │ ...           │ ...    │ ...    │ ...     │ ...       │ │   │
+│  │ └──────────┴───────────────┴────────┴────────┴─────────┴───────────┘ │   │
+│  │                                                                        │   │
+│  │ 📊 Resumen: 8 válidos | 2 con errores                                  │   │
+│  │                                                                        │   │
+│  │ [  ✅ CONFIRMAR IMPORTACIÓN  ]  [  ❌ CANCELAR  ]  [  📄 VER ERRORES ] │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+│                                                                                │
+│  [Página 1/1]                                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 4. FLUJOS DE USUARIO CLAVE - ACTUALIZADOS
+
+### 4.1 Flujo: Importación de Manifiesto con Mapeo de Columnas (NUEVO)
+1. Administrador abre Envíos → Selecciona "Importar Manifiesto".
+2. Selecciona el archivo Excel desde su computadora.
+3. El sistema muestra la pantalla de **mapeo de columnas**.
+4. El administrador asigna manualmente qué columna del Excel corresponde a cada campo del sistema usando selectores desplegables.
+5. El sistema valida que los campos obligatorios tengan una columna asignada.
+6. El administrador hace clic en "SIGUIENTE".
+7. El sistema muestra la **vista previa** de todos los registros con su estado (válido/error).
+8. El administrador revisa los datos y confirma la importación.
+9. El sistema procesa los datos válidos y genera un reporte de errores si los hay.
+
+### 4.2 Flujo: El Líder - Gestión de Aduana y Costos
 1. Líder abre Finanzas → Selecciona "Parámetros Financieros y Aduana".
 2. Configura la tasa de cambio USD/CUP, el precio de los combustibles y los costos por km.
 3. Navega a la pestaña "ADUANA Y COSTOS".
@@ -1353,7 +1429,7 @@ flowchart TD
 8. Los costos obtenidos se asignan automáticamente a cada envío.
 9. Líder revisa los resultados y exporta el reporte.
 
-#### 4.2 Flujo: El Líder - Gestión de Pago a Choferes
+### 4.3 Flujo: El Líder - Gestión de Pago a Choferes
 1. Líder abre Finanzas → Selecciona "Parámetros Financieros y Aduana".
 2. Navega a la pestaña "PAGO A CHOFERES".
 3. Selecciona un chofer de la lista desplegable.
@@ -1362,7 +1438,7 @@ flowchart TD
 6. El sistema calcula automáticamente el resumen de pago del mes actual.
 7. Líder guarda el esquema y genera el reporte de pago.
 
-#### 4.3 Flujo: El Líder - Generación de Ficha de Costo
+### 4.4 Flujo: El Líder - Generación de Ficha de Costo
 1. Líder abre Rutas → Selecciona "Planificación Semanal".
 2. Selecciona una ruta específica (ej. CAM-02).
 3. Hace clic en "VER FICHA DE COSTO".
@@ -1377,7 +1453,7 @@ flowchart TD
    - Detalle de costos por envío (opcional).
 6. Líder puede exportar la ficha a PDF o CSV.
 
-#### 4.4 Flujo: El Chofer - Visualización de Costos de Aduana
+### 4.5 Flujo: El Chofer - Visualización de Costos de Aduana
 1. Chofer abre la app y selecciona "Ruta del día".
 2. En la lista de entregas, ve el costo de aduana asociado a cada paquete (si está disponible).
 3. Al llegar a la entrega, el chofer puede ver el costo de aduana en el detalle.
@@ -1385,27 +1461,28 @@ flowchart TD
 
 ---
 
-### 5. PRINCIPIOS DE USABILIDAD (Heurísticas de Nielsen)
+## 5. PRINCIPIOS DE USABILIDAD (Heurísticas de Nielsen)
 
 | Heurística | Aplicación en SIGMA-T |
 | :--- | :--- |
-| **Visibilidad del estado del sistema** | Indicadores de carga, notificaciones de sincronización, estado de los envíos (🟢🟡🔴), progreso de consultas de aduana, estado de generación de ficha de costo. |
+| **Visibilidad del estado del sistema** | Indicadores de carga, notificaciones de sincronización, estado de los envíos (🟢🟡🔴), progreso de consultas de aduana, estado de generación de ficha de costo, progreso de importación. |
 | **Relación entre el sistema y el mundo real** | Uso de iconos reconocibles (📦, 🚚, ⏰, 💰, 📄), lenguaje natural en mensajes. |
-| **Control y libertad del usuario** | Edición manual de rutas (drag & drop), deshacer acciones, botones de "cancelar". |
+| **Control y libertad del usuario** | Edición manual de rutas (drag & drop), deshacer acciones, botones de "cancelar", mapeo flexible de columnas. |
 | **Consistencia y estándares** | Misma paleta de colores y componentes UI en toda la plataforma. |
-| **Prevención de errores** | Validación de datos al importar, confirmación de acciones críticas. |
-| **Reconocimiento antes que recuerdo** | Menús visibles, búsqueda avanzada, historial de acciones. |
-| **Eficiencia y flexibilidad de uso** | Accesos directos (teclado), vistas de datos personalizables, exportación rápida. |
+| **Prevención de errores** | Validación de datos al importar, confirmación de acciones críticas, validación en tiempo real de Carnet de Identidad (11 dígitos). |
+| **Reconocimiento antes que recuerdo** | Menús visibles, búsqueda avanzada, historial de acciones, selectores de columnas en importación. |
+| **Eficiencia y flexibilidad de uso** | Accesos directos (teclado), vistas de datos personalizables, exportación rápida, mapeo flexible. |
 | **Estética y diseño minimalista** | Interfaces limpias, sin elementos distractores, enfocadas en datos clave. |
-| **Ayuda y documentación** | Tooltips, mensajes de ayuda contextuales, manuales de usuario. |
+| **Ayuda y documentación** | Tooltips, mensajes de ayuda contextuales, manuales de usuario, guías de mapeo. |
 
 ---
 
-### 6. CONCLUSIÓN
+## 6. CONCLUSIÓN
 
-Este documento consolida un total de **20 pantallas de alta fidelidad** (19 existentes + 1 nueva), diseñadas para cubrir todos los módulos de SIGMA-T incluyendo la nueva funcionalidad de ficha de costo detallada y los parámetros financieros actualizados. La identidad visual, los flujos de usuario y los principios de usabilidad implementados posicionan a SIGMA-T al mismo nivel que los sistemas de gestión de transporte líderes a nivel mundial, pero con la ventaja de estar diseñado específicamente para las necesidades del ecosistema cubano.
+Este documento consolida un total de **21 pantallas de alta fidelidad** (20 existentes + 1 nueva para mapeo de columnas), diseñadas para cubrir todos los módulos de SIGMA-T incluyendo la nueva funcionalidad de ficha de costo detallada, los parámetros financieros actualizados y el mapeo flexible de columnas para importación de manifiestos. La identidad visual, los flujos de usuario y los principios de usabilidad implementados posicionan a SIGMA-T al mismo nivel que los sistemas de gestión de transporte líderes a nivel mundial, pero con la ventaja de estar diseñado específicamente para las necesidades del ecosistema cubano.
 
 **Resumen de las nuevas funcionalidades:**
+- **Mapeo flexible de columnas** para importación de Excel
 - Gestión de parámetros financieros (tasa de cambio USD/CUP, precio de combustibles, **costos por km**)
 - Consulta automática de costos de aduana desde el sitio web de Aerovaradero (**URL de payment**)
 - Asignación de costos de aduana a cada envío
@@ -1413,5 +1490,6 @@ Este documento consolida un total de **20 pantallas de alta fidelidad** (19 exis
 - **Ficha de costo detallada por ruta** con desglose de costos directos, indirectos y de importación
 - Exportación de ficha de costo a PDF y CSV
 - Generación de reportes de pago
+- **Validación de Carnet de Identidad (11 dígitos)** y **Unidad de destino (obligatoria)**
 
-**Próximo Paso:** Con estas maquetas validadas e incluyendo las nuevas funcionalidades, estamos listos para el desarrollo técnico.
+**Próximo Paso:** Con estas maquetas validadas e incluyendo las nuevas funcionalidades, estamos listos para el desarrollo técnico del Sprint 1 (Core de Envíos) con las tareas pendientes de importación con mapeo flexible.
