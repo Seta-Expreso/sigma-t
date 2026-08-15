@@ -318,29 +318,29 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 
 **🆕 Especificación Detallada de RF-MO-12 (Solicitud de Reoptimización):**
 
-| Aspecto | Especificación |
-|---------|----------------|
-| **Acceso** | Botón "Reoptimizar Ruta" en la app del chofer |
-| **Motivos** | Cliente no encontrado, tráfico, avería, nuevo pedido urgente |
-| **Tiempo de Respuesta** | <5 segundos |
-| **Resultado** | El chofer recibe la nueva ruta optimizada en su app |
-| **Historial** | Cada reoptimización queda registrada para auditoría |
+| Aspecto                 | Especificación                                               |
+|-------------------------|--------------------------------------------------------------|
+| **Acceso**              | Botón "Reoptimizar Ruta" en la app del chofer                |
+| **Motivos**             | Cliente no encontrado, tráfico, avería, nuevo pedido urgente |
+| **Tiempo de Respuesta** | <5 segundos                                                  |
+| **Resultado**           | El chofer recibe la nueva ruta optimizada en su app          |
+| **Historial**           | Cada reoptimización queda registrada para auditoría          |
 
 ---
 
 ### MÓDULO 7: DASHBOARD Y REPORTES (RF-DASH) - ⏳ PENDIENTE
 
-| ID | Requisito | Prioridad | Complejidad | Estado |
-|----|-----------|-----------|-------------|--------|
-| RF-DA-01 | Dashboard principal con KPIs: costo/km, % entregas a tiempo, utilidad neta por viaje | **Crítica** | Media | ⏳ Pendiente |
-| RF-DA-02 | Gráfico de rentabilidad por ruta | Alta | Media | ⏳ Pendiente |
-| RF-DA-03 | Gráfico de evolución de costos (mensual) | Alta | Media | ⏳ Pendiente |
-| RF-DA-04 | Reporte de desempeño de choferes | Alta | Media | ⏳ Pendiente |
-| RF-DA-05 | Reporte de estado de la flota (vehículos en ruta, en taller, disponibles) | Alta | Media | ⏳ Pendiente |
-| **RF-DA-06** | **🆕 Exportar reportes a CSV/PDF, incluyendo análisis post-ruta y métricas de eficiencia** | **Alta** | **Media** | ⏳ Pendiente |
-| RF-DA-07 | Alertas automáticas (mantenimiento vencido, consumo anómalo) | Media | Media | ⏳ Pendiente |
-| RF-DA-08 | Mapa de calor de entregas por zona | Media | Media | ⏳ Pendiente |
-| **RF-DA-09** | **🆕 Panel de Análisis Post-Ruta: comparación planificado vs real, eficiencia por chofer/vehículo/zona** | **Alta** | **Media** | ⏳ Pendiente |
+| ID           | Requisito                                                                                                 | Prioridad   | Complejidad | Estado       |
+|--------------|-----------------------------------------------------------------------------------------------------------|-------------|-------------|--------------|
+| RF-DA-01     | Dashboard principal con KPIs: costo/km, % entregas a tiempo, utilidad neta por viaje                      | **Crítica** | Media       | ⏳ Pendiente |
+| RF-DA-02     | Gráfico de rentabilidad por ruta                                                                          | Alta        | Media       | ⏳ Pendiente |
+| RF-DA-03     | Gráfico de evolución de costos (mensual)                                                                  | Alta        | Media       | ⏳ Pendiente |
+| RF-DA-04     | Reporte de desempeño de choferes                                                                          | Alta        | Media       | ⏳ Pendiente |
+| RF-DA-05     | Reporte de estado de la flota (vehículos en ruta, en taller, disponibles)                                 | Alta        | Media       | ⏳ Pendiente |
+| **RF-DA-06** | **🆕 Exportar reportes a CSV/PDF, incluyendo análisis post-ruta y métricas de eficiencia**               | **Alta**     | **Media**   | ⏳ Pendiente |
+| RF-DA-07     | Alertas automáticas (mantenimiento vencido, consumo anómalo)                                              | Media       | Media       | ⏳ Pendiente |
+| RF-DA-08     | Mapa de calor de entregas por zona                                                                        | Media       | Media       | ⏳ Pendiente |
+| **RF-DA-09** | **🆕 Panel de Análisis Post-Ruta: comparación planificado vs real, eficiencia por chofer/vehículo/zona** | **Alta**     | **Media**   | ⏳ Pendiente |
 
 **🆕 Especificación Detallada de RF-DA-09 (Panel de Análisis Post-Ruta):**
 
