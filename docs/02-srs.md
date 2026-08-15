@@ -344,14 +344,14 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 
 **🆕 Especificación Detallada de RF-DA-09 (Panel de Análisis Post-Ruta):**
 
-| Aspecto | Especificación |
-|---------|----------------|
-| **Comparación** | Muestra ruta planificada vs ruta real (distancia, tiempo, combustible) |
-| **Métricas por Chofer** | Entregas a tiempo, eficiencia de combustible, incidencias |
-| **Métricas por Vehículo** | Consumo real vs esperado, kilómetros recorridos |
-| **Métricas por Zona** | Tiempo promedio de entrega por provincia/municipio |
-| **Recomendaciones** | Sugerencias automáticas para mejorar eficiencia |
-| **Exportación** | Reporte exportable a PDF y CSV |
+| Aspecto                   | Especificación                                                         |
+|---------------------------|------------------------------------------------------------------------|
+| **Comparación**           | Muestra ruta planificada vs ruta real (distancia, tiempo, combustible) |
+| **Métricas por Chofer**   | Entregas a tiempo, eficiencia de combustible, incidencias              |
+| **Métricas por Vehículo** | Consumo real vs esperado, kilómetros recorridos                        |
+| **Métricas por Zona**     | Tiempo promedio de entrega por provincia/municipio                     |
+| **Recomendaciones**       | Sugerencias automáticas para mejorar eficiencia                        |
+| **Exportación**           | Reporte exportable a PDF y CSV                                         |
 
 ---
 
