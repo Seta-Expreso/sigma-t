@@ -1,21 +1,21 @@
-## 📄 DOCUMENTO DE ARQUITECTURA DE SOFTWARE - SIGMA-T (VERSIÓN 2.8)
+## 📄 DOCUMENTO DE ARQUITECTURA DE SOFTWARE - SIGMA-T (VERSIÓN 3.1)
 
 **Basado en IEEE 1016 - Descripción de Diseño de Software (SDD) y estándares de arquitectura de sistemas**
 
 **Proyecto:** SIGMA-T (Sistema Integral de Gestión para MiPYME de Transporte)  
 **Cliente / Sponsor:** Osleyder Gonzalez Acosta  
 **Fecha de Emisión:** 15 de agosto de 2026
-**Versión del Documento:** 2.8 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 15/08/2026)
+**Versión del Documento:** 3.1 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo, Infraestructura, Autenticación JWT, Componentes Comunes, Store Zustand, Custom Hooks, SonarQube y Pruebas Unitarias - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 15/08/2026)
 
 ---
 
 ## 1. INTRODUCCIÓN Y PROPÓSITO
 
 ### 1.1 Propósito del Documento
-Este documento describe la arquitectura del sistema SIGMA-T, proporcionando una vista detallada de su estructura, componentes, interacciones y decisiones técnicas. Sirve como guía principal para los desarrolladores y como base para la validación de la solución por parte del Líder del Proyecto. El documento también establece los estándares de codificación, las prácticas de documentación y las estrategias de integración con servicios externos, incluyendo la nueva funcionalidad de consulta automática de costos de aduana (utilizando la URL de payment), la gestión de parámetros financieros (tasa de cambio USD/CUP, precios de combustible, costos por km), la gestión de esquemas de pago a choferes, la generación de la ficha de costo detallada por ruta, la automatización de facturación de aduana en 4 horarios (8 AM, 12 PM, 4 PM, 12 AM), y la infraestructura de producción en VPS ETECSA.
+Este documento describe la arquitectura del sistema SIGMA-T, proporcionando una vista detallada de su estructura, componentes, interacciones y decisiones técnicas. Sirve como guía principal para los desarrolladores y como base para la validación de la solución por parte del Líder del Proyecto. El documento también establece los estándares de codificación, las prácticas de documentación y las estrategias de integración con servicios externos, incluyendo la nueva funcionalidad de consulta automática de costos de aduana (utilizando la URL de payment), la gestión de parámetros financieros (tasa de cambio USD/CUP, precios de combustible, costos por km), la gestión de esquemas de pago a choferes, la generación de la ficha de costo detallada por ruta, **la automatización de facturación de aduana en 4 horarios (8 AM, 12 PM, 4 PM, 12 AM)**, **la autenticación JWT con roles y permisos**, **componentes comunes y hooks reutilizables**, **store de Zustand para estado global**, **análisis de calidad con SonarQube**, **pruebas unitarias con cobertura ≥70%**, y la infraestructura de producción en VPS ETECSA.
 
 ### 1.2 Alcance
-El alcance de este documento cubre todos los componentes del sistema, incluyendo backend, frontend web, aplicación móvil, bases de datos, integraciones externas, estrategias de despliegue, estándares de codificación y prácticas de documentación. Se incluye también la nueva funcionalidad de integración con el sitio web de Aerovaradero para la consulta automática de costos de aduana utilizando la URL de payment (`https://www.aerovaradero.com.cu/payment/?cod_la={cod_la}&cod_awb={cod_awb}&cod_house={house}`), la gestión de parámetros financieros (tasa de cambio USD/CUP, precios de combustible, costos por km), la gestión de esquemas de pago a choferes, la generación de la ficha de costo detallada por ruta, la **automatización de facturación de aduana en 4 horarios diarios (8 AM, 12 PM, 4 PM, 12 AM)**, y la infraestructura de producción en VPS ETECSA con guía de despliegue y estrategia de distribución de la app móvil.
+El alcance de este documento cubre todos los componentes del sistema, incluyendo backend, frontend web, aplicación móvil, bases de datos, integraciones externas, estrategias de despliegue, estándares de codificación y prácticas de documentación. Se incluye también la nueva funcionalidad de integración con el sitio web de Aerovaradero para la consulta automática de costos de aduana utilizando la URL de payment (`https://www.aerovaradero.com.cu/payment/?cod_la={cod_la}&cod_awb={cod_awb}&cod_house={house}`), la gestión de parámetros financieros (tasa de cambio USD/CUP, precios de combustible, costos por km), la gestión de esquemas de pago a choferes, la generación de la ficha de costo detallada por ruta, la **automatización de facturación de aduana en 4 horarios diarios (8 AM, 12 PM, 4 PM, 12 AM)**, **la autenticación JWT**, **componentes comunes, custom hooks, store Zustand**, **SonarQube para calidad de código**, y la infraestructura de producción en VPS ETECSA con guía de despliegue y estrategia de distribución de la app móvil.
 
 ### 1.3 Audiencia
 - **Líder del Proyecto (Osleyder Gonzalez):** Para validar las decisiones técnicas y asegurar que la arquitectura cumple con los objetivos de negocio.
@@ -28,8 +28,8 @@ El alcance de este documento cubre todos los componentes del sistema, incluyendo
 ### 1.4 Referencias
 - **IEEE 1016:** Estándar para Descripción de Diseño de Software.
 - **ISO/IEC/IEEE 42010:** Prácticas recomendadas para la descripción de arquitectura de sistemas.
-- **SRS v3.7:** Especificación de Requisitos del Software (documento de requisitos funcionales y no funcionales).
-- **SPMP v3.7:** Plan de Gestión del Proyecto de Software (cronograma, sprints, gestión de riesgos).
+- **SRS v3.9:** Especificación de Requisitos del Software (documento de requisitos funcionales y no funcionales).
+- **SPMP v4.0:** Plan de Gestión del Proyecto de Software (cronograma, sprints, gestión de riesgos).
 - **Conventional Commits:** Estándar para mensajes de commit (formato: tipo(alcance): descripción).
 - **JSDoc:** Estándar de documentación para código JavaScript/TypeScript.
 - **OpenAPI 3.0:** Especificación para documentación de APIs REST.
@@ -47,14 +47,15 @@ El diseño de SIGMA-T se rige por los siguientes principios fundamentales, que g
 | **Modularidad** | Componentes independientes y reutilizables | Módulos separados por dominio de negocio (envíos, rutas, finanzas, aduana, choferes, flota, ficha de costo), cada uno con su propia lógica y responsabilidad. |
 | **Escalabilidad Horizontal** | Capacidad de crecer añadiendo más instancias | API sin estado (stateless), base de datos replicable, balanceo de carga para manejar picos de demanda. |
 | **Offline First** | Priorizar el funcionamiento sin conexión | App móvil con SQLite como almacenamiento local, sincronización diferida con el servidor al recuperar conectividad. |
-| **Seguridad por Diseño** | Seguridad integrada desde la base | JWT para autenticación, encriptación de datos sensibles, auditoría en cada capa, HTTPS obligatorio (Let's Encrypt). |
+| **Seguridad por Diseño** | Seguridad integrada desde la base | **JWT para autenticación con expiración de 24 horas**, encriptación de datos sensibles, auditoría en cada capa, HTTPS obligatorio (Let's Encrypt), **refresh token para sesiones prolongadas**. |
 | **Open Source** | Transparencia y comunidad | Código público en GitHub, documentación abierta, licencia permisiva para fomentar contribuciones. |
 | **Rendimiento** | Respuesta rápida incluso en condiciones adversas | Caché con Redis, optimización de consultas SQL, CDN para archivos estáticos, compresión de respuestas. |
-| **Calidad de Código** | Estándares estrictos y documentación continua | ESLint, Prettier, Dart Analyzer, JSDoc, revisión de código obligatoria, análisis estático en CI/CD. |
+| **Calidad de Código** | Estándares estrictos y documentación continua | ESLint, Prettier, Dart Analyzer, JSDoc, revisión de código obligatoria, análisis estático en CI/CD, **SonarQube para monitoreo continuo**, **pruebas unitarias con cobertura ≥70%**. |
 | **Robustez en Integraciones** | Tolerancia a fallos en servicios externos | Web scraping con reintentos, timeouts configurables, entrada manual de costos de aduana como contingencia, logging detallado. |
-| **Mantenibilidad** | Facilidad para realizar cambios y correcciones | Arquitectura limpia con separación de capas, código tipado (TypeScript), pruebas automatizadas. |
+| **Mantenibilidad** | Facilidad para realizar cambios y correcciones | Arquitectura limpia con separación de capas, código tipado (TypeScript), **pruebas automatizadas**, **componentes reutilizables y estado centralizado**. |
 | **Precisión Financiera** | Cálculos con alta precisión | Decimales con 2 posiciones, auditoría de cálculos, validaciones automáticas. |
 | **Infraestructura Local** | Optimizado para el contexto cubano | Desplegable en VPS ETECSA con recursos limitados (2 GB RAM, 50 GB disco). |
+| **Reutilización** | Código compartido y consistente | **Componentes comunes en frontend, custom hooks, store de Zustand para estado global.** |
 
 ### 2.2 Stack Tecnológico Confirmado
 
@@ -68,7 +69,7 @@ El diseño de SIGMA-T se rige por los siguientes principios fundamentales, que g
 | **Base de Datos** | PostgreSQL + PostGIS | 15.x | Robusta, geoespacial (PostGIS para consultas de distancia y ubicación), estándar de la industria, escalable. | ✅ Configurado |
 | **Almacenamiento Local** | SQLite | 3.x | Ligero, embeddable, ideal para modo offline en dispositivos móviles. | ✅ Configurado |
 | **Mapas y Rutas** | OpenStreetMap + OSRM | OSRM 5.x | 100% open source, editable colaborativamente (choferes pueden mejorar mapas), OSRM es el motor de rutas open source más rápido. | ⏳ Pendiente |
-| **Autenticación** | JWT (JSON Web Tokens) | - | Stateless, seguro, estándar de la industria para APIs REST. | ⏳ Pendiente |
+| **Autenticación** | JWT (JSON Web Tokens) + Refresh Token | - | Stateless, seguro, estándar de la industria para APIs REST. Expiración: 24h para access token, 7 días para refresh token. | ⏳ Pendiente (Sprint 3) |
 | **Cache** | Redis (opcional) | 7.x | Para mejorar rendimiento de consultas frecuentes y reducir carga en la base de datos. | ⏳ Pendiente |
 | **Contenedores** | Docker | 24.x | Portabilidad, consistencia en entornos de desarrollo, staging y producción. | ✅ Configurado |
 | **Orquestación** | Docker Compose | 2.x | Orquestación simple para entornos de desarrollo y pruebas. | ✅ Configurado |
@@ -80,7 +81,12 @@ El diseño de SIGMA-T se rige por los siguientes principios fundamentales, que g
 | **Servidor Web** | Nginx | 1.18+ | Proxy inverso, servidor de archivos estáticos, SSL/HTTPS. | ⏳ Pendiente |
 | **Gestor de Procesos** | PM2 | 5.x | Gestión de procesos Node.js en producción. | ⏳ Pendiente |
 | **SSL/HTTPS** | Let's Encrypt / Certbot | - | Certificados SSL gratuitos para comunicaciones seguras. | ⏳ Pendiente |
-| **Análisis de Calidad** | SonarQube (Community) | Latest | Análisis de duplicación, deuda técnica y seguridad. | ⏳ Pendiente (configurar en Docker) |
+| **Análisis de Calidad** | SonarQube (Community) | Latest | Análisis de duplicación, deuda técnica y seguridad. | ⏳ Pendiente (Sprint 5.5) |
+| **Pruebas Unitarias Backend** | Jest | ^29.7.0 | Pruebas unitarias y de integración para el backend. Cobertura ≥70%. | ⏳ Pendiente (Sprint 5.5) |
+| **Pruebas Unitarias Frontend** | Vitest | ^1.x | Pruebas unitarias para el frontend. Cobertura ≥70%. | ⏳ Pendiente (Sprint 5.5) |
+| **Pruebas E2E** | Cypress | ^13.x | Pruebas de extremo a extremo para flujos críticos. | ⏳ Pendiente (Sprint 6) |
+| **Estado Global Frontend** | Zustand | 4.x | Gestión de estado global ligero y eficiente. | ⏳ Pendiente (Sprint 3) |
+| **Fetch de Datos** | TanStack React Query | 4.x | Fetching de datos con caché y sincronización automática. | ✅ Configurado |
 
 ### 2.3 Justificación del Stack
 1. **Node.js + TypeScript:**
@@ -89,10 +95,12 @@ El diseño de SIGMA-T se rige por los siguientes principios fundamentales, que g
    - **Ventaja 3:** TypeScript reduce errores en producción gracias al tipado estático y la detección temprana de problemas.
    - **Ventaja 4:** Perfecto para operaciones I/O intensivas (API, sincronización, scraping) debido a su modelo asíncrono no bloqueante.
 
-2. **React + Vite + Tailwind CSS:**
+2. **React + Vite + Tailwind CSS + Zustand:**
    - **Ventaja 1:** React es el estándar para dashboards interactivos y aplicaciones web complejas.
    - **Ventaja 2:** Vite para hot-reload ultrarrápido, lo que acelera el desarrollo y la depuración.
    - **Ventaja 3:** Tailwind CSS para diseño consistente, personalizable y responsivo sin escribir CSS personalizado.
+   - **Ventaja 4:** Zustand para estado global ligero, sin complejidad innecesaria.
+   - **Ventaja 5:** React Query para fetch de datos con caché y sincronización automática.
 
 3. **Flutter:**
    - **Ventaja 1:** Una base de código para iOS y Android (ahorro significativo de recursos y tiempo).
@@ -118,6 +126,18 @@ El diseño de SIGMA-T se rige por los siguientes principios fundamentales, que g
    - **Ventaja 3:** Costo accesible (250 CUP de suscripción).
    - **Ventaja 4:** Soporte local y centros de datos en La Habana, Mayabeque y Las Tunas.
 
+7. **Autenticación JWT + Refresh Token:**
+   - **Ventaja 1:** Stateless, escalable y seguro.
+   - **Ventaja 2:** Expiración de 24 horas para access token, 7 días para refresh token.
+   - **Ventaja 3:** Permite sesiones prolongadas sin re-login.
+   - **Ventaja 4:** Integración nativa con middleware de Express.
+
+8. **SonarQube + Jest + Vitest + Cypress:**
+   - **Ventaja 1:** Monitoreo continuo de calidad de código.
+   - **Ventaja 2:** Detección temprana de errores con pruebas automatizadas.
+   - **Ventaja 3:** Cobertura ≥70% garantiza robustez.
+   - **Ventaja 4:** E2E con Cypress para flujos críticos.
+
 ---
 
 ## 3. ARQUITECTURA GENERAL (VISTA DE ALTO NIVEL)
@@ -136,17 +156,17 @@ flowchart TB
 
     subgraph Gateway["Capa de Gateway"]
         API_Gateway["API Gateway<br>Express.js + JWT"]
-        Auth["Servicio de Autenticación<br>JWT + Roles"]
+        Auth["Servicio de Autenticación<br>JWT + Roles + Refresh Token"]
         RateLimit["Rate Limiting<br>Protección contra ataques"]
     end
 
     subgraph Backend["Capa de Backend (Microservicios)"]
         EnvioSvc["Servicio de Envíos ⚠️<br>CRUD + Importación Excel (parcial)"]
-        RutaSvc["Servicio de Rutas ⏳<br>Optimización VRPTW"]
+        RutaSvc["Servicio de Rutas ⏳<br>Optimización VRPTW v3.0"]
         FlotaSvc["Servicio de Flota ⏳<br>Vehículos + Mantenimiento"]
-        ChoferSvc["Servicio de Choferes ⏳<br>Gestión + Desempeño"]
+        ChoferSvc["Servicio de Choferes ⏳<br>Gestión + Desempeño + Pagos"]
         FinanzaSvc["Servicio de Finanzas ⏳<br>Costos + Facturación"]
-        ReporteSvc["Servicio de Reportes ⏳<br>KPIs + Dashboards"]
+        ReporteSvc["Servicio de Reportes ⏳<br>KPIs + Dashboards + Análisis Post-Ruta"]
         ClienteSvc["Servicio de Clientes ✅<br>CRM + Marketing"]
         AuditoriaSvc["Servicio de Auditoría ⏳<br>Logs + Trazabilidad"]
         AduanaSvc["Servicio de Aduana ⏳<br>Web Scraping Aerovaradero (URL de payment)"]
@@ -154,6 +174,7 @@ flowchart TB
         ParametrosSvc["Servicio de Parámetros ⏳<br>Gestión de costos variables (incl. costos por km)"]
         PagoChoferSvc["Servicio de Pago a Choferes ⏳<br>Cálculo de salarios"]
         FichaCostoSvc["Servicio de Ficha de Costo ⏳<br>Cálculo de costos directos, indirectos y de importación"]
+        IASvc["Servicio de IA ⏳<br>Estimación de tiempos (regresión lineal)"]
     end
 
     subgraph Data["Capa de Datos"]
@@ -167,6 +188,12 @@ flowchart TB
         OSM["OpenStreetMap<br>Tiles de Mapas"]
         Email["Servicio de Email<br>(Opcional)"]
         Aerovaradero["Aerovaradero<br>Sitio Web de Aduana (URL de payment)"]
+    end
+
+    subgraph Quality["Calidad de Código"]
+        SonarQube["SonarQube<br>Análisis de Calidad"]
+        Jest["Jest + Vitest<br>Pruebas Unitarias"]
+        Cypress["Cypress<br>Pruebas E2E"]
     end
 
     Browser --> API_Gateway
@@ -187,6 +214,7 @@ flowchart TB
     RateLimit --> ParametrosSvc
     RateLimit --> PagoChoferSvc
     RateLimit --> FichaCostoSvc
+    RateLimit --> IASvc
     
     EnvioSvc --> Postgres
     RutaSvc --> Postgres
@@ -201,6 +229,7 @@ flowchart TB
     ParametrosSvc --> Postgres
     PagoChoferSvc --> Postgres
     FichaCostoSvc --> Postgres
+    IASvc --> Postgres
     
     EnvioSvc --> Redis
     RutaSvc --> Redis
@@ -211,8 +240,13 @@ flowchart TB
     EnvioSvc --> Email
     AduanaSvc --> Aerovaradero
     AduanaAutomationSvc --> Aerovaradero
+    IASvc --> Postgres
     
     Mobile --> SQLite
+
+    Backend --> SonarQube
+    Backend --> Jest
+    Backend --> Cypress
 ```
 
 **Descripción de Componentes:**
@@ -226,13 +260,24 @@ flowchart TB
 | **Base de Datos** | PostgreSQL para almacenamiento persistente, SQLite para caché local en móvil. | ✅ Configurado |
 | **Servicios Externos** | OSRM para rutas, OpenStreetMap para mapas, Aerovaradero (URL de payment) para costos de aduana. | ⏳ Pendiente configuración |
 | **Servicio de Automatización Aduana** | Tareas programadas (node-cron) para consultar Aerovaradero en 4 horarios. | ⏳ Pendiente |
+| **🆕 Servicio de Autenticación** | JWT con expiración de 24h, refresh token de 7 días, roles y permisos. | ⏳ Pendiente (Sprint 3) |
+| **🆕 Servicio de IA** | Modelo de regresión lineal para estimación de tiempos de entrega. | ⏳ Pendiente (Sprint 5) |
+| **🆕 SonarQube** | Análisis de calidad de código (deuda técnica, seguridad, cobertura). | ⏳ Pendiente (Sprint 5.5) |
 
 ### 3.2 Flujo de Datos Principal
 
-El siguiente diagrama muestra los flujos de datos principales del sistema, incluyendo los nuevos flujos de aduana, finanzas y ficha de costo.
+El siguiente diagrama muestra los flujos de datos principales del sistema, incluyendo los nuevos flujos de autenticación, aduana, finanzas, ficha de costo e IA.
 
 ```mermaid
 flowchart LR
+    subgraph Autenticación["🆕 Flujo de Autenticación ⏳ PENDIENTE"]
+        Login[Credenciales] --> AuthSvc[Servicio de Autenticación]
+        AuthSvc --> JWT[Generar JWT + Refresh Token]
+        JWT --> Cliente[Cliente recibe tokens]
+        Cliente --> API[API con Bearer Token]
+        API --> Refresh[Refresh Token para renovar sesión]
+    end
+
     subgraph Importación["Flujo de Importación ⚠️ PARCIAL"]
         Excel[Archivo Excel<br>Manifiesto] --> Importador[Importador<br>Excel Parser]
         Importador --> Validador[Validador de Datos]
@@ -241,9 +286,9 @@ flowchart LR
     end
 
     subgraph Optimización["Flujo de Optimización ⏳ PENDIENTE"]
-        BD --> Optimizador[Optimizador<br>VRPTW]
+        BD --> Optimizador[Optimizador<br>VRPTW v3.0]
         Optimizador --> Matriz[Matriz de Distancias<br>OSRM]
-        Matriz --> Algoritmo[Algoritmo de Optimización]
+        Matriz --> Algoritmo[Algoritmo de Optimización<br>con combustible y prioridad]
         Algoritmo --> RutaGenerada[Rutas Generadas]
         RutaGenerada --> BD
     end
@@ -251,7 +296,7 @@ flowchart LR
     subgraph Aduana["Flujo de Aduana ⏳ PENDIENTE"]
         BD --> AduanaSvc[Servicio de Aduana]
         AduanaSvc --> Scraper[Web Scraper<br>Cheerio/Puppeteer]
-        Scraper --> Aerovaradero[Aerovaradero<br>https://www.aerovaradero.com.cu/payment/?cod_la={cod_la}&cod_awb={cod_awb}&cod_house={house}]
+        Scraper --> Aerovaradero[Aerovaradero<br>URL de payment]
         Aerovaradero --> Scraper
         Scraper --> AduanaSvc
         AduanaSvc --> BD
@@ -275,9 +320,16 @@ flowchart LR
 
     subgraph FichaCosto["Flujo de Ficha de Costo ⏳ PENDIENTE"]
         BD --> FichaCostoSvc[Servicio de Ficha de Costo]
-        FichaCostoSvc --> Calculadora[Calculadora de Costos]
+        FichaCostoSvc --> Calculadora[Calculadora de Costos<br>Directos, Indirectos, Importación]
         Calculadora --> FichaCostoSvc
         FichaCostoSvc --> BD
+    end
+
+    subgraph IA["🆕 Flujo de IA ⏳ PENDIENTE"]
+        BD --> IASvc[Servicio de IA]
+        IASvc --> Modelo[Modelo de Regresión Lineal]
+        Modelo --> Estimacion[Estimación de Tiempos]
+        Estimacion --> BD
     end
 
     subgraph Sincronización["Flujo de Sincronización ⏳ PENDIENTE"]
@@ -295,12 +347,14 @@ flowchart LR
 
 | Flujo | Descripción | Estado |
 |-------|-------------|--------|
+| **🆕 Autenticación** | El usuario inicia sesión, el sistema genera JWT (24h) y refresh token (7 días). | ⏳ Pendiente (Sprint 3) |
 | **Importación** | El administrador importa un manifiesto Excel, el sistema valida los datos y los guarda en la base de datos. | ⚠️ Parcial (requiere mapeo flexible) |
-| **Optimización** | El sistema calcula rutas óptimas usando el algoritmo VRPTW y OSRM, almacenando las rutas generadas. | ⏳ Pendiente |
+| **Optimización** | El sistema calcula rutas óptimas usando el algoritmo VRPTW v3.0 y OSRM, almacenando las rutas generadas. | ⏳ Pendiente |
 | **Aduana** | El sistema consulta el sitio web de Aerovaradero (URL de payment) para obtener costos de aduana de cada envío y actualiza la base de datos. | ⏳ Pendiente |
 | **Automatización Aduana** | El sistema ejecuta tareas programadas en 4 horarios para consultar houses "Arribados" y cambiarlos a "Facturados" cuando tengan importe y factura. | ⏳ Pendiente |
 | **Finanzas** | El sistema gestiona parámetros financieros (tasa de cambio, precios, costos por km) y calcula pagos a choferes. | ⏳ Pendiente |
 | **Ficha de Costo** | El sistema calcula la ficha de costo detallada por ruta, incluyendo costos directos, indirectos y de importación. | ⏳ Pendiente |
+| **🆕 IA** | El sistema utiliza un modelo de regresión lineal para estimar tiempos de entrega. | ⏳ Pendiente (Sprint 5) |
 | **Sincronización** | La app móvil sincroniza datos offline con el servidor cuando hay conectividad. | ⏳ Pendiente |
 
 ---
@@ -318,7 +372,7 @@ backend/
 ├── src/
 │   ├── config/               # Configuraciones (base de datos, JWT, OSRM)
 │   │   ├── database.config.ts
-│   │   ├── jwt.config.ts
+│   │   ├── jwt.config.ts           # 🆕 Configuración JWT (expiración, refresh)
 │   │   ├── osrm.config.ts
 │   │   └── index.ts
 │   ├── controllers/          # Controladores (lógica de negocio)
@@ -333,7 +387,9 @@ backend/
 │   │   ├── aduana.controller.ts    ⏳ Pendiente
 │   │   ├── aduana_automation.controller.ts ⏳ Pendiente
 │   │   ├── parametros.controller.ts ⏳ Pendiente
-│   │   └── ficha_costo.controller.ts ⏳ Pendiente
+│   │   ├── ficha_costo.controller.ts ⏳ Pendiente
+│   │   ├── auth.controller.ts      🆕 ⏳ Pendiente (Sprint 3)
+│   │   └── ia.controller.ts        🆕 ⏳ Pendiente (Sprint 5)
 │   ├── models/               # Modelos de datos (TypeORM)
 │   │   ├── envio.model.ts          ✅ Implementado
 │   │   ├── ruta.model.ts           ⏳ Pendiente
@@ -349,6 +405,8 @@ backend/
 │   │   ├── prospecto.model.ts      ⏳ Pendiente
 │   │   ├── parametros_sistema.model.ts ⏳ Pendiente
 │   │   ├── historial_parametros.model.ts ⏳ Pendiente
+│   │   ├── usuario.model.ts        🆕 ⏳ Pendiente (Sprint 3)
+│   │   ├── modelo_ia.model.ts      🆕 ⏳ Pendiente (Sprint 5)
 │   │   └── index.ts
 │   ├── services/             # Servicios (lógica de negocio compleja)
 │   │   ├── optimizacion.service.ts   ⏳ Pendiente
@@ -361,9 +419,12 @@ backend/
 │   │   ├── parametros.service.ts     ⏳ Pendiente
 │   │   ├── pago_chofer.service.ts    ⏳ Pendiente
 │   │   ├── ficha_costo.service.ts    ⏳ Pendiente
+│   │   ├── auth.service.ts           🆕 ⏳ Pendiente (Sprint 3)
+│   │   ├── ia.service.ts             🆕 ⏳ Pendiente (Sprint 5)
 │   │   └── index.ts
 │   ├── middleware/           # Middlewares (autenticación, logs, errores)
-│   │   ├── auth.middleware.ts
+│   │   ├── auth.middleware.ts        🆕 ⏳ Pendiente (Sprint 3)
+│   │   ├── role.middleware.ts        🆕 ⏳ Pendiente (Sprint 3)
 │   │   ├── audit.middleware.ts
 │   │   ├── error.middleware.ts
 │   │   └── validation.middleware.ts
@@ -380,6 +441,8 @@ backend/
 │   │   ├── aduana_automation.routes.ts ⏳ Pendiente
 │   │   ├── parametros.routes.ts     ⏳ Pendiente
 │   │   ├── ficha_costo.routes.ts    ⏳ Pendiente
+│   │   ├── auth.routes.ts           🆕 ⏳ Pendiente (Sprint 3)
+│   │   ├── ia.routes.ts             🆕 ⏳ Pendiente (Sprint 5)
 │   │   └── index.ts
 │   ├── jobs/                 # Tareas programadas (Cron Jobs)
 │   │   ├── aduana.job.ts            ⏳ Pendiente
@@ -397,12 +460,18 @@ backend/
 │   │   ├── envio.types.ts           ✅ Implementado
 │   │   ├── ruta.types.ts            ⏳ Pendiente
 │   │   ├── ficha_costo.types.ts     ⏳ Pendiente
+│   │   ├── auth.types.ts            🆕 ⏳ Pendiente (Sprint 3)
 │   │   └── index.ts
 │   └── app.ts                # Punto de entrada de la aplicación
 ├── tests/                    # Pruebas unitarias e integración
-│   ├── unit/
-│   ├── integration/
-│   └── e2e/
+│   ├── unit/                 # 🆕 Pruebas unitarias (Sprint 5.5)
+│   │   ├── services/
+│   │   ├── controllers/
+│   │   └── utils/
+│   ├── integration/          # 🆕 Pruebas de integración (Sprint 5.5)
+│   │   ├── api/
+│   │   └── database/
+│   └── e2e/                  # 🆕 Pruebas E2E (Sprint 6)
 ├── Dockerfile                # Configuración de Docker
 ├── docker-compose.yml        # Orquestación de servicios
 ├── package.json              # Dependencias
@@ -411,7 +480,9 @@ backend/
 ├── .prettierrc               # Configuración de Prettier
 ├── .env.example              # Variables de entorno (ejemplo)
 ├── .env                      # Variables de entorno (producción)
-└── openapi.yaml              # Documentación OpenAPI (Swagger)
+├── openapi.yaml              # Documentación OpenAPI (Swagger)
+├── jest.config.js            # 🆕 Configuración de Jest
+└── sonar-project.properties  # 🆕 Configuración de SonarQube
 ```
 
 **Servicios Implementados (Sprint 0 y 1):**
@@ -453,8 +524,193 @@ backend/
 | ts-node-dev | ^2.0.0 | Desarrollo con hot-reload | ✅ |
 | swagger-jsdoc | ^6.2.8 | Generación de documentación OpenAPI desde JSDoc | ✅ |
 | swagger-ui-express | ^5.0.0 | Interfaz UI para Swagger | ✅ |
+| **🆕 sonarqube-scanner** | ^4.0.0 | Integración con SonarQube | ⏳ Pendiente |
 
-### 4.2 Servicio de Aduana ⏳ PENDIENTE
+### 4.2 Servicio de Autenticación JWT 🆕 ⏳ PENDIENTE (SPRINT 3)
+
+**Descripción:** Servicio encargado de la autenticación y autorización de usuarios mediante JWT, incluyendo refresh token y gestión de roles.
+
+**Estructura del Servicio:**
+
+```typescript
+// backend/src/services/auth.service.ts
+
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { Usuario } from '../models/usuario.model.js';
+
+const ACCESS_TOKEN_EXPIRY = '24h';
+const REFRESH_TOKEN_EXPIRY = '7d';
+
+export class AuthService {
+  async login(email: string, password: string): Promise<{ accessToken: string; refreshToken: string; user: Partial<Usuario> }> {
+    // 1. Buscar usuario por email
+    const user = await Usuario.findOne({ where: { email } });
+    if (!user) {
+      throw new Error('Credenciales incorrectas');
+    }
+
+    // 2. Verificar contraseña
+    const isValid = await bcrypt.compare(password, user.password_hash);
+    if (!isValid) {
+      throw new Error('Credenciales incorrectas');
+    }
+
+    // 3. Generar tokens
+    const accessToken = this.generateAccessToken(user);
+    const refreshToken = this.generateRefreshToken(user);
+
+    // 4. Guardar refresh token en la base de datos
+    user.refresh_token = refreshToken;
+    user.refresh_token_expira = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    user.ultimo_login = new Date();
+    await user.save();
+
+    // 5. Retornar tokens y datos del usuario
+    return {
+      accessToken,
+      refreshToken,
+      user: {
+        id_usuario: user.id_usuario,
+        nombre: user.nombre,
+        email: user.email,
+        rol: user.rol,
+      },
+    };
+  }
+
+  async refresh(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }> {
+    // 1. Verificar refresh token
+    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || 'refresh-secret') as { id: number };
+
+    // 2. Buscar usuario con ese refresh token
+    const user = await Usuario.findOne({
+      where: {
+        id_usuario: decoded.id,
+        refresh_token: refreshToken,
+      }
+    });
+
+    if (!user || user.refresh_token_expira < new Date()) {
+      throw new Error('Refresh token inválido o expirado');
+    }
+
+    // 3. Generar nuevos tokens
+    const newAccessToken = this.generateAccessToken(user);
+    const newRefreshToken = this.generateRefreshToken(user);
+
+    // 4. Actualizar refresh token en la base de datos
+    user.refresh_token = newRefreshToken;
+    user.refresh_token_expira = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    await user.save();
+
+    return {
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    };
+  }
+
+  async logout(userId: number): Promise<void> {
+    const user = await Usuario.findOne({ where: { id_usuario: userId } });
+    if (user) {
+      user.refresh_token = null;
+      user.refresh_token_expira = null;
+      await user.save();
+    }
+  }
+
+  private generateAccessToken(user: Usuario): string {
+    return jwt.sign(
+      { id: user.id_usuario, rol: user.rol },
+      process.env.JWT_SECRET || 'secret',
+      { expiresIn: ACCESS_TOKEN_EXPIRY }
+    );
+  }
+
+  private generateRefreshToken(user: Usuario): string {
+    return jwt.sign(
+      { id: user.id_usuario },
+      process.env.JWT_REFRESH_SECRET || 'refresh-secret',
+      { expiresIn: REFRESH_TOKEN_EXPIRY }
+    );
+  }
+}
+```
+
+**Middleware de Autenticación:**
+
+```typescript
+// backend/src/middleware/auth.middleware.ts
+
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import { Usuario } from '../models/usuario.model.js';
+
+export interface AuthRequest extends Request {
+  user?: Usuario;
+}
+
+export const authMiddleware = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+
+    if (!token) {
+      res.status(401).json({
+        success: false,
+        message: 'No autorizado - Token no proporcionado',
+      });
+      return;
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as { id: number };
+    const user = await Usuario.findOne({ where: { id_usuario: decoded.id, activo: true } });
+
+    if (!user) {
+      res.status(401).json({
+        success: false,
+        message: 'No autorizado - Usuario no encontrado',
+      });
+      return;
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      message: 'No autorizado - Token inválido o expirado',
+    });
+  }
+};
+
+export const roleMiddleware = (roles: string[]) => {
+  return (req: AuthRequest, res: Response, next: NextFunction): void => {
+    if (!req.user) {
+      res.status(401).json({
+        success: false,
+        message: 'No autorizado',
+      });
+      return;
+    }
+
+    if (!roles.includes(req.user.rol)) {
+      res.status(403).json({
+        success: false,
+        message: 'Acceso prohibido - Permisos insuficientes',
+      });
+      return;
+    }
+
+    next();
+  };
+};
+```
+
+### 4.3 Servicio de Aduana ⏳ PENDIENTE
 
 **Descripción:** Servicio encargado de la integración con el sitio web de Aerovaradero para la consulta automática de costos de aduana, utilizando la URL de payment.
 
@@ -522,7 +778,7 @@ async function consultarMasivo(envios: Envio[]): Promise<AduanaMasivaResponse> {
 }
 ```
 
-### 4.3 Servicio de Automatización de Aduana ⏳ PENDIENTE
+### 4.4 Servicio de Automatización de Aduana ⏳ PENDIENTE
 
 **Descripción:** Servicio encargado de la ejecución de tareas programadas para la facturación automática de aduana en 4 horarios diarios.
 
@@ -591,7 +847,7 @@ function iniciarAutomatizacionAduana(): void {
 }
 ```
 
-### 4.4 Servicio de Ficha de Costo ⏳ PENDIENTE
+### 4.5 Servicio de Ficha de Costo ⏳ PENDIENTE
 
 **Descripción:** Servicio encargado del cálculo automático de la ficha de costo detallada por ruta.
 
@@ -680,9 +936,9 @@ async function calcularFichaCosto(rutaId: number): Promise<FichaCosto> {
 }
 ```
 
-### 4.5 Capa de Frontend Web (React + Vite) - ✅ CONFIGURADO
+### 4.6 Capa de Frontend Web (React + Vite) - ✅ CONFIGURADO
 
-**Estructura del Proyecto Frontend**
+**Estructura del Proyecto Frontend (Actualizada)**
 
 El frontend web sigue una arquitectura basada en componentes funcionales de React, con separación clara de responsabilidades entre API, componentes, layouts, páginas, hooks, store y estilos.
 
@@ -702,18 +958,23 @@ frontend/
 │   │   ├── aduana_automation.api.ts ⏳ Pendiente
 │   │   ├── parametros.api.ts       ⏳ Pendiente
 │   │   ├── ficha_costo.api.ts      ⏳ Pendiente
-│   │   ├── auth.api.ts
+│   │   ├── auth.api.ts             🆕 ⏳ Pendiente (Sprint 3)
+│   │   ├── axios.config.ts         🆕 ⏳ Pendiente (Sprint 3)
 │   │   └── index.ts
 │   ├── components/           # Componentes reutilizables
-│   │   ├── common/
+│   │   ├── common/           # 🆕 Componentes comunes (Sprint 2)
 │   │   │   ├── Button.tsx
 │   │   │   ├── Table.tsx
 │   │   │   ├── Modal.tsx
 │   │   │   ├── Card.tsx
 │   │   │   ├── Input.tsx
 │   │   │   ├── Select.tsx
-│   │   │   ├── Spinner.tsx
+│   │   │   ├── LoadingSpinner.tsx
 │   │   │   ├── Toast.tsx
+│   │   │   ├── Badge.tsx
+│   │   │   ├── Pagination.tsx
+│   │   │   ├── ConfirmDialog.tsx
+│   │   │   ├── ErrorBoundary.tsx   🆕 (Sprint 2)
 │   │   │   └── index.ts
 │   │   ├── dashboard/
 │   │   │   ├── KPICard.tsx
@@ -789,11 +1050,12 @@ frontend/
 │   │   ├── ParametrosPage.tsx     ⏳ Pendiente
 │   │   ├── FichaCostoPage.tsx     ⏳ Pendiente
 │   │   ├── AduanaAutomationPage.tsx ⏳ Pendiente
-│   │   ├── LoginPage.tsx
+│   │   ├── LoginPage.tsx          🆕 ⏳ Pendiente (Sprint 3)
 │   │   └── index.ts
-│   ├── hooks/                # Custom React Hooks
+│   ├── hooks/                # 🆕 Custom React Hooks (Sprint 3)
 │   │   ├── useAuth.ts
 │   │   ├── useEnvios.ts           ✅ Implementado
+│   │   ├── useClientes.ts
 │   │   ├── useRutas.ts            ⏳ Pendiente
 │   │   ├── useChoferes.ts         ⏳ Pendiente
 │   │   ├── useFinanzas.ts         ⏳ Pendiente
@@ -802,26 +1064,35 @@ frontend/
 │   │   ├── useParametros.ts       ⏳ Pendiente
 │   │   ├── useFichaCosto.ts       ⏳ Pendiente
 │   │   ├── useAduanaAutomation.ts ⏳ Pendiente
+│   │   ├── useDebounce.ts
+│   │   ├── useLocalStorage.ts
 │   │   ├── useToast.ts
 │   │   └── index.ts
-│   ├── store/                # Estado global (Zustand)
+│   ├── store/                # 🆕 Estado global Zustand (Sprint 3)
 │   │   ├── auth.store.ts
 │   │   ├── envio.store.ts         ✅ Implementado
+│   │   ├── cliente.store.ts
 │   │   ├── ruta.store.ts          ⏳ Pendiente
 │   │   ├── chofer.store.ts        ⏳ Pendiente
 │   │   ├── finanza.store.ts       ⏳ Pendiente
 │   │   ├── parametros.store.ts    ⏳ Pendiente
 │   │   ├── aduana.store.ts        ⏳ Pendiente
+│   │   ├── ui.store.ts
+│   │   ├── importacion.store.ts
 │   │   └── index.ts
-│   ├── types/                # Tipos TypeScript
+│   ├── types/                # 🆕 Tipos centralizados (Sprint 2)
 │   │   ├── envio.types.ts         ✅ Implementado
+│   │   ├── cliente.types.ts       ✅ Implementado
+│   │   ├── importacion.types.ts
+│   │   ├── auth.types.ts
+│   │   ├── api.types.ts
+│   │   ├── common.types.ts
 │   │   ├── ruta.types.ts          ⏳ Pendiente
 │   │   ├── flota.types.ts         ⏳ Pendiente
 │   │   ├── chofer.types.ts        ⏳ Pendiente
 │   │   ├── finanza.types.ts       ⏳ Pendiente
 │   │   ├── reporte.types.ts       ⏳ Pendiente
 │   │   ├── auditoria.types.ts     ⏳ Pendiente
-│   │   ├── cliente.types.ts       ✅ Implementado
 │   │   ├── parametros.types.ts    ⏳ Pendiente
 │   │   ├── ficha_costo.types.ts   ⏳ Pendiente
 │   │   ├── aduana.types.ts        ⏳ Pendiente
@@ -830,14 +1101,15 @@ frontend/
 │   │   ├── index.css
 │   │   ├── tailwind.css
 │   │   └── variables.css
-│   ├── utils/                # Utilidades
+│   ├── utils/                # 🆕 Utilidades (Sprint 2)
 │   │   ├── formatters.ts
 │   │   ├── validators.ts
 │   │   ├── helpers.ts
+│   │   ├── constants.ts
 │   │   └── index.ts
 │   ├── App.tsx               # Componente principal
 │   ├── main.tsx              # Punto de entrada
-│   ├── routes.tsx            # Definición de rutas
+│   ├── routes.tsx            # Definición de rutas (protegidas)
 │   └── vite-env.d.ts         # Tipos de Vite
 ├── public/                   # Archivos estáticos
 │   ├── favicon.ico
@@ -845,14 +1117,16 @@ frontend/
 ├── index.html                # HTML principal
 ├── package.json              # Dependencias
 ├── vite.config.ts            # Configuración de Vite
+├── vitest.config.ts          # 🆕 Configuración de Vitest
 ├── tailwind.config.js        # Configuración de Tailwind
 ├── postcss.config.js         # Configuración de PostCSS
 ├── .eslintrc.js              # Configuración de ESLint
 ├── .prettierrc               # Configuración de Prettier
+├── cypress.config.ts         # 🆕 Configuración de Cypress
 └── .env                      # Variables de entorno
 ```
 
-**Dependencias Clave del Frontend**
+**Dependencias Clave del Frontend (Actualizadas)**
 
 | Librería | Versión | Propósito | Estado |
 |----------|---------|-----------|--------|
@@ -865,15 +1139,18 @@ frontend/
 | tanstack/react-table | 8.x | Tablas avanzadas con ordenamiento y filtrado | ✅ |
 | tailwindcss | 3.x | Estilos CSS utilitarios | ✅ |
 | framer-motion | 10.x | Animaciones y transiciones suaves | ✅ |
-| zustand | 4.x | Estado global ligero | ✅ |
+| **🆕 zustand** | **4.x** | **Estado global ligero** | ⏳ Pendiente |
+| **🆕 @tanstack/react-query** | **4.x** | **Fetching de datos y caché** | ✅ |
 | react-hook-form | 7.x | Manejo de formularios con validación | ✅ |
-| @tanstack/react-query | 4.x | Fetching de datos y caché | ✅ |
 | react-toastify | 9.x | Notificaciones toast | ✅ |
 | eslint | 8.x | Análisis estático de código | ✅ |
 | prettier | 3.x | Formateo automático | ✅ |
+| **🆕 vitest** | **^1.x** | **Pruebas unitarias frontend** | ⏳ Pendiente |
+| **🆕 @testing-library/react** | **^14.x** | **Pruebas de componentes React** | ⏳ Pendiente |
+| **🆕 cypress** | **^13.x** | **Pruebas E2E** | ⏳ Pendiente |
 | pdf-lib | 1.x | Generación de PDF en cliente (opcional) | ⏳ Pendiente |
 
-### 4.6 Capa de App Móvil (Flutter) - ✅ CONFIGURADO
+### 4.7 Capa de App Móvil (Flutter) - ✅ CONFIGURADO
 
 **Estructura del Proyecto Mobile**
 
@@ -892,12 +1169,13 @@ mobile/
 │   │   ├── costo.model.dart
 │   │   ├── parametros.model.dart
 │   │   ├── ficha_costo.model.dart
+│   │   ├── usuario.model.dart   🆕
 │   │   └── index.dart
 │   ├── services/             # Servicios
 │   │   ├── api.service.dart       # Cliente HTTP (Dio)
 │   │   ├── sync.service.dart      # Sincronización offline
 │   │   ├── database.service.dart  # SQLite (sqflite)
-│   │   ├── auth.service.dart      # Autenticación local
+│   │   ├── auth.service.dart      # Autenticación local + JWT
 │   │   ├── storage.service.dart   # Almacenamiento seguro
 │   │   ├── location.service.dart  # GPS y geolocalización
 │   │   ├── notification.service.dart # Notificaciones push
@@ -909,7 +1187,7 @@ mobile/
 │   │   ├── incidencia_screen.dart # Incidencias
 │   │   ├── perfil_screen.dart    # Perfil del chofer
 │   │   ├── historial_screen.dart # Historial de entregas (incluye ficha de costo)
-│   │   ├── login_screen.dart     # Login offline
+│   │   ├── login_screen.dart     # Login offline + JWT
 │   │   ├── config_screen.dart    # Configuración de la app
 │   │   └── index.dart
 │   ├── widgets/              # Widgets reutilizables
@@ -980,7 +1258,63 @@ mobile/
 
 ## 5. DIAGRAMAS DE SECUENCIA (FLUJOS CLAVE)
 
-### 5.1 Flujo: Importación de Manifiesto Excel ⚠️ PARCIAL (Requiere mapeo flexible)
+### 5.1 🆕 Flujo: Autenticación JWT (Login y Refresh) ⏳ PENDIENTE (SPRINT 3)
+
+Este diagrama muestra el flujo completo de autenticación, desde el login hasta el refresh de tokens.
+
+```mermaid
+sequenceDiagram
+    actor Usuario as Usuario
+    participant UI as Frontend Web
+    participant API as API Gateway
+    participant AuthSvc as Auth Service
+    participant BD as PostgreSQL
+    participant Audit as Auditoría
+
+    Usuario->>UI: Ingresa email y contraseña
+    UI->>API: POST /api/auth/login
+    API->>AuthSvc: login(email, password)
+    AuthSvc->>BD: buscarUsuarioPorEmail(email)
+    BD-->>AuthSvc: Datos del usuario
+    AuthSvc->>AuthSvc: verificarPassword(password, hash)
+
+    alt Credenciales Correctas
+        AuthSvc->>AuthSvc: generateAccessToken(user)
+        AuthSvc->>AuthSvc: generateRefreshToken(user)
+        AuthSvc->>BD: guardarRefreshToken(userId, refreshToken)
+        AuthSvc->>Audit: registrarAccion('login_exitoso')
+        AuthSvc-->>API: { accessToken, refreshToken, user }
+        API-->>UI: 200 OK con tokens
+        UI-->>Usuario: Redirige al dashboard
+    else Credenciales Incorrectas
+        AuthSvc->>Audit: registrarAccion('login_fallido')
+        AuthSvc-->>API: Error: Credenciales incorrectas
+        API-->>UI: 401 Unauthorized
+        UI-->>Usuario: "Credenciales incorrectas"
+    end
+
+    Note over Usuario,Audit: Cuando el access token expira (24h)
+    Usuario->>UI: Realiza acción protegida
+    UI->>API: GET /api/protegido (con token expirado)
+    API->>API: verificarToken(token)
+    API-->>UI: 401 Unauthorized
+    UI->>UI: Interceptor detecta 401
+
+    UI->>API: POST /api/auth/refresh (con refresh token)
+    API->>AuthSvc: refresh(refreshToken)
+    AuthSvc->>BD: validarRefreshToken(userId, refreshToken)
+    BD-->>AuthSvc: Validez del token
+    AuthSvc->>AuthSvc: generateAccessToken(user)
+    AuthSvc->>AuthSvc: generateRefreshToken(user)
+    AuthSvc->>BD: actualizarRefreshToken(userId, newRefreshToken)
+    AuthSvc-->>API: { accessToken, refreshToken }
+    API-->>UI: 200 OK con nuevos tokens
+    UI->>UI: Guarda nuevos tokens
+    UI->>API: Reintenta acción original con nuevo token
+    UI-->>Usuario: Acción completada
+```
+
+### 5.2 Flujo: Importación de Manifiesto Excel ⚠️ PARCIAL (Requiere mapeo flexible)
 
 Este diagrama muestra la secuencia completa del proceso de importación de un manifiesto Excel, desde que el administrador selecciona el archivo hasta que los datos se guardan en la base de datos.
 
@@ -1028,7 +1362,7 @@ sequenceDiagram
     end
 ```
 
-### 5.2 Flujo: Optimización de Rutas ⏳ PENDIENTE
+### 5.3 Flujo: Optimización de Rutas ⏳ PENDIENTE
 
 Este diagrama muestra el proceso de optimización de rutas, desde la solicitud del administrador hasta la generación y almacenamiento de las rutas optimizadas.
 
@@ -1038,7 +1372,7 @@ sequenceDiagram
     participant UI as Frontend Web
     participant API as API Gateway
     participant RutaSvc as Rutas Service
-    participant AlgoVRPTW as Algoritmo VRPTW
+    participant AlgoVRPTW as Algoritmo VRPTW v3.0
     participant OSRM as OSRM (Rutas)
     participant BD as PostgreSQL
     participant Audit as Auditoría
@@ -1058,6 +1392,7 @@ sequenceDiagram
     end
     AlgoVRPTW-->>RutaSvc: Matriz de distancias
     RutaSvc->>AlgoVRPTW: ejecutarOptimizacion(matriz, restricciones)
+    Note over AlgoVRPTW: Optimización de combustible<br>Prioridad de entregas<br>Penalizaciones
     AlgoVRPTW-->>RutaSvc: Rutas optimizadas
     RutaSvc->>BD: guardarRutas(rutas)
     BD-->>RutaSvc: IDs generados
@@ -1068,7 +1403,7 @@ sequenceDiagram
     UI-->>Admin: Mapa con rutas optimizadas
 ```
 
-### 5.3 Flujo: Sincronización Offline de Chofer ⏳ PENDIENTE
+### 5.4 Flujo: Sincronización Offline de Chofer ⏳ PENDIENTE
 
 Este diagrama muestra el flujo completo de sincronización offline, desde el login del chofer sin conexión hasta la sincronización automática al recuperar conectividad.
 
@@ -1115,7 +1450,7 @@ sequenceDiagram
     end
 ```
 
-### 5.4 Flujo: Consulta Automática de Aduana ⏳ PENDIENTE
+### 5.5 Flujo: Consulta Automática de Aduana ⏳ PENDIENTE
 
 Este diagrama muestra el flujo de consulta automática de costos de aduana en el sitio web de Aerovaradero, utilizando la URL de payment.
 
@@ -1160,7 +1495,7 @@ sequenceDiagram
     UI-->>Admin: "✅ 120 costos de aduana consultados"
 ```
 
-### 5.5 Flujo: Automatización de Facturación de Aduana ⏳ PENDIENTE
+### 5.6 Flujo: Automatización de Facturación de Aduana ⏳ PENDIENTE
 
 Este diagrama muestra el flujo de la tarea programada para la facturación automática de aduana en 4 horarios diarios.
 
@@ -1201,7 +1536,7 @@ sequenceDiagram
     Note over AutomationSvc: Fin de la ejecución
 ```
 
-### 5.6 Flujo: Cálculo de Pago a Chofer ⏳ PENDIENTE
+### 5.7 Flujo: Cálculo de Pago a Chofer ⏳ PENDIENTE
 
 Este diagrama muestra el flujo de cálculo de pago a un chofer según el esquema configurado (fijo, por km, por entrega o combinado).
 
@@ -1239,7 +1574,7 @@ sequenceDiagram
     UI-->>Admin: "💰 Pago calculado: $9,700.00"
 ```
 
-### 5.7 Flujo: Generación de Ficha de Costo ⏳ PENDIENTE
+### 5.8 Flujo: Generación de Ficha de Costo ⏳ PENDIENTE
 
 Este diagrama muestra el flujo de generación de la ficha de costo detallada por ruta.
 
@@ -1293,45 +1628,45 @@ sequenceDiagram
 El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, incluyendo las nuevas entidades y campos.
 
 ```
-┌─────────────┐      ┌─────────────┐      ┌─────────────┐
-│   USUARIO   │      │   VEHICULO  │      │   CHOFER    │
-├─────────────┤      ├─────────────┤      ├─────────────┤
-│ id_usuario  │◄─────│ id_vehiculo │      │ id_chofer   │
-│ nombre      │      │ matricula   │      │ nombre      │
-│ email       │      │ marca       │      │ identific   │
-│ password    │      │ modelo      │      │ licencia    │
-│ rol         │      │ capacidad   │      │ telefono    │
-│ activo      │      │ combustible │      │ fecha_ing   │
-│ fecha_reg   │      │ consumo     │      │ salario_base│
-└─────────────┘      │ kilometraje │      │ disponible  │
-                     │ disponible  │      │ esquema_pago│
-                     └─────────────┘      │ salario_por_km│
-                            │             │ salario_por_entrega│
-                            │             └─────────────┘
-                            │                   │
-                            ▼                   ▼
-                     ┌─────────────────────────────┐
-                     │           RUTA              │
-                     ├─────────────────────────────┤
-                     │ id_ruta (PK)               │
-                     │ id_vehiculo (FK)           │
-                     │ id_chofer (FK)             │
-                     │ fecha                      │
-                     │ secuencia_paradas (JSON)   │
-                     │ distancia_total            │
-                     │ tiempo_estimado            │
-                     │ combustible_estimado       │
-                     │ costo_total_estimado       │
-                     │ costo_total_real           │
-                     │ pago_chofer                │
-                     │ ficha_costo (JSON)         │
-                     │ ingresos                   │
-                     │ utilidad_neta              │
-                     │ margen_utilidad            │
-                     │ estado                     │
-                     └─────────────────────────────┘
-                            │
-                            ▼
+┌─────────────────────┐      ┌─────────────┐      ┌─────────────┐
+│      USUARIO        │      │   VEHICULO  │      │   CHOFER    │
+│   🆕 ACTUALIZADO    │      ├─────────────┤      ├─────────────┤
+├─────────────────────┤      │ id_vehiculo │      │ id_chofer   │
+│ id_usuario (PK)     │◄─────│ matricula   │      │ nombre      │
+│ nombre              │      │ marca       │      │ identific   │
+│ email (UK)          │      │ modelo      │      │ licencia    │
+│ password_hash       │      │ capacidad   │      │ telefono    │
+│ rol                 │      │ combustible │      │ fecha_ing   │
+│ activo              │      │ consumo     │      │ salario_base│
+│ 🆕 ultimo_login     │      │ kilometraje │      │ disponible  │
+│ 🆕 refresh_token    │      │ disponible  │      │ esquema_pago│
+│ 🆕 refresh_token_exp│      └─────────────┘      │ salario_por_km│
+│ created_at          │             │             │ salario_por_entrega│
+│ updated_at          │             │             └─────────────┘
+└─────────────────────┘             │                   │
+                                    ▼                   ▼
+                             ┌─────────────────────────────┐
+                             │           RUTA              │
+                             ├─────────────────────────────┤
+                             │ id_ruta (PK)               │
+                             │ id_vehiculo (FK)           │
+                             │ id_chofer (FK)             │
+                             │ fecha                      │
+                             │ secuencia_paradas (JSON)   │
+                             │ distancia_total            │
+                             │ tiempo_estimado            │
+                             │ combustible_estimado       │
+                             │ costo_total_estimado       │
+                             │ costo_total_real           │
+                             │ pago_chofer                │
+                             │ ficha_costo (JSON)         │
+                             │ ingresos                   │
+                             │ utilidad_neta              │
+                             │ margen_utilidad            │
+                             │ estado                     │
+                             └─────────────────────────────┘
+                                    │
+                                    ▼
 ┌─────────────┐      ┌─────────────┐      ┌─────────────┐
 │   CLIENTE   │      │    ENVIO    │      │   COSTO     │
 ├─────────────┤      ├─────────────┤      ├─────────────┤
@@ -1349,60 +1684,88 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
                      │ remitente   │      │ id_envio    │
                      │ destinatario│      └─────────────┘
                      │ direccion   │
-                     │ telefono    │      ┌─────────────┐
-                     │ prioridad   │      │ PARAMETROS  │
-                     │ fecha_limite│      │ SISTEMA     │
-                     │ estado      │      ├─────────────┤
-                     │ firma       │      │ id_parametro│
-                     │ importe_aduana│   │ clave       │
-                     │ numero_factura│   │ valor       │
-                     │ fecha_ultima_│   │ descripcion │
-                     │ consulta    │      │ unidad      │
-                     │ intentos_consulta│ │ fecha_act   │
-                     │ estado_adu  │      └─────────────┘
+                     │ telefono    │      ┌─────────────────────┐
+                     │ prioridad   │      │   PARAMETROS        │
+                     │ fecha_limite│      │   SISTEMA           │
+                     │ estado      │      ├─────────────────────┤
+                     │ firma       │      │ id_parametro (PK)   │
+                     │ importe_aduana│   │ clave (UK)          │
+                     │ numero_factura│   │ valor               │
+                     │ fecha_ultima_│   │ descripcion         │
+                     │ consulta    │      │ unidad              │
+                     │ intentos_consulta│ │ fecha_actualizacion│
+                     │ estado_adu  │      └─────────────────────┘
                      └─────────────┘
                             │
-┌─────────────┐      ┌─────────────┐      ┌─────────────┐
-│  AUDITORIA  │      │ MANTENIMIENTO│      │ HISTORIAL   │
-├─────────────┤      ├─────────────┤      │ PARAMETROS  │
-│ id_audit    │      │ id_manten   │      ├─────────────┤
-│ id_usuario  │      │ id_vehiculo │      │ id_historial│
-│ accion      │      │ fecha       │      │ id_parametro│
-│ entidad     │      │ tipo        │      │ valor_ant   │
-│ id_entidad  │      │ descripcion │      │ valor_nuevo │
-│ detalle     │      │ costo       │      │ fecha_cambio│
-│ ip          │      │ kilometraje │      │ usuario     │
-│ fecha       │      │ proximo_km  │      └─────────────┘
-└─────────────┘      └─────────────┘
-                     ┌─────────────┐      ┌─────────────┐
-                     │  PROSPECTO  │      │  FACTURA    │
-                     ├─────────────┤      ├─────────────┤
-                     │ id_prosp    │      │ id_factura  │
-                     │ nombre_emp  │      │ id_cliente  │
-                     │ contacto    │      │ numero_fact │
-                     │ telefono    │      │ fecha_emision│
-                     │ email       │      │ fecha_venc  │
-                     │ fuente      │      │ subtotal    │
-                     │ estado      │      │ impuestos   │
-                     │ fecha_reg   │      │ total       │
-                     └─────────────┘      │ estado      │
-                                          └─────────────┘
-                     ┌─────────────┐      ┌─────────────┐
-                     │ ENVIO_BODEGA│      │ INCIDENTE   │
-                     ├─────────────┤      ├─────────────┤
-                     │ id_ebodega  │      │ id_incid    │
-                     │ id_envio    │      │ id_envio    │
-                     │ ubicacion   │      │ id_chofer   │
-                     │ fecha_ing   │      │ tipo        │
-                     │ fecha_sal   │      │ descripcion │
-                     └─────────────┘      │ fecha       │
-                                          │ prioridad   │
-                                          │ estado      │
-                                          │ solucion    │
-                                          └─────────────┘
+┌─────────────────────┐      ┌─────────────────────┐      ┌─────────────────────┐
+│    AUDITORIA        │      │   MANTENIMIENTO     │      │   HISTORIAL         │
+├─────────────────────┤      ├─────────────────────┤      │   PARAMETROS        │
+│ id_audit (PK)       │      │ id_manten (PK)      │      ├─────────────────────┤
+│ id_usuario (FK)     │      │ id_vehiculo (FK)    │      │ id_historial (PK)   │
+│ accion              │      │ fecha               │      │ id_parametro (FK)   │
+│ entidad             │      │ tipo                │      │ valor_anterior      │
+│ id_entidad          │      │ descripcion         │      │ valor_nuevo         │
+│ detalle (JSON)      │      │ costo               │      │ fecha_cambio        │
+│ ip                  │      │ kilometraje         │      │ usuario             │
+│ fecha               │      │ proximo_km          │      └─────────────────────┘
+└─────────────────────┘      └─────────────────────┘
+                     ┌─────────────────────┐      ┌─────────────────────┐
+                     │    PROSPECTO        │      │    FACTURA          │
+                     ├─────────────────────┤      ├─────────────────────┤
+                     │ id_prosp (PK)       │      │ id_factura (PK)     │
+                     │ nombre_emp          │      │ id_cliente (FK)     │
+                     │ contacto            │      │ numero_factura (UK) │
+                     │ telefono            │      │ fecha_emision       │
+                     │ email               │      │ fecha_venc          │
+                     │ fuente              │      │ subtotal            │
+                     │ estado              │      │ impuestos           │
+                     │ fecha_reg           │      │ total               │
+                     └─────────────────────┘      │ estado              │
+                                          └─────────────────────┘
+                     ┌─────────────────────┐      ┌─────────────────────┐
+                     │   ENVIO_BODEGA      │      │    INCIDENTE        │
+                     ├─────────────────────┤      ├─────────────────────┤
+                     │ id_ebodega (PK)     │      │ id_incid (PK)       │
+                     │ id_envio (FK)       │      │ id_envio (FK)       │
+                     │ ubicacion           │      │ id_chofer (FK)      │
+                     │ fecha_ing           │      │ tipo                │
+                     │ fecha_sal           │      │ descripcion         │
+                     └─────────────────────┘      │ fecha               │
+                                          │ prioridad           │
+                                          │ estado              │
+                                          │ solucion            │
+                                          └─────────────────────┘
+                     ┌─────────────────────┐      ┌─────────────────────┐
+                     │ 🆕 MODELO_IA        │      │ 🆕 REOPTIMIZACION   │
+                     ├─────────────────────┤      ├─────────────────────┤
+                     │ id_modelo (PK)      │      │ id_reopt (PK)       │
+                     │ version             │      │ id_ruta (FK)        │
+                     │ parametros (JSON)   │      │ id_chofer (FK)      │
+                     │ precision           │      │ motivo              │
+                     │ fecha_entrenamiento │      │ tiempo_respuesta    │
+                     │ num_datos           │      │ entregas_afectadas  │
+                     │ activo              │      │ resultado (JSON)    │
+                     └─────────────────────┘      │ fecha               │
+                                          └─────────────────────┘
 ```
 
-### 6.2 Tabla Detallada de la Entidad ENVIO ✅ PARCIAL
+### 6.2 🆕 Tabla Detallada de la Entidad USUARIO (Actualizada para JWT)
+
+| Campo | Tipo | Restricciones | Descripción | Estado |
+|-------|------|---------------|-------------|--------|
+| id_usuario | SERIAL | PRIMARY KEY | Identificador único del usuario | ✅ |
+| nombre | VARCHAR(150) | NOT NULL | Nombre completo del usuario | ✅ |
+| email | VARCHAR(100) | UNIQUE, NOT NULL | Correo electrónico para login | ✅ |
+| password_hash | VARCHAR(255) | NOT NULL | Hash de la contraseña (bcrypt) | ✅ |
+| rol | ENUM(...) | NOT NULL | Rol del usuario (5 perfiles) | ✅ |
+| activo | BOOLEAN | DEFAULT TRUE | ¿Usuario activo? | ✅ |
+| **🆕 ultimo_login** | **TIMESTAMP** | **-** | **Última fecha de inicio de sesión** | ⏳ Pendiente |
+| **🆕 refresh_token** | **VARCHAR(255)** | **-** | **Token de refresco para sesiones prolongadas** | ⏳ Pendiente |
+| **🆕 refresh_token_expira** | **TIMESTAMP** | **-** | **Fecha de expiración del refresh token** | ⏳ Pendiente |
+| created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de creación | ✅ |
+| updated_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de última actualización | ✅ |
+
+### 6.3 Tabla Detallada de la Entidad ENVIO ✅ PARCIAL
 
 | Campo | Tipo | Restricciones | Descripción | Estado |
 |-------|------|---------------|-------------|--------|
@@ -1441,7 +1804,7 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
 | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de creación | ✅ |
 | updated_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de última actualización | ✅ |
 
-### 6.3 Tabla Detallada de la Entidad CLIENTE ✅ IMPLEMENTADO
+### 6.4 Tabla Detallada de la Entidad CLIENTE ✅ IMPLEMENTADO
 
 | Campo | Tipo | Restricciones | Descripción | Estado |
 |-------|------|---------------|-------------|--------|
@@ -1455,7 +1818,7 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
 | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de creación | ✅ |
 | updated_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de última actualización | ✅ |
 
-### 6.4 Tabla Detallada de la Entidad CHOFER ⏳ PENDIENTE
+### 6.5 Tabla Detallada de la Entidad CHOFER ⏳ PENDIENTE
 
 | Campo | Tipo | Restricciones | Descripción |
 |-------|------|---------------|-------------|
@@ -1475,7 +1838,7 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
 | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de creación |
 | updated_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha de última actualización |
 
-### 6.5 Tabla Detallada de la Entidad RUTA ⏳ PENDIENTE
+### 6.6 Tabla Detallada de la Entidad RUTA ⏳ PENDIENTE
 
 | Campo | Tipo | Restricciones | Descripción |
 |-------|------|---------------|-------------|
@@ -1496,7 +1859,7 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
 | margen_utilidad | DECIMAL(5,2) | - | Margen de utilidad en porcentaje |
 | estado | ENUM('planificada','en_curso','completada','cancelada') | DEFAULT 'planificada' | Estado de la ruta |
 
-### 6.6 Tabla Detallada de la Entidad COSTO ⏳ PENDIENTE
+### 6.7 Tabla Detallada de la Entidad COSTO ⏳ PENDIENTE
 
 | Campo | Tipo | Restricciones | Descripción |
 |-------|------|---------------|-------------|
@@ -1514,7 +1877,7 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
 | id_envio | INTEGER | FOREIGN KEY (envio.id_envio) | Envío asociado (opcional) |
 | facturado | BOOLEAN | DEFAULT FALSE | ¿Está facturado? |
 
-### 6.7 Tabla Detallada de la Entidad PARAMETROS_SISTEMA ⏳ PENDIENTE
+### 6.8 Tabla Detallada de la Entidad PARAMETROS_SISTEMA ⏳ PENDIENTE
 
 | Campo | Tipo | Restricciones | Descripción |
 |-------|------|---------------|-------------|
@@ -1541,7 +1904,7 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
 | costo_administrativo_por_km | 4.00 | Costo administrativo por kilómetro | CUP/km |
 | costo_impuesto_por_km | 2.00 | Costo de impuestos por kilómetro | CUP/km |
 
-### 6.8 Tabla Detallada de la Entidad HISTORIAL_PARAMETROS ⏳ PENDIENTE
+### 6.9 Tabla Detallada de la Entidad HISTORIAL_PARAMETROS ⏳ PENDIENTE
 
 | Campo | Tipo | Restricciones | Descripción |
 |-------|------|---------------|-------------|
@@ -1552,7 +1915,7 @@ El siguiente diagrama muestra todas las entidades del sistema y sus relaciones, 
 | fecha_cambio | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Fecha del cambio |
 | usuario | VARCHAR(50) | NOT NULL | Usuario que realizó el cambio |
 
-### 6.9 Estados del Paquete (9 estados)
+### 6.10 Estados del Paquete (9 estados)
 
 El sistema gestiona 9 estados del paquete a lo largo del flujo de paquetería:
 
@@ -1568,10 +1931,12 @@ El sistema gestiona 9 estados del paquete a lo largo del flujo de paquetería:
 | 8 | **Entregado** | Seta Expreso | Entregado con firma y fotos | ✅ Sí |
 | 9 | **No Entregado** | Seta Expreso | No se pudo entregar, vuelve a clasificación | ✅ Sí |
 
-### 6.10 Índices Recomendados
+### 6.11 Índices Recomendados
 
 | Tabla | Columna(s) | Tipo de Índice | Propósito | Estado |
 |-------|------------|---------------|-----------|--------|
+| usuario | email | UNIQUE | Búsqueda rápida por email para login | ⏳ Pendiente |
+| usuario | refresh_token | BTREE | Validación de refresh token | ⏳ Pendiente |
 | envio | house | UNIQUE | Búsqueda rápida por House | ✅ |
 | envio | id_cliente, estado | BTREE | Filtrar envíos por cliente y estado | ✅ |
 | envio | fecha_limite | BTREE | Envíos próximos a vencer | ⏳ Pendiente |
@@ -1601,21 +1966,21 @@ https://api.sigma-t.com/v1
 ```
 
 ### 7.2 Autenticación
-- **Tipo:** JWT (JSON Web Token)
-- **Header:** `Authorization: Bearer <token>`
-- **Tiempo de expiración:** 24 horas
-- **Refresh Token:** Opcional para sesiones largas
+- **Tipo:** JWT (JSON Web Token) con Refresh Token
+- **Header:** `Authorization: Bearer <access_token>`
+- **Tiempo de expiración:** 24 horas (access token), 7 días (refresh token)
+- **Refresh Token:** Endpoint `/api/auth/refresh` para renovar sesión
 
 ### 7.3 Endpoints por Módulo
 
-**Módulo de Autenticación** - ⏳ PENDIENTE
+**🆕 Módulo de Autenticación** - ⏳ PENDIENTE (SPRINT 3)
 
 | Método | Endpoint | Descripción | Autenticación | Estado |
 |--------|----------|-------------|---------------|--------|
-| POST | `/api/auth/login` | Iniciar sesión | Pública | ⏳ Pendiente |
-| POST | `/api/auth/refresh` | Refrescar token | Pública | ⏳ Pendiente |
-| POST | `/api/auth/logout` | Cerrar sesión | Admin/Dispatcher | ⏳ Pendiente |
-| GET | `/api/auth/me` | Obtener perfil del usuario | Admin/Dispatcher | ⏳ Pendiente |
+| POST | `/api/auth/login` | Iniciar sesión (devuelve access + refresh token) | Pública | ⏳ Pendiente |
+| POST | `/api/auth/refresh` | Refrescar access token | Pública (con refresh token) | ⏳ Pendiente |
+| POST | `/api/auth/logout` | Cerrar sesión (invalida refresh token) | Admin/Dispatcher | ⏳ Pendiente |
+| GET | `/api/auth/me` | Obtener perfil del usuario autenticado | Admin/Dispatcher/Chofer | ⏳ Pendiente |
 
 **Módulo de Envíos** - ✅ IMPLEMENTADO
 
@@ -1645,7 +2010,7 @@ https://api.sigma-t.com/v1
 
 | Método | Endpoint | Descripción | Autenticación | Estado |
 |--------|----------|-------------|---------------|--------|
-| POST | `/api/rutas/optimizar` | Optimizar rutas (VRPTW) | Admin/Dispatcher | ⏳ Pendiente |
+| POST | `/api/rutas/optimizar` | Optimizar rutas (VRPTW v3.0) | Admin/Dispatcher | ⏳ Pendiente |
 | GET | `/api/rutas/semana/:fecha` | Obtener rutas de una semana | Admin/Dispatcher | ⏳ Pendiente |
 | GET | `/api/rutas/:id` | Obtener detalle de ruta | Admin/Dispatcher | ⏳ Pendiente |
 | PUT | `/api/rutas/:id` | Actualizar ruta (manual) | Admin/Dispatcher | ⏳ Pendiente |
@@ -1730,12 +2095,63 @@ https://api.sigma-t.com/v1
 
 A continuación se presentan ejemplos prácticos de las interacciones con la API de SIGMA-T.
 
-**1. Importar Manifiesto** - ⚠️ PARCIAL
+**🆕 1. Login con JWT** - ⏳ PENDIENTE (SPRINT 3)
+
+```http
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@sigma-t.com",
+  "password": "SecurePassword123"
+}
+```
+
+**Respuesta (Éxito):**
+```json
+{
+  "success": true,
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "refreshToken": "dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4...",
+    "user": {
+      "id": 1,
+      "nombre": "Osleyder Gonzalez",
+      "email": "admin@sigma-t.com",
+      "rol": "admin"
+    }
+  }
+}
+```
+
+**🆕 2. Refrescar Token** - ⏳ PENDIENTE (SPRINT 3)
+
+```http
+POST /api/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4..."
+}
+```
+
+**Respuesta:**
+```json
+{
+  "success": true,
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "refreshToken": "bmV3IHJlZnJlc2ggdG9rZW4..."
+  }
+}
+```
+
+**3. Importar Manifiesto** - ⚠️ PARCIAL
 
 ```http
 POST /api/envios/importar
 Content-Type: multipart/form-data
-Authorization: Bearer <token>
+Authorization: Bearer <access_token>
 
 {
   "file": "manifiesto.xlsx",
@@ -1776,12 +2192,12 @@ Authorization: Bearer <token>
 }
 ```
 
-**2. Optimizar Rutas** - ⏳ PENDIENTE
+**4. Optimizar Rutas** - ⏳ PENDIENTE
 
 ```http
 POST /api/rutas/optimizar
 Content-Type: application/json
-Authorization: Bearer <token>
+Authorization: Bearer <access_token>
 
 {
   "fechaInicio": "2026-08-16",
@@ -1816,12 +2232,12 @@ Authorization: Bearer <token>
 }
 ```
 
-**3. Consultar Costos de Aduana** - ⏳ PENDIENTE
+**5. Consultar Costos de Aduana** - ⏳ PENDIENTE
 
 ```http
 POST /api/finanzas/consultar-aduana
 Content-Type: application/json
-Authorization: Bearer <token>
+Authorization: Bearer <access_token>
 
 {
   "envios": [
@@ -1858,12 +2274,12 @@ Authorization: Bearer <token>
 }
 ```
 
-**4. Calcular Pago de Chofer** - ⏳ PENDIENTE
+**6. Calcular Pago de Chofer** - ⏳ PENDIENTE
 
 ```http
 POST /api/choferes/calcular-pago
 Content-Type: application/json
-Authorization: Bearer <token>
+Authorization: Bearer <access_token>
 
 {
   "choferId": "CH-001",
@@ -1901,12 +2317,12 @@ Authorization: Bearer <token>
 }
 ```
 
-**5. Actualizar Parámetro Financiero** - ⏳ PENDIENTE
+**7. Actualizar Parámetro Financiero** - ⏳ PENDIENTE
 
 ```http
 PUT /api/parametros/tasa_cambio
 Content-Type: application/json
-Authorization: Bearer <token>
+Authorization: Bearer <access_token>
 
 {
   "valor": 240.00
@@ -1924,11 +2340,11 @@ Authorization: Bearer <token>
 }
 ```
 
-**6. Generar Ficha de Costo** - ⏳ PENDIENTE
+**8. Generar Ficha de Costo** - ⏳ PENDIENTE
 
 ```http
 GET /api/rutas/1/ficha-costo
-Authorization: Bearer <token>
+Authorization: Bearer <access_token>
 ```
 
 **Respuesta:**
@@ -1969,11 +2385,11 @@ Authorization: Bearer <token>
 }
 ```
 
-**7. Monitorear Estado de Automatización de Aduana** - ⏳ PENDIENTE
+**9. Monitorear Estado de Automatización de Aduana** - ⏳ PENDIENTE
 
 ```http
 GET /api/finanzas/automatizacion/status
-Authorization: Bearer <token>
+Authorization: Bearer <access_token>
 ```
 
 **Respuesta:**
@@ -2059,7 +2475,7 @@ swagger-cli validate openapi.yaml
 
 ---
 
-## 8. ALGORITMO DE OPTIMIZACIÓN (VRPTW) ⏳ PENDIENTE
+## 8. ALGORITMO DE OPTIMIZACIÓN (VRPTW v3.0) ⏳ PENDIENTE
 
 ### 8.1 Definición del Problema
 El algoritmo resuelve el **Problema de Enrutamiento de Vehículos con Ventanas de Tiempo (VRPTW)** , que consiste en encontrar un conjunto de rutas óptimas para una flota de vehículos que deben visitar un conjunto de clientes, respetando:
@@ -2068,8 +2484,11 @@ El algoritmo resuelve el **Problema de Enrutamiento de Vehículos con Ventanas d
 2. **Ventanas de tiempo** (horarios de entrega establecidos por cada cliente)
 3. **Restricciones de los choferes** (horarios de trabajo, habilidades, zonas asignadas)
 4. **Minimización de distancia/tiempo total** (reducir costos operativos)
+5. **🆕 Optimización de combustible** (considera consumo específico de cada vehículo)
+6. **🆕 Prioridad de entregas** (urgente, normal, económico)
+7. **🆕 Reoptimización dinámica** (en tiempo real ante incidencias)
 
-### 8.2 Pseudocódigo del Algoritmo
+### 8.2 Pseudocódigo del Algoritmo VRPTW v3.0
 
 ```
 function optimizarRutas(envios, vehiculos, choferes):
@@ -2080,40 +2499,84 @@ function optimizarRutas(envios, vehiculos, choferes):
     matrizDistancias = calcularMatrizDistancias(coordenadas)
     matrizTiempos = calcularMatrizTiempos(coordenadas)
     
-    // 3. Construir solución inicial (Algoritmo de Inserción de Solomon)
-    solucionInicial = construirSolucionInicial(
+    // 3. 🆕 Calcular consumo de combustible por vehículo
+    consumos = calcularConsumosCombustible(vehiculos)
+
+    // 4. Construir solución inicial (Algoritmo de Inserción de Solomon con prioridad)
+    solucionInicial = construirSolucionInicialConPrioridad(
         envios, 
         vehiculos, 
         matrizDistancias, 
-        matrizTiempos
+        matrizTiempos,
+        consumos,           // 🆕
+        prioridades         // 🆕
     )
-    
-    // 4. Mejorar solución (Búsqueda Local)
+
+    // 5. Mejorar solución (Búsqueda Local con función de costo mejorada)
     mejorSolucion = solucionInicial
     iteraciones = 0
     while iteraciones < MAX_ITERACIONES:
-        // 4.1 Aplicar operadores de vecindad
+        // 5.1 Aplicar operadores de vecindad
         nuevaSolucion = aplicarOperadoresVecindad(
             mejorSolucion,
             [2-opt, intercambio, insertar, reubicar]
         )
         
-        // 4.2 Evaluar nueva solución (función de costo)
-        if evaluar(nuevaSolucion) < evaluar(mejorSolucion):
+        // 5.2 Evaluar nueva solución (función de costo con combustible y prioridad)
+        costoActual = evaluarConCombustibleYPrioridad(mejorSolucion)
+        costoNuevo = evaluarConCombustibleYPrioridad(nuevaSolucion)
+
+        if costoNuevo < costoActual:
             mejorSolucion = nuevaSolucion
         
-        // 4.3 Actualizar criterios de aceptación
+        // 5.3 Actualizar criterios de aceptación
         actualizarParametros()
-        
         iteraciones++
     
-    // 5. Ajustar a restricciones de Cuba (modo offline)
+    // 6. 🆕 Aplicar reoptimización si hay incidencias
+    if incidenciasActivas:
+        mejorSolucion = reoptimizarRuta(mejorSolucion, incidencias)
+
+    // 7. Ajustar a restricciones de Cuba (modo offline)
     mejorSolucion = ajustarRestriccionesCuba(mejorSolucion)
     
     return mejorSolucion
 ```
 
-### 8.3 Restricciones Específicas para Cuba
+### 8.3 🆕 Función de Costo con Combustible y Prioridad
+
+```typescript
+function evaluarConCombustibleYPrioridad(solucion: Solucion): number {
+    let costoTotal = 0;
+    const PESO_COMBUSTIBLE = 0.4;
+    const PESO_DISTANCIA = 0.6;
+    const PENALIZACION_URGENTE = 50;
+
+    for (const ruta of solucion.rutas) {
+        // Costo de distancia
+        const distancia = ruta.distancia_total;
+
+        // Costo de combustible
+        const consumoVehiculo = ruta.vehiculo.consumo_promedio;
+        const precioCombustible = obtenerPrecioCombustible(ruta.vehiculo.tipo_combustible);
+        const costoCombustible = (distancia / 100) * consumoVehiculo * precioCombustible;
+
+        // Penalización por urgente no prioritario
+        let penalizacion = 0;
+        for (const envio of ruta.envios) {
+            if (envio.prioridad === 'urgente' && ruta.posicion(envio) > 3) {
+                penalizacion += PENALIZACION_URGENTE;
+            }
+        }
+
+        costoTotal += (PESO_DISTANCIA * distancia) + (PESO_COMBUSTIBLE * costoCombustible) + penalizacion;
+    }
+
+    return costoTotal;
+}
+```
+
+### 8.4 Restricciones Específicas para Cuba
 1. **Calles sin nombre:** El sistema permite asignar coordenadas manuales desde la app del chofer, que luego se almacenan para futuras optimizaciones.
 2. **Zonas de difícil acceso:** El algoritmo puede marcar zonas donde los choferes han reportado dificultades y sugerir rutas alternativas.
 3. **Combustible:** Prioriza rutas más cortas en zonas rurales donde la gasolina es escasa.
@@ -2181,15 +2644,17 @@ La app móvil está diseñada para funcionar completamente sin conexión a inter
 
 ## 10. SEGURIDAD
 
-### 10.1 Autenticación y Autorización
+### 10.1 Autenticación y Autorización (🆕 Actualizado)
 
 | Capa | Mecanismo | Propósito | Estado |
 |------|-----------|-----------|--------|
-| **Autenticación** | JWT (JSON Web Token) | Validar identidad del usuario | ⏳ Pendiente |
-| **Autorización** | Roles y permisos | Controlar acceso a recursos | ⏳ Pendiente |
+| **Autenticación** | JWT (JSON Web Token) con expiración de 24h | Validar identidad del usuario | ⏳ Pendiente (Sprint 3) |
+| **Refresh Token** | JWT con expiración de 7 días | Renovar sesión sin re-login | ⏳ Pendiente (Sprint 3) |
+| **Autorización** | Roles y permisos (5 perfiles) | Controlar acceso a recursos | ⏳ Pendiente (Sprint 3) |
 | **Seguridad de Datos** | Encriptación (AES-256) | Proteger información sensible | ✅ |
 | **HTTPS** | TLS 1.3 | Cifrar comunicaciones | ⏳ Pendiente |
-| **Rate Limiting** | Express-rate-limit | Prevenir ataques de fuerza bruta | ⏳ Pendiente |
+| **Rate Limiting** | Express-rate-limit | Prevenir ataques de fuerza bruta | ✅ |
+| **Seguridad de Contraseñas** | bcrypt (salt rounds: 10) | Hash de contraseñas | ✅ |
 
 ### 10.2 Roles y Permisos (5 Perfiles de Usuario)
 
@@ -2205,7 +2670,7 @@ La app móvil está diseñada para funcionar completamente sin conexión a inter
 Todas las acciones de los usuarios se registran en la tabla `auditoria`, incluyendo:
 
 - ID del usuario
-- Acción realizada (crear, leer, actualizar, eliminar, login, logout, consultar_aduana, calcular_pago, generar_ficha_costo, facturar_aduana_automatica)
+- Acción realizada (crear, leer, actualizar, eliminar, login, logout, consultar_aduana, calcular_pago, generar_ficha_costo, facturar_aduana_automatica, **refresh_token**, **reoptimizar_ruta**)
 - Entidad afectada (envío, ruta, vehículo, chofer, cliente, parámetro, ficha_costo, etc.)
 - ID de la entidad
 - Detalle de los cambios (en formato JSON)
@@ -2236,6 +2701,7 @@ Todas las acciones de los usuarios se registran en la tabla `auditoria`, incluye
 | **Web Scraping** | Cola de Tareas | Procesamiento asíncrono con colas (Bull) |
 | **Ficha de Costo** | Cálculo bajo demanda | Generación bajo demanda, no en tiempo real |
 | **Automatización Aduana** | Procesamiento por lotes | Consultas en lotes para evitar sobrecarga |
+| **🆕 Autenticación** | Stateless | JWT sin estado, no requiere almacenamiento de sesiones |
 
 ### 11.2 Capacidad Estimada
 
@@ -2249,6 +2715,7 @@ Todas las acciones de los usuarios se registran en la tabla `auditoria`, incluye
 | **Consultas de Aduana** | 127 por lote | 500 por lote | 1,000 por lote |
 | **Automatización Aduana** | 4 ejecuciones/día | 4 ejecuciones/día | 4 ejecuciones/día |
 | **Fichas de Costo** | 10-20 por semana | 50-100 por semana | 100-500 por semana |
+| **🆕 Login/Refresh** | 10 req/s | 50 req/s | 200 req/s |
 
 ### 11.3 Pasos para Escalar
 
@@ -2303,6 +2770,7 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       JWT_SECRET: ${JWT_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}  # 🆕
       OSRM_URL: http://osrm:5000
       NODE_ENV: development
       AEROVARADERO_URL: https://www.aerovaradero.com.cu/payment/
@@ -2328,6 +2796,21 @@ services:
     volumes:
       - ./frontend:/app
     restart: unless-stopped
+
+  # 🆕 SonarQube (Sprint 5.5)
+  sonarqube:
+    image: sonarqube:community
+    container_name: sigma-t-sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    networks:
+      - sigma-network
+    restart: unless-stopped
   
   nginx:
     image: nginx:alpine
@@ -2344,6 +2827,8 @@ services:
 
 volumes:
   postgres_data:
+  sonarqube_data:     # 🆕
+  sonarqube_extensions: # 🆕
 ```
 
 ### 12.2 Infraestructura de Producción (VPS ETECSA) ⏳ PENDIENTE
@@ -2366,6 +2851,7 @@ volumes:
 │  │  │                  Backend (Node.js)                 │ │ │
 │  │  │  (Gestionado por PM2, puerto 3000)               │ │ │
 │  │  │  (Cron Jobs para automatización de aduana)       │ │ │
+│  │  │  (🆕 JWT + Refresh Token)                        │ │ │
 │  │  └─────────────────────────────────────────────────────┘ │ │
 │  │                          │                                │ │
 │  │                          ▼                                │ │
@@ -2383,14 +2869,19 @@ volumes:
 │  │  │               Frontend (React)                      │ │ │
 │  │  │  (Build estático servido por Nginx)                │ │ │
 │  │  └─────────────────────────────────────────────────────┘ │ │
+│  │                                                          │ │
+│  │  ┌─────────────────────────────────────────────────────┐ │ │
+│  │  │           🆕 SonarQube (Opcional)                   │ │ │
+│  │  │  (Análisis de calidad de código)                   │ │ │
+│  │  └─────────────────────────────────────────────────────┘ │ │
 │  └──────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 **Requisitos del VPS ETECSA:**
 - **Sistema Operativo:** Ubuntu 22.04 LTS o 24.04 LTS
-- **RAM:** 2 GB mínimo (recomendado: 4 GB)
-- **Disco:** 50 GB SSD mínimo
+- **RAM:** 2 GB mínimo (recomendado: 4 GB para incluir SonarQube)
+- **Disco:** 50 GB SSD mínimo (recomendado: 80 GB)
 - **Ancho de Banda:** 100 Mbps garantizado
 - **Transferencia Mensual:** 250 GB incluidos
 - **Ubicaciones:** Centros de Datos en La Habana, Mayabeque y Las Tunas
@@ -2500,9 +2991,9 @@ sudo systemctl status certbot.timer
 | **Staging** | VPS ETECSA (pruebas) | Pruebas de integración y QA | Equipo + Líder | ⏳ Pendiente |
 | **Producción** | VPS ETECSA (producción) | Operación real | Equipo + Líder | ⏳ Pendiente |
 
-### 12.4 Variables de Entorno
+### 12.4 Variables de Entorno (🆕 Actualizadas)
 
-```
+```bash
 # .env (Producción)
 DB_HOST=localhost
 DB_PORT=5432
@@ -2513,7 +3004,11 @@ DB_NAME=sigma_t
 REDIS_HOST=localhost
 REDIS_PORT=6379
 
+# 🆕 JWT Configuration
 JWT_SECRET=VerySecureJWTSecretKey
+JWT_REFRESH_SECRET=VerySecureRefreshSecretKey
+JWT_ACCESS_EXPIRY=24h
+JWT_REFRESH_EXPIRY=7d
 
 OSRM_URL=http://localhost:5000
 
@@ -2546,6 +3041,10 @@ DEFAULT_COSTO_DEPRECIACION_POR_KM=8.00
 DEFAULT_COSTO_SEGURO_POR_KM=3.00
 DEFAULT_COSTO_ADMINISTRATIVO_POR_KM=4.00
 DEFAULT_COSTO_IMPUESTO_POR_KM=2.00
+
+# 🆕 SonarQube (opcional)
+SONAR_HOST_URL=http://localhost:9000
+SONAR_TOKEN=your_sonar_token
 ```
 
 ### 12.5 Estrategia de Distribución de la App Móvil
@@ -2589,21 +3088,23 @@ DEFAULT_COSTO_IMPUESTO_POR_KM=2.00
 |---------|------------|--------|
 | **Código** | TypeScript (tipado estático), ESLint, Prettier | ✅ |
 | **Documentación** | Comentarios en código, JSDoc, documentación externa | ✅ |
-| **Pruebas** | Unitarias (Jest), Integración (Supertest), E2E (Cypress) | ⏳ Pendiente |
+| **Pruebas** | Unitarias (Jest + Vitest), Integración (Supertest), E2E (Cypress) | ⏳ Pendiente (Sprint 5.5/6) |
 | **CI/CD** | GitHub Actions (pruebas automáticas, análisis estático, generación de documentación, despliegue) | ✅ |
+| **Calidad de Código** | **🆕 SonarQube (deuda técnica, seguridad, duplicación)** | ⏳ Pendiente (Sprint 5.5) |
 | **Monitoreo** | Prometheus + Grafana (métricas, alertas) | ⏳ Pendiente |
 | **Logging** | Winston (logs estructurados con niveles: error, warn, info, debug) | ✅ |
 | **Versionado** | SemVer (MAJOR.MINOR.PATCH) | ✅ |
 | **Gestión de Dependencias** | Renovación automática con Dependabot | ✅ |
+| **🆕 Cobertura de Pruebas** | ≥70% de cobertura (backend y frontend) | ⏳ Pendiente (Sprint 5.5) |
 
 ### 13.2 Plan de Evolución (Roadmap Técnico)
 
 | Hito | Fecha | Entregable | Estado |
 |------|-------|------------|--------|
 | **MVP** | 15/01/2027 | Módulos de Envíos, Rutas, App Chofer, Ficha de Costo básica | ⏳ Pendiente |
-| **Versión 1.0** | 01/04/2027 | Sistema completo con finanzas, aduana (URL de payment) y ficha de costo | ⏳ Pendiente |
+| **Versión 1.0** | 01/04/2027 | Sistema completo con finanzas, aduana (URL de payment), ficha de costo, **autenticación JWT** | ⏳ Pendiente |
 | **Versión 1.1** | 01/06/2027 | Mejoras UX, reportes avanzados, optimización de scraping | ⏳ Pendiente |
-| **Versión 1.2** | 01/09/2027 | IA predictiva para estimación de costos de aduana (opcional) | ⏳ Pendiente |
+| **Versión 1.2** | 01/09/2027 | IA predictiva para estimación de tiempos y costos | ⏳ Pendiente |
 | **Versión 2.0** | 01/01/2028 | Escalabilidad, integraciones con sistemas externos | ⏳ Pendiente |
 
 ### 13.3 Estrategia de Backups
@@ -2614,6 +3115,7 @@ DEFAULT_COSTO_IMPUESTO_POR_KM=2.00
 | **Base de Datos (Incremental)** | Cada hora | 7 días |
 | **Archivos (Excel, PDF)** | Diario | 90 días |
 | **Logs** | Diario | 30 días |
+| **🆕 Refresh Tokens** | Diario (backup de tabla) | 30 días |
 
 ---
 
@@ -2646,6 +3148,7 @@ El backend se desarrollará con **TypeScript**, un superconjunto de JavaScript q
 | **Principios y Patrones** | Aplicar el Principio de Responsabilidad Única (SOLID). Cada función y clase debe tener una única responsabilidad. | Separar lógica de negocio (`calcularCosto`), acceso a datos (`guardarEnvio`) y presentación (`formatearRespuesta`). | ✅ |
 | **Herramientas de Análisis** | Usar **ESLint** con una configuración estricta y **Prettier** para el formateo automático. | `@antfu/eslint-config` o configuración personalizada estricta. | ✅ |
 | **Longitud de Línea** | Máximo 100 caracteres | Ajustar líneas largas para mejorar legibilidad | ✅ |
+| **🆕 Pruebas Unitarias** | Escribir pruebas unitarias para todo código nuevo usando Jest | `npm run test` para ejecutar pruebas | ⏳ Pendiente |
 
 #### 15.1.2 Frontend: React y TypeScript ✅ CONFIGURADO
 
@@ -2658,6 +3161,8 @@ El frontend web seguirá los estándares modernos de React con componentes funci
 | **Estructura y Formato** | Retornar temprano para reducir anidamiento. Mantener un formato consistente (ej. con Prettier). Un componente debería dividirse si supera las 150 líneas o maneja múltiples responsabilidades. | `if (isLoading) return <Spinner />; if (error) return <Error />; return <div>...</div>;` | ✅ |
 | **Hooks** | Espaciar `useEffect` y otros hooks para mejorar la legibilidad. Crear hooks personalizados (`use...`) para lógica reutilizable. | `const debouncedQuery = useDebounce(searchQuery, 500);` | ✅ |
 | **Herramientas de Análisis** | Las mismas reglas de ESLint que para el backend se aplicarán al frontend. | Configuración compartida o específica. | ✅ |
+| **🆕 Estado Global** | Usar Zustand para estado global, con separación clara de stores. | `const { envios, loading } = useEnvioStore();` | ⏳ Pendiente |
+| **🆕 Componentes Comunes** | Crear componentes reutilizables en `components/common/` con props tipadas. | `Button`, `Table`, `Modal`, `Card`, `Input`, `Select`, etc. | ⏳ Pendiente |
 
 #### 15.1.3 Móvil: Flutter y Dart ✅ CONFIGURADO
 
@@ -2739,6 +3244,32 @@ info:
   description: API para la gestión integral de transporte
 
 paths:
+  /api/auth/login:
+    post:
+      summary: Iniciar sesión
+      description: Autentica a un usuario y devuelve access token y refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        200:
+          description: Login exitoso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        401:
+          description: Credenciales incorrectas
   /api/envios/importar:
     post:
       summary: Importar manifiesto desde Excel
@@ -2789,6 +3320,13 @@ paths:
                 $ref: '#/components/schemas/FichaCosto'
         404:
           description: Ruta no encontrada
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 ```
 
 #### 15.2.3 Documentación de Módulos (READMEs)
@@ -2834,10 +3372,11 @@ El pipeline de CI/CD (GitHub Actions) incluirá los siguientes pasos relacionado
 
 1. **Análisis Estático:** Ejecutar ESLint, Prettier y Dart Analyzer.
 2. **Validación de Documentación:** Ejecutar `eslint-plugin-jsdoc` para verificar cobertura de JSDoc.
-3. **Pruebas Unitarias:** Ejecutar pruebas unitarias con Jest (backend) y Flutter Test (mobile).
-4. **Generación de Documentación:** Generar documentación con TypeDoc y Swagger UI.
-5. **Construcción:** Compilar y construir los artefactos.
-6. **Despliegue:** Desplegar en el entorno correspondiente (staging/producción).
+3. **🆕 Pruebas Unitarias:** Ejecutar pruebas unitarias con Jest (backend) y Vitest (frontend).
+4. **🆕 Análisis de Calidad:** Ejecutar SonarQube para verificar deuda técnica y seguridad.
+5. **Generación de Documentación:** Generar documentación con TypeDoc y Swagger UI.
+6. **Construcción:** Compilar y construir los artefactos.
+7. **Despliegue:** Desplegar en el entorno correspondiente (staging/producción).
 
 ### 15.3 Herramientas de Análisis y Formateo ✅ CONFIGURADO
 
@@ -2849,6 +3388,10 @@ El pipeline de CI/CD (GitHub Actions) incluirá los siguientes pasos relacionado
 | **TypeDoc** | TypeScript | Generación de documentación | CI/CD (manual o automatizado) | ✅ |
 | **Swagger UI** | API | Documentación interactiva de API | CI/CD | ✅ |
 | **ESLint-plugin-jsdoc** | TypeScript/JavaScript | Validación de JSDoc | CI/CD | ✅ |
+| **🆕 SonarQube** | Multi-lenguaje | Análisis de calidad (deuda técnica, seguridad) | CI/CD (Sprint 5.5) | ⏳ Pendiente |
+| **🆕 Jest** | TypeScript/JavaScript | Pruebas unitarias backend | CI/CD (Sprint 5.5) | ⏳ Pendiente |
+| **🆕 Vitest** | TypeScript/JavaScript | Pruebas unitarias frontend | CI/CD (Sprint 5.5) | ⏳ Pendiente |
+| **🆕 Cypress** | TypeScript/JavaScript | Pruebas E2E | CI/CD (Sprint 6) | ⏳ Pendiente |
 
 ### 15.4 Política de Commits (Conventional Commits) ✅ CONFIGURADO
 
@@ -2884,9 +3427,11 @@ tipo(alcance): descripción corta (máximo 50 caracteres)
 |---------|----------|----------|------------|--------|
 | **Cobertura de Documentación** | ≥80% de funciones públicas documentadas | ESLint-plugin-jsdoc | Cada PR | ✅ |
 | **Cumplimiento de Estándares** | ≥95% del código sin violaciones de ESLint/Dart Analyzer | ESLint / Dart Analyzer | Cada PR | ✅ |
-| **Deuda Técnica** | <5% de deuda técnica identificada | SonarQube (opcional) | Mensual | ⏳ Pendiente |
-| **Código Duplicado** | <3% de código duplicado | SonarQube (opcional) | Mensual | ⏳ Pendiente |
+| **Deuda Técnica** | <5% de deuda técnica identificada | SonarQube | Mensual | ⏳ Pendiente |
+| **Código Duplicado** | <3% de código duplicado | SonarQube | Mensual | ⏳ Pendiente |
 | **Complejidad Ciclomática** | <10 por función | ESLint (complexity) | Cada PR | ✅ |
+| **🆕 Cobertura de Pruebas** | ≥70% de cobertura | Jest / Vitest | Cada PR | ⏳ Pendiente |
+| **🆕 Vulnerabilidades** | 0 críticas | SonarQube | Mensual | ⏳ Pendiente |
 
 ### 15.6 Plan de Formación Continua
 
@@ -2900,6 +3445,10 @@ El equipo de desarrollo recibirá formación continua en:
 - **Cálculos Financieros:** Precisión en cálculos de costos, pagos a choferes y ficha de costo.
 - **Despliegue en VPS ETECSA:** Configuración de Nginx, SSL/HTTPS, PM2.
 - **Automatización de Aduana:** Configuración de cron jobs, manejo de errores, logs y alertas.
+- **🆕 Autenticación JWT:** Implementación de JWT, refresh token y gestión de roles.
+- **🆕 Pruebas Unitarias:** Uso de Jest, Vitest y buenas prácticas de testing.
+- **🆕 Gestión de Estado:** Uso de Zustand y patrones de estado global.
+- **🆕 Análisis de Calidad:** Interpretación de métricas de SonarQube.
 
 ---
 
@@ -2907,29 +3456,27 @@ El equipo de desarrollo recibirá formación continua en:
 
 Este documento establece la base técnica sólida y de clase mundial sobre la cual se construirá SIGMA-T. Con una arquitectura moderna, escalable y adaptada a las condiciones específicas de Cuba, y con estándares de codificación y documentación de primer nivel, SIGMA-T está posicionado para convertirse en el sistema de gestión de transporte líder en su nicho.
 
-**Novedades incorporadas en esta versión 2.8:**
+**Novedades incorporadas en esta versión 3.1:**
 
-- ✅ **Versión actualizada:** 2.7 → 2.8
-- ✅ **Documentación OpenAPI (Swagger) completa** agregada en nueva Sección 7.5
-- ✅ **Archivo openapi.yaml** incluido en la estructura del proyecto
-- ✅ **Configuración de Swagger UI** en app.ts
-- ✅ **Validación de OpenAPI** con swagger-cli
-- ✅ **Dependencias swagger-jsdoc y swagger-ui-express** agregadas al stack tecnológico
-- ✅ **Servicio de Automatización de Aduana** agregado al diagrama de arquitectura y flujos
-- ✅ **node-cron** agregado a dependencias para programación de tareas
-- ✅ **Nuevos campos en ENVIO:** `importe_aduana`, `numero_factura_aduana`, `fecha_ultima_consulta_aduana`, `intentos_consulta_aduana`
-- ✅ **Flujo de Automatización de Aduana** agregado con diagrama de secuencia completo
-- ✅ **Cron Jobs** especificados en la estructura del proyecto (`/src/jobs/`)
-- ✅ **5 perfiles de usuario** (Administrador, Jefe de Operaciones, Agencia de Envíos, Cliente Remitente, Cliente Destinatario)
-- ✅ **9 estados del paquete** documentados en el modelo de datos
-- ✅ **Variables de entorno** para horarios de automatización agregadas
-- ✅ **Índices** para nuevos campos de aduana agregados
-- ✅ **Endpoint** `/api/finanzas/automatizacion/status` agregado para monitoreo
-- ✅ **Sección 7.4 (Ejemplos de API)** restaurada con 7 ejemplos prácticos
-- ✅ **Referencias cruzadas** actualizadas con SRS v3.7 y SPMP v3.7
-
----
+- ✅ **Versión actualizada:** 2.8 → 3.1
+- ✅ **🆕 Autenticación JWT** con access token (24h) y refresh token (7 días)
+- ✅ **🆕 Middleware de autenticación y roles** (auth.middleware.ts, role.middleware.ts)
+- ✅ **🆕 Servicio de Autenticación** (auth.service.ts) con login, refresh y logout
+- ✅ **🆕 Modelo USUARIO** actualizado con campos para JWT
+- ✅ **🆕 Componentes comunes** (Button, Table, Modal, Card, Input, Select, LoadingSpinner, Toast, Badge, Pagination, ConfirmDialog, ErrorBoundary)
+- ✅ **🆕 Store de Zustand** (auth.store, envio.store, cliente.store, ui.store, importacion.store)
+- ✅ **🆕 Custom Hooks** (useAuth, useEnvios, useClientes, useDebounce, useLocalStorage, useToast)
+- ✅ **🆕 Tipos centralizados** (envio.types, cliente.types, importacion.types, auth.types, common.types)
+- ✅ **🆕 Utilidades** (formatters, validators, helpers, constants)
+- ✅ **🆕 LoginPage** añadida a las maquetas
+- ✅ **🆕 SonarQube** añadido al stack tecnológico
+- ✅ **🆕 Jest + Vitest** para pruebas unitarias (cobertura ≥70%)
+- ✅ **🆕 Cypress** para pruebas E2E (Sprint 6)
+- ✅ **🆕 Estructura de frontend** actualizada con carpetas comunes
+- ✅ **🆕 Flujo de autenticación** en diagramas de secuencia
+- ✅ **🆕 Variables de entorno** para JWT y SonarQube
+- ✅ **🆕 Servicio de IA** añadido a la arquitectura
+- ✅ **🆕 Documentación OpenAPI** actualizada con endpoints de autenticación
+- ✅ **🆕 Referencias cruzadas** actualizadas con SRS v3.9 y SPMP v4.0
 
 **Este documento es la guía técnica definitiva para construir el sistema de gestión de transporte más completo y de mayor calidad del nicho cubano y regional.**
-
----

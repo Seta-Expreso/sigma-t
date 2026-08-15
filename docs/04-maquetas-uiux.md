@@ -1,10 +1,10 @@
-## 🎨 DOCUMENTO: MAQUETAS UI/UX - SIGMA-T (VERSIÓN 2.7)
+## 🎨 DOCUMENTO: MAQUETAS UI/UX - SIGMA-T (VERSIÓN 2.8)
 
 **Inspiración:** McLeod Software, OptimoRoute, Turvo, diseño moderno 2026
 **Herramientas de Referencia:** Figma / Adobe XD (para maquetación de alta fidelidad)  
 **Fecha:** 15 de agosto de 2026
-**Versión:** 2.7 (Completa - Top Mundial con VRPTW v3.0, Optimización de Combustible, Reoptimización Dinámica, IA y Análisis Post-Ruta)
-**Total de Pantallas:** 25
+**Versión:** 2.8 (Completa - Top Mundial con VRPTW v3.0, Optimización de Combustible, Reoptimización Dinámica, IA, Análisis Post-Ruta, Autenticación JWT y LoginPage)
+**Total de Pantallas:** 26
 
 ---
 
@@ -32,6 +32,7 @@
 | **Negro (Texto Primario)** | `#212529` | Texto principal, títulos. |
 | **Blanco (Base)** | `#ffffff` | Contenido principal, áreas de lectura. |
 | **🆕 Naranja (Urgente)** | `#e67e22` | Indicadores de envíos urgentes |
+| **🆕 Morado (Reoptimización)** | `#8e44ad` | Indicadores de reoptimización, botones de reoptimizar |
 
 ### 1.3 Tipografía
 
@@ -75,6 +76,8 @@
 | Estado ❌ | `x-circle` | Estado 🟢 | `circle` |
 | **🆕 Reoptimizar** | `refresh-cw` | **🆕 Análisis** | `chart-scatter` |
 | **🆕 Eficiencia** | `gauge` | **🆕 IA** | `bot` |
+| **🆕 Login** | `log-in` | **🆕 Logout** | `log-out` |
+| **🆕 Seguridad** | `shield` | **🆕 Usuario** | `user-circle` |
 
 ### 1.5 Componentes UI (Patrones de Diseño)
 
@@ -110,6 +113,8 @@
 | **Peligro** | `#e74c3c` | `#ffffff` | `#c0392b` | `#f08080` |
 | **Advertencia** | `#f39c12` | `#ffffff` | `#d68910` | `#f8c878` |
 | **🆕 Reoptimizar** | `#8e44ad` | `#ffffff` | `#732d91` | `#c39bd3` |
+| **🆕 Login** | `#00b4d8` | `#ffffff` | `#0098b5` | `#80d4e8` |
+| **🆕 Logout** | `#e74c3c` | `#ffffff` | `#c0392b` | `#f08080` |
 
 **Tamaños de Botones:**
 
@@ -138,6 +143,7 @@
 | **Skeleton** | Fondo `#e9ecef`, animación de pulso |
 | **Barra de Progreso** | Color primario `#00b4d8`, fondo `#e9ecef` |
 | **🆕 Reoptimización** | Spinner color `#8e44ad` + mensaje "Reoptimizando ruta..." |
+| **🆕 Login** | Spinner color `#00b4d8` + mensaje "Iniciando sesión..." |
 
 #### 1.5.6 Notificaciones (Toast)
 
@@ -148,6 +154,7 @@
 | **Error** | `#e74c3c` | 8-10 segundos (o hasta cerrar) |
 | **Información** | `#00b4d8` | 3-5 segundos |
 | **🆕 Reoptimización Exitosa** | `#8e44ad` | 5 segundos |
+| **🆕 Login Exitoso** | `#2ecc71` | 3 segundos |
 
 #### 1.5.7 Modales
 
@@ -171,6 +178,8 @@
 | **Neutral** | `#e9ecef` | `#495057` | "Normal", "Sin asignar" |
 | **🆕 Urgente** | `#e67e22` | `#ffffff` | "Urgente" |
 | **🆕 Reoptimizada** | `#8e44ad` | `#ffffff` | "Reoptimizada" |
+| **🆕 Activo** | `#2ecc71` | `#ffffff` | "Activo" |
+| **🆕 Inactivo** | `#e74c3c` | `#ffffff` | "Inactivo" |
 
 ### 1.6 Mensajes de Error
 
@@ -192,8 +201,10 @@
 | **Error de Aduana** | "No se pudo consultar el costo de aduana para [House]. Verifica el AWB y House." |
 | **Automatización Aduana** | "La automatización de facturación falló para [House]. Verifica el importe y factura." |
 | **Error de Sincronización** | "No se pudo sincronizar los datos. Verifica tu conexión a internet." |
-| **Error de Autenticación** | "Usuario o contraseña incorrectos. Intenta nuevamente." |
-| **Error de Autorización** | "No tienes permisos para realizar esta acción." |
+| **🆕 Error de Autenticación** | "Usuario o contraseña incorrectos. Intenta nuevamente." |
+| **🆕 Error de Autorización** | "No tienes permisos para realizar esta acción." |
+| **🆕 Sesión Expirada** | "Tu sesión ha expirado. Inicia sesión nuevamente." |
+| **🆕 Error de Refresh** | "No se pudo renovar la sesión. Inicia sesión nuevamente." |
 | **Error de Servidor** | "Ocurrió un error en el servidor. Intenta nuevamente más tarde." |
 | **🆕 Error de Reoptimización** | "No se pudo reoptimizar la ruta. Intenta nuevamente o contacta al administrador." |
 | **🆕 Tiempo de Reoptimización Excedido** | "La reoptimización tomó más de 5 segundos. Se usará la ruta actual." |
@@ -213,6 +224,8 @@
 | **Generar ficha de costo** | Spinner + toast de finalización |
 | **Sincronizar offline** | Indicador de estado + toast de finalización |
 | **Ejecutar automatización** | Barra de progreso + toast de finalización |
+| **🆕 Iniciar sesión** | Spinner + redirección al dashboard |
+| **🆕 Cerrar sesión** | Toast de confirmación + redirección al login |
 | **🆕 Solicitar reoptimización** | Spinner color `#8e44ad` + notificación de ruta actualizada |
 | **🆕 Generar análisis post-ruta** | Spinner + gráficos de eficiencia + toast |
 | **🆕 Prioridad de envío** | Cambio de color del badge (Naranja para urgente) |
@@ -238,6 +251,7 @@
 | **Gráficos** | Tamaño reducido, leyenda simplificada |
 | **Mapas** | Tamaño reducido, controles simplificados |
 | **🆕 Análisis Post-Ruta** | Gráficos simplificados, métricas clave |
+| **🆕 Login** | Centrado, tamaño reducido |
 
 ### 1.10 Accesibilidad (WCAG 2.1 AA)
 
@@ -256,7 +270,8 @@
 
 ```mermaid
 flowchart TD
-    D[Dashboard] --> E[Envíos]
+    L[Login] --> D[Dashboard]
+    D --> E[Envíos]
     D --> R[Rutas]
     D --> F[Flota]
     D --> C[Choferes]
@@ -290,13 +305,92 @@ flowchart TD
     P --> P2[🆕 Reporte de Combustible]
 
     S --> S1[Parámetros del Sistema]
+    S --> S2[🆕 Gestión de Usuarios]
 ```
 
 ---
 
-## 3. MAQUETAS DE ALTA FIDELIDAD (25 PANTALLAS)
+## 3. MAQUETAS DE ALTA FIDELIDAD (26 PANTALLAS)
 
-### 3.1 MAQUETA 1: DASHBOARD PRINCIPAL (Vista del Líder)
+### 3.1 🆕 MAQUETA 26: PÁGINA DE LOGIN (Web - Escritorio)
+
+**Objetivo:** Permitir a los usuarios autenticarse en el sistema mediante JWT, con opción de recordar sesión y recuperación de contraseña.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                │
+│                                                                                │
+│  ┌───────────────────────────────────────────────────────────────────────────┐ │
+│  │                                                                           │ │
+│  │                        🚚 SIGMA-T                                         │ │
+│  │                  Sistema de Gestión de Transporte                         │ │
+│  │                                                                           │ │
+│  │  ┌─────────────────────────────────────────────────────────────────────┐  │ │
+│  │  │                                                                     │  │ │
+│  │  │  ──── INICIAR SESIÓN ────                                           │  │ │
+│  │  │                                                                     │  │ │
+│  │  │  📧 Correo Electrónico                                              │  │ │
+│  │  │  [ admin@sigma-t.com ]                                             │  │ │
+│  │  │                                                                     │  │ │
+│  │  │  🔒 Contraseña                                                      │  │ │
+│  │  │  [ •••••••• ]                                                      │  │ │
+│  │  │                                                                     │  │ │
+│  │  │  [✅] Recordarme  │  [ Olvidé mi contraseña ]                       │  │ │
+│  │  │                                                                     │  │ │
+│  │  │  ⚠️ Credenciales incorrectas. Verifica tu email y contraseña.      │  │ │
+│  │  │                                                                     │  │ │
+│  │  │  [  INICIAR SESIÓN  ]                                               │  │ │
+│  │  │                                                                     │  │ │
+│  │  └─────────────────────────────────────────────────────────────────────┘  │ │
+│  │                                                                           │ │
+│  │  Versión 1.0.0  │  © 2026 SIGMA-T  │  [Términos de uso]  [Privacidad]    │ │
+│  │                                                                           │ │
+│  └───────────────────────────────────────────────────────────────────────────┘ │
+│                                                                                │
+│  📱 Modo offline disponible para choferes                                      │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Especificaciones de la Página de Login:**
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **URL** | `/login` |
+| **Acceso** | Público (sin autenticación) |
+| **Campos** | Email (obligatorio), Contraseña (obligatorio) |
+| **Validaciones** | Email: formato válido; Contraseña: mínimo 6 caracteres |
+| **Recordarme** | Almacena sesión por 7 días (refresh token) |
+| **Olvidé mi contraseña** | Enlace a recuperación de contraseña (futuro) |
+| **Redirección** | Al login exitoso → `/dashboard` |
+| **Mensaje de error** | "Credenciales incorrectas. Verifica tu email y contraseña." |
+| **Mensaje de éxito** | "Bienvenido, [nombre]! Redirigiendo..." (Toast) |
+| **Estado de carga** | Spinner en botón + "Iniciando sesión..." |
+| **Versiones** | Móvil, Tablet, Escritorio (responsivo) |
+
+**Flujo de Login:**
+
+```mermaid
+flowchart TD
+    A[Usuario visita /login] --> B{¿Ya tiene sesión activa?}
+    B -->|Sí| C[Redirigir a /dashboard]
+    B -->|No| D[Muestra formulario de login]
+    D --> E[Ingresa email y contraseña]
+    E --> F[Hace clic en "Iniciar Sesión"]
+    F --> G[Valida campos]
+    G -->|Error| H[Muestra mensaje de error]
+    H --> E
+    G -->|Válido| I[Envía POST /api/auth/login]
+    I --> J{¿Credenciales correctas?}
+    J -->|No| K[Muestra "Credenciales incorrectas"]
+    K --> E
+    J -->|Sí| L[Guarda accessToken y refreshToken]
+    L --> M[Redirige a /dashboard]
+    M --> N[Muestra Toast de bienvenida]
+```
+
+---
+
+### 3.2 MAQUETA 1: DASHBOARD PRINCIPAL (Vista del Líder)
 
 **Objetivo:** Proporcionar una vista de 30 segundos del estado del negocio, incluyendo métricas de eficiencia y análisis post-ruta.
 
@@ -361,7 +455,7 @@ flowchart TD
 
 ---
 
-### 3.2 MAQUETA 2: PLANIFICACIÓN DE RUTAS SEMANAL (Vista del Dispatcher)
+### 3.3 MAQUETA 2: PLANIFICACIÓN DE RUTAS SEMANAL (Vista del Dispatcher)
 
 **Objetivo:** Planificar rutas optimizadas con interacción visual drag-and-drop y visualización de prioridades.
 
@@ -422,7 +516,7 @@ flowchart TD
 
 ---
 
-### 3.3 MAQUETA 3: APP DEL CHOFER - INICIO (Vista Móvil)
+### 3.4 MAQUETA 3: APP DEL CHOFER - INICIO (Vista Móvil)
 
 **Objetivo:** Interfaz simple, clara, funcional sin internet, con opción de reoptimización.
 
@@ -493,7 +587,7 @@ flowchart TD
 
 ---
 
-### 3.4 MAQUETA 4: APP DEL CHOFER - DETALLE DE ENTREGA (Vista Móvil)
+### 3.5 MAQUETA 4: APP DEL CHOFER - DETALLE DE ENTREGA (Vista Móvil)
 
 **Objetivo:** Registrar la entrega con todos los datos necesarios, incluyendo incidencias que disparan reoptimización.
 
@@ -542,7 +636,7 @@ flowchart TD
 
 ---
 
-### 3.5 MAQUETA 5: GESTIÓN DE FLOTA (Web - Escritorio)
+### 3.6 MAQUETA 5: GESTIÓN DE FLOTA (Web - Escritorio)
 
 **Objetivo:** Administrar vehículos, mantenimientos y estado operativo, incluyendo consumo de combustible.
 
@@ -601,7 +695,7 @@ flowchart TD
 
 ---
 
-### 3.6 MAQUETA 6: GESTIÓN DE CHOFERES (Web - Escritorio)
+### 3.7 MAQUETA 6: GESTIÓN DE CHOFERES (Web - Escritorio)
 
 **Objetivo:** Administrar conductores, disponibilidad y desempeño, incluyendo métricas de eficiencia.
 
@@ -663,7 +757,7 @@ flowchart TD
 
 ---
 
-### 3.7 MAQUETA 7: REPORTES AVANZADOS (Web - Escritorio)
+### 3.8 MAQUETA 7: REPORTES AVANZADOS (Web - Escritorio)
 
 **Objetivo:** Análisis profundo de rentabilidad, costos, eficiencia y análisis post-ruta.
 
@@ -726,7 +820,7 @@ flowchart TD
 
 ---
 
-### 3.8 MAQUETA 8: CONFIGURACIÓN Y AJUSTES (Web - Escritorio)
+### 3.9 MAQUETA 8: CONFIGURACIÓN Y AJUSTES (Web - Escritorio)
 
 **Objetivo:** Configurar parámetros del sistema (costos, tarifas, parámetros de optimización, etc.).
 
@@ -740,7 +834,25 @@ flowchart TD
 │  ┌─── CONFIGURACIÓN ─────────────────────────────────────────────────────┐   │
 │  │                                                                        │   │
 │  │  [ General ] [ Costos ] [ Rutas ] [ Notificaciones ] [ Usuarios ]    │   │
-│  │  [ 🆕 Optimización ] [ 🆕 IA ]                                      │   │
+│  │  [ 🆕 Optimización ] [ 🆕 IA ] [ 🆕 Seguridad ]                     │   │
+│  └───────────────────────────────────────────────────────────────────────┘   │
+│                                                                                │
+│  ┌─── 🆕 GESTIÓN DE USUARIOS ────────────────────────────────────────────┐   │
+│  │                                                                        │   │
+│  │  📋 Usuarios del Sistema                                              │   │
+│  │                                                                        │   │
+│  │  ┌─────────────────────────────────────────────────────────────────┐  │   │
+│  │  │ Usuario      │ Rol           │ Último Login │ Estado │ Acción  │  │   │
+│  │  ├──────────────┼───────────────┼──────────────┼────────┼─────────┤  │   │
+│  │  │ Osleyder G.  │ Admin         │ 18/08/2026   │ 🟢 Act │ [✏️][🗑️] │  │   │
+│  │  │ Juan C.      │ Chofer        │ 18/08/2026   │ 🟢 Act │ [✏️][🗑️] │  │   │
+│  │  │ Pedro M.     │ Dispatcher    │ 17/08/2026   │ 🟢 Act │ [✏️][🗑️] │  │   │
+│  │  │ María L.     │ Chofer        │ 16/08/2026   │ 🟡 Sus │ [✏️][🗑️] │  │   │
+│  │  │ CAC Agencia  │ Agencia       │ 18/08/2026   │ 🟢 Act │ [✏️][🗑️] │  │   │
+│  │  └─────────────────────────────────────────────────────────────────┘  │   │
+│  │                                                                        │   │
+│  │  [ + Agregar Usuario ]                                                │   │
+│  │  🔐 Política de Contraseñas: Mínimo 8 caracteres, Mayúscula, Número   │   │
 │  └───────────────────────────────────────────────────────────────────────┘   │
 │                                                                                │
 │  ┌─── COSTOS FIJOS ─────────────────────────────────────────────────────┐   │
@@ -801,6 +913,7 @@ flowchart TD
 │  │  🔄 Sincronización Automática: [ ✅ ] cada [ 15 ] minutos            │   │
 │  │  💰 Mostrar costos en: [ CUP ] [ USD ]                              │   │
 │  │  🆕 Reoptimización Automática: [ ✅ ]                                │   │
+│  │  🔐 Tiempo de Sesión: [ 24 ] horas  │  🔄 Refresh Token: [ 7 ] días │   │
 │  │                                                                        │   │
 │  │  [  GUARDAR CONFIGURACIÓN  ]                                          │   │
 │  └───────────────────────────────────────────────────────────────────────┘   │
@@ -811,7 +924,7 @@ flowchart TD
 
 ---
 
-### 3.9 MAQUETA 9: APP DEL CHOFER - PERFIL E HISTORIAL (Móvil)
+### 3.10 MAQUETA 9: APP DEL CHOFER - PERFIL E HISTORIAL (Móvil)
 
 **Objetivo:** Chofer accede a su historial y datos personales con métricas de eficiencia.
 
@@ -876,7 +989,7 @@ flowchart TD
 
 ---
 
-### 3.10 MAQUETA 10: PORTAL DEL CLIENTE (Web - Escritorio)
+### 3.11 MAQUETA 10: PORTAL DEL CLIENTE (Web - Escritorio)
 
 **Objetivo:** El cliente de paquetería puede rastrear sus envíos en tiempo real.
 
@@ -937,7 +1050,7 @@ flowchart TD
 
 ---
 
-### 3.11 MAQUETA 11: GESTIÓN FINANCIERA (Web - Escritorio)
+### 3.12 MAQUETA 11: GESTIÓN FINANCIERA (Web - Escritorio)
 
 **Objetivo:** Control total de ingresos, gastos y rentabilidad, incluyendo costos de combustible y análisis de eficiencia.
 
@@ -1000,7 +1113,7 @@ flowchart TD
 
 ---
 
-### 3.12 MAQUETA 12: GESTIÓN DE MANTENIMIENTO (Web - Escritorio)
+### 3.13 MAQUETA 12: GESTIÓN DE MANTENIMIENTO (Web - Escritorio)
 
 **Objetivo:** Programación y control de mantenimiento de la flota, incluyendo alertas preventivas.
 
@@ -1053,7 +1166,7 @@ flowchart TD
 
 ---
 
-### 3.13 MAQUETA 13: GESTIÓN DE ALMACÉN (Web - Escritorio)
+### 3.14 MAQUETA 13: GESTIÓN DE ALMACÉN (Web - Escritorio)
 
 **Objetivo:** Control de entrada/salida de paquetes en bodega.
 
@@ -1105,7 +1218,7 @@ flowchart TD
 
 ---
 
-### 3.14 MAQUETA 14: FACTURACIÓN Y COBRANZA (Web - Escritorio)
+### 3.15 MAQUETA 14: FACTURACIÓN Y COBRANZA (Web - Escritorio)
 
 **Objetivo:** Generar facturas y gestionar cobros.
 
@@ -1160,7 +1273,7 @@ flowchart TD
 
 ---
 
-### 3.15 MAQUETA 15: GESTIÓN DE INCIDENTES (Web - Escritorio)
+### 3.16 MAQUETA 15: GESTIÓN DE INCIDENTES (Web - Escritorio)
 
 **Objetivo:** Registro, seguimiento y resolución de incidentes, incluyendo reoptimización.
 
@@ -1221,7 +1334,7 @@ flowchart TD
 
 ---
 
-### 3.16 MAQUETA 16: PANEL DE AUDITORÍA (Web - Escritorio)
+### 3.17 MAQUETA 16: PANEL DE AUDITORÍA (Web - Escritorio)
 
 **Objetivo:** Control total de quién hizo qué y cuándo, incluyendo eventos de reoptimización y análisis post-ruta.
 
@@ -1253,9 +1366,11 @@ flowchart TD
 │  │  │ 12:30  │              │ Ruta        │ CAM-02   │          │     │  │   │
 │  │  │ 17/08  │ Sistema      │ 📊 Análisis │ Ruta     │ -        │[📄]│  │   │
 │  │  │ 11:00  │              │ Post-Ruta   │ SCU-01   │          │     │  │   │
+│  │  │ 17/08  │ Sistema      │ 🔐 Login    │ Usuario  │ 10.0.0.1 │[📄]│  │   │
+│  │  │ 10:00  │              │ exitoso     │          │          │     │  │   │
 │  │  └────────┴──────────────┴─────────────┴──────────┴──────────┴─────┘  │   │
 │  │                                                                        │   │
-│  │  [Mostrando 5 de 342 registros]  [ < 1 2 3 4 5 6 7 8 > ]             │   │
+│  │  [Mostrando 6 de 342 registros]  [ < 1 2 3 4 5 6 7 8 > ]             │   │
 │  └───────────────────────────────────────────────────────────────────────┘   │
 │                                                                                │
 │  ┌─── ALERTAS DE SEGURIDAD ──────────────────────────────────────────────┐   │
@@ -1264,6 +1379,7 @@ flowchart TD
 │  │  ✅ Sincronización completada - Chofer: María L. - 08:30 AM          │   │
 │  │  ⚠️ 2 intentos fallidos de login - IP 10.0.0.50 - Ayer 23:15 PM     │   │
 │  │  ✅ 🔄 Reoptimización exitosa - Ruta CAM-02 - 12:30 PM              │   │
+│  │  ✅ 🔐 Refresh token exitoso - Usuario: Osleyder G. - 10:00 AM      │   │
 │  │                                                                        │   │
 │  │  [  BLOQUEAR IP  ]  [  VER DETALLE  ]                                 │   │
 │  └───────────────────────────────────────────────────────────────────────┘   │
@@ -1288,7 +1404,7 @@ flowchart TD
 
 ---
 
-### 3.17 MAQUETA 17: GESTIÓN DE PROSPECTOS Y MARKETING (Web - Escritorio)
+### 3.18 MAQUETA 17: GESTIÓN DE PROSPECTOS Y MARKETING (Web - Escritorio)
 
 **Objetivo:** Capturar y dar seguimiento a nuevos clientes potenciales.
 
@@ -1351,7 +1467,7 @@ flowchart TD
 
 ---
 
-### 3.18 MAQUETA 18: ENCUESTAS Y CASOS DE ÉXITO (Web - Escritorio)
+### 3.19 MAQUETA 18: ENCUESTAS Y CASOS DE ÉXITO (Web - Escritorio)
 
 **Objetivo:** Medir la calidad del servicio y generar casos de éxito.
 
@@ -1380,6 +1496,7 @@ flowchart TD
 │  │  │ │ 📄 Ficha de Costo: 4.6/5        ████████████████████████░│  ││   │
 │  │  │ │ 🆕 Optimización de Ruta: 4.7/5  ████████████████████████░│  ││   │
 │  │  │ │ 🆕 Reoptimización: 4.5/5        ████████████████████████░│  ││   │
+│  │  │ │ 🔐 Seguridad y Login: 4.8/5     ████████████████████████░│  ││   │
 │  │  │ └─────────────────────────────────────────────────────────────┘  ││   │
 │  │  └────────────────────────────────────────────────────────────────────┘│   │
 │  └───────────────────────────────────────────────────────────────────────┘   │
@@ -1412,7 +1529,7 @@ flowchart TD
 
 ---
 
-### 3.19 MAQUETA 19: GESTIÓN DE PARÁMETROS FINANCIEROS Y ADUANA (Web - Escritorio)
+### 3.20 MAQUETA 19: GESTIÓN DE PARÁMETROS FINANCIEROS Y ADUANA (Web - Escritorio)
 
 **Objetivo:** Centralizar la configuración de todos los parámetros financieros, gestionar la integración con aduanas para el cálculo de costos reales de importación y configurar los esquemas de pago a choferes.
 
@@ -1520,7 +1637,7 @@ flowchart TD
 
 ---
 
-### 3.20 MAQUETA 20: FICHA DE COSTO DETALLADA (Web - Escritorio)
+### 3.21 MAQUETA 20: FICHA DE COSTO DETALLADA (Web - Escritorio)
 
 **Objetivo:** Mostrar el desglose completo de costos de una ruta, incluyendo costos directos, indirectos y de importación, con nueva sección de combustible.
 
@@ -1607,7 +1724,7 @@ flowchart TD
 
 ---
 
-### 3.21 MAQUETA 21: MAPEO DE COLUMNAS PARA IMPORTACIÓN (Web - Escritorio)
+### 3.22 MAQUETA 21: MAPEO DE COLUMNAS PARA IMPORTACIÓN (Web - Escritorio)
 
 **Objetivo:** Permitir al usuario mapear manualmente las columnas del Excel a los campos del sistema durante la importación de manifiestos.
 
@@ -1674,7 +1791,7 @@ flowchart TD
 
 ---
 
-### 3.22 MAQUETA 22: MONITOREO DE ADUANA (Web - Escritorio)
+### 3.23 MAQUETA 22: MONITOREO DE ADUANA (Web - Escritorio)
 
 **Objetivo:** Monitorear el estado de la automatización de facturación de aduana, mostrando el progreso de las consultas programadas y los resultados.
 
@@ -1733,7 +1850,7 @@ flowchart TD
 
 ---
 
-### 3.23 🆕 MAQUETA 23: ANÁLISIS POST-RUTA (Web - Escritorio)
+### 3.24 🆕 MAQUETA 23: ANÁLISIS POST-RUTA (Web - Escritorio)
 
 **Objetivo:** Mostrar el análisis detallado comparando la ruta planificada vs la ruta real, con métricas de eficiencia por chofer, vehículo y zona.
 
@@ -1796,7 +1913,7 @@ flowchart TD
 
 ---
 
-### 3.24 🆕 MAQUETA 24: PANEL DE EFICIENCIA (Web - Escritorio)
+### 3.25 🆕 MAQUETA 24: PANEL DE EFICIENCIA (Web - Escritorio)
 
 **Objetivo:** Visualizar métricas de eficiencia del sistema, incluyendo ahorro de combustible, cumplimiento de urgentes y efectividad de reoptimizaciones.
 
@@ -1855,7 +1972,7 @@ flowchart TD
 
 ---
 
-### 3.25 🆕 MAQUETA 25: SIMULADOR DE OPTIMIZACIÓN (Web - Escritorio)
+### 3.26 🆕 MAQUETA 25: SIMULADOR DE OPTIMIZACIÓN (Web - Escritorio)
 
 **Objetivo:** Permitir probar diferentes configuraciones del algoritmo VRPTW v3.0 y visualizar los resultados antes de aplicarlos.
 
@@ -1909,7 +2026,15 @@ flowchart TD
 
 ## 4. FLUJOS DE USUARIO CLAVE - ACTUALIZADOS
 
-### 4.1 Flujo: Importación de Manifiesto con Mapeo de Columnas
+### 4.1 🆕 Flujo: Login y Autenticación JWT
+1. Usuario navega a `/login`.
+2. Ingresa su email y contraseña.
+3. El sistema valida las credenciales y genera un access token (24h) y refresh token (7 días).
+4. El usuario es redirigido al dashboard.
+5. Si el access token expira, el interceptor de Axios detecta el error 401 y automáticamente solicita un nuevo token usando el refresh token.
+6. Si el refresh token expira, el usuario es redirigido al login.
+
+### 4.2 Flujo: Importación de Manifiesto con Mapeo de Columnas
 1. Administrador abre Envíos → Selecciona "Importar Manifiesto".
 2. Selecciona el archivo Excel desde su computadora.
 3. El sistema muestra la pantalla de **mapeo de columnas**.
@@ -1920,7 +2045,7 @@ flowchart TD
 8. El administrador revisa los datos y confirma la importación.
 9. El sistema procesa los datos válidos y genera un reporte de errores si los hay.
 
-### 4.2 Flujo: El Líder - Gestión de Aduana y Costos
+### 4.3 Flujo: El Líder - Gestión de Aduana y Costos
 1. Líder abre Finanzas → Selecciona "Parámetros Financieros y Aduana".
 2. Configura la tasa de cambio USD/CUP, el precio de los combustibles y los costos por km.
 3. Navega a la pestaña "ADUANA Y COSTOS".
@@ -1931,7 +2056,7 @@ flowchart TD
 8. Los costos obtenidos se asignan automáticamente a cada envío.
 9. Líder revisa los resultados y exporta el reporte.
 
-### 4.3 Flujo: El Líder - Gestión de Pago a Choferes
+### 4.4 Flujo: El Líder - Gestión de Pago a Choferes
 1. Líder abre Finanzas → Selecciona "Parámetros Financieros y Aduana".
 2. Navega a la pestaña "PAGO A CHOFERES".
 3. Selecciona un chofer de la lista desplegable.
@@ -1940,7 +2065,7 @@ flowchart TD
 6. El sistema calcula automáticamente el resumen de pago del mes actual.
 7. Líder guarda el esquema y genera el reporte de pago.
 
-### 4.4 Flujo: El Líder - Generación de Ficha de Costo
+### 4.5 Flujo: El Líder - Generación de Ficha de Costo
 1. Líder abre Rutas → Selecciona "Planificación Semanal".
 2. Selecciona una ruta específica (ej. CAM-02).
 3. Hace clic en "VER FICHA DE COSTO".
@@ -1955,13 +2080,13 @@ flowchart TD
    - Detalle de costos por envío (opcional).
 6. Líder puede exportar la ficha a PDF o CSV.
 
-### 4.5 Flujo: El Chofer - Visualización de Costos de Aduana
+### 4.6 Flujo: El Chofer - Visualización de Costos de Aduana
 1. Chofer abre la app y selecciona "Ruta del día".
 2. En la lista de entregas, ve el costo de aduana asociado a cada paquete (si está disponible).
 3. Al llegar a la entrega, el chofer puede ver el costo de aduana en el detalle.
 4. Si el costo de aduana no está disponible, el sistema muestra "Costo pendiente de consulta".
 
-### 4.6 Flujo: Automatización de Facturación de Aduana
+### 4.7 Flujo: Automatización de Facturación de Aduana
 1. El sistema ejecuta una tarea programada (cron job) en los horarios establecidos: 8:00 AM, 12:00 PM, 4:00 PM, 12:00 AM.
 2. El sistema consulta la base de datos para obtener todos los houses con estado **"Arribado"**.
 3. Para cada house, el sistema consulta Aerovaradero utilizando la URL de payment.
@@ -1971,7 +2096,7 @@ flowchart TD
 7. El sistema registra un log detallado de cada consulta.
 8. El administrador puede ver el progreso en la pantalla de **Monitoreo de Aduana**.
 
-### 4.7 🆕 Flujo: Reoptimización Dinámica en Ruta
+### 4.8 🆕 Flujo: Reoptimización Dinámica en Ruta
 1. Chofer encuentra una incidencia en ruta (cliente no encontrado, tráfico, etc.).
 2. Chofer abre la app, selecciona la entrega afectada y marca la incidencia.
 3. El sistema pregunta: "¿Desea reoptimizar la ruta?".
@@ -1981,7 +2106,7 @@ flowchart TD
 7. Chofer continúa con las entregas según la nueva ruta.
 8. El sistema registra el evento de reoptimización en auditoría.
 
-### 4.8 🆕 Flujo: Análisis Post-Ruta
+### 4.9 🆕 Flujo: Análisis Post-Ruta
 1. Administrador abre Rutas → Selecciona "Análisis Post-Ruta".
 2. Selecciona una ruta completada (ej. CAM-02).
 3. El sistema genera el análisis comparando planificado vs real:
@@ -1992,7 +2117,7 @@ flowchart TD
 5. El sistema genera recomendaciones automáticas.
 6. Administrador exporta el análisis a PDF o CSV.
 
-### 4.9 🆕 Flujo: Simulación de Optimización
+### 4.10 🆕 Flujo: Simulación de Optimización
 1. Administrador abre Reportes → Selecciona "Simulador de Optimización".
 2. Configura los parámetros del algoritmo (peso de combustible, penalizaciones, etc.).
 3. Carga un conjunto de datos de prueba (10-50 envíos).
@@ -2007,25 +2132,28 @@ flowchart TD
 
 | Heurística | Aplicación en SIGMA-T |
 | :--- | :--- |
-| **Visibilidad del estado del sistema** | Indicadores de carga, notificaciones de sincronización, estado de los envíos (🟢🟡🔴), progreso de consultas de aduana, estado de generación de ficha de costo, progreso de importación, horarios de automatización de aduana. |
+| **Visibilidad del estado del sistema** | Indicadores de carga, notificaciones de sincronización, estado de los envíos (🟢🟡🔴), progreso de consultas de aduana, estado de generación de ficha de costo, progreso de importación, horarios de automatización de aduana, **estado de sesión (activa/expirada)**. |
 | **Relación entre el sistema y el mundo real** | Uso de iconos reconocibles (📦, 🚚, ⏰, 💰, 📄), lenguaje natural en mensajes. |
-| **Control y libertad del usuario** | Edición manual de rutas (drag & drop), deshacer acciones, botones de "cancelar", mapeo flexible de columnas. |
+| **Control y libertad del usuario** | Edición manual de rutas (drag & drop), deshacer acciones, botones de "cancelar", mapeo flexible de columnas, **cerrar sesión en cualquier momento**. |
 | **Consistencia y estándares** | Misma paleta de colores y componentes UI en toda la plataforma. |
-| **Prevención de errores** | Validación de datos al importar, confirmación de acciones críticas, validación en tiempo real de Carnet de Identidad (11 dígitos). |
+| **Prevención de errores** | Validación de datos al importar, confirmación de acciones críticas, validación en tiempo real de Carnet de Identidad (11 dígitos), **validación de formato de email en login**. |
 | **Reconocimiento antes que recuerdo** | Menús visibles, búsqueda avanzada, historial de acciones, selectores de columnas en importación. |
-| **Eficiencia y flexibilidad de uso** | Accesos directos (teclado), vistas de datos personalizables, exportación rápida, mapeo flexible. |
+| **Eficiencia y flexibilidad de uso** | Accesos directos (teclado), vistas de datos personalizables, exportación rápida, mapeo flexible, **login con recordar sesión**. |
 | **Estética y diseño minimalista** | Interfaces limpias, sin elementos distractores, enfocadas en datos clave. |
-| **Ayuda y documentación** | Tooltips, mensajes de ayuda contextuales, manuales de usuario, guías de mapeo. |
+| **Ayuda y documentación** | Tooltips, mensajes de ayuda contextuales, manuales de usuario, guías de mapeo, **página de login con ayuda para recuperación de contraseña**. |
 
 ---
 
 ## 6. CONCLUSIÓN
 
-Este documento consolida un total de **25 pantallas de alta fidelidad** (22 existentes + 3 nuevas), diseñadas para cubrir todos los módulos de SIGMA-T incluyendo la nueva funcionalidad de **VRPTW v3.0** con optimización de combustible, reoptimización dinámica, sistema de estimación de tiempos con IA y análisis post-ruta.
+Este documento consolida un total de **26 pantallas de alta fidelidad** (25 existentes + 1 nueva), diseñadas para cubrir todos los módulos de SIGMA-T incluyendo la nueva funcionalidad de **Login y Autenticación JWT**, así como **VRPTW v3.0** con optimización de combustible, reoptimización dinámica, sistema de estimación de tiempos con IA y análisis post-ruta.
 
 **Resumen de las funcionalidades:**
 
 - **Guía de Estilo Expandida:** Sistema de iconos, componentes UI detallados, mensajes de error, feedback, responsividad y accesibilidad.
+- **🆕 Página de Login** con autenticación JWT, recordar sesión y recuperación de contraseña
+- **🆕 Gestión de Usuarios** en configuración con roles y permisos
+- **🆕 Indicadores de sesión** en dashboard y auditoría
 - **Mapeo flexible de columnas** para importación de Excel
 - Gestión de parámetros financieros (tasa de cambio USD/CUP, precio de combustibles, **costos por km**)
 - Consulta automática de costos de aduana desde el sitio web de Aerovaradero (**URL de payment**)
@@ -2042,5 +2170,3 @@ Este documento consolida un total de **25 pantallas de alta fidelidad** (22 exis
 - **🆕 Panel de Eficiencia** con métricas por chofer, vehículo y zona
 - **🆕 Simulador de Optimización** para probar configuraciones del algoritmo VRPTW v3.0
 - **🆕 Prioridad de entregas** (urgente, normal, económico) con indicadores visuales
-
----

@@ -1,11 +1,11 @@
-## 📄 ESPECIFICACIÓN DE REQUISITOS DEL SOFTWARE (SRS) - VERSIÓN 3.8
+## 📄 ESPECIFICACIÓN DE REQUISITOS DEL SOFTWARE (SRS) - VERSIÓN 3.9
 
 **Basado en ISO/IEC/IEEE 29148:2018**
 
 **Proyecto:** SIGMA-T (Sistema Integral de Gestión para MiPYME de Transporte)  
 **Cliente:** Osleyder Gonzalez Acosta  
 **Fecha de Emisión:** 15 de agosto de 2026
-**Versión:** 3.8 (Top Mundial con Arquitectura VRPTW v3.0, Optimización de Combustible, Reoptimización Dinámica, IA y Análisis Post-Ruta - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 15/08/2026)
+**Versión:** 3.9 (Top Mundial con Arquitectura VRPTW v3.0, Optimización de Combustible, Reoptimización Dinámica, IA, Análisis Post-Ruta, Autenticación JWT, Pruebas Unitarias y SonarQube - SPRINTS 0 Y 1 COMPLETADOS - ACTUALIZACIÓN 15/08/2026)
 
 ---
 
@@ -21,8 +21,8 @@ SIGMA-T es un sistema modular de clase mundial que permite gestionar **todo el c
 - **Operaciones:** Gestión de flota, choferes, rutas, envíos, y almacén.
 - **Control y Finanzas:** Libros contables, facturación, costos, KPIs, **ficha de costo detallada por ruta**.
 - **Post-Venta:** Seguimiento de entregas, encuestas de satisfacción, casos de éxito.
-- **Auditoría:** Trazabilidad total de todas las acciones del sistema.
-- **Calidad de Código:** Estándares de codificación, documentación y mantenibilidad.
+- **Auditoría y Seguridad:** Trazabilidad total de todas las acciones del sistema, **autenticación JWT** y control de acceso por roles.
+- **Calidad de Código:** Estándares de codificación, documentación, mantenibilidad, **pruebas unitarias con cobertura ≥70%** y **análisis de calidad con SonarQube**.
 - **Gestión de Aduana:** Consulta automática de costos de importación utilizando la URL de payment de Aerovaradero, gestión de parámetros financieros y esquemas de pago a choferes.
 - **Infraestructura:** Despliegue en VPS ETECSA, distribución en Google Play Store y APKlis, SSL/HTTPS obligatorio.
 - **🆕 Optimización de Rutas Avanzada:** Algoritmo VRPTW con optimización de combustible, prioridad de entregas, reoptimización dinámica en tiempo real, análisis post-ruta y sistema de estimación de tiempos con IA.
@@ -52,6 +52,9 @@ SIGMA-T es un sistema modular de clase mundial que permite gestionar **todo el c
 | APKlis                   | Tienda de aplicaciones cubana para Android                                                                                             |
 | SSL                      | Secure Sockets Layer                                                                                                                   |
 | HTTPS                    | Protocolo seguro de transferencia de hipertexto                                                                                        |
+| **JWT**                  | **JSON Web Token - Estándar para autenticación stateless**                                                                            |
+| **Refresh Token**        | **Token de larga duración para renovar sesiones sin re-login**                                                                        |
+| **SonarQube**            | **Herramienta de análisis de calidad de código (deuda técnica, seguridad, cobertura)**                                                |
 | **Jefe de Oficina**      | **Usuario autorizado por una agencia de envíos (ej. Central American Cargo en Panamá) para gestionar manifiestos y supervisar envíos** |
 | **Cliente Remitente**    | **Persona que envía un paquete**                                                                                                       |
 | **Cliente Destinatario** | **Persona que recibe un paquete**                                                                                                      |
@@ -98,8 +101,9 @@ SIGMA-T reemplazará el sistema actual basado en hojas de cálculo Excel y Optim
 - **Estándares de Codificación:** ESLint + Prettier (TypeScript), Dart Analyzer (Flutter).
 - **Documentación:** JSDoc para TypeScript, OpenAPI para APIs, READMEs por módulo.
 - **Servidor de Producción:** Ubuntu 22.04 LTS o 24.04 LTS en VPS ETECSA.
-- **Seguridad:** SSL/HTTPS obligatorio con certificados Let's Encrypt.
+- **Seguridad:** SSL/HTTPS obligatorio con certificados Let's Encrypt; **autenticación JWT con expiración de 24 horas**.
 - **Distribución Móvil:** Google Play Store y APKlis.
+- **🆕 Calidad de Código:** **Análisis automático con SonarQube; cobertura de pruebas unitarias ≥70%.**
 
 ### 2.4 Flujo de Paquetería y Estados del Paquete
 
@@ -401,6 +405,9 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 | RF-AU-05     | Alertas de seguridad (múltiples intentos fallidos, accesos sospechosos)             | Media       | Media       | ⏳ Pendiente |
 | RF-AU-06     | Trazabilidad de acciones offline (registro local + sincronización)                  | Alta        | Media       | ⏳ Pendiente |
 | **RF-AU-07** | **🆕 Registrar eventos de reoptimización de rutas (disparador, tiempo, resultado)** | **Alta**    | **Media**   | ⏳ Pendiente |
+| **RF-AU-08** | **🆕 Autenticación con JWT y expiración de tokens (24 horas)**                     | **Crítica** | **Media**   | **⏳ Pendiente (Sprint 3)** |
+| **RF-AU-09** | **🆕 Gestión de roles y permisos por perfil de usuario (5 perfiles)**              | **Crítica** | **Media**   | **⏳ Pendiente (Sprint 3)** |
+| **RF-AU-10** | **🆕 Refresh token para sesiones prolongadas**                                     | **Media**   | **Media**   | **⏳ Pendiente (Sprint 3)** |
 
 ### MÓDULO 12: AUTOMATIZACIÓN DE FACTURACIÓN DE ADUANA (RF-ADUANA) - ⏳ PENDIENTE
 
@@ -441,7 +448,7 @@ https://www.aerovaradero.com.cu/payment/?cod_la=230&cod_awb=66684660&cod_house=2
 |----|-----------|----------------|-----------|--------|
 | **RNF-01** | **🆕 Rendimiento** | **Dashboard cargue en <3 segundos; optimización de ruta en <30 segundos para ≤50 envíos; reoptimización en <5 segundos** | **Alta** | ⏳ Pendiente |
 | RNF-02 | Disponibilidad | 99.5% de uptime para sistema web | Alta | ⏳ Pendiente |
-| RNF-03 | Seguridad | Autenticación por usuario/rol; contraseñas hasheadas; HTTPS obligatorio | Alta | ⏳ Pendiente |
+| **RNF-03** | **🆕 Seguridad** | **Autenticación JWT con expiración de 24 horas; contraseñas hasheadas con bcrypt; HTTPS obligatorio; roles y permisos por perfil; refresh token para sesiones prolongadas** | **Alta** | ⏳ Pendiente |
 | RNF-04 | Escalabilidad | Soporte para hasta 1,000 envíos/día y 50 choferes | Media | ⏳ Pendiente |
 | RNF-05 | Offline | App móvil funcional sin internet con sincronización automática | **Crítica** | ⏳ Pendiente |
 | RNF-06 | Usabilidad | Interfaz intuitiva; tiempo de entrenamiento <2 horas para choferes | Alta | ⏳ Pendiente |
@@ -475,18 +482,25 @@ https://www.aerovaradero.com.cu/payment/?cod_la=230&cod_awb=66684660&cod_house=2
 | **🆕 RNF-34** | **🆕 Reoptimización Dinámica** | **El sistema debe permitir reoptimización dinámica en tiempo real ante incidencias, con un tiempo de respuesta <5 segundos y registro en auditoría** | **Alta** | ⏳ Pendiente |
 | **🆕 RNF-35** | **🆕 Sistema de Estimación de Tiempos con IA** | **El sistema debe utilizar un modelo de regresión lineal (entrenado con datos históricos) para estimar tiempos de entrega, mejorando la precisión de las ventanas de tiempo** | **Media** | ⏳ Pendiente |
 | **🆕 RNF-36** | **🆕 Precisión de Estimación** | **El sistema debe mantener una precisión ≥85% en las estimaciones de tiempo de entrega, con reentrenamiento automático del modelo IA cuando se acumulen nuevos datos** | **Media** | ⏳ Pendiente |
+| **🆕 RNF-37** | **🆕 Gestión de Sesiones** | **El sistema debe permitir refresh token para sesiones prolongadas sin necesidad de re-login, con expiración de 7 días para el refresh token** | **Media** | **⏳ Pendiente (Sprint 3)** |
+| **🆕 RNF-38** | **🆕 Cobertura de Pruebas** | **El sistema debe tener una cobertura de pruebas unitarias ≥70% en backend y frontend, medida con Jest (backend) y Vitest (frontend)** | **Alta** | **⏳ Pendiente (Sprint 5.5)** |
+| **🆕 RNF-39** | **🆕 Calidad de Código (SonarQube)** | **El sistema debe pasar el análisis de SonarQube con Deuda Técnica <5%, Cero Bugs Críticos, Cero Vulnerabilidades y Cobertura ≥70%** | **Alta** | **⏳ Pendiente (Sprint 5.5)** |
+| **🆕 RNF-40** | **🆕 Pruebas E2E** | **El sistema debe contar con pruebas de extremo a extremo (E2E) usando Cypress para los flujos críticos del sistema** | **Media** | **⏳ Pendiente (Sprint 6)** |
 
 ---
 
 ## 5. MODELO DE DATOS (COMPLETO)
 
 ```sql
--- USUARIO
+-- USUARIO (🆕 ACTUALIZADO PARA AUTENTICACIÓN JWT)
 USUARIO
 ├── id_usuario (PK)
 ├── nombre, email, password_hash
 ├── rol (admin, jefe_operaciones, agencia, chofer, cliente_remitente, cliente_destinatario, auditor)
-└── activo
+├── activo
+├── ultimo_login (TIMESTAMP)        -- 🆕 Última fecha de inicio de sesión
+├── refresh_token (VARCHAR(255))    -- 🆕 Token de refresco para sesiones prolongadas
+└── refresh_token_expira (TIMESTAMP) -- 🆕 Fecha de expiración del refresh token
 
 -- VEHICULO
 VEHICULO
@@ -720,11 +734,13 @@ PROSPECTO
 | Portal Cliente | RF-PO-01 a RF-PO-07 | Frontend + Backend | P2 (Alta) | ⏳ Pendiente |
 | Almacén | RF-AL-01 a RF-AL-06 | Backend + BD | P2 (Alta) | ⏳ Pendiente |
 | Marketing | RF-MK-01 a RF-MK-07 | Backend + BD | P2 (Alta) | ⏳ Pendiente |
-| Auditoría | RF-AU-01 a RF-AU-07 | Backend + BD | **P1 (Fundacional)** | ⏳ Pendiente |
+| **Auditoría y Seguridad** | **RF-AU-01 a RF-AU-10** | **Backend + BD** | **P1 (Fundacional)** | ⏳ Pendiente |
 | **Estándares de Codificación** | **RNF-13 a RNF-23** | **Todo el sistema** | **P1 (Fundacional)** | **✅ Implementado** |
 | **Finanzas y Aduana** | **RNF-24 a RNF-26** | **Backend + Web Scraping** | **P1 (Fundacional)** | ⏳ Pendiente |
 | **Infraestructura y Distribución** | **RNF-27 a RNF-32** | **Backend + DevOps** | **P1 (Fundacional)** | ⏳ Pendiente |
 | **🆕 Optimización Avanzada** | **RNF-33 a RNF-36** | **Backend + IA + OSRM** | **P1 (Fundacional)** | ⏳ Pendiente |
+| **🆕 Autenticación y Sesiones** | **RNF-37, RF-AU-08 a RF-AU-10** | **Backend + Frontend** | **P1 (Fundacional)** | ⏳ Pendiente |
+| **🆕 Calidad y Pruebas** | **RNF-38 a RNF-40** | **Todo el sistema** | **P1 (Fundacional)** | ⏳ Pendiente |
 
 ---
 
@@ -739,6 +755,16 @@ PROSPECTO
 - [x] Reporte de errores de importación en pantalla
 - [x] Historial de envíos por cliente con exportación a PDF y CSV
 - [x] UI de gestión de envíos (EnvioList, EnvioFilters, EnvioDetail, HistorialCliente, ImportarManifiesto)
+
+### 🆕 Módulo de Autenticación y Seguridad (Sprint 3) ⏳ PENDIENTE
+- [ ] Login con JWT y expiración de 24 horas
+- [ ] Registro de usuarios con roles (5 perfiles)
+- [ ] Protección de rutas con middleware de autenticación
+- [ ] Refresh token para sesiones prolongadas
+- [ ] Hash de contraseñas con bcrypt
+- [ ] Rate limiting para prevenir ataques de fuerza bruta
+- [ ] Logout que revoca el token
+- [ ] Registro de intentos de login fallidos en auditoría
 
 ### Módulo de Automatización de Aduana ⏳ PENDIENTE
 - [ ] El sistema ejecuta consultas a las 8:00 AM, 12:00 PM, 4:00 PM y 12:00 AM
@@ -783,6 +809,7 @@ PROSPECTO
 - [ ] Intentos de login fallidos registrados
 - [ ] Exportación de logs a CSV funciona
 - [ ] 🆕 Eventos de reoptimización registrados
+- [ ] 🆕 Eventos de autenticación (login/logout) registrados
 
 ### Módulo Financiero y Aduana ⏳ PENDIENTE
 - [ ] Consulta automática de costos de aduana para ≥95% de los envíos en <5 minutos utilizando la URL de payment
@@ -825,6 +852,25 @@ PROSPECTO
 - [ ] Reentrenamiento automático con nuevos datos
 - [ ] Integración con el algoritmo de optimización de rutas
 
+### 🆕 Calidad de Código (SonarQube) ⏳ PENDIENTE
+- [ ] SonarQube configurado en el entorno de desarrollo
+- [ ] Deuda Técnica <5%
+- [ ] Cero Bugs Críticos
+- [ ] Cero Vulnerabilidades
+- [ ] Cobertura de código ≥70%
+
+### 🆕 Pruebas Unitarias (Sprint 5.5) ⏳ PENDIENTE
+- [ ] Pruebas unitarias del backend con Jest (cobertura ≥70%)
+- [ ] Pruebas unitarias del frontend con Vitest (cobertura ≥70%)
+- [ ] Pruebas de integración de la API con Supertest
+- [ ] CI/CD ejecuta pruebas automáticamente en cada PR
+
+### 🆕 Pruebas E2E (Sprint 6) ⏳ PENDIENTE
+- [ ] Pruebas E2E configuradas con Cypress
+- [ ] Flujo de login probado
+- [ ] Flujo de importación de manifiestos probado
+- [ ] Flujo de creación de rutas probado
+
 ---
 
 ## 8. RIESGOS Y MITIGACIÓN
@@ -850,6 +896,9 @@ PROSPECTO
 | **Recursos limitados del VPS ETECSA** | **Media** | **Medio** | **Optimización de recursos, caché con Redis, monitoreo de rendimiento** | ⏳ Pendiente |
 | **🆕 Falla en el modelo de IA para estimación de tiempos** | **Media** | **Medio** | **Fallback a estimación por defecto, reentrenamiento automático, monitoreo de precisión** | ⏳ Pendiente |
 | **🆕 Tiempo de reoptimización excede el límite de 5 segundos** | **Media** | **Alto** | **Optimización del algoritmo, límite de envíos reoptimizables, notificación al usuario** | ⏳ Pendiente |
+| **🆕 Vulnerabilidad en autenticación JWT** | **Baja** | **Crítico** | **Uso de JWT seguro, expiración de tokens, refresh token rotación, HTTPS obligatorio** | ⏳ Pendiente |
+| **🆕 Baja cobertura de pruebas** | **Media** | **Alto** | **Umbrales de cobertura en CI/CD, revisiones de código, sprints dedicados a calidad (Sprint 5.5)** | ⏳ Pendiente |
+| **🆕 Deuda técnica acumulada** | **Media** | **Alto** | **Monitoreo con SonarQube, refactorización continua, sprints dedicados (Sprint 5.5)** | ⏳ Pendiente |
 
 ---
 
@@ -865,11 +914,15 @@ PROSPECTO
 
 ## 📌 CONCLUSIÓN
 
-Este SRS Versión 3.8 ahora incluye:
+Este SRS Versión 3.9 ahora incluye:
 
 - ✅ **12 módulos funcionales** (1 nuevo: RF-ADU-01 Automatización de Facturación de Aduana)
-- ✅ **🆕 93 requisitos funcionales** (7 nuevos: RF-CL-05 actualizado a Alta, RF-RU-03 actualizado, RF-RU-08 actualizado, RF-MO-12, RF-DA-09, RF-AU-07)
-- ✅ **🆕 36 requisitos no funcionales** (4 nuevos: RNF-33 a RNF-36)
+- ✅ **🆕 96 requisitos funcionales** (3 nuevos: RF-AU-08, RF-AU-09, RF-AU-10 para autenticación JWT y roles)
+- ✅ **🆕 40 requisitos no funcionales** (4 nuevos: RNF-37 a RNF-40 para autenticación, pruebas, SonarQube y E2E)
+- ✅ **🆕 Modelo de Usuario actualizado** con campos para autenticación JWT
+- ✅ **🆕 Matriz de trazabilidad** actualizada con nuevos módulos de autenticación y calidad
+- ✅ **🆕 Criterios de aceptación** para autenticación, pruebas unitarias, SonarQube y E2E
+- ✅ **🆕 Riesgos** actualizados con vulnerabilidades de autenticación y deuda técnica
 - ✅ **🆕 Optimización de Combustible** integrada en el algoritmo VRPTW
 - ✅ **🆕 Reoptimización Dinámica** en tiempo real (<5 segundos)
 - ✅ **🆕 Sistema de Estimación de Tiempos con IA** (regresión lineal)
@@ -881,7 +934,6 @@ Este SRS Versión 3.8 ahora incluye:
 - ✅ **Portal del cliente** para transparencia
 - ✅ **Gestión de almacén** para control de inventario
 - ✅ **Modelo de datos completo** (25 entidades, con nuevas tablas y campos)
-- ✅ **Matriz de trazabilidad** actualizada
 - ✅ **Estándares de codificación** para TypeScript, React y Flutter
 - ✅ **Estrategia de documentación** con JSDoc, OpenAPI y READMEs
 - ✅ **Gestión de pago a choferes** (esquemas flexibles)
@@ -899,6 +951,4 @@ Este SRS Versión 3.8 ahora incluye:
 - ✅ **Sprint 0 y 1 completados** (13-15/08/2026) con módulos de Clientes y Envíos implementados al 100%
 - ✅ **Estándares de codificación y documentación** completamente implementados
 
-**Este documento es la base técnica definitiva para construir el sistema de gestión de transporte más completo y de mayor calidad del nicho cubano y regional, con capacidades de optimización de rutas de nivel mundial.**
-
----
+**Este documento es la base técnica definitiva para construir el sistema de gestión de transporte más completo y de mayor calidad del nicho cubano y regional, con capacidades de optimización de rutas de nivel mundial, autenticación robusta y estándares de calidad de código de clase mundial.**
