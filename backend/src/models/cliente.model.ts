@@ -1,85 +1,61 @@
 /**
- * @fileoverview Modelo de datos para Clientes
- * @module models/cliente
+ * @fileoverview Modelo de Cliente para TypeORM
+ * @module models/cliente.model
  */
 
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
-import { Envio } from './envio.model';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
+import { Envio } from './envio.model.js';
 
 /**
- * Entidad que representa un cliente en el sistema
- * @class Cliente
+ * Entidad Cliente - Representa una empresa o persona que contrata servicios de envío
  */
 @Entity('clientes')
 export class Cliente {
-  /**
-   * Identificador único del cliente
-   * @type {number}
-   */
   @PrimaryGeneratedColumn()
-  id_cliente: number;
+  id_cliente!: number;
 
-  /**
-   * Nombre de la empresa del cliente
-   * @type {string}
-   */
-  @Column({ length: 150 })
-  nombre_empresa: string;
+  @Column({ type: 'varchar', length: 150, nullable: false })
+  nombre_empresa!: string;
 
-  /**
-   * Nombre de la persona de contacto en la empresa
-   * @type {string}
-   */
-  @Column({ length: 150 })
-  contacto_nombre: string;
+  @Column({ type: 'varchar', length: 150, nullable: false })
+  contacto_nombre!: string;
 
-  /**
-   * Teléfono de contacto del cliente
-   * @type {string}
-   */
-  @Column({ length: 30 })
-  contacto_telefono: string;
+  @Column({ type: 'varchar', length: 30, nullable: false })
+  contacto_telefono!: string;
 
-  /**
-   * Email de contacto del cliente (opcional)
-   * @type {string}
-   */
-  @Column({ length: 100, nullable: true })
-  contacto_email: string;
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  contacto_email!: string | null;
 
-  /**
-   * Tarifa preferencial negociada con el cliente (opcional)
-   * @type {number}
-   */
   @Column({ type: 'decimal', precision: 12, scale: 2, nullable: true })
-  tarifa_preferencial: number;
+  tarifa_preferencial!: number | null;
 
-  /**
-   * Estado activo del cliente (true = activo, false = inactivo)
-   * @type {boolean}
-   * @default true
-   */
-  @Column({ default: true })
-  activo: boolean;
+  @Column({ type: 'boolean', default: true })
+  activo!: boolean;
 
-  /**
-   * Fecha de creación del registro
-   * @type {Date}
-   */
-  @CreateDateColumn()
-  created_at: Date;
+  @CreateDateColumn({ type: 'timestamp' })
+  created_at!: Date;
 
-  /**
-   * Fecha de última actualización del registro
-   * @type {Date}
-   */
-  @UpdateDateColumn()
-  updated_at: Date;
+  @UpdateDateColumn({ type: 'timestamp' })
+  updated_at!: Date;
 
-  /**
-   * Relación OneToMany con envíos
-   * @type {Envio[]}
-   */
-  @OneToMany(() => Envio, envio => envio.cliente)
-  envios: Envio[];
+  // Relaciones
+  @OneToMany(() => Envio, (envio) => envio.cliente)
+  envios!: Envio[];
 }
+
+/**
+ * Tipo para los datos de creación de un cliente
+ */
+export type ClienteCreateData = Omit<Cliente, 'id_cliente' | 'created_at' | 'updated_at' | 'envios'>;
+
+/**
+ * Tipo para los datos de actualización de un cliente
+ */
+export type ClienteUpdateData = Partial<ClienteCreateData>;

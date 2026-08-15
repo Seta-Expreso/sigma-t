@@ -4,7 +4,7 @@
  */
 
 import { Request, Response } from 'express';
-import { ImportacionService } from '../services/importacion.service';
+import { ImportacionService, ColumnaMapeo } from '../services/importacion.service.js';
 import winston from 'winston';
 
 const logger = winston.createLogger({
@@ -19,10 +19,21 @@ const logger = winston.createLogger({
 
 const importacionService = new ImportacionService();
 
+/**
+ * Controlador para la importación de manifiestos
+ * @class ImportacionController
+ */
 export class ImportacionController {
   /**
    * Obtiene las columnas de un archivo Excel
    * @route POST /api/importacion/columnas
+   * @param {Request} req - Express request object con archivo en req.file
+   * @param {Response} res - Express response object
+   * @returns {Promise<void>} Respuesta con lista de columnas
+   * @example
+   * POST /api/importacion/columnas
+   * FormData: { file: archivo.xlsx }
+   * Response: { success: true, data: ['House', 'Destinatario', ...] }
    */
   static async getColumnas(req: Request, res: Response): Promise<void> {
     try {
@@ -53,6 +64,13 @@ export class ImportacionController {
   /**
    * Obtiene vista previa de los datos con el mapeo seleccionado
    * @route POST /api/importacion/vista-previa
+   * @param {Request} req - Express request object con archivo, mapeo y clienteId
+   * @param {Response} res - Express response object
+   * @returns {Promise<void>} Respuesta con vista previa de los datos
+   * @example
+   * POST /api/importacion/vista-previa
+   * FormData: { file: archivo.xlsx, mapeo: {...}, clienteId: 1 }
+   * Response: { success: true, data: { filas: [...], total: 100, errores: [...] } }
    */
   static async getVistaPrevia(req: Request, res: Response): Promise<void> {
     try {
@@ -80,7 +98,7 @@ export class ImportacionController {
 
       const resultado = await importacionService.obtenerVistaPrevia(
         file.path,
-        mapeoParsed,
+        mapeoParsed as ColumnaMapeo,
         clienteIdParsed
       );
 
@@ -101,6 +119,13 @@ export class ImportacionController {
   /**
    * Importa el archivo con el mapeo seleccionado
    * @route POST /api/importacion/importar
+   * @param {Request} req - Express request object con archivo, mapeo y clienteId
+   * @param {Response} res - Express response object
+   * @returns {Promise<void>} Respuesta con resultado de la importación
+   * @example
+   * POST /api/importacion/importar
+   * FormData: { file: archivo.xlsx, mapeo: {...}, clienteId: 1 }
+   * Response: { success: true, data: { total: 100, importados: 95, errores: [...] } }
    */
   static async importar(req: Request, res: Response): Promise<void> {
     try {
@@ -128,7 +153,7 @@ export class ImportacionController {
 
       const resultado = await importacionService.importar(
         file.path,
-        mapeoParsed,
+        mapeoParsed as ColumnaMapeo,
         clienteIdParsed
       );
 

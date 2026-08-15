@@ -3,8 +3,8 @@
  * @module routes/cliente
  */
 
-import { Router, Request, Response } from 'express';
-import { ClienteController } from '../controllers/cliente.controller';
+import { Router } from 'express';
+import { ClienteController } from '../controllers/cliente.controller.js';
 
 const router = Router();
 
@@ -13,9 +13,7 @@ const router = Router();
  * @description Obtiene todos los clientes activos
  * @returns {Object} Lista de clientes
  */
-router.get('/', (req: Request, res: Response) => {
-  void ClienteController.getAll(req, res);
-});
+router.get('/', ClienteController.getAll);
 
 /**
  * GET /api/clientes/buscar
@@ -23,9 +21,7 @@ router.get('/', (req: Request, res: Response) => {
  * @param {string} q - Término de búsqueda (query param)
  * @returns {Object} Lista de clientes que coinciden
  */
-router.get('/buscar', (req: Request, res: Response) => {
-  void ClienteController.search(req, res);
-});
+router.get('/buscar', ClienteController.search);
 
 /**
  * GET /api/clientes/:id
@@ -33,9 +29,7 @@ router.get('/buscar', (req: Request, res: Response) => {
  * @param {number} id - ID del cliente (path param)
  * @returns {Object} Datos del cliente
  */
-router.get('/:id', (req: Request, res: Response) => {
-  void ClienteController.getById(req, res);
-});
+router.get('/:id', ClienteController.getById);
 
 /**
  * POST /api/clientes
@@ -43,9 +37,7 @@ router.get('/:id', (req: Request, res: Response) => {
  * @param {Object} body - Datos del cliente
  * @returns {Object} Cliente creado
  */
-router.post('/', (req: Request, res: Response) => {
-  void ClienteController.create(req, res);
-});
+router.post('/', ClienteController.create);
 
 /**
  * PUT /api/clientes/:id
@@ -54,9 +46,7 @@ router.post('/', (req: Request, res: Response) => {
  * @param {Object} body - Datos a actualizar
  * @returns {Object} Cliente actualizado
  */
-router.put('/:id', (req: Request, res: Response) => {
-  void ClienteController.update(req, res);
-});
+router.put('/:id', ClienteController.update);
 
 /**
  * DELETE /api/clientes/:id
@@ -64,8 +54,6 @@ router.put('/:id', (req: Request, res: Response) => {
  * @param {number} id - ID del cliente (path param)
  * @returns {Object} Confirmación de eliminación
  */
-router.delete('/:id', (req: Request, res: Response) => {
-  void ClienteController.delete(req, res);
-});
+router.delete('/:id', ClienteController.delete);
 
 export default router;

@@ -4,7 +4,9 @@
  */
 
 import { Request, Response } from 'express';
-import { ClienteService } from '../services/cliente.service';
+import { ClienteService } from '../services/cliente.service.js';
+import { Cliente } from '../models/cliente.model.js';
+import { ClienteCreateData, ClienteUpdateData } from '../models/cliente.model.js';
 import winston from 'winston';
 
 // Configurar logger
@@ -19,16 +21,6 @@ const logger = winston.createLogger({
 });
 
 const clienteService = new ClienteService();
-
-/** Datos de cliente para operaciones de creación/actualización */
-interface ClienteData {
-  nombre_empresa?: string;
-  contacto_nombre?: string;
-  contacto_telefono?: string;
-  contacto_email?: string;
-  tarifa_preferencial?: number;
-  activo?: boolean;
-}
 
 /**
  * Controlador para la gestión de clientes
@@ -120,18 +112,9 @@ export class ClienteController {
    */
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const body = req.body as ClienteData;
+      const body = req.body as ClienteCreateData;
 
-      const clienteData = {
-        nombre_empresa: body.nombre_empresa,
-        contacto_nombre: body.contacto_nombre,
-        contacto_telefono: body.contacto_telefono,
-        contacto_email: body.contacto_email,
-        tarifa_preferencial: body.tarifa_preferencial,
-        activo: body.activo !== undefined ? body.activo : true,
-      } as Partial<Cliente>;
-
-      const cliente = await clienteService.create(clienteData);
+      const cliente = await clienteService.create(body);
       res.status(201).json({
         success: true,
         message: 'Cliente creado exitosamente',
@@ -169,18 +152,9 @@ export class ClienteController {
         return;
       }
 
-      const body = req.body as ClienteData;
+      const body = req.body as ClienteUpdateData;
 
-      const clienteData = {
-        nombre_empresa: body.nombre_empresa,
-        contacto_nombre: body.contacto_nombre,
-        contacto_telefono: body.contacto_telefono,
-        contacto_email: body.contacto_email,
-        tarifa_preferencial: body.tarifa_preferencial,
-        activo: body.activo,
-      } as Partial<Cliente>;
-
-      const cliente = await clienteService.update(id, clienteData);
+      const cliente = await clienteService.update(id, body);
       if (!cliente) {
         res.status(404).json({
           success: false,

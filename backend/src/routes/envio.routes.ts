@@ -3,8 +3,8 @@
  * @module routes/envio
  */
 
-import { Router, Request, Response } from 'express';
-import { EnvioController } from '../controllers/envio.controller';
+import { Router } from 'express';
+import { EnvioController } from '../controllers/envio.controller.js';
 
 const router = Router();
 
@@ -18,9 +18,7 @@ const router = Router();
  * @param {string} search - Búsqueda por texto (query param)
  * @returns {Object} Lista de envíos
  */
-router.get('/', (req: Request, res: Response) => {
-  void EnvioController.getAll(req, res);
-});
+router.get('/', EnvioController.getAll);
 
 /**
  * GET /api/envios/estadisticas
@@ -28,9 +26,7 @@ router.get('/', (req: Request, res: Response) => {
  * @param {number} clienteId - Filtrar por cliente (query param, opcional)
  * @returns {Object} Estadísticas de envíos
  */
-router.get('/estadisticas', (req: Request, res: Response) => {
-  void EnvioController.getEstadisticas(req, res);
-});
+router.get('/estadisticas', EnvioController.getEstadisticas);
 
 /**
  * GET /api/envios/house/:house
@@ -38,9 +34,7 @@ router.get('/estadisticas', (req: Request, res: Response) => {
  * @param {string} house - Número de House (path param)
  * @returns {Object} Datos del envío
  */
-router.get('/house/:house', (req: Request, res: Response) => {
-  void EnvioController.getByHouse(req, res);
-});
+router.get('/house/:house', EnvioController.getByHouse);
 
 /**
  * GET /api/envios/cliente/:id/historial
@@ -48,9 +42,7 @@ router.get('/house/:house', (req: Request, res: Response) => {
  * @param {number} id - ID del cliente (path param)
  * @returns {Object} Lista de envíos del cliente
  */
-router.get('/cliente/:id/historial', (req: Request, res: Response) => {
-  void EnvioController.getHistorialByCliente(req, res);
-});
+router.get('/cliente/:id/historial', EnvioController.getHistorialByCliente);
 
 /**
  * GET /api/envios/:id
@@ -58,9 +50,7 @@ router.get('/cliente/:id/historial', (req: Request, res: Response) => {
  * @param {number} id - ID del envío (path param)
  * @returns {Object} Datos del envío
  */
-router.get('/:id', (req: Request, res: Response) => {
-  void EnvioController.getById(req, res);
-});
+router.get('/:id', EnvioController.getById);
 
 /**
  * POST /api/envios
@@ -68,9 +58,7 @@ router.get('/:id', (req: Request, res: Response) => {
  * @param {Object} body - Datos del envío
  * @returns {Object} Envío creado
  */
-router.post('/', (req: Request, res: Response) => {
-  void EnvioController.create(req, res);
-});
+router.post('/', EnvioController.create);
 
 /**
  * PUT /api/envios/:id
@@ -79,9 +67,7 @@ router.post('/', (req: Request, res: Response) => {
  * @param {Object} body - Datos a actualizar
  * @returns {Object} Envío actualizado
  */
-router.put('/:id', (req: Request, res: Response) => {
-  void EnvioController.update(req, res);
-});
+router.put('/:id', EnvioController.update);
 
 /**
  * PATCH /api/envios/:id/estado
@@ -90,9 +76,7 @@ router.put('/:id', (req: Request, res: Response) => {
  * @param {Object} body - { estado: string, incidencia?: string }
  * @returns {Object} Envío actualizado
  */
-router.patch('/:id/estado', (req: Request, res: Response) => {
-  void EnvioController.updateEstado(req, res);
-});
+router.patch('/:id/estado', EnvioController.updateEstado);
 
 /**
  * DELETE /api/envios/:id
@@ -100,8 +84,6 @@ router.patch('/:id/estado', (req: Request, res: Response) => {
  * @param {number} id - ID del envío (path param)
  * @returns {Object} Confirmación de eliminación
  */
-router.delete('/:id', (req: Request, res: Response) => {
-  void EnvioController.delete(req, res);
-});
+router.delete('/:id', EnvioController.delete);
 
 export default router;

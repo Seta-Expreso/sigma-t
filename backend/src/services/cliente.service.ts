@@ -3,8 +3,9 @@
  * @module services/cliente
  */
 
-import { AppDataSource } from '../config/database.config';
-import { Cliente } from '../models/cliente.model';
+import { AppDataSource } from '../config/database.config.js';
+import { Cliente, ClienteCreateData, ClienteUpdateData } from '../models/cliente.model.js';
+import { EntityRepository, EntityData } from '../types/typeorm.types.js';
 import { Repository } from 'typeorm';
 
 /**
@@ -47,7 +48,7 @@ export class ClienteService {
 
   /**
    * Crea un nuevo cliente
-   * @param {Partial<Cliente>} data - Datos del cliente
+   * @param {ClienteCreateData} data - Datos del cliente
    * @returns {Promise<Cliente>} Cliente creado
    * @example
    * const nuevoCliente = await clienteService.create({
@@ -55,7 +56,7 @@ export class ClienteService {
    *   contacto_nombre: 'Juan Pérez'
    * });
    */
-  async create(data: Partial<Cliente>): Promise<Cliente> {
+  async create(data: ClienteCreateData): Promise<Cliente> {
     const cliente = this.clienteRepository.create(data);
     return await this.clienteRepository.save(cliente);
   }
@@ -63,14 +64,14 @@ export class ClienteService {
   /**
    * Actualiza un cliente existente
    * @param {number} id - ID del cliente
-   * @param {Partial<Cliente>} data - Datos a actualizar
+   * @param {ClienteUpdateData} data - Datos a actualizar
    * @returns {Promise<Cliente | null>} Cliente actualizado o null
    * @example
    * const clienteActualizado = await clienteService.update(1, {
    *   nombre_empresa: 'CAC Paquetería Actualizada'
    * });
    */
-  async update(id: number, data: Partial<Cliente>): Promise<Cliente | null> {
+  async update(id: number, data: ClienteUpdateData): Promise<Cliente | null> {
     const cliente = await this.findById(id);
     if (!cliente) return null;
 

@@ -3,8 +3,8 @@
  * @module routes/importacion
  */
 
-import { Router, Request, Response } from 'express';
-import { ImportacionController } from '../controllers/importacion.controller';
+import { Router } from 'express';
+import { ImportacionController } from '../controllers/importacion.controller.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -16,10 +16,10 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (_req, _file, cb) => {
     cb(null, uploadDir);
   },
-  filename: (req, file, cb) => {
+  filename: (_req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     cb(null, uniqueSuffix + path.extname(file.originalname));
   },
@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  fileFilter: (req, file, cb) => {
+  fileFilter: (_req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();
     if (ext === '.xlsx' || ext === '.xls') {
       cb(null, true);
@@ -40,28 +40,32 @@ const upload = multer({
 
 const router = Router();
 
-router.post(
-  '/columnas',
-  upload.single('file'),
-  (req: Request, res: Response) => {
-    void ImportacionController.getColumnas(req, res);
-  }
-);
+/**
+ * POST /api/importacion/columnas
+ * @description Obtiene las columnas de un archivo Excel
+ * @param {File} file - Archivo Excel (multipart/form-data)
+ * @returns {Object} Lista de nombres de columnas
+ */
+router.post('/columnas', upload.single('file'), ImportacionController.getColumnas);
 
-router.post(
-  '/vista-previa',
-  upload.single('file'),
-  (req: Request, res: Response) => {
-    void ImportacionController.getVistaPrevia(req, res);
-  }
-);
+/**
+ * POST /api/importacion/vista-previa
+ * @description Obtiene vista previa de los datos con el mapeo seleccionado
+ * @param {File} file - Archivo Excel (multipart/form-data)
+ * @param {Object} mapeo - Configuración de mapeo de columnas
+ * @param {number} clienteId - ID del cliente
+ * @returns {Object} Vista previa de los datos
+ */
+router.post('/vista-previa', upload.single('file'), ImportacionController.getVistaPrevia);
 
-router.post(
-  '/importar',
-  upload.single('file'),
-  (req: Request, res: Response) => {
-    void ImportacionController.importar(req, res);
-  }
-);
+/**
+ * POST /api/importacion/importar
+ * @description Importa el archivo con el mapeo seleccionado
+ * @param {File} file - Archivo Excel (multipart/form-data)
+ * @param {Object} mapeo - Configuración de mapeo de columnas
+ * @param {number} clienteId - ID del cliente
+ * @returns {Object} Resultado de la importación
+ */
+router.post('/importar', upload.single('file'), ImportacionController.importar);
 
 export default router;

@@ -4,8 +4,8 @@
  */
 
 import * as XLSX from 'xlsx';
-import { AppDataSource } from '../config/database.config';
-import { Envio, EstadoEnvio } from '../models/envio.model';
+import { AppDataSource } from '../config/database.config.js';
+import { Envio, EstadoEnvio, EnvioCreateData } from '../models/envio.model.js';
 import { Repository } from 'typeorm';
 import * as fs from 'fs';
 import winston from 'winston';
@@ -20,6 +20,10 @@ const logger = winston.createLogger({
   ],
 });
 
+/**
+ * Configuración de mapeo de columnas
+ * @interface ColumnaMapeo
+ */
 export interface ColumnaMapeo {
   house: string;
   descripcion: string;
@@ -35,21 +39,37 @@ export interface ColumnaMapeo {
   unidad_destino: string;
 }
 
+/**
+ * Datos de una fila del Excel
+ * @interface FilaData
+ */
 export interface FilaData {
   [key: string]: string | number | boolean | null | undefined;
 }
 
+/**
+ * Resultado de validación de un campo
+ * @interface ValidacionResultado
+ */
 export interface ValidacionResultado {
   valido: boolean;
   errores: string[];
 }
 
+/**
+ * Reporte de error de una fila
+ * @interface ErrorReporte
+ */
 export interface ErrorReporte {
   fila: number;
   house: string;
   errores: string[];
 }
 
+/**
+ * Resultado de la importación
+ * @interface ImportacionResultado
+ */
 export interface ImportacionResultado {
   total: number;
   importados: number;
@@ -57,12 +77,31 @@ export interface ImportacionResultado {
   envios: Envio[];
 }
 
+/**
+ * Resultado de la vista previa
+ * @interface VistaPreviaResultado
+ */
 export interface VistaPreviaResultado {
-  filas: Partial<Envio>[];
+  filas: EnvioCreateData[];
   total: number;
   errores: ErrorReporte[];
 }
 
+/**
+ * Validación de un campo
+ * @interface ValidacionCampo
+ */
+export interface ValidacionCampo {
+  tipo?: 'number' | 'boolean' | 'string';
+  longitud?: number;
+  regex?: RegExp;
+  obligatorio?: boolean;
+}
+
+/**
+ * Servicio para importación de manifiestos
+ * @class ImportacionService
+ */
 export class ImportacionService {
   private envioRepository: Repository<Envio>;
 
@@ -75,29 +114,29 @@ export class ImportacionService {
    * @param {string} filePath - Ruta del archivo Excel
    * @returns {Promise<string[]>} Lista de nombres de columnas
    */
-  obtenerColumnas(filePath: string): Promise<string[]> {
+  async obtenerColumnas(filePath: string): Promise<string[]> {
     const workbook = XLSX.readFile(filePath);
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
     const data = XLSX.utils.sheet_to_json(sheet, { defval: '' });
-    if (data.length === 0) return Promise.resolve([]);
-    return Promise.resolve(Object.keys(data[0]));
+    if (data.length === 0) return [];
+    return Object.keys(data[0]);
   }
 
   /**
    * Valida un campo específico según las reglas definidas
-   * @param {any} valor - Valor a validar
+   * @param {string | number | boolean | null | undefined} valor - Valor a validar
    * @param {string} campo - Nombre del campo
-   * @param {boolean} esObligatorio - Si el campo es obligatorio
-   * @param {Object} validaciones - Validaciones adicionales
+   * @param {ValidacionCampo} reglas - Reglas de validación
    * @returns {ValidacionResultado} Resultado de la validación
    */
   private validarCampo(
     valor: string | number | boolean | null | undefined,
     campo: string,
-    esObligatorio: boolean,
-    validaciones?: { tipo?: string; longitud?: number; regex?: RegExp }
+    reglas: ValidacionCampo = {}
   ): ValidacionResultado {
     const errores: string[] = [];
+
+    const esObligatorio = reglas.obligatorio === true;
 
     if (esObligatorio && (valor === undefined || valor === null || valor === '')) {
       errores.push(`Campo "${campo}" es obligatorio`);
@@ -110,25 +149,25 @@ export class ImportacionService {
 
     const valorStr = String(valor).trim();
 
-    if (validaciones) {
-      if (validaciones.tipo === 'number' && isNaN(Number(valorStr))) {
-        errores.push(`Campo "${campo}" debe ser un número`);
-      }
+    if (reglas.tipo === 'number' && isNaN(Number(valorStr))) {
+      errores.push(`Campo "${campo}" debe ser un número`);
+    }
 
-      if (validaciones.tipo === 'boolean') {
-        const lower = valorStr.toLowerCase();
-        if (!['true', 'false', 'si', 'no', '1', '0', ''].includes(lower)) {
-          errores.push(`Campo "${campo}" debe ser booleano (true/false, si/no)`);
-        }
+    if (reglas.tipo === 'boolean') {
+      const lower = valorStr.toLowerCase();
+      if (!['true', 'false', 'si', 'no', '1', '0', ''].includes(lower)) {
+        errores.push(`Campo "${campo}" debe ser booleano (true/false, si/no)`);
       }
+    }
 
-      if (validaciones.longitud && valorStr.length !== validaciones.longitud) {
-        errores.push(`Campo "${campo}" debe tener exactamente ${validaciones.longitud} dígitos (actual: ${valorStr.length})`);
-      }
+    if (reglas.longitud && valorStr.length !== reglas.longitud) {
+      errores.push(
+        `Campo "${campo}" debe tener exactamente ${reglas.longitud} dígitos (actual: ${valorStr.length})`
+      );
+    }
 
-      if (validaciones.regex && !validaciones.regex.test(valorStr)) {
-        errores.push(`Campo "${campo}" tiene formato inválido`);
-      }
+    if (reglas.regex && !reglas.regex.test(valorStr)) {
+      errores.push(`Campo "${campo}" tiene formato inválido`);
     }
 
     return {
@@ -146,93 +185,62 @@ export class ImportacionService {
   private validarFila(fila: FilaData, mapeo: ColumnaMapeo): ValidacionResultado {
     const errores: string[] = [];
 
-    const houseResult = this.validarCampo(
-      fila[mapeo.house],
-      'House',
-      true,
-      { regex: /^[A-Z]{4}-\d{8}$/ }
-    );
-    errores.push(...houseResult.errores);
+    const validaciones: Array<{ valor: unknown; campo: string; reglas: ValidacionCampo }> = [
+      { valor: fila[mapeo.house], campo: 'House', reglas: { obligatorio: true, regex: /^[A-Z]{4}-\d{8}$/ } },
+      { valor: fila[mapeo.descripcion], campo: 'Descripción', reglas: { obligatorio: true } },
+      { valor: fila[mapeo.remitente_nombre], campo: 'Remitente', reglas: { obligatorio: true } },
+      { valor: fila[mapeo.destinatario_nombre], campo: 'Destinatario', reglas: { obligatorio: true } },
+      {
+        valor: fila[mapeo.destinatario_identificacion],
+        campo: 'Carnet de Identidad',
+        reglas: { obligatorio: true, longitud: 11, regex: /^\d{11}$/ },
+      },
+      { valor: fila[mapeo.destinatario_telefono], campo: 'Teléfono', reglas: { obligatorio: true } },
+      { valor: fila[mapeo.destinatario_direccion], campo: 'Dirección', reglas: { obligatorio: true } },
+      { valor: fila[mapeo.unidad_destino], campo: 'Unidad de destino', reglas: { obligatorio: true } },
+      { valor: fila[mapeo.remitente_passport], campo: 'Passport', reglas: { obligatorio: false } },
+    ];
 
-    const descResult = this.validarCampo(
-      fila[mapeo.descripcion],
-      'Descripción',
-      true
-    );
-    errores.push(...descResult.errores);
+    if (mapeo.cobrado_origen) {
+      validaciones.push({
+        valor: fila[mapeo.cobrado_origen],
+        campo: 'Cobrado/No Cobrado',
+        reglas: { obligatorio: false, tipo: 'boolean' },
+      });
+    }
 
+    validaciones.push({
+      valor: fila[mapeo.peso],
+      campo: 'Peso',
+      reglas: { obligatorio: true, tipo: 'number' },
+    });
+
+    validaciones.push({
+      valor: fila[mapeo.bultos],
+      campo: 'Bultos',
+      reglas: { obligatorio: true, tipo: 'number' },
+    });
+
+    for (const v of validaciones) {
+      const result = this.validarCampo(v.valor, v.campo, v.reglas);
+      errores.push(...result.errores);
+    }
+
+    // Validaciones adicionales numéricas
     const pesoValor = fila[mapeo.peso];
-    if (pesoValor === undefined || pesoValor === null || pesoValor === '') {
-      errores.push('Campo "Peso" es obligatorio');
-    } else if (isNaN(Number(pesoValor)) || Number(pesoValor) <= 0) {
-      errores.push('Campo "Peso" debe ser mayor a 0');
+    if (pesoValor !== undefined && pesoValor !== null && pesoValor !== '') {
+      const pesoNum = Number(pesoValor);
+      if (!isNaN(pesoNum) && pesoNum <= 0) {
+        errores.push('Campo "Peso" debe ser mayor a 0');
+      }
     }
 
     const bultosValor = fila[mapeo.bultos];
-    if (bultosValor === undefined || bultosValor === null || bultosValor === '') {
-      errores.push('Campo "Bultos" es obligatorio');
-    } else if (isNaN(Number(bultosValor)) || Number(bultosValor) <= 0) {
-      errores.push('Campo "Bultos" debe ser mayor a 0');
-    }
-
-    const remResult = this.validarCampo(
-      fila[mapeo.remitente_nombre],
-      'Remitente',
-      true
-    );
-    errores.push(...remResult.errores);
-
-    const destResult = this.validarCampo(
-      fila[mapeo.destinatario_nombre],
-      'Destinatario',
-      true
-    );
-    errores.push(...destResult.errores);
-
-    const carnetResult = this.validarCampo(
-      fila[mapeo.destinatario_identificacion],
-      'Carnet de Identidad',
-      true,
-      { longitud: 11, regex: /^\d{11}$/ }
-    );
-    errores.push(...carnetResult.errores);
-
-    const telResult = this.validarCampo(
-      fila[mapeo.destinatario_telefono],
-      'Teléfono',
-      true
-    );
-    errores.push(...telResult.errores);
-
-    const dirResult = this.validarCampo(
-      fila[mapeo.destinatario_direccion],
-      'Dirección',
-      true
-    );
-    errores.push(...dirResult.errores);
-
-    const unidadResult = this.validarCampo(
-      fila[mapeo.unidad_destino],
-      'Unidad de destino',
-      true
-    );
-    errores.push(...unidadResult.errores);
-
-    const passportResult = this.validarCampo(
-      fila[mapeo.remitente_passport],
-      'Passport',
-      false
-    );
-    errores.push(...passportResult.errores);
-
-    if (mapeo.cobrado_origen) {
-      const cobradoResult = this.validarCampo(
-        fila[mapeo.cobrado_origen],
-        'Cobrado/No Cobrado',
-        false,
-        { tipo: 'boolean' }
-      );
-      errores.push(...cobradoResult.errores);
+    if (bultosValor !== undefined && bultosValor !== null && bultosValor !== '') {
+      const bultosNum = Number(bultosValor);
+      if (!isNaN(bultosNum) && bultosNum <= 0) {
+        errores.push('Campo "Bultos" debe ser mayor a 0');
+      }
     }
 
     return {
@@ -242,13 +250,28 @@ export class ImportacionService {
   }
 
   /**
+   * Convierte un valor booleano a partir de diferentes formatos
+   * @param {unknown} value - Valor a convertir
+   * @returns {boolean} Valor booleano
+   */
+  private convertirBooleano(value: unknown): boolean {
+    if (typeof value === 'boolean') return value;
+    if (typeof value === 'number') return value === 1;
+    if (typeof value === 'string') {
+      const lower = value.toLowerCase().trim();
+      return ['true', 'si', 'sí', '1', 'yes', 'y', 'on'].includes(lower);
+    }
+    return false;
+  }
+
+  /**
    * Obtiene vista previa de los datos con el mapeo seleccionado
    * @param {string} filePath - Ruta del archivo Excel
    * @param {ColumnaMapeo} mapeo - Configuración de mapeo
    * @param {number} clienteId - ID del cliente
    * @returns {Promise<VistaPreviaResultado>} Vista previa de los datos
    */
-  obtenerVistaPrevia(
+  async obtenerVistaPrevia(
     filePath: string,
     mapeo: ColumnaMapeo,
     clienteId: number
@@ -263,29 +286,41 @@ export class ImportacionService {
     });
 
     const errores: ErrorReporte[] = [];
-    const filasResult: Partial<Envio>[] = [];
+    const filasResult: EnvioCreateData[] = [];
 
     for (let i = 0; i < filasValidas.length; i++) {
       const fila = filasValidas[i];
       const resultado = this.validarFila(fila, mapeo);
 
-      const envioData: Partial<Envio> = {
+      const envioData: EnvioCreateData = {
         house: String(fila[mapeo.house] || ''),
         descripcion: String(fila[mapeo.descripcion] || ''),
-        peso: parseFloat(String(fila[mapeo.peso])) || 0,
-        bultos: parseInt(String(fila[mapeo.bultos])) || 0,
+        peso: parseFloat(String(fila[mapeo.peso] || 0)),
+        bultos: parseInt(String(fila[mapeo.bultos] || 0)),
         remitente_nombre: String(fila[mapeo.remitente_nombre] || ''),
         remitente_passport: String(fila[mapeo.remitente_passport] || ''),
         destinatario_nombre: String(fila[mapeo.destinatario_nombre] || ''),
         destinatario_identificacion: String(fila[mapeo.destinatario_identificacion] || ''),
         destinatario_telefono: String(fila[mapeo.destinatario_telefono] || ''),
         destinatario_direccion: String(fila[mapeo.destinatario_direccion] || ''),
-        cobrado_origen: fila[mapeo.cobrado_origen]
-          ? ['true', 'si', '1'].includes(String(fila[mapeo.cobrado_origen]).toLowerCase())
-          : false,
+        cobrado_origen: this.convertirBooleano(fila[mapeo.cobrado_origen]),
         unidad_destino: String(fila[mapeo.unidad_destino] || ''),
         id_cliente: clienteId,
         estado: EstadoEnvio.PENDIENTE,
+        awb: null,
+        volumen: 0,
+        prioridad: 'normal' as const,
+        fecha_limite: null,
+        fecha_asignacion: null,
+        fecha_entrega_real: null,
+        incidencia: null,
+        firma_digital: null,
+        foto_evidencia: null,
+        importe_aduana: null,
+        numero_factura_aduana: null,
+        fecha_ultima_consulta_aduana: null,
+        intentos_consulta_aduana: 0,
+        estado_aduana: 'pendiente' as const,
       };
 
       filasResult.push(envioData);

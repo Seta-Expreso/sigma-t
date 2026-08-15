@@ -4,8 +4,8 @@
  */
 
 import { Request, Response } from 'express';
-import { EnvioService } from '../services/envio.service';
-import { EstadoEnvio, PrioridadEnvio } from '../models/envio.model';
+import { EnvioService } from '../services/envio.service.js';
+import { EstadoEnvio, PrioridadEnvio, EnvioCreateData, EnvioUpdateData } from '../models/envio.model.js';
 import winston from 'winston';
 
 // Configurar logger
@@ -157,30 +157,9 @@ export class EnvioController {
    */
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const body = req.body;
+      const body = req.body as EnvioCreateData;
 
-      const envioData = {
-        id_cliente: body.id_cliente,
-        house: body.house,
-        awb: body.awb,
-        descripcion: body.descripcion,
-        peso: body.peso,
-        volumen: body.volumen || 0,
-        bultos: body.bultos,
-        remitente_nombre: body.remitente_nombre,
-        remitente_passport: body.remitente_passport,
-        destinatario_nombre: body.destinatario_nombre,
-        destinatario_direccion: body.destinatario_direccion,
-        destinatario_telefono: body.destinatario_telefono,
-        destinatario_identificacion: body.destinatario_identificacion,
-        cobrado_origen: body.cobrado_origen || false,
-        unidad_destino: body.unidad_destino,
-        prioridad: body.prioridad || PrioridadEnvio.NORMAL,
-        fecha_limite: body.fecha_limite ? new Date(body.fecha_limite) : undefined,
-        foto_evidencia: body.foto_evidencia,
-      } as Partial<Envio>;
-
-      const envio = await envioService.create(envioData);
+      const envio = await envioService.create(body);
       res.status(201).json({
         success: true,
         message: 'Envío creado exitosamente',
@@ -218,34 +197,9 @@ export class EnvioController {
         return;
       }
 
-      const body = req.body;
+      const body = req.body as EnvioUpdateData;
 
-      const envioData = {
-        id_cliente: body.id_cliente,
-        house: body.house,
-        awb: body.awb,
-        descripcion: body.descripcion,
-        peso: body.peso,
-        volumen: body.volumen,
-        bultos: body.bultos,
-        remitente_nombre: body.remitente_nombre,
-        remitente_passport: body.remitente_passport,
-        destinatario_nombre: body.destinatario_nombre,
-        destinatario_direccion: body.destinatario_direccion,
-        destinatario_telefono: body.destinatario_telefono,
-        destinatario_identificacion: body.destinatario_identificacion,
-        cobrado_origen: body.cobrado_origen,
-        unidad_destino: body.unidad_destino,
-        prioridad: body.prioridad,
-        fecha_limite: body.fecha_limite ? new Date(body.fecha_limite) : undefined,
-        estado: body.estado,
-        incidencia: body.incidencia,
-        costo_aduana: body.costo_aduana,
-        costo_importacion: body.costo_importacion,
-        foto_evidencia: body.foto_evidencia,
-      } as Partial<Envio>;
-
-      const envio = await envioService.update(id, envioData);
+      const envio = await envioService.update(id, body);
       if (!envio) {
         res.status(404).json({
           success: false,

@@ -1,301 +1,173 @@
 /**
- * @fileoverview Modelo de datos para Envíos
- * @module models/envio
+ * @fileoverview Modelo de Envío para TypeORM
+ * @module models/envio.model
  */
 
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { Cliente } from './cliente.model';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { Cliente } from './cliente.model.js';
 
 /**
- * Estados posibles de un envío
- * @enum {string}
+ * Estados del envío en Seta Expreso
  */
 export enum EstadoEnvio {
-  /** Envío pendiente de procesamiento */
   PENDIENTE = 'pendiente',
-  /** Envío almacenado en bodega */
   EN_BODEGA = 'en_bodega',
-  /** Envío en ruta de entrega */
   EN_RUTA = 'en_ruta',
-  /** Envío entregado al destinatario */
   ENTREGADO = 'entregado',
-  /** Envío con incidencia reportada */
   INCIDENCIA = 'incidencia',
 }
 
 /**
- * Prioridades posibles de un envío
- * @enum {string}
+ * Prioridades del envío
  */
 export enum PrioridadEnvio {
-  /** Envío urgente - entrega prioritaria */
   URGENTE = 'urgente',
-  /** Envío normal - entrega estándar */
   NORMAL = 'normal',
-  /** Envío económico - entrega de bajo costo */
   ECONOMICO = 'economico',
 }
 
 /**
  * Estados de consulta de aduana
- * @enum {string}
  */
 export enum EstadoAduana {
-  /** Pendiente de consulta */
   PENDIENTE = 'pendiente',
-  /** Costo de aduana consultado exitosamente */
   CONSULTADO = 'consultado',
-  /** Error en la consulta de aduana */
   ERROR = 'error',
 }
 
 /**
- * Entidad que representa un envío en el sistema
- * @class Envio
+ * Entidad Envío - Representa un paquete o envío gestionado por el sistema
  */
 @Entity('envios')
 export class Envio {
-  /**
-   * Identificador único del envío
-   * @type {number}
-   */
   @PrimaryGeneratedColumn()
-  id_envio: number;
+  id_envio!: number;
 
-  /**
-   * Relación ManyToOne con Cliente
-   * @type {Cliente}
-   */
-  @ManyToOne(() => Cliente)
+  // Relación con Cliente
+  @Column({ type: 'integer', nullable: true })
+  id_cliente!: number | null;
+
+  @ManyToOne(() => Cliente, (cliente) => cliente.envios, { nullable: true })
   @JoinColumn({ name: 'id_cliente' })
-  cliente: Cliente;
+  cliente!: Cliente | null;
 
-  /**
-   * ID del cliente asociado al envío
-   * @type {number}
-   */
-  @Column()
-  id_cliente: number;
+  // Campos del manifiesto
+  @Column({ type: 'varchar', length: 20, unique: true, nullable: false })
+  house!: string;
 
-  /**
-   * ID del chofer asignado (opcional)
-   * @type {number}
-   */
-  @Column({ nullable: true })
-  id_chofer: number;
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  awb!: string | null;
 
-  /**
-   * ID del vehículo asignado (opcional)
-   * @type {number}
-   */
-  @Column({ nullable: true })
-  id_vehiculo: number;
+  @Column({ type: 'text', nullable: false })
+  descripcion!: string;
 
-  /**
-   * ID de la ruta asignada (opcional)
-   * @type {number}
-   */
-  @Column({ nullable: true })
-  id_ruta: number;
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
+  peso!: number;
 
-  /**
-   * Número único de House del envío
-   * @type {string}
-   */
-  @Column({ unique: true, length: 20 })
-  house: string;
-
-  /**
-   * Air Way Bill (AWB) del envío - código de seguimiento aéreo
-   * @type {string}
-   */
-  @Column({ length: 20, nullable: true })
-  awb: string;
-
-  /**
-   * Descripción de la naturaleza y cantidad del paquete
-   * @type {string}
-   */
-  @Column({ type: 'text' })
-  descripcion: string;
-
-  /**
-   * Peso del envío en kilogramos
-   * @type {number}
-   */
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  peso: number;
-
-  /**
-   * Volumen del envío en metros cúbicos
-   * @type {number}
-   * @default 0
-   */
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
-  volumen: number;
+  volumen!: number;
 
-  /**
-   * Cantidad de bultos del envío
-   * @type {number}
-   */
-  @Column()
-  bultos: number;
+  @Column({ type: 'integer', nullable: false })
+  bultos!: number;
 
-  /**
-   * Nombre del remitente del envío
-   * @type {string}
-   */
-  @Column({ length: 150 })
-  remitente_nombre: string;
+  @Column({ type: 'varchar', length: 150, nullable: false })
+  remitente_nombre!: string;
 
-  /**
-   * Número de Passport del remitente (opcional)
-   * @type {string}
-   */
-  @Column({ length: 20, nullable: true })
-  remitente_passport: string;
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  remitente_passport!: string | null;
 
-  /**
-   * Nombre del destinatario del envío
-   * @type {string}
-   */
-  @Column({ length: 150 })
-  destinatario_nombre: string;
+  @Column({ type: 'varchar', length: 150, nullable: false })
+  destinatario_nombre!: string;
 
-  /**
-   * Dirección completa del destinatario
-   * @type {string}
-   */
-  @Column({ type: 'text' })
-  destinatario_direccion: string;
+  @Column({ type: 'text', nullable: false })
+  destinatario_direccion!: string;
 
-  /**
-   * Teléfono del destinatario
-   * @type {string}
-   */
-  @Column({ length: 30 })
-  destinatario_telefono: string;
+  @Column({ type: 'varchar', length: 30, nullable: false })
+  destinatario_telefono!: string;
 
-  /**
-   * Carnet de Identidad del destinatario (11 dígitos)
-   * @type {string}
-   */
-  @Column({ length: 11 })
-  destinatario_identificacion: string;
+  @Column({ type: 'varchar', length: 11, nullable: false })
+  destinatario_identificacion!: string;
 
-  /**
-   * Indica si el envío fue cobrado en origen
-   * @type {boolean}
-   * @default false
-   */
-  @Column({ default: false })
-  cobrado_origen: boolean;
+  @Column({ type: 'boolean', default: false })
+  cobrado_origen!: boolean;
 
-  /**
-   * Código de la unidad de destino (provincia)
-   * @type {string}
-   */
-  @Column({ length: 10 })
-  unidad_destino: string;
+  @Column({ type: 'varchar', length: 10, nullable: false })
+  unidad_destino!: string;
 
-  /**
-   * Prioridad del envío (urgente, normal, económico)
-   * @type {PrioridadEnvio}
-   * @default PrioridadEnvio.NORMAL
-   */
+  // Campos adicionales
   @Column({ type: 'enum', enum: PrioridadEnvio, default: PrioridadEnvio.NORMAL })
-  prioridad: PrioridadEnvio;
+  prioridad!: PrioridadEnvio;
 
-  /**
-   * Fecha límite de entrega del envío
-   * @type {Date}
-   */
   @Column({ type: 'date', nullable: true })
-  fecha_limite: Date;
+  fecha_limite!: Date | null;
 
-  /**
-   * Fecha de asignación del envío a una ruta
-   * @type {Date}
-   */
   @Column({ type: 'timestamp', nullable: true })
-  fecha_asignacion: Date;
+  fecha_asignacion!: Date | null;
 
-  /**
-   * Fecha real de entrega del envío
-   * @type {Date}
-   */
   @Column({ type: 'timestamp', nullable: true })
-  fecha_entrega_real: Date;
+  fecha_entrega_real!: Date | null;
 
-  /**
-   * Estado actual del envío
-   * @type {EstadoEnvio}
-   * @default EstadoEnvio.PENDIENTE
-   */
   @Column({ type: 'enum', enum: EstadoEnvio, default: EstadoEnvio.PENDIENTE })
-  estado: EstadoEnvio;
+  estado!: EstadoEnvio;
 
-  /**
-   * Descripción de la incidencia (si aplica)
-   * @type {string}
-   */
   @Column({ type: 'text', nullable: true })
-  incidencia: string;
+  incidencia!: string | null;
 
-  /**
-   * Firma digital del cliente (Base64)
-   * @type {string}
-   */
   @Column({ type: 'text', nullable: true })
-  firma_digital: string;
+  firma_digital!: string | null;
 
-  /**
-   * Foto de evidencia de la entrega (Base64)
-   * @type {string}
-   */
   @Column({ type: 'text', nullable: true })
-  foto_evidencia: string;
+  foto_evidencia!: string | null;
 
-  /**
-   * Costo de aduana del envío (obtenido de Aerovaradero)
-   * @type {number}
-   */
+  // Campos de Aduana
   @Column({ type: 'decimal', precision: 12, scale: 2, nullable: true })
-  costo_aduana: number;
+  importe_aduana!: number | null;
 
-  /**
-   * Otros costos de importación del envío
-   * @type {number}
-   */
-  @Column({ type: 'decimal', precision: 12, scale: 2, nullable: true })
-  costo_importacion: number;
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  numero_factura_aduana!: string | null;
 
-  /**
-   * Fecha de última consulta de aduana
-   * @type {Date}
-   */
   @Column({ type: 'timestamp', nullable: true })
-  fecha_consulta_aduana: Date;
+  fecha_ultima_consulta_aduana!: Date | null;
 
-  /**
-   * Estado de la consulta de aduana
-   * @type {EstadoAduana}
-   * @default EstadoAduana.PENDIENTE
-   */
+  @Column({ type: 'integer', default: 0 })
+  intentos_consulta_aduana!: number;
+
   @Column({ type: 'enum', enum: EstadoAduana, default: EstadoAduana.PENDIENTE })
+  estado_aduana!: EstadoAduana;
+
+  // Timestamps
+  @CreateDateColumn({ type: 'timestamp' })
+  created_at!: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updated_at!: Date;
+}
+
+/**
+ * Tipo para los datos de creación de un envío
+ */
+export type EnvioCreateData = Omit<Envio, 'id_envio' | 'created_at' | 'updated_at' | 'cliente'>;
+
+/**
+ * Tipo para los datos de actualización de un envío
+ */
+export type EnvioUpdateData = Partial<EnvioCreateData>;
+
+/**
+ * Tipo para el estado de un envío (respuesta simplificada)
+ */
+export interface EnvioEstadoResponse {
+  house: string;
+  estado: EstadoEnvio;
   estado_aduana: EstadoAduana;
-
-  /**
-   * Fecha de creación del registro
-   * @type {Date}
-   */
-  @CreateDateColumn()
-  created_at: Date;
-
-  /**
-   * Fecha de última actualización del registro
-   * @type {Date}
-   */
-  @UpdateDateColumn()
-  updated_at: Date;
+  importe_aduana: number | null;
+  fecha_actualizacion: Date;
 }
