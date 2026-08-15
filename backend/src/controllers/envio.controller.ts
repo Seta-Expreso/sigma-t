@@ -155,6 +155,7 @@ export class EnvioController {
    * Actualiza un envío existente
    * @route PUT /api/envios/:id
    */
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   static async update(req: Request, res: Response): Promise<void> {
     try {
       const id = parseInt(req.params.id);
@@ -166,8 +167,6 @@ export class EnvioController {
         return;
       }
 
-      // ✅ CORREGIDO: Desactivar la regla para esta línea
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const body = req.body as EnvioUpdateData;
 
       const envio = await envioService.update(id, body);
