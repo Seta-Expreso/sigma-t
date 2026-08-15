@@ -4,7 +4,7 @@
  */
 
 import { AppDataSource } from '../config/database.config.js';
-import type { Ruta, EstadoRuta, Parada, FichaCosto } from '../models/ruta.model.js';
+import type { EstadoRuta, Parada, FichaCosto } from '../models/ruta.model.js';
 import { Ruta as RutaModel } from '../models/ruta.model.js';
 import { Envio, EstadoEnvio } from '../models/envio.model.js';
 import { Vehiculo } from '../models/vehiculo.model.js';
@@ -20,13 +20,14 @@ interface ReoptimizacionData {
 export class RutaService {
   private rutaRepository = AppDataSource.getRepository(RutaModel);
   private envioRepository = AppDataSource.getRepository(Envio);
+  // ✅ Usar type assertion para los repositorios
   private vehiculoRepository = AppDataSource.getRepository(Vehiculo);
   private choferRepository = AppDataSource.getRepository(Chofer);
 
   /**
    * Optimizar rutas para una semana
    */
-  async optimizarSemana(fechaInicio: Date, _dias: number = 7): Promise<RutaModel[]> {
+  async optimizarSemana(fechaInicio: Date, _dias = 7): Promise<RutaModel[]> {
     const rutas: RutaModel[] = [];
 
     // 1. Obtener envíos pendientes
@@ -60,7 +61,7 @@ export class RutaService {
     const matrizDistancias = await getDistanceMatrix(coordsValidas, coordsValidas);
 
     // 5. Optimizar rutas (VRPTW simplificado)
-    const rutasOptimizadas = await this.ejecutarVRPTW(enviosValidos, matrizDistancias, coordsValidas);
+    const rutasOptimizadas = this.ejecutarVRPTW(enviosValidos, matrizDistancias, coordsValidas);
 
     // 6. Guardar rutas
     for (const rutaData of rutasOptimizadas) {
@@ -86,11 +87,11 @@ export class RutaService {
   /**
    * Ejecutar algoritmo VRPTW
    */
-  private async ejecutarVRPTW(
+  private ejecutarVRPTW(
     envios: Envio[],
     matrizDistancias: number[][],
     coordenadas: Array<{ lat: number; lng: number }>
-  ): Promise<Array<Partial<RutaModel>>> {
+  ): Array<Partial<RutaModel>> {
     // TODO: Implementar algoritmo VRPTW completo
     // Por ahora, asignación simple (1 ruta con todos los envíos)
     const paradas: Parada[] = envios.map((envio, index) => ({
@@ -248,9 +249,11 @@ export class RutaService {
       return ruta.ficha_costo;
     }
 
-    // Obtener vehículo y chofer de forma segura
-    const vehiculoMatricula = ruta.vehiculo?.matricula || 'No asignado';
-    const choferNombre = ruta.chofer?.nombre || 'No asignado';
+    // ✅ Obtener vehículo y chofer con type assertion
+    const vehiculo = ruta.vehiculo as Vehiculo | undefined;
+    const chofer = ruta.chofer as Chofer | undefined;
+    const vehiculoMatricula = (vehiculo as Vehiculo)?.matricula || 'No asignado';
+    const choferNombre = (chofer as Chofer)?.nombre || 'No asignado';
 
     // TODO: Calcular ficha de costo completa
     return {
