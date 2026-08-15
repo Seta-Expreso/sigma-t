@@ -4,7 +4,8 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { envioApi, Envio } from '../../api/envio.api';
+import { envioApi } from '../../api/envio.api';
+import type { Envio } from '../../api/envio.api';
 
 export interface HistorialClienteProps {
   clienteId: number;
@@ -155,7 +156,6 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
         </div>
 
         <div className="p-6">
-          {/* Mostrar error si existe */}
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
               {error}

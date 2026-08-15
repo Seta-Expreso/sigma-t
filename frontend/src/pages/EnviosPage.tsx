@@ -4,10 +4,12 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { envioApi, Envio, EnvioFilters } from '../api/envio.api';
+import { envioApi } from '../api/envio.api';
+import type { Envio, EnvioFilters } from '../api/envio.api';
 import { EnvioList } from '../components/envios/EnvioList';
 import { EnvioFilters as EnvioFiltersComponent } from '../components/envios/EnvioFilters';
-import { EnvioDetail, EnvioDetailData } from '../components/envios/EnvioDetail';
+import { EnvioDetail } from '../components/envios/EnvioDetail';
+import type { EnvioDetailData } from '../components/envios/EnvioDetail';
 import { HistorialCliente } from '../components/envios/HistorialCliente';
 import { ImportarManifiesto } from '../components/envios/ImportarManifiesto';
 
