@@ -380,27 +380,27 @@ Cliente Remitente → Agencia CAC (Panamá/México/Miami) → Aerovaradero → A
 
 ### MÓDULO 10: GESTIÓN DE PROSPECTOS Y MARKETING (RF-MARKETING) - ⏳ PENDIENTE
 
-| ID | Requisito | Prioridad | Complejidad | Estado |
-|----|-----------|-----------|-------------|--------|
-| RF-MK-01 | Registrar prospecto con: empresa, contacto, teléfono, email, fuente | Alta | Baja | ⏳ Pendiente |
-| RF-MK-02 | Registrar seguimiento de contactos (llamadas, reuniones) | Alta | Baja | ⏳ Pendiente |
-| RF-MK-03 | Generar cotizaciones para prospectos | Alta | Media | ⏳ Pendiente |
-| RF-MK-04 | Convertir prospecto en cliente activo | Alta | Baja | ⏳ Pendiente |
-| RF-MK-05 | Enviar encuestas de satisfacción a clientes | Media | Media | ⏳ Pendiente |
-| RF-MK-06 | Documentar casos de éxito con testimonios | Media | Baja | ⏳ Pendiente |
-| RF-MK-07 | Dashboard de ventas (prospectos, cotizaciones, conversiones) | Alta | Media | ⏳ Pendiente |
+| ID       | Requisito                                                           | Prioridad | Complejidad | Estado       |
+|----------|---------------------------------------------------------------------|-----------|-------------|--------------|
+| RF-MK-01 | Registrar prospecto con: empresa, contacto, teléfono, email, fuente | Alta      | Baja        | ⏳ Pendiente |
+| RF-MK-02 | Registrar seguimiento de contactos (llamadas, reuniones)            | Alta      | Baja        | ⏳ Pendiente |
+| RF-MK-03 | Generar cotizaciones para prospectos                                | Alta      | Media       | ⏳ Pendiente |
+| RF-MK-04 | Convertir prospecto en cliente activo                               | Alta      | Baja        | ⏳ Pendiente |
+| RF-MK-05 | Enviar encuestas de satisfacción a clientes                         | Media     | Media       | ⏳ Pendiente |
+| RF-MK-06 | Documentar casos de éxito con testimonios                           | Media     | Baja        | ⏳ Pendiente |
+| RF-MK-07 | Dashboard de ventas (prospectos, cotizaciones, conversiones)        | Alta      | Media       | ⏳ Pendiente |
 
 ### MÓDULO 11: AUDITORÍA Y SEGURIDAD (RF-AUDIT) - ⏳ PENDIENTE
 
-| ID | Requisito | Prioridad | Complejidad | Estado |
-|----|-----------|-----------|-------------|--------|
-| RF-AU-01 | Registrar todas las acciones de usuarios (log de auditoría) | **Crítica** | Media | ⏳ Pendiente |
-| RF-AU-02 | Registrar intentos de login fallidos | Alta | Baja | ⏳ Pendiente |
-| RF-AU-03 | Visualizar historial de cambios por entidad (envío, ruta, vehículo) | Alta | Media | ⏳ Pendiente |
-| RF-AU-04 | Exportar logs de auditoría a CSV | Media | Baja | ⏳ Pendiente |
-| RF-AU-05 | Alertas de seguridad (múltiples intentos fallidos, accesos sospechosos) | Media | Media | ⏳ Pendiente |
-| RF-AU-06 | Trazabilidad de acciones offline (registro local + sincronización) | Alta | Media | ⏳ Pendiente |
-| **RF-AU-07** | **🆕 Registrar eventos de reoptimización de rutas (disparador, tiempo, resultado)** | **Alta** | **Media** | ⏳ Pendiente |
+| ID           | Requisito                                                                           | Prioridad   | Complejidad | Estado        |
+|--------------|-------------------------------------------------------------------------------------|-------------|-------------|---------------|
+| RF-AU-01     | Registrar todas las acciones de usuarios (log de auditoría)                         | **Crítica** | Media       | ⏳ Pendiente |
+| RF-AU-02     | Registrar intentos de login fallidos                                                | Alta        | Baja        | ⏳ Pendiente |
+| RF-AU-03     | Visualizar historial de cambios por entidad (envío, ruta, vehículo)                 | Alta        | Media       | ⏳ Pendiente |
+| RF-AU-04     | Exportar logs de auditoría a CSV                                                    | Media       | Baja        | ⏳ Pendiente |
+| RF-AU-05     | Alertas de seguridad (múltiples intentos fallidos, accesos sospechosos)             | Media       | Media       | ⏳ Pendiente |
+| RF-AU-06     | Trazabilidad de acciones offline (registro local + sincronización)                  | Alta        | Media       | ⏳ Pendiente |
+| **RF-AU-07** | **🆕 Registrar eventos de reoptimización de rutas (disparador, tiempo, resultado)** | **Alta**    | **Media**   | ⏳ Pendiente |
 
 ### MÓDULO 12: AUTOMATIZACIÓN DE FACTURACIÓN DE ADUANA (RF-ADUANA) - ⏳ PENDIENTE
 

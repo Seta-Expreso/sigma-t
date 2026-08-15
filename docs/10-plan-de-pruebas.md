@@ -1,11 +1,11 @@
-## 📄 DOCUMENTO: PLAN DE PRUEBAS DE SIGMA-T (VERSIÓN 1.0)
+## 📄 DOCUMENTO: PLAN DE PRUEBAS DE SIGMA-T (VERSIÓN 2.0)
 
 **Basado en ISO/IEC 29119 - Pruebas de Software**
 
 **Proyecto:** SIGMA-T (Sistema Integral de Gestión para MiPYME de Transporte)  
 **Cliente / Sponsor:** Osleyder Gonzalez Acosta  
 **Fecha de Emisión:** 15 de agosto de 2026  
-**Versión del Documento:** 1.0 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura)
+**Versión del Documento:** 2.0 (Completa - Top Mundial con VRPTW v3.0, Optimización de Combustible, Reoptimización Dinámica, IA y Análisis Post-Ruta)
 
 ---
 
@@ -22,6 +22,10 @@ El plan de pruebas cubre todos los módulos del sistema:
 - Base de Datos (PostgreSQL)
 - Integraciones externas (Aerovaradero, OSRM)
 - Automatización de Aduana (Cron Jobs)
+- **🆕 Algoritmo VRPTW v3.0** (Optimización de combustible, prioridad de entregas)
+- **🆕 Reoptimización Dinámica** (Tiempo real, <5 segundos)
+- **🆕 Sistema de IA** (Estimación de tiempos, regresión lineal)
+- **🆕 Análisis Post-Ruta** (Comparativa planificado vs real, métricas de eficiencia)
 
 ### 1.3 Audiencia
 - **Líder del Proyecto:** Para validar los criterios de aceptación.
@@ -30,10 +34,10 @@ El plan de pruebas cubre todos los módulos del sistema:
 - **Stakeholders:** Para verificar que el sistema cumple con los requisitos.
 
 ### 1.4 Referencias
-- **SRS v3.7:** Especificación de Requisitos del Software.
-- **SPMP v3.7:** Plan de Gestión del Proyecto de Software.
-- **Arquitectura v2.7:** Documento de Arquitectura de Software.
-- **Maquetas UI/UX v2.5:** Diseño de interfaz de usuario.
+- **SRS v3.8:** Especificación de Requisitos del Software.
+- **SPMP v3.9:** Plan de Gestión del Proyecto de Software.
+- **Arquitectura v3.0:** Documento de Arquitectura de Software (VRPTW v3.0).
+- **Maquetas UI/UX v2.7:** Diseño de interfaz de usuario.
 - **ISO/IEC 29119:** Estándar de Pruebas de Software.
 
 ---
@@ -48,7 +52,7 @@ El plan de pruebas cubre todos los módulos del sistema:
                    │  (Manual)    │  ← Aceptación de usuarios
                    ├─────────────┤
                    │  Integración │  ← Comunicación entre módulos
-                   │  (Automática)│  ← Servicios externos (Aerovaradero)
+                   │  (Automática)│  ← Servicios externos (Aerovaradero, OSRM, IA)
                    ├─────────────┤
                    │   Unitarias  │  ← Cada función / componente
                    │  (Automática)│  ← Cobertura >70%
@@ -69,6 +73,10 @@ El plan de pruebas cubre todos los módulos del sistema:
 | 8 | **Pruebas de Regresión** | Verificar que cambios no rompan existente | Jest, Cypress | QA |
 | 9 | **Pruebas de Documentación** | Verificar cobertura JSDoc | ESLint-plugin-jsdoc | QA / Documentalista |
 | 10 | **Pruebas de Infraestructura** | Verificar despliegue en VPS ETECSA | Manual / Scripts | DevOps / QA |
+| 11 | **🆕 Pruebas de Algoritmo VRPTW v3.0** | Validar optimización de combustible, prioridad de entregas | Jest (Backend) | QA |
+| 12 | **🆕 Pruebas de Reoptimización Dinámica** | Validar tiempo de respuesta <5 segundos | Jest + cron-mock | QA |
+| 13 | **🆕 Pruebas del Sistema de IA** | Validar precisión del modelo de estimación de tiempos | Jest + Datos de prueba | QA |
+| 14 | **🆕 Pruebas de Análisis Post-Ruta** | Validar generación de métricas de eficiencia | Jest (Backend) + Cypress (Frontend) | QA |
 
 ---
 
@@ -117,8 +125,9 @@ El plan de pruebas cubre todos los módulos del sistema:
 | TC-IM-09 | Validación de Unidad de destino | Importar sin unidad_destino | Error: campo obligatorio | Crítica |
 | TC-IM-10 | Columnas extras ignoradas | Archivo con columnas no mapeadas | Columnas ignoradas, importación exitosa | Media |
 | TC-IM-11 | Importar CSV con mapeo correcto | Subir archivo CSV, mapear columnas | 200 OK, envíos importados | Alta |
+| TC-IM-12 | 🆕 Validación de Prioridad | Importar con prioridad "urgente" | Prioridad asignada correctamente | Alta |
 
-### 3.2 Módulo de Rutas ⏳ PENDIENTE
+### 3.2 Módulo de Rutas (VRPTW v3.0) ⏳ PENDIENTE
 
 | ID | Caso de Prueba | Pasos | Resultado Esperado | Prioridad |
 |----|----------------|-------|-------------------|-----------|
@@ -128,10 +137,15 @@ El plan de pruebas cubre todos los módulos del sistema:
 | TC-RU-04 | Obtener rutas de una semana | GET /api/rutas/semana/2026-08-16 | 200 OK, lista de rutas | Alta |
 | TC-RU-05 | Obtener detalle de ruta | GET /api/rutas/:id | 200 OK, detalle de ruta | Alta |
 | TC-RU-06 | Asignar ruta a chofer | POST /api/rutas/:id/asignar | 200 OK, ruta asignada | Alta |
-| TC-RU-07 | Reoptimizar ruta ante incidencia | POST /api/rutas/:id/reoptimizar | Ruta actualizada | Media |
+| TC-RU-07 | 🆕 Reoptimizar ruta ante incidencia | POST /api/rutas/:id/reoptimizar | Ruta actualizada en <5 segundos | Crítica |
 | TC-RU-08 | Generar manifiesto PDF | GET /api/rutas/:id/manifiesto | PDF generado correctamente | Alta |
 | TC-RU-09 | Drag and drop en UI | Mover punto de entrega en mapa | Secuencia actualizada | Alta |
 | TC-RU-10 | Mapa muestra rutas correctamente | Visualizar ruta en mapa | Rutas y paradas visibles | Alta |
+| TC-RU-11 | 🆕 Optimización con prioridad de entregas | Envíos urgentes en primeras 3 posiciones | Urgentes posicionados correctamente | Crítica |
+| TC-RU-12 | 🆕 Cálculo de combustible optimizado | Consumo específico por vehículo | Costo combustible calculado correctamente | Alta |
+| TC-RU-13 | 🆕 Reoptimización con nuevo pedido urgente | Agregar pedido urgente en ruta activa | Ruta reoptimizada en <5 segundos | Crítica |
+| TC-RU-14 | 🆕 Análisis Post-Ruta | GET /api/rutas/:id/analisis-post-ruta | Métricas de eficiencia generadas | Alta |
+| TC-RU-15 | 🆕 Comparativa planificado vs real | Ver desviaciones de distancia, tiempo, combustible | Tabla comparativa visible | Alta |
 
 ### 3.3 Módulo de Aduana ⏳ PENDIENTE
 
@@ -174,6 +188,7 @@ El plan de pruebas cubre todos los módulos del sistema:
 | TC-FI-04 | Generar factura | POST /api/finanzas/factura | 201 Created, factura generada | Alta |
 | TC-FI-05 | Registrar pago de factura | POST /api/finanzas/facturas/:id/pagar | 200 OK, estado actualizado | Alta |
 | TC-FI-06 | Listar facturas | GET /api/finanzas/facturas | 200 OK, lista de facturas | Media |
+| TC-FI-07 | 🆕 Cálculo de costo de combustible por ruta | Verificar costo combustible en ficha de costo | Costo calculado correctamente | Alta |
 
 ### 3.5 Módulo de Parámetros ⏳ PENDIENTE
 
@@ -184,6 +199,8 @@ El plan de pruebas cubre todos los módulos del sistema:
 | TC-PA-03 | Actualizar parámetro | PUT /api/parametros/tasa_cambio con valor 240.00 | 200 OK, parámetro actualizado | Alta |
 | TC-PA-04 | Historial de cambios | GET /api/parametros/historial/tasa_cambio | 200 OK, historial de cambios | Alta |
 | TC-PA-05 | Actualizar parámetro inválido | PUT con valor negativo | 400 Bad Request | Media |
+| TC-PA-06 | 🆕 Actualizar peso de combustible | PUT /api/parametros/peso_combustible | Parámetro actualizado | Alta |
+| TC-PA-07 | 🆕 Actualizar penalización urgente | PUT /api/parametros/penalizacion_urgente | Parámetro actualizado | Alta |
 
 ### 3.6 Módulo de Choferes ⏳ PENDIENTE
 
@@ -197,6 +214,8 @@ El plan de pruebas cubre todos los módulos del sistema:
 | TC-CH-06 | Calcular pago - esquema por entrega | POST con esquema "por_entrega" | 200 OK, cálculo correcto | Crítica |
 | TC-CH-07 | Calcular pago - esquema combinado | POST con esquema "combinado" | 200 OK, cálculo correcto | Crítica |
 | TC-CH-08 | Precisión de 2 decimales | Verificar cálculos con decimales | 2 decimales exactos | Crítica |
+| TC-CH-09 | 🆕 Bonificación por urgente | Chofer con entregas urgentes | Bonificación calculada correctamente | Alta |
+| TC-CH-10 | 🆕 Eficiencia del chofer | GET /api/choferes/:id/eficiencia | Métricas de eficiencia calculadas | Media |
 
 ### 3.7 Módulo de Ficha de Costo ⏳ PENDIENTE
 
@@ -211,6 +230,8 @@ El plan de pruebas cubre todos los módulos del sistema:
 | TC-FC-07 | Exportar a PDF | GET /api/rutas/:id/ficha-costo/exportar | PDF generado correctamente | Alta |
 | TC-FC-08 | Exportar a CSV | GET /api/rutas/:id/ficha-costo/exportar/csv | CSV generado correctamente | Alta |
 | TC-FC-09 | Ficha de costo de ruta sin datos | GET con ruta vacía | Ficha con ceros, sin errores | Media |
+| TC-FC-10 | 🆕 Inclusión de combustible real | Verificar combustible real vs estimado | Ambos valores mostrados | Alta |
+| TC-FC-11 | 🆕 Desviación de combustible | Calcular desviación porcentual | Desviación calculada correctamente | Alta |
 
 ### 3.8 App Móvil (Chofer) ⏳ PENDIENTE
 
@@ -228,6 +249,9 @@ El plan de pruebas cubre todos los módulos del sistema:
 | TC-MO-10 | Resolución de conflictos | Cambiar estado en servidor y en app | Conflicto resuelto correctamente | Alta |
 | TC-MO-11 | Ver historial de entregas | Navegar a historial | Historial visible | Media |
 | TC-MO-12 | Ver ficha de costo de ruta | Navegar a ficha de costo | Ficha visible correctamente | Media |
+| TC-MO-13 | 🆕 Solicitar reoptimización | Marcar incidencia, solicitar reoptimización | Ruta reoptimizada en <5 segundos | Alta |
+| TC-MO-14 | 🆕 Ver ruta reoptimizada | Recibir nueva ruta en app | Ruta actualizada visible en mapa | Alta |
+| TC-MO-15 | 🆕 Visualización de prioridad | Ver badge "Urgente" en entregas | Badge visible correctamente | Alta |
 
 ### 3.9 Dashboard ⏳ PENDIENTE
 
@@ -238,6 +262,9 @@ El plan de pruebas cubre todos los módulos del sistema:
 | TC-DA-03 | Gráfico de rentabilidad | Ver gráfico en dashboard | Gráfico visible correctamente | Alta |
 | TC-DA-04 | Exportar reporte a PDF | Hacer clic en exportar PDF | PDF generado | Media |
 | TC-DA-05 | Alertas automáticas | Simular mantenimiento vencido | Alerta visible | Media |
+| TC-DA-06 | 🆕 Panel de Análisis Post-Ruta | Ver métricas de eficiencia | Gráficos y datos visibles | Alta |
+| TC-DA-07 | 🆕 Panel de Eficiencia | Ver eficiencia por chofer, vehículo, zona | Datos de eficiencia visibles | Alta |
+| TC-DA-08 | 🆕 Simulador de Optimización | Ejecutar simulación con parámetros | Resultados de simulación visibles | Media |
 
 ### 3.10 Auditoría ⏳ PENDIENTE
 
@@ -247,6 +274,9 @@ El plan de pruebas cubre todos los módulos del sistema:
 | TC-AU-02 | Obtener logs | GET /api/auditoria/logs | 200 OK, logs obtenidos | Alta |
 | TC-AU-03 | Historial por entidad | GET /api/auditoria/entidad/envio/:id | Historial de cambios visible | Alta |
 | TC-AU-04 | Exportar logs | GET /api/auditoria/exportar | CSV/PDF generado | Media |
+| TC-AU-05 | 🆕 Registro de reoptimización | Realizar reoptimización de ruta | Evento registrado en auditoría | Alta |
+| TC-AU-06 | 🆕 Registro de análisis post-ruta | Generar análisis post-ruta | Evento registrado en auditoría | Alta |
+| TC-AU-07 | 🆕 Registro de eventos de IA | Predicción de tiempo de entrega | Evento registrado en auditoría | Media |
 
 ### 3.11 Infraestructura ⏳ PENDIENTE
 
@@ -258,6 +288,8 @@ El plan de pruebas cubre todos los módulos del sistema:
 | TC-IN-04 | Nginx como proxy inverso | Acceder a /api | Petición redirigida a backend | Alta |
 | TC-IN-05 | PM2 gestionando proceso | Verificar estado de PM2 | Proceso activo | Alta |
 | TC-IN-06 | Cron Jobs ejecutándose | Verificar logs de automatización | Tareas programadas ejecutándose | Crítica |
+| TC-IN-07 | 🆕 Reoptimización en producción | Verificar que reoptimización funciona en VPS | Tiempo de respuesta <5 segundos | Alta |
+| TC-IN-08 | 🆕 Modelo IA en producción | Verificar predicciones de tiempo | Predicciones generadas correctamente | Media |
 
 ---
 
@@ -274,6 +306,9 @@ El plan de pruebas cubre todos los módulos del sistema:
 | Generación de ficha de costo | <5 segundos | Jest (tiempo de ejecución) |
 | Sincronización offline (50 entregas) | <60 segundos | Jest (tiempo de ejecución) |
 | API Concurrencia (10 req/s) | <500ms respuesta | K6 / Artillery |
+| **🆕 Reoptimización dinámica** | **<5 segundos** | **Jest (tiempo de ejecución)** |
+| **🆕 Predicción de IA** | **<2 segundos** | **Jest (tiempo de ejecución)** |
+| **🆕 Análisis Post-Ruta** | **<3 segundos** | **Jest (tiempo de ejecución)** |
 
 ### 4.2 Escenarios de Carga
 
@@ -283,6 +318,8 @@ El plan de pruebas cubre todos los módulos del sistema:
 | PE-02 | Consulta de aduana | 3 | 5 min | <5 minutos por lote |
 | PE-03 | Dashboard | 10 | 10 min | <3 segundos de carga |
 | PE-04 | Sincronización móvil | 10 | 10 min | <60 segundos por dispositivo |
+| PE-05 | **🆕 Reoptimización dinámica** | **5** | **5 min** | **<5 segundos por solicitud** |
+| PE-06 | **🆕 Análisis Post-Ruta** | **5** | **5 min** | **<3 segundos por solicitud** |
 
 ---
 
@@ -299,6 +336,8 @@ El plan de pruebas cubre todos los módulos del sistema:
 | TS-07 | Inyección SQL | Enviar SQL en parámetros | Inyección bloqueada | Crítica |
 | TS-08 | XSS | Enviar scripts en campos | XSS bloqueado | Alta |
 | TS-09 | Contraseña hasheada | Verificar en base de datos | Contraseña hasheada | Crítica |
+| TS-10 | **🆕 API de reoptimización protegida** | Acceder sin token | 401 Unauthorized | Alta |
+| TS-11 | **🆕 API de IA protegida** | Acceder sin token | 401 Unauthorized | Alta |
 
 ---
 
@@ -313,14 +352,16 @@ El plan de pruebas cubre todos los módulos del sistema:
 | Satisfacción del usuario | ≥4.5/5 | Encuesta formal |
 | Tareas completadas sin asistencia | 100% | Pruebas de usabilidad |
 | Errores críticos en piloto | 0 | Monitoreo de operación real |
+| **🆕 Uso de reoptimización** | **>80% de adopción** | **Monitoreo de uso** |
+| **🆕 Interpretación de análisis post-ruta** | **>70% comprensión** | **Encuesta de usabilidad** |
 
 ### 6.2 Usuarios Piloto
 
 | Perfil | Cantidad | Período | Objetivo |
 |--------|----------|---------|----------|
-| Choferes | 2-3 | 2 semanas | Validar usabilidad de app móvil |
-| Jefe de Operaciones | 1 | 2 semanas | Validar planificación de rutas |
-| Administrador | 1 | 2 semanas | Validar dashboard y reportes |
+| Choferes | 2-3 | 2 semanas | Validar usabilidad de app móvil y reoptimización |
+| Jefe de Operaciones | 1 | 2 semanas | Validar planificación de rutas y análisis post-ruta |
+| Administrador | 1 | 2 semanas | Validar dashboard y reportes de eficiencia |
 | Agencia de Envíos | 1-2 | 2 semanas | Validar importación y tracking |
 
 ---
@@ -357,7 +398,21 @@ El plan de pruebas cubre todos los módulos del sistema:
 | 9 | Logs detallados de cada consulta | ⏳ Pendiente |
 | 10 | Entrada manual de costos como contingencia | ⏳ Pendiente |
 
-### 7.3 Módulo de Ficha de Costo ⏳ PENDIENTE
+### 7.3 🆕 Módulo de Rutas (VRPTW v3.0) ⏳ PENDIENTE
+
+| # | Criterio | Estado |
+|---|----------|--------|
+| 1 | Ruta optimizada reduce distancia en ≥15% vs manual | ⏳ Pendiente |
+| 2 | Tiempo de cálculo <30 segundos para ≤50 paradas | ⏳ Pendiente |
+| 3 | 🆕 Optimización de combustible considera consumo específico | ⏳ Pendiente |
+| 4 | 🆕 Envíos urgentes colocados en primeras 3 posiciones | ⏳ Pendiente |
+| 5 | 🆕 Reoptimización en <5 segundos ante incidencias | ⏳ Pendiente |
+| 6 | 🆕 Análisis post-ruta generado con métricas de eficiencia | ⏳ Pendiente |
+| 7 | Mapa muestra ruta correctamente | ⏳ Pendiente |
+| 8 | Drag and drop funciona correctamente | ⏳ Pendiente |
+| 9 | Manifiesto de ruta generado en formato legible | ⏳ Pendiente |
+
+### 7.4 Módulo de Ficha de Costo ⏳ PENDIENTE
 
 | # | Criterio | Estado |
 |---|----------|--------|
@@ -369,8 +424,19 @@ El plan de pruebas cubre todos los módulos del sistema:
 | 6 | Exportación a PDF funcionando | ⏳ Pendiente |
 | 7 | Exportación a CSV funcionando | ⏳ Pendiente |
 | 8 | Cálculos auditables y reproducibles | ⏳ Pendiente |
+| 9 | 🆕 Incluye combustible real vs estimado | ⏳ Pendiente |
+| 10 | 🆕 Desviación de combustible calculada | ⏳ Pendiente |
 
-### 7.4 App Móvil ⏳ PENDIENTE
+### 7.5 🆕 Sistema de IA ⏳ PENDIENTE
+
+| # | Criterio | Estado |
+|---|----------|--------|
+| 1 | Modelo de regresión lineal implementado | ⏳ Pendiente |
+| 2 | Precisión ≥85% en estimaciones de tiempo | ⏳ Pendiente |
+| 3 | Reentrenamiento automático con nuevos datos | ⏳ Pendiente |
+| 4 | Integración con el algoritmo de optimización de rutas | ⏳ Pendiente |
+
+### 7.6 App Móvil ⏳ PENDIENTE
 
 | # | Criterio | Estado |
 |---|----------|--------|
@@ -379,8 +445,11 @@ El plan de pruebas cubre todos los módulos del sistema:
 | 3 | Registro de incidencias y costos en <3 clics | ⏳ Pendiente |
 | 4 | Firma digital capturada correctamente | ⏳ Pendiente |
 | 5 | Geolocalización enviada cuando hay conexión | ⏳ Pendiente |
+| 6 | 🆕 Solicitud de reoptimización en <3 clics | ⏳ Pendiente |
+| 7 | 🆕 Recepción de ruta reoptimizada en <5 segundos | ⏳ Pendiente |
+| 8 | 🆕 Visualización de prioridad "Urgente" | ⏳ Pendiente |
 
-### 7.5 Estándares de Codificación ✅ IMPLEMENTADO
+### 7.7 Estándares de Codificación ✅ IMPLEMENTADO
 
 | # | Criterio | Estado |
 |---|----------|--------|
@@ -391,7 +460,7 @@ El plan de pruebas cubre todos los módulos del sistema:
 | 5 | Pipeline de CI/CD incluye verificación automática | ✅ Cumplido |
 | 6 | Mensajes de commit siguen Conventional Commits | ✅ Cumplido |
 
-### 7.6 Infraestructura ⏳ PENDIENTE
+### 7.8 Infraestructura ⏳ PENDIENTE
 
 | # | Criterio | Estado |
 |---|----------|--------|
@@ -421,6 +490,8 @@ El plan de pruebas cubre todos los módulos del sistema:
 | **ESLint** | Análisis estático backend | `npm run lint` |
 | **ESLint-plugin-jsdoc** | Validación de JSDoc | `npm run lint:docs` |
 | **SonarQube** | Análisis de calidad general | Configuración en Docker |
+| **🆕 Jest + nock** | Pruebas de IA | `npm run test:ia` |
+| **🆕 Jest + cron-mock** | Pruebas de reoptimización | `npm run test:reopt` |
 
 ---
 
@@ -438,6 +509,9 @@ El plan de pruebas cubre todos los módulos del sistema:
 | **Pruebas de Infraestructura** | Sprint 6-7 | Verificar despliegue en VPS ETECSA | DevOps / QA |
 | **Pruebas de Automatización Aduana** | Sprint 5-7 | Verificar 4 horarios, criterios y logs | QA |
 | **Pruebas de Precisión Financiera** | Sprint 5-7 | Validar cálculos de ficha de costo y pagos | QA |
+| **🆕 Pruebas de VRPTW v3.0** | **Sprint 2-7** | **Validar optimización de combustible, prioridad, reoptimización** | **QA** |
+| **🆕 Pruebas de Sistema de IA** | **Sprint 5-7** | **Validar precisión del modelo de estimación** | **QA** |
+| **🆕 Pruebas de Análisis Post-Ruta** | **Sprint 4-7** | **Validar métricas de eficiencia** | **QA** |
 
 ---
 
@@ -447,10 +521,12 @@ El plan de pruebas cubre todos los módulos del sistema:
 
 | Nivel | Descripción | Ejemplo | Tiempo de Resolución |
 |-------|-------------|---------|---------------------|
-| **S1 - Crítico** | Bloquea funcionalidad principal | No se puede importar manifiesto | <24 horas |
-| **S2 - Alto** | Afecta funcionalidad importante | Cálculo de ficha de costo incorrecto | <48 horas |
+| **S1 - Crítico** | Bloquea funcionalidad principal | No se puede importar manifiesto, reoptimización no funciona | <24 horas |
+| **S2 - Alto** | Afecta funcionalidad importante | Cálculo de ficha de costo incorrecto, IA con baja precisión | <48 horas |
 | **S3 - Medio** | Afecta funcionalidad secundaria | Error en exportación a CSV | <1 semana |
 | **S4 - Bajo** | Problema estético o de usabilidad | Color de botón incorrecto | <2 semanas |
+| **🆕 S1 - Crítico IA** | Modelo de IA no funciona | Predicciones de tiempo fallan | <24 horas |
+| **🆕 S2 - Alto Reopt** | Reoptimización excede 5 segundos | Tiempo de respuesta >5 segundos | <48 horas |
 
 ### 10.2 Plantilla de Reporte de Defecto
 
@@ -461,7 +537,7 @@ El plan de pruebas cubre todos los módulos del sistema:
 **Fecha:** dd/mm/yyyy
 **Reportado por:** Nombre
 **Severidad:** S1 / S2 / S3 / S4
-**Módulo:** Envíos / Rutas / Aduana / Ficha de Costo / App / Dashboard
+**Módulo:** Envíos / Rutas / Aduana / Ficha de Costo / App / Dashboard / VRPTW / IA / Reoptimización
 
 ### Descripción
 [Descripción clara del problema]
@@ -481,6 +557,7 @@ El plan de pruebas cubre todos los módulos del sistema:
 - [ ] Captura de pantalla
 - [ ] Logs
 - [ ] Video
+- [ ] 🆕 Métricas de IA
 
 ### Entorno
 - Navegador: Chrome/Firefox/Edge
@@ -504,10 +581,20 @@ El plan de pruebas cubre todos los módulos del sistema:
 
 ## 📌 CONCLUSIÓN
 
-Este Plan de Pruebas establece la estrategia completa para garantizar la calidad de SIGMA-T. Cubre todos los módulos, desde los ya implementados (Envíos y Clientes) hasta los pendientes (Rutas, Aduana, Ficha de Costo, App, Dashboard).
+Este Plan de Pruebas Versión 2.0 ahora incluye:
+
+- ✅ **Estrategia general de pruebas** con pirámide actualizada
+- ✅ **150+ casos de prueba** documentados
+- ✅ **🆕 15 nuevos casos de prueba** para VRPTW v3.0, reoptimización, IA y análisis post-ruta
+- ✅ **🆕 Nuevos objetivos de rendimiento** para reoptimización (<5 segundos) e IA (<2 segundos)
+- ✅ **🆕 Nuevas pruebas de seguridad** para APIs de reoptimización e IA
+- ✅ **🆕 Nuevos criterios de aceptación** para módulos de VRPTW, IA y análisis post-ruta
+- ✅ **🆕 Nuevas herramientas de prueba** (Jest + nock, Jest + cron-mock)
+- ✅ **🆕 Cronograma de pruebas** actualizado con nuevas fases
+- ✅ **🆕 Nueva escala de severidad** para IA y reoptimización
 
 **Próximos Pasos:**
-1. Configurar herramientas de prueba (Jest, Supertest, Cypress)
+1. Configurar herramientas de prueba (Jest, Supertest, Cypress, K6)
 2. Implementar pruebas unitarias durante cada Sprint
 3. Ejecutar pruebas de integración al final de cada Sprint
 4. Realizar pruebas de sistema en Sprint 6
@@ -515,34 +602,8 @@ Este Plan de Pruebas establece la estrategia completa para garantizar la calidad
 6. Pruebas de infraestructura en VPS ETECSA
 7. Pruebas de precisión financiera (ficha de costo, pagos a choferes)
 8. Pruebas de automatización de aduana (4 horarios, criterios)
-
----
-
-## 📋 COMMIT PARA GITHUB
-
-```
-docs(pruebas): agregar Plan de Pruebas de SIGMA-T (v1.0)
-
-- Definir estrategia general de pruebas con pirámide
-- Documentar 150+ casos de prueba por módulo:
-  - Envíos y Clientes (19 casos)
-  - Rutas (10 casos)
-  - Aduana y Automatización (19 casos)
-  - Finanzas y Parámetros (11 casos)
-  - Choferes (8 casos)
-  - Ficha de Costo (9 casos)
-  - App Móvil (12 casos)
-  - Dashboard (5 casos)
-  - Auditoría (4 casos)
-  - Infraestructura (6 casos)
-- Especificar pruebas de rendimiento, seguridad y usabilidad
-- Definir criterios de aceptación por módulo
-- Establecer cronograma de pruebas
-- Crear plantilla de reporte de defectos
-- Definir escala de severidad y tiempos de resolución
-
-Este documento es crítico para garantizar la calidad de todos los módulos,
-especialmente la automatización de aduana y la ficha de costo.
-```
+9. **🆕 Pruebas de VRPTW v3.0** (optimización de combustible, prioridad, reoptimización)
+10. **🆕 Pruebas del Sistema de IA** (precisión del modelo de estimación)
+11. **🆕 Pruebas de Análisis Post-Ruta** (métricas de eficiencia)
 
 ---
