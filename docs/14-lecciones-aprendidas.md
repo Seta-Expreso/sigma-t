@@ -1,15 +1,13 @@
-## 🎯 ESTRATEGIA PROPUESTA
+## 📄 DOCUMENTO ACTUALIZADO
 
-### 1. Crear un Documento de Lecciones Aprendidas
-
-**Archivo:** `docs/14-lecciones-aprendidas.md`
+**`docs/14-lecciones-aprendidas.md`**:
 
 ```markdown
 ## 📚 DOCUMENTO DE LECCIONES APRENDIDAS - SIGMA-T
 
 **Fecha de Creación:** 15 de agosto de 2026
 **Última Actualización:** 15 de agosto de 2026
-**Versión:** 1.0
+**Versión:** 1.1
 
 ---
 
@@ -32,6 +30,9 @@ Este documento recopila todos los errores, problemas y lecciones aprendidas dura
 | 5 | `@typescript-eslint/no-unused-vars` | Variables importadas no usadas | Eliminar imports no usados o prefijar con `_` | 15/08/2026 |
 | 6 | `@typescript-eslint/array-type` | Uso incorrecto de arrays | Usar `T[]` para tipos simples, `Array<T>` para complejos | 15/08/2026 |
 | 7 | `@typescript-eslint/consistent-type-definitions` | Uso de `type` en lugar de `interface` | Usar `interface` para objetos | 15/08/2026 |
+| **🆕 8** | **`@typescript-eslint/no-unsafe-call`** | **Llamada a constructor sin tipo (new TableColumn())** | **Usar `eslint-disable` o tipar correctamente** | **15/08/2026** |
+| **🆕 9** | **`@typescript-eslint/no-inferrable-types`** | **Tipo inferido trivialmente** | **Eliminar tipo explícito cuando es inferido (ej: `_dias = 7`)** | **15/08/2026** |
+| **🆕 10** | **`@typescript-eslint/require-await`** | **Función async sin await** | **Quitar `async` si no hay `await`** | **15/08/2026** |
 
 ### 2.2 Errores Comunes al Tipar Controladores
 
@@ -41,6 +42,7 @@ Este documento recopila todos los errores, problemas y lecciones aprendidas dura
 | 2 | **Tipar req.params** | `const id = req.params.id;` | `const id = parseInt(req.params.id, 10);` |
 | 3 | **Manejo de errores** | `catch (error) { next(error); }` | `catch (error) { next(error as Error); }` |
 | 4 | **req.file** | `const file = req.file;` | Usar `req.file` directamente sin asignación |
+| **🆕 5** | **Parámetros no usados** | `async metodo(dias: number = 7)` | `async metodo(_dias: number = 7)` o `async metodo(_dias = 7)` |
 
 ### 2.3 Errores con TypeORM y Relaciones
 
@@ -49,6 +51,7 @@ Este documento recopila todos los errores, problemas y lecciones aprendidas dura
 | 1 | `Unsafe member access .matricula` | Acceso a propiedad de relación sin tipar | Usar `as unknown as { vehiculo?: { matricula: string } }` |
 | 2 | `EntityTarget<ObjectLiteral>` | Repositorio no reconocido | TypeORM lo maneja internamente, usar `eslint-disable` |
 | 3 | Decoradores con ESLint | `@ManyToOne` interpretado como return de error | Deshabilitar ESLint para el archivo del modelo |
+| **🆕 4** | **`Unsafe member access .buffer`** | **file.buffer no reconocido** | **Usar `eslint-disable-next-line`** |
 
 ### 2.4 Errores con Multer y Upload de Archivos
 
@@ -56,6 +59,13 @@ Este documento recopila todos los errores, problemas y lecciones aprendidas dura
 |---|-------|-------------|----------|
 | 1 | `Unsafe member access .single` | upload.single no es reconocido | Usar directamente sin type assertion |
 | 2 | `file.buffer` no reconocido | ESLint no reconoce el tipo de multer | Usar `eslint-disable-next-line` |
+
+### 🆕 2.5 Errores con Migraciones de Base de Datos
+
+| # | Error | Descripción | Solución |
+|---|-------|-------------|----------|
+| 1 | `@typescript-eslint/no-unsafe-call` | `new TableColumn()` no es reconocido | Importar `TableColumn` y usar `eslint-disable` si es necesario |
+| 2 | `@typescript-eslint/consistent-type-imports` | Importar tipos sin `import type` | Usar `import type` para `MigrationInterface`, `QueryRunner` |
 
 ---
 
@@ -110,15 +120,24 @@ export class MiServicio {
     });
   }
 
-  // Para acceder a relaciones con tipado seguro
+  // ✅ Para acceder a relaciones con tipado seguro
   async getRelacion(id: number): Promise<string> {
     const entity = await this.findById(id);
-    // ✅ Usar type assertion con interfaz
     interface EntityConRelacion {
       relacion?: { nombre: string };
     }
     const conRelacion = entity as unknown as EntityConRelacion;
     return conRelacion.relacion?.nombre || 'No asignado';
+  }
+
+  // ✅ Parámetros no usados con _
+  async metodoConParametroNoUsado(_dias: number = 7): Promise<void> {
+    // _dias no se usa pero está marcado con _
+  }
+
+  // ✅ Quitar async si no hay await
+  metodoSincrono(): string {
+    return 'resultado';
   }
 }
 ```
@@ -165,6 +184,45 @@ export class MiModelo {
 /* eslint-enable */
 ```
 
+### 🆕 3.5 Migraciones de Base de Datos
+
+```typescript
+// ✅ PATRÓN CORRECTO PARA MIGRACIONES
+
+import type { MigrationInterface, QueryRunner } from 'typeorm';
+import { Table, TableForeignKey, TableColumn } from 'typeorm';
+
+export class MiMigracion1723740000001 implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    // Crear tabla
+    await queryRunner.createTable(
+      new Table({
+        name: 'mi_tabla',
+        columns: [
+          { name: 'id', type: 'int', isPrimary: true, isGenerated: true },
+          { name: 'nombre', type: 'varchar', isNullable: false },
+        ],
+      }),
+      true
+    );
+
+    // Agregar columna
+    await queryRunner.addColumn(
+      'otra_tabla',
+      new TableColumn({
+        name: 'mi_columna',
+        type: 'int',
+        isNullable: true,
+      })
+    );
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('mi_tabla');
+  }
+}
+```
+
 ---
 
 ## 4. COMMANDS ÚTILES PARA DEBUG
@@ -206,6 +264,8 @@ npx tsc --showConfig
 - [ ] ¿No hay `any` (usar `unknown` o interfaces)?
 - [ ] ¿El código pasa `npm run lint`?
 - [ ] ¿Los commits siguen Conventional Commits?
+- [ ] **🆕 ¿Los parámetros no usados tienen `_`?**
+- [ ] **🆕 ¿Las funciones sin `await` no son `async`?**
 
 ### 5.2 Antes de un Pull Request
 
@@ -216,7 +276,27 @@ npx tsc --showConfig
 
 ---
 
-## 6. RECURSOS Y REFERENCIAS
+## 6. REGISTRO DE CAMBIOS
+
+| Versión | Fecha | Cambios | Autor |
+|---------|-------|---------|-------|
+| 1.0 | 15/08/2026 | Creación del documento | Equipo SIGMA-T |
+| **1.1** | **15/08/2026** | **Agregar nuevos errores del Sprint 2 (Día 2)** | **Equipo SIGMA-T** |
+
+### 🆕 Cambios en v1.1
+
+| # | Cambio | Descripción |
+|---|--------|-------------|
+| 1 | Agregar error `no-unsafe-call` | Llamada a constructor sin tipo (migraciones) |
+| 2 | Agregar error `no-inferrable-types` | Tipo inferido trivialmente |
+| 3 | Agregar error `require-await` | Función async sin await |
+| 4 | Agregar sección 2.5 | Errores en migraciones de base de datos |
+| 5 | Agregar sección 3.5 | Patrón correcto para migraciones |
+| 6 | Actualizar checklist | Agregar `_` para parámetros no usados y `async` sin `await` |
+
+---
+
+## 7. RECURSOS Y REFERENCIAS
 
 | Recurso | Enlace |
 |---------|--------|
@@ -227,7 +307,7 @@ npx tsc --showConfig
 
 ---
 
-## 7. CONTRIBUIR A ESTE DOCUMENTO
+## 8. CONTRIBUIR A ESTE DOCUMENTO
 
 **Cada vez que se detecte un nuevo error o se aprenda una lección importante:**
 
@@ -235,39 +315,5 @@ npx tsc --showConfig
 2. Documentar la solución
 3. Actualizar la fecha de última modificación
 4. Hacer un commit con `docs: actualizar lecciones aprendidas`
-
----
-
-**Última actualización:** 15 de agosto de 2026
-```
-
----
-
-## 📋 COMMIT DEL DOCUMENTO
-
-```bash
-git add docs/14-lecciones-aprendidas.md
-
-git commit -m "docs: crear documento de lecciones aprendidas
-
-- Recopilar todos los errores de ESLint y TypeScript
-- Documentar patrones correctos
-- Crear checklist de revisión de código
-- Incluir comandos útiles para debug
-
-Este documento debe actualizarse con cada nuevo error detectado"
-```
-
----
-
-## 🎯 BENEFICIOS DE ESTE DOCUMENTO
-
-| # | Beneficio | Descripción |
-|---|-----------|-------------|
-| 1 | **No repetir errores** | Referencia rápida de errores comunes |
-| 2 | **Onboarding más rápido** | Nuevos miembros aprenden de los errores pasados |
-| 3 | **Mejora continua** | Cada error es una oportunidad de aprendizaje |
-| 4 | **Calidad de código** | Los patrones correctos están documentados |
-| 5 | **Eficiencia** | Menos tiempo debugging errores conocidos |
 
 ---
