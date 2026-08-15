@@ -23,20 +23,17 @@ const importacionController = new ImportacionController();
 // Todas las rutas requieren autenticación
 router.use(authMiddleware);
 
-// ✅ Usar upload.single correctamente con type assertion
-const uploadSingle: RequestHandler = upload.single('file') as RequestHandler;
+// ✅ Crear middleware de upload correctamente tipado
+const uploadSingle = upload.single.bind(upload) as (fieldname: string) => RequestHandler;
 
-// Importar manifiesto
-router.post('/importar', uploadSingle, (req, res, next) => {
+router.post('/importar', uploadSingle('file'), (req, res, next) => {
   void envioController.importarManifiesto(req, res, next);
 });
 
-// Vista previa de importación
-router.post('/vista-previa', uploadSingle, (req, res, next) => {
+router.post('/vista-previa', uploadSingle('file'), (req, res, next) => {
   void importacionController.vistaPrevia(req, res, next);
 });
 
-// CRUD de envíos
 router.post('/', (req, res, next) => {
   void envioController.create(req, res, next);
 });

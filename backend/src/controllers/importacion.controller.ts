@@ -18,10 +18,16 @@ export class ImportacionController {
       const file = req.file;
       let mapeo: Record<string, string> | null = null;
 
-      if (req.body.mapeo) {
+      // ✅ Acceso seguro a req.body.mapeo
+      const body = req.body as Record<string, unknown>;
+      if (body.mapeo) {
         try {
-          const mapeoData = req.body.mapeo;
-          mapeo = typeof mapeoData === 'string' ? JSON.parse(mapeoData) : (mapeoData as Record<string, string>);
+          const mapeoData = body.mapeo;
+          if (typeof mapeoData === 'string') {
+            mapeo = JSON.parse(mapeoData) as Record<string, string>;
+          } else if (mapeoData && typeof mapeoData === 'object') {
+            mapeo = mapeoData as Record<string, string>;
+          }
         } catch {
           res.status(400).json({
             success: false,
@@ -51,16 +57,21 @@ export class ImportacionController {
     }
   }
 
-  // ✅ Eliminar async porque no hay await
   vistaPrevia(req: Request, res: Response, next: NextFunction): void {
     try {
       const file = req.file;
       let mapeo: Record<string, string> | null = null;
 
-      if (req.body.mapeo) {
+      // ✅ Acceso seguro a req.body.mapeo
+      const body = req.body as Record<string, unknown>;
+      if (body.mapeo) {
         try {
-          const mapeoData = req.body.mapeo;
-          mapeo = typeof mapeoData === 'string' ? JSON.parse(mapeoData) : (mapeoData as Record<string, string>);
+          const mapeoData = body.mapeo;
+          if (typeof mapeoData === 'string') {
+            mapeo = JSON.parse(mapeoData) as Record<string, string>;
+          } else if (mapeoData && typeof mapeoData === 'object') {
+            mapeo = mapeoData as Record<string, string>;
+          }
         } catch {
           res.status(400).json({
             success: false,
@@ -89,7 +100,6 @@ export class ImportacionController {
     }
   }
 
-  // ✅ Eliminar async porque no hay await
   reporteErrores(req: Request, res: Response, next: NextFunction): void {
     try {
       const { archivoId } = req.params;

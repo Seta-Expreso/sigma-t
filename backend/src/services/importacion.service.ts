@@ -34,8 +34,8 @@ export class ImportacionService {
     }
 
     // ✅ Usar file.buffer correctamente tipado
-    const fileBuffer = file.buffer;
-    const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
+    const buffer = file.buffer;
+    const workbook = XLSX.read(buffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     const datos: Array<Record<string, unknown>> = XLSX.utils.sheet_to_json(worksheet);
@@ -197,7 +197,6 @@ export class ImportacionService {
     };
   }
 
-  // ✅ Eliminar async
   vistaPrevia(
     file: Express.Multer.File,
     mapeo: Record<string, string> | null
@@ -206,8 +205,9 @@ export class ImportacionService {
       throw new Error('Se requiere el mapeo de columnas');
     }
 
-    const fileBuffer = file.buffer;
-    const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
+    // ✅ Usar file.buffer correctamente tipado
+    const buffer = file.buffer;
+    const workbook = XLSX.read(buffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     const datos: Array<Record<string, unknown>> = XLSX.utils.sheet_to_json(worksheet);
