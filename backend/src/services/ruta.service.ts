@@ -27,9 +27,6 @@ export class RutaService {
   private vehiculoRepository = AppDataSource.getRepository(Vehiculo);
   private choferRepository = AppDataSource.getRepository(Chofer);
 
-  /**
-   * Optimizar rutas para una semana
-   */
   async optimizarSemana(fechaInicio: Date, _dias = 7): Promise<RutaModel[]> {
     const rutas: RutaModel[] = [];
 
@@ -80,9 +77,6 @@ export class RutaService {
     return rutas;
   }
 
-  /**
-   * Ejecutar algoritmo VRPTW
-   */
   private ejecutarVRPTW(
     envios: Envio[],
     matrizDistancias: number[][],
@@ -113,9 +107,6 @@ export class RutaService {
     ];
   }
 
-  /**
-   * Obtener rutas de una semana
-   */
   async getRutasSemana(fecha: Date): Promise<RutaModel[]> {
     const inicio = new Date(fecha);
     inicio.setHours(0, 0, 0, 0);
@@ -135,9 +126,6 @@ export class RutaService {
     });
   }
 
-  /**
-   * Obtener detalle de una ruta
-   */
   async findById(id: number): Promise<RutaModel | null> {
     return await this.rutaRepository.findOne({
       where: { id_ruta: id },
@@ -145,9 +133,6 @@ export class RutaService {
     });
   }
 
-  /**
-   * Asignar chofer a una ruta
-   */
   async asignarChofer(id: number, choferId: number): Promise<RutaModel | null> {
     const ruta = await this.findById(id);
     if (!ruta) return null;
@@ -164,9 +149,6 @@ export class RutaService {
     return await this.rutaRepository.save(ruta);
   }
 
-  /**
-   * Actualizar ruta
-   */
   async update(id: number, data: Partial<RutaModel>): Promise<RutaModel | null> {
     const ruta = await this.findById(id);
     if (!ruta) return null;
@@ -175,9 +157,6 @@ export class RutaService {
     return await this.rutaRepository.save(ruta);
   }
 
-  /**
-   * Generar manifiesto de ruta
-   */
   async generarManifiesto(id: number): Promise<{ ruta: RutaModel; paradas: Parada[] } | null> {
     const ruta = await this.findById(id);
     if (!ruta) return null;
@@ -188,9 +167,6 @@ export class RutaService {
     };
   }
 
-  /**
-   * Reoptimizar ruta ante incidencia
-   */
   async reoptimizar(id: number, data: ReoptimizacionData): Promise<RutaModel | null> {
     const ruta = await this.findById(id);
     if (!ruta) return null;
@@ -230,9 +206,6 @@ export class RutaService {
     return await this.rutaRepository.save(ruta);
   }
 
-  /**
-   * Obtener ficha de costo de una ruta
-   */
   async getFichaCosto(id: number): Promise<FichaCosto | null> {
     const ruta = await this.findById(id);
     if (!ruta) return null;
@@ -241,9 +214,15 @@ export class RutaService {
       return ruta.ficha_costo;
     }
 
-    // ✅ Usar valores por defecto ya que las relaciones pueden no estar cargadas
-    const vehiculoMatricula = (ruta as any).vehiculo?.matricula || 'No asignado';
-    const choferNombre = (ruta as any).chofer?.nombre || 'No asignado';
+    // ✅ Usar unknown en lugar de any (ESLint no permite any)
+    type RutaConRelaciones = {
+      vehiculo?: { matricula: string };
+      chofer?: { nombre: string };
+    };
+    const rutaConRelaciones = ruta as unknown as RutaConRelaciones;
+
+    const vehiculoMatricula = rutaConRelaciones.vehiculo?.matricula || 'No asignado';
+    const choferNombre = rutaConRelaciones.chofer?.nombre || 'No asignado';
 
     return {
       resumen: {
@@ -281,9 +260,6 @@ export class RutaService {
     };
   }
 
-  /**
-   * Exportar ficha de costo a PDF
-   */
   async exportarFichaCostoPDF(id: number): Promise<Buffer | null> {
     const ficha = await this.getFichaCosto(id);
     if (!ficha) return null;
@@ -291,9 +267,6 @@ export class RutaService {
     return Buffer.from('PDF generado');
   }
 
-  /**
-   * Exportar ficha de costo a CSV
-   */
   async exportarFichaCostoCSV(id: number): Promise<string | null> {
     const ficha = await this.getFichaCosto(id);
     if (!ficha) return null;
