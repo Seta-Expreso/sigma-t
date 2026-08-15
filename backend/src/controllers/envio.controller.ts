@@ -174,7 +174,7 @@ export class EnvioController {
 
       if (req.body.mapeo) {
         try {
-          mapeo = JSON.parse(req.body.mapeo);
+          mapeo = JSON.parse(req.body.mapeo) as Record<string, string>;
         } catch {
           res.status(400).json({
             success: false,

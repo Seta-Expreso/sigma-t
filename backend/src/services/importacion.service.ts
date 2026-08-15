@@ -8,21 +8,8 @@ import { AppDataSource } from '../config/database.config.js';
 import { Envio, EstadoEnvio } from '../models/envio.model.js';
 import { Cliente } from '../models/cliente.model.js';
 
-interface MapeoColumnas {
-  house: string;
-  descripcion: string;
-  peso: string;
-  bultos: string;
-  remitente_nombre: string;
-  remitente_passport?: string;
-  destinatario_nombre: string;
-  destinatario_identificacion: string;
-  destinatario_telefono: string;
-  destinatario_direccion: string;
-  cobrado_origen?: string;
-  unidad_destino: string;
-  prioridad?: string;
-}
+// Nota: MapeoColumnas ahora es un tipo Record<string, string>
+// que se pasa desde el controlador
 
 interface RegistroError {
   fila: number;
@@ -86,7 +73,6 @@ export class ImportacionService {
         estado: EstadoEnvio.PENDIENTE,
       };
 
-      // Mapear campos
       try {
         // House (obligatorio)
         const house = this.obtenerValor(fila, mapeo.house);
@@ -203,7 +189,6 @@ export class ImportacionService {
         erroresFila.push(`Error procesando datos: ${(error as Error).message}`);
       }
 
-      // Guardar resultado
       if (erroresFila.length === 0 && envioData.house) {
         enviosValidos.push(envioData);
       } else {
@@ -215,7 +200,6 @@ export class ImportacionService {
       }
     }
 
-    // 6. Guardar envíos válidos
     const enviosGuardados: Envio[] = [];
     for (const envioData of enviosValidos) {
       try {
@@ -236,6 +220,43 @@ export class ImportacionService {
       importados: enviosGuardados.length,
       errores,
       envios: enviosGuardados,
+    };
+  }
+
+  /**
+   * Vista previa de importación
+   */
+  async vistaPrevia(
+    file: Express.Multer.File,
+    mapeo: Record<string, string> | null
+  ): Promise<{ total: number; registros: Array<{ fila: number; datos: Record<string, unknown> }> }> {
+    if (!mapeo) {
+      throw new Error('Se requiere el mapeo de columnas');
+    }
+
+    const workbook = XLSX.read(file.buffer, { type: 'buffer' });
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const datos: Array<Record<string, unknown>> = XLSX.utils.sheet_to_json(worksheet);
+
+    const registros = datos.map((fila, index) => ({
+      fila: index + 2,
+      datos: fila,
+    }));
+
+    return {
+      total: datos.length,
+      registros,
+    };
+  }
+
+  /**
+   * Obtener reporte de errores
+   */
+  async obtenerReporteErrores(archivoId: string): Promise<{ errores: string[] }> {
+    // Este método se implementará cuando se guarde el historial de importaciones
+    return {
+      errores: ['Funcionalidad en desarrollo'],
     };
   }
 

@@ -1,39 +1,26 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
-
 /**
- * @fileoverview Controlador para la importación de manifiestos
+ * @fileoverview Controlador de Importación de Manifiestos
  * @module controllers/importacion
  */
 
-import type { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { ImportacionService } from '../services/importacion.service.js';
-import type { ColumnaMapeo } from '../services/importacion.service.js';
-import winston from 'winston';
 
-const logger = winston.createLogger({
-  level: 'error',
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.Console({
-      format: winston.format.simple(),
-    }),
-  ],
-});
-
-const importacionService = new ImportacionService();
-
-/**
- * Controlador para la importación de manifiestos
- * @class ImportacionController
- */
 export class ImportacionController {
+  private importacionService: ImportacionService;
+
+  constructor() {
+    this.importacionService = new ImportacionService();
+  }
+
   /**
-   * Obtiene las columnas de un archivo Excel
-   * @route POST /api/importacion/columnas
+   * Importar manifiesto desde Excel/CSV
    */
-  static async getColumnas(req: Request, res: Response): Promise<void> {
+  async importarManifiesto(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const file = req.file;
+      const mapeo = req.body.mapeo ? JSON.parse(req.body.mapeo) : null;
+
       if (!file) {
         res.status(400).json({
           success: false,
@@ -42,29 +29,25 @@ export class ImportacionController {
         return;
       }
 
-      const columnas = await importacionService.obtenerColumnas(file.path);
+      const resultado = await this.importacionService.importarManifiesto(file, mapeo);
+
       res.status(200).json({
         success: true,
-        data: columnas,
+        data: resultado,
+        message: `Importación completada: ${resultado.importados} envíos importados`,
       });
     } catch (error) {
-      logger.error('Error al obtener columnas del Excel:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al leer el archivo Excel',
-        error: error instanceof Error ? error.message : 'Error desconocido',
-      });
+      next(error as Error);
     }
   }
 
   /**
-   * Obtiene vista previa de los datos con el mapeo seleccionado
-   * @route POST /api/importacion/vista-previa
+   * Obtener vista previa de importación
    */
-  static async getVistaPrevia(req: Request, res: Response): Promise<void> {
+  async vistaPrevia(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const file = req.file;
-      const { mapeo, clienteId } = req.body;
+      const mapeo = req.body.mapeo ? JSON.parse(req.body.mapeo) : null;
 
       if (!file) {
         res.status(400).json({
@@ -74,84 +57,31 @@ export class ImportacionController {
         return;
       }
 
-      if (!mapeo) {
-        res.status(400).json({
-          success: false,
-          message: 'No se proporcionó el mapeo de columnas',
-        });
-        return;
-      }
-
-      const mapeoParsed = typeof mapeo === 'string' ? JSON.parse(mapeo) : mapeo;
-      const clienteIdParsed = parseInt(clienteId);
-
-      const resultado = await importacionService.obtenerVistaPrevia(
-        file.path,
-        mapeoParsed as ColumnaMapeo,
-        clienteIdParsed
-      );
+      const resultado = await this.importacionService.vistaPrevia(file, mapeo);
 
       res.status(200).json({
         success: true,
         data: resultado,
       });
     } catch (error) {
-      logger.error('Error al generar vista previa:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al generar la vista previa',
-        error: error instanceof Error ? error.message : 'Error desconocido',
-      });
+      next(error as Error);
     }
   }
 
   /**
-   * Importa el archivo con el mapeo seleccionado
-   * @route POST /api/importacion/importar
+   * Obtener reporte de errores de importación
    */
-  static async importar(req: Request, res: Response): Promise<void> {
+  async reporteErrores(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const file = req.file;
-      const { mapeo, clienteId } = req.body;
-
-      if (!file) {
-        res.status(400).json({
-          success: false,
-          message: 'No se proporcionó ningún archivo',
-        });
-        return;
-      }
-
-      if (!mapeo) {
-        res.status(400).json({
-          success: false,
-          message: 'No se proporcionó el mapeo de columnas',
-        });
-        return;
-      }
-
-      const mapeoParsed = typeof mapeo === 'string' ? JSON.parse(mapeo) : mapeo;
-      const clienteIdParsed = parseInt(clienteId);
-
-      const resultado = await importacionService.importar(
-        file.path,
-        mapeoParsed as ColumnaMapeo,
-        clienteIdParsed
-      );
+      const { archivoId } = req.params;
+      const resultado = await this.importacionService.obtenerReporteErrores(archivoId);
 
       res.status(200).json({
         success: true,
         data: resultado,
       });
     } catch (error) {
-      logger.error('Error al importar archivo:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al importar el archivo',
-        error: error instanceof Error ? error.message : 'Error desconocido',
-      });
+      next(error as Error);
     }
   }
 }
-
-/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
