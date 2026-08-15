@@ -1,14 +1,18 @@
-## 🎨 DOCUMENTO: MAQUETAS UI/UX - SIGMA-T (VERSIÓN 2.4 - TOP MUNDIAL CON FINANZAS, ADUANA, FICHA DE COSTO E INFRAESTRUCTURA - ACTUALIZACIÓN 15/08/2026)
+Perfecto, Líder. Aquí tiene el **documento completo de Maquetas UI/UX - SIGMA-T (VERSIÓN 2.6)** con la guía de estilo expandida.
+
+---
+
+## 🎨 DOCUMENTO: MAQUETAS UI/UX - SIGMA-T (VERSIÓN 2.6)
 
 **Inspiración:** McLeod Software, OptimoRoute, Turvo, diseño moderno 2026
 **Herramientas de Referencia:** Figma / Adobe XD (para maquetación de alta fidelidad)  
 **Fecha:** 15 de agosto de 2026
-**Versión:** 2.4 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - ACTUALIZACIÓN 15/08/2026)
+**Versión:** 2.6 (Completa - Top Mundial con Finanzas, Aduana, Ficha de Costo e Infraestructura - Guía de Estilo Expandida)
 **Total de Pantallas:** 22
 
 ---
 
-## 1. IDENTIDAD VISUAL Y GUÍA DE ESTILO (Top Mundial)
+## 1. IDENTIDAD VISUAL Y GUÍA DE ESTILO (VERSIÓN COMPLETA)
 
 ### 1.1 Fundamentos de Diseño
 - **Principio Rector:** "Claridad Operativa". Cada elemento debe servir a la toma de decisiones rápida y la ejecución eficiente.
@@ -33,27 +37,207 @@
 | **Blanco (Base)** | `#ffffff` | Contenido principal, áreas de lectura. |
 
 ### 1.3 Tipografía
-- **Fuente Principal:** **Inter**. Elegida por su excelente legibilidad en pantalla y su estilo moderno y limpio. Es la tipografía utilizada por plataformas líderes como Figma.
-- **Fuente Alternativa:** **System Font Stack** (fallback para dispositivos sin Inter).
-- **Jerarquía:**
-    - **Títulos:** Inter Bold, 24-32px.
-    - **Subtítulos:** Inter Semibold, 18-20px.
-    - **Cuerpo:** Inter Regular, 14-16px.
-    - **Etiquetas y Datos:** Inter Medium, 12-14px.
-    - **Énfasis:** Inter Semibold, 14-16px.
 
-### 1.4 Componentes UI (Patrones de Diseño)
-- **Tarjetas (Cards):** Se usarán para agrupar información relacionada, con sombras suaves para dar profundidad. Bordes redondeados de 8px.
-- **Tablas:** Limpias, con filas alternadas y hover para facilitar la lectura de datos. Encabezados fijos.
-- **Botones:** Claramente diferenciados por jerarquía (primario, secundario, peligro, éxito). Con estados hover, focus y active.
-- **Formularios:** Etiquetas claras, validación en tiempo real, mensajes de error descriptivos.
-- **Feedback Visual:** Uso de toast notifications y loaders para cada acción del usuario.
-- **Iconos:** Librería Lucide o FontAwesome, siempre acompañados de texto descriptivo.
-- **Gráficos:** Uso de Recharts para visualización de datos en dashboards y reportes.
+| Aspecto | Especificación |
+|---------|----------------|
+| **Fuente Principal** | **Inter** - Excelente legibilidad en pantalla, estilo moderno y limpio. Es la tipografía utilizada por plataformas líderes como Figma. |
+| **Fuente Alternativa** | System Font Stack (fallback para dispositivos sin Inter). |
+| **Jerarquía** | |
+| **Títulos** | Inter Bold, 24-32px |
+| **Subtítulos** | Inter Semibold, 18-20px |
+| **Cuerpo** | Inter Regular, 14-16px |
+| **Etiquetas y Datos** | Inter Medium, 12-14px |
+| **Énfasis** | Inter Semibold, 14-16px |
 
-### 1.5 Tamaños de Pantalla Soportados
-- **Web:** Escritorio (≥1024px), Tablet (768-1024px), Móvil (≥320px) - diseño responsive.
-- **App Móvil:** Smartphones (≥320px), Tablets (≥600px).
+### 1.4 Sistema de Iconos
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Librería Oficial** | **Lucide** (https://lucide.dev/icons) |
+| **Librería Alternativa** | FontAwesome (solo si Lucide no tiene el icono) |
+| **Tamaño Estándar** | 16px, 20px, 24px |
+| **Color** | Hereda del color de texto o se usa color primario para acción |
+| **Regla de Uso** | Siempre acompañados de texto descriptivo (excepto en barras de navegación) |
+
+**Iconos Comunes:**
+
+| Contexto | Icono | Contexto | Icono |
+|----------|-------|----------|-------|
+| Envíos | `package` | Rutas | `route` |
+| Choferes | `users` | Flota | `truck` |
+| Finanzas | `wallet` | Reportes | `bar-chart` |
+| Aduana | `customs` (o `globe`) | Ficha de Costo | `file-text` |
+| Dashboard | `layout-dashboard` | Auditoría | `clipboard-check` |
+| Configuración | `settings` | Ayuda | `help-circle` |
+| Buscar | `search` | Exportar | `download` |
+| Importar | `upload` | Eliminar | `trash-2` |
+| Editar | `pencil` | Guardar | `save` |
+| Cancelar | `x` | Cerrar | `x-circle` |
+| Notificación | `bell` | Usuario | `user` |
+| Estado ✅ | `check-circle` | Estado ⚠️ | `alert-triangle` |
+| Estado ❌ | `x-circle` | Estado 🟢 | `circle` |
+
+### 1.5 Componentes UI (Patrones de Diseño)
+
+#### 1.5.1 Tarjetas (Cards)
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Uso** | Agrupar información relacionada |
+| **Fondo** | Blanco `#ffffff` |
+| **Sombra** | Sutil: `0 2px 4px rgba(0,0,0,0.05)` |
+| **Bordes Redondeados** | 8px |
+| **Padding** | 16-24px |
+| **Separación** | 16px entre tarjetas |
+
+#### 1.5.2 Tablas
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Fondo** | Blanco `#ffffff` |
+| **Filas Alternadas** | `#f8f9fa` para filas pares |
+| **Hover** | `#e8f4f8` |
+| **Encabezados** | Fijos, fondo gris `#f1f3f5` |
+| **Bordes** | Verticales: sin bordes / Horizontales: `#e9ecef` |
+| **Padding** | 12-16px |
+
+#### 1.5.3 Botones
+
+| Tipo | Fondo | Texto | Hover | Estado Desactivado |
+|------|-------|-------|-------|-------------------|
+| **Primario** | `#00b4d8` | `#ffffff` | `#0098b5` | `#80d4e8` |
+| **Secundario** | `#e8f4f8` | `#1a2a3a` | `#d0e8f0` | `#f0f0f0` |
+| **Éxito** | `#2ecc71` | `#ffffff` | `#27ae60` | `#80e8a8` |
+| **Peligro** | `#e74c3c` | `#ffffff` | `#c0392b` | `#f08080` |
+| **Advertencia** | `#f39c12` | `#ffffff` | `#d68910` | `#f8c878` |
+
+**Tamaños de Botones:**
+
+| Tamaño | Padding Vertical | Padding Horizontal | Tamaño Fuente |
+|--------|------------------|-------------------|---------------|
+| **Pequeño** | 4px | 12px | 12px |
+| **Mediano** | 8px | 16px | 14px |
+| **Grande** | 12px | 24px | 16px |
+
+#### 1.5.4 Formularios
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Etiquetas** | Inter Medium, 14px, `#495057` |
+| **Campos** | Borde `#e9ecef`, redondeado 4px, padding 8-12px |
+| **Campo Foco** | Borde `#00b4d8`, sombra `0 0 0 3px rgba(0,180,216,0.2)` |
+| **Validación Éxito** | Borde `#2ecc71` |
+| **Validación Error** | Borde `#e74c3c`, mensaje en `#e74c3c` |
+| **Desactivado** | Fondo `#f8f9fa`, texto `#adb5bd` |
+
+#### 1.5.5 Estados de Carga
+
+| Tipo | Especificación |
+|------|----------------|
+| **Spinner** | Color primario `#00b4d8`, tamaño 24-48px |
+| **Skeleton** | Fondo `#e9ecef`, animación de pulso |
+| **Barra de Progreso** | Color primario `#00b4d8`, fondo `#e9ecef` |
+
+#### 1.5.6 Notificaciones (Toast)
+
+| Tipo | Color | Duración |
+|------|-------|----------|
+| **Éxito** | `#2ecc71` | 3-5 segundos |
+| **Alerta** | `#f39c12` | 5-8 segundos |
+| **Error** | `#e74c3c` | 8-10 segundos (o hasta cerrar) |
+| **Información** | `#00b4d8` | 3-5 segundos |
+
+#### 1.5.7 Modales
+
+| Aspecto | Especificación |
+|---------|----------------|
+| **Fondo** | Blanco `#ffffff`, redondeado 12px |
+| **Sombra** | Grande: `0 20px 60px rgba(0,0,0,0.2)` |
+| **Overlay** | Fondo `rgba(0,0,0,0.5)` |
+| **Ancho Máximo** | 600px (pequeño), 800px (mediano), 1200px (grande) |
+| **Padding** | 24-32px |
+| **Scroll** | Habilitado si el contenido excede |
+
+#### 1.5.8 Badges (Indicadores de Estado)
+
+| Tipo | Fondo | Texto | Ejemplo |
+|------|-------|-------|---------|
+| **Éxito** | `#2ecc71` | `#ffffff` | "Entregado", "Facturado" |
+| **Alerta** | `#f39c12` | `#ffffff` | "Pendiente", "Arribado" |
+| **Error** | `#e74c3c` | `#ffffff` | "Incidencia", "Error" |
+| **Info** | `#00b4d8` | `#ffffff` | "En Proceso", "Clasificación" |
+| **Neutral** | `#e9ecef` | `#495057` | "Normal", "Sin asignar" |
+
+### 1.6 Mensajes de Error
+
+#### 1.6.1 Formato Estándar
+
+```
+[Contexto] + [Descripción del problema] + [Sugerencia de acción]
+```
+
+#### 1.6.2 Mensajes de Error por Contexto
+
+| Contexto | Mensaje |
+|----------|---------|
+| **Campo Obligatorio** | "El campo [nombre] es obligatorio. Por favor, complétalo." |
+| **Formato Inválido** | "El formato de [campo] es inválido. El formato esperado es [formato]." |
+| **Carnet de Identidad** | "El Carnet de Identidad debe tener exactamente 11 dígitos." |
+| **House Duplicado** | "El House [número] ya existe en el sistema." |
+| **Importación Fallida** | "No se pudo importar el archivo. Verifica el formato y los datos." |
+| **Error de Aduana** | "No se pudo consultar el costo de aduana para [House]. Verifica el AWB y House." |
+| **Automatización Aduana** | "La automatización de facturación falló para [House]. Verifica el importe y factura." |
+| **Error de Sincronización** | "No se pudo sincronizar los datos. Verifica tu conexión a internet." |
+| **Error de Autenticación** | "Usuario o contraseña incorrectos. Intenta nuevamente." |
+| **Error de Autorización** | "No tienes permisos para realizar esta acción." |
+| **Error de Servidor** | "Ocurrió un error en el servidor. Intenta nuevamente más tarde." |
+
+### 1.7 Feedback y Microinteracciones
+
+| Acción | Feedback |
+|--------|----------|
+| **Hacer clic en botón** | Cambio de estado (hover → active → normal) |
+| **Enviar formulario** | Spinner + mensaje de éxito/error |
+| **Importar archivo** | Barra de progreso + mensaje de éxito/error |
+| **Guardar cambios** | Toast de confirmación |
+| **Eliminar elemento** | Modal de confirmación |
+| **Optimizar rutas** | Spinner + toast de finalización |
+| **Consultar aduana** | Barra de progreso + toast de finalización |
+| **Generar ficha de costo** | Spinner + toast de finalización |
+| **Sincronizar offline** | Indicador de estado + toast de finalización |
+| **Ejecutar automatización** | Barra de progreso + toast de finalización |
+
+### 1.8 Tamaños de Pantalla Soportados
+
+| Dispositivo | Ancho Mínimo | Ancho Máximo | Breakpoint |
+|-------------|--------------|--------------|------------|
+| **Móvil** | 320px | 767px | `max-width: 767px` |
+| **Tablet** | 768px | 1023px | `min-width: 768px` y `max-width: 1023px` |
+| **Escritorio** | 1024px | 1439px | `min-width: 1024px` y `max-width: 1439px` |
+| **Pantalla Grande** | 1440px | ∞ | `min-width: 1440px` |
+
+### 1.9 Comportamiento Responsivo
+
+| Elemento | Comportamiento en Móvil |
+|----------|------------------------|
+| **Navegación** | Collapsible (hamburguesa) |
+| **Tablas** | Scroll horizontal |
+| **Tarjetas** | Una columna (apiladas) |
+| **Formularios** | Campos en una sola columna |
+| **Botones** | Ancho completo o tamaño reducido |
+| **Gráficos** | Tamaño reducido, leyenda simplificada |
+| **Mapas** | Tamaño reducido, controles simplificados |
+
+### 1.10 Accesibilidad (WCAG 2.1 AA)
+
+| Aspecto | Requisito | Verificación |
+|---------|-----------|--------------|
+| **Contraste de Color** | Ratio ≥ 4.5:1 para texto normal | Verificado con herramientas |
+| **Tamaño de Texto** | Base ≥ 16px | Configurado en Tailwind |
+| **Navegación por Teclado** | Todos los elementos accesibles por teclado | Verificado en pruebas |
+| **Etiquetas ARIA** | Presentes en elementos interactivos | Verificado en código |
+| **Atributos alt** | Presentes en todas las imágenes | Verificado en código |
+| **Estructura Semántica** | Headings, landmarks correctos | Verificado en código |
 
 ---
 
@@ -129,7 +313,7 @@ flowchart TD
 │  │                                                                        │   │
 │  │  ┌────────────────────────┐  ┌────────────────────────────────────┐   │   │
 │  │  │  Utilidad por Viaje     │  │  Rendimiento por Ruta             │   │   │
-│  │  │  ┌────────────────┐     │  │  ┌──────────────────┐             │   │   |
+│  │  │  ┌────────────────┐     │  │  ┌──────────────────┐             │   │   │
 │  │  │  │ ████████████░░ │     │  │  │ Habana: 92% ████░│             │   │   │
 │  │  │  │    $32.40       │     │  │  │ Camagüey: 96% ████│            │   │   │
 │  │  │  └────────────────┘     │  │  │ Santiago: 88% ██░░│            │   │   │
@@ -493,11 +677,11 @@ flowchart TD
 │  │                                                                        │   │
 │  │  [Gráfico de líneas: Costo por km (Ene-Ago 2026) - incluyendo aduana] │   │
 │  │                                                                        │   │
-│  │  $1.60 ──────────●─────────────────────────────────────               │   │
-│  │  $1.50 ─────────────●─────────────────●───────────────               │   │
-│  │  $1.40 ────────────────●─────●──────────●──────●─────               │   │
-│  │  $1.30 ────────────────────●──────────────────────●──               │   │
-│  │  $1.20 ──────────────────────────────────────────────────             │   │
+│  │  $1.60 ──────────●─────────────────────────────────────────────────    │   │
+│  │  $1.50 ─────────────●─────────────────●───────────────────────────    │   │
+│  │  $1.40 ────────────────●─────●──────────●──────●─────────────────    │   │
+│  │  $1.30 ────────────────────●──────────────────────●──────────────    │   │
+│  │  $1.20 ───────────────────────────────────────────────────────────    │   │
 │  │        Ene  Feb  Mar  Abr  May  Jun  Jul  Ago                        │   │
 │  │                                                                        │   │
 │  │  Tendencia: 📈 +8.5% en últimos 3 meses (incluye costos de aduana)   │   │
@@ -1405,7 +1589,7 @@ flowchart TD
 
 ---
 
-### 3.22 MAQUETA 22: MONITOREO DE ADUANA (Web - Escritorio) - **NUEVA**
+### 3.22 MAQUETA 22: MONITOREO DE ADUANA (Web - Escritorio)
 
 **Objetivo:** Monitorear el estado de la automatización de facturación de aduana, mostrando el progreso de las consultas programadas y los resultados.
 
@@ -1414,35 +1598,35 @@ flowchart TD
 │  🚚 SIGMA-T                       [Buscar...]            🔔  👤 Osleyder G.   │
 │  ──────────────────────────────────────────────────────────────────────────── │
 │  Inicio  │  Envíos  │  Rutas  │  Flota  │  Choferes  │  Finanzas  │  Reportes │
-│  ─────────────────────────────────────────────────────────────────────────────────── │
-│                                                                                      │
-│  ┌─── MONITOREO DE ADUANA ───────────────────────────────────────────────────────┐   │
-│  │                                                                               │   │
-│  │  📅 Última consulta: 18/08/2026 12:00 PM                                      │   │
-│  │  ⏰ Próxima consulta: 18/08/2026 4:00 PM                                      │   │
-│  │  🔄 Estado del sistema: 🟢 Activo                                            │   │
-│  │                                                                               │   │
-│  │  ┌───────────────┬───────────────┬────────────────┬─────────────┬───────────┐ │   │
-│  │  │ 📦 Arribados  │ 📄 Facturados │ ⏳ Pendientes │ ❌ Errores │ 📊 Total  │ │   │
-│  │  │        12     │        8      │         4      │      0      │      20   │ │   │
-│  │  └───────────────┴───────────────┴────────────────┴─────────────┴───────────┘ │   │
-│  │                                                                               │   │
-│  │  ──── DETALLE DE CONSULTAS ────                                               │   │
-│  │                                                                               │   │
-│  │  ┌──────────┬───────────────┬──────────────┬─────────────┬─────────────┐      │   │
-│  │  │ House    │ AWB           │ Estado       │ Importe     │ Factura     │      │   │
-│  │  ├──────────┼───────────────┼──────────────┼─────────────┼─────────────┤      │   │
-│  │  │ CACC-149 │ 230-66684660  │ 🔵 Arribado  │ -           │ -           │      │   │
-│  │  │ CACC-150 │ 230-66684660  │ 🟢 Facturado │ $1,250.00   │ FAC-001     │      │   │
-│  │  │ CACC-151 │ 230-66684660  │ 🟢 Facturado │ $850.00     │ FAC-002     │      │   │
-│  │  │ CACC-152 │ 230-66684660  │ 🔵 Arribado  │ -           │ -           │      │   │
-│  │  │ CACC-153 │ 230-66684660  │ 🔵 Arribado  │ -           │ -           │      │   │
-│  │  │ CACC-154 │ 230-66684660  │ 🟢 Facturado │ $0.00       │ FAC-003     │      │   │
-│  │  └──────────┴───────────────┴──────────────┴─────────────┴─────────────┘      │   │
-│  │                                                                               │   │
-│  │  [  🔍 CONSULTAR AHORA  ]  [  📄 VER HISTORIAL  ]  [  ⚙️ CONFIGURAR ]        │   │
-│  └───────────────────────────────────────────────────────────────────────────────┘   │
-│                                                                                      │
+│  ──────────────────────────────────────────────────────────────────────────── │
+│                                                                                │
+│  ┌─── MONITOREO DE ADUANA ─────────────────────────────────────────────────┐   │
+│  │                                                                        │   │
+│  │  📅 Última consulta: 18/08/2026 12:00 PM                              │   │
+│  │  ⏰ Próxima consulta: 18/08/2026 4:00 PM                              │   │
+│  │  🔄 Estado del sistema: 🟢 Activo                                    │   │
+│  │                                                                        │   │
+│  │  ┌───────────────┬───────────────┬────────────────┬─────────────┬─────┐│   │
+│  │  │ 📦 Arribados  │ 📄 Facturados │ ⏳ Pendientes │ ❌ Errores │ 📊 Total││   │
+│  │  │        12     │        8      │         4      │      0      │  20  ││   │
+│  │  └───────────────┴───────────────┴────────────────┴─────────────┴─────┘│   │
+│  │                                                                        │   │
+│  │  ──── DETALLE DE CONSULTAS ────                                       │   │
+│  │                                                                        │   │
+│  │  ┌──────────┬───────────────┬──────────────┬─────────────┬───────────┐│   │
+│  │  │ House    │ AWB           │ Estado       │ Importe     │ Factura   ││   │
+│  │  ├──────────┼───────────────┼──────────────┼─────────────┼───────────┤│   │
+│  │  │ CACC-149 │ 230-66684660  │ 🔵 Arribado  │ -           │ -         ││   │
+│  │  │ CACC-150 │ 230-66684660  │ 🟢 Facturado │ $1,250.00   │ FAC-001   ││   │
+│  │  │ CACC-151 │ 230-66684660  │ 🟢 Facturado │ $850.00     │ FAC-002   ││   │
+│  │  │ CACC-152 │ 230-66684660  │ 🔵 Arribado  │ -           │ -         ││   │
+│  │  │ CACC-153 │ 230-66684660  │ 🔵 Arribado  │ -           │ -         ││   │
+│  │  │ CACC-154 │ 230-66684660  │ 🟢 Facturado │ $0.00       │ FAC-003   ││   │
+│  │  └──────────┴───────────────┴──────────────┴─────────────┴───────────┘│   │
+│  │                                                                        │   │
+│  │  [  🔍 CONSULTAR AHORA  ]  [  📄 VER HISTORIAL  ]  [  ⚙️ CONFIGURAR ] │   │
+│  └───────────────────────────────────────────────────────────────────────┘   │
+│                                                                                │
 │  ┌─── CONFIGURACIÓN DE AUTOMATIZACIÓN ────────────────────────────────────┐   │
 │  │                                                                        │   │
 │  │  ⏰ Horarios de consulta:                                              │   │
@@ -1456,7 +1640,7 @@ flowchart TD
 │  │     ✅ Consulta 12:00 PM - 8 houses facturados                         │   │
 │  │                                                                        │   │
 │  │  [  GUARDAR CONFIGURACIÓN  ]                                           │   │
-│  └────────────────────────────────────────────────────────────────────────┘   │
+│  └───────────────────────────────────────────────────────────────────────┘   │
 │                                                                                │
 │  [Página 1/1]                                                                  │
 └─────────────────────────────────────────────────────────────────────────────────┘
@@ -1518,7 +1702,7 @@ flowchart TD
 3. Al llegar a la entrega, el chofer puede ver el costo de aduana en el detalle.
 4. Si el costo de aduana no está disponible, el sistema muestra "Costo pendiente de consulta".
 
-### 4.6 Flujo: Automatización de Facturación de Aduana (NUEVO)
+### 4.6 Flujo: Automatización de Facturación de Aduana
 1. El sistema ejecuta una tarea programada (cron job) en los horarios establecidos: 8:00 AM, 12:00 PM, 4:00 PM, 12:00 AM.
 2. El sistema consulta la base de datos para obtener todos los houses con estado **"Arribado"**.
 3. Para cada house, el sistema consulta Aerovaradero utilizando la URL de payment.
@@ -1548,9 +1732,11 @@ flowchart TD
 
 ## 6. CONCLUSIÓN
 
-Este documento consolida un total de **22 pantallas de alta fidelidad** (21 existentes + 1 nueva para monitoreo de aduana), diseñadas para cubrir todos los módulos de SIGMA-T incluyendo la nueva funcionalidad de ficha de costo detallada, los parámetros financieros actualizados, el mapeo flexible de columnas para importación de manifiestos y la automatización de facturación de aduana.
+Este documento consolida un total de **22 pantallas de alta fidelidad**, diseñadas para cubrir todos los módulos de SIGMA-T incluyendo la nueva funcionalidad de ficha de costo detallada, los parámetros financieros actualizados, el mapeo flexible de columnas para importación de manifiestos y la automatización de facturación de aduana.
 
-**Resumen de las nuevas funcionalidades:**
+**Resumen de las funcionalidades:**
+
+- **Guía de Estilo Expandida:** Sistema de iconos, componentes UI detallados, mensajes de error, feedback, responsividad y accesibilidad.
 - **Mapeo flexible de columnas** para importación de Excel
 - Gestión de parámetros financieros (tasa de cambio USD/CUP, precio de combustibles, **costos por km**)
 - Consulta automática de costos de aduana desde el sitio web de Aerovaradero (**URL de payment**)
@@ -1563,4 +1749,4 @@ Este documento consolida un total de **22 pantallas de alta fidelidad** (21 exis
 - **Validación de Carnet de Identidad (11 dígitos)** y **Unidad de destino (obligatoria)**
 - **Monitoreo de automatización de aduana** con horarios y estado de consultas
 
-**Próximo Paso:** Con estas maquetas validadas e incluyendo las nuevas funcionalidades, estamos listos para el desarrollo técnico del Sprint 2 (Optimización de Rutas).
+---
