@@ -20,7 +20,7 @@ export const ImportarManifiesto: React.FC<ImportarManifiestoProps> = ({
 }) => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [file, setFile] = useState<File | null>(null);
-  const [columnasExcel, setColumnasExcel] = useState<Array<string>>([]);
+  const [columnasExcel, setColumnasExcel] = useState<string[]>([]);
   const [clienteId, setClienteId] = useState<number>(1);
   const [mapeo, setMapeo] = useState<ColumnaMapeo>({
     house: '',
