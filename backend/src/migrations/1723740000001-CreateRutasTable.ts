@@ -3,7 +3,11 @@
  * @module migrations/1723740000001-CreateRutasTable
  */
 
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+
+import type { MigrationInterface, QueryRunner } from 'typeorm';
+import { Table, TableForeignKey, TableColumn } from 'typeorm';
 
 export class CreateRutasTable1723740000001 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -80,3 +84,6 @@ export class CreateRutasTable1723740000001 implements MigrationInterface {
     await queryRunner.dropTable('rutas');
   }
 }
+
+/* eslint-enable @typescript-eslint/no-unsafe-call */
+/* eslint-enable @typescript-eslint/no-unsafe-argument */
