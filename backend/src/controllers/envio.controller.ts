@@ -30,12 +30,6 @@ export class EnvioController {
   /**
    * Obtiene todos los envíos con filtros opcionales
    * @route GET /api/envios
-   * @param {Request} req - Express request object con query params
-   * @param {Response} res - Express response object
-   * @returns {Promise<void>} Respuesta con lista de envíos
-   * @example
-   * GET /api/envios?estado=pendiente&search=CACC
-   * Response: { success: true, data: [...], total: 10 }
    */
   static async getAll(req: Request, res: Response): Promise<void> {
     try {
@@ -68,12 +62,6 @@ export class EnvioController {
   /**
    * Obtiene un envío por su ID
    * @route GET /api/envios/:id
-   * @param {Request} req - Express request object con id en params
-   * @param {Response} res - Express response object
-   * @returns {Promise<void>} Respuesta con el envío encontrado
-   * @example
-   * GET /api/envios/1
-   * Response: { success: true, data: { ... } }
    */
   static async getById(req: Request, res: Response): Promise<void> {
     try {
@@ -112,12 +100,6 @@ export class EnvioController {
   /**
    * Obtiene un envío por su número de House
    * @route GET /api/envios/house/:house
-   * @param {Request} req - Express request object con house en params
-   * @param {Response} res - Express response object
-   * @returns {Promise<void>} Respuesta con el envío encontrado
-   * @example
-   * GET /api/envios/house/CACC-24014926
-   * Response: { success: true, data: { ... } }
    */
   static async getByHouse(req: Request, res: Response): Promise<void> {
     try {
@@ -148,13 +130,6 @@ export class EnvioController {
   /**
    * Crea un nuevo envío manualmente
    * @route POST /api/envios
-   * @param {Request} req - Express request object con datos del envío
-   * @param {Response} res - Express response object
-   * @returns {Promise<void>} Respuesta con el envío creado
-   * @example
-   * POST /api/envios
-   * Body: { house: 'CACC-24014926', destinatario_nombre: 'Juan', ... }
-   * Response: { success: true, data: { ... } }
    */
   static async create(req: Request, res: Response): Promise<void> {
     try {
@@ -179,13 +154,6 @@ export class EnvioController {
   /**
    * Actualiza un envío existente
    * @route PUT /api/envios/:id
-   * @param {Request} req - Express request object con id en params y datos en body
-   * @param {Response} res - Express response object
-   * @returns {Promise<void>} Respuesta con el envío actualizado
-   * @example
-   * PUT /api/envios/1
-   * Body: { estado: 'entregado', incidencia: 'Paquete dañado' }
-   * Response: { success: true, data: { ... } }
    */
   static async update(req: Request, res: Response): Promise<void> {
     try {
@@ -228,12 +196,6 @@ export class EnvioController {
   /**
    * Elimina un envío (eliminación física)
    * @route DELETE /api/envios/:id
-   * @param {Request} req - Express request object con id en params
-   * @param {Response} res - Express response object
-   * @returns {Promise<void>} Respuesta de confirmación
-   * @example
-   * DELETE /api/envios/1
-   * Response: { success: true, message: 'Envío eliminado exitosamente' }
    */
   static async delete(req: Request, res: Response): Promise<void> {
     try {
@@ -272,13 +234,6 @@ export class EnvioController {
   /**
    * Actualiza el estado de un envío
    * @route PATCH /api/envios/:id/estado
-   * @param {Request} req - Express request object con id en params y estado en body
-   * @param {Response} res - Express response object
-   * @returns {Promise<void>} Respuesta con el envío actualizado
-   * @example
-   * PATCH /api/envios/1/estado
-   * Body: { estado: 'entregado', incidencia: 'Paquete dañado' }
-   * Response: { success: true, data: { ... } }
    */
   static async updateEstado(req: Request, res: Response): Promise<void> {
     try {
@@ -328,12 +283,6 @@ export class EnvioController {
   /**
    * Obtiene estadísticas de envíos
    * @route GET /api/envios/estadisticas
-   * @param {Request} req - Express request object con clienteId opcional
-   * @param {Response} res - Express response object
-   * @returns {Promise<void>} Respuesta con estadísticas
-   * @example
-   * GET /api/envios/estadisticas?clienteId=1
-   * Response: { success: true, data: { total: 100, pendientes: 20, ... } }
    */
   static async getEstadisticas(req: Request, res: Response): Promise<void> {
     try {
@@ -357,12 +306,6 @@ export class EnvioController {
   /**
    * Obtiene el historial de envíos de un cliente
    * @route GET /api/envios/cliente/:id/historial
-   * @param {Request} req - Express request object con id del cliente en params
-   * @param {Response} res - Express response object
-   * @returns {Promise<void>} Respuesta con lista de envíos del cliente
-   * @example
-   * GET /api/envios/cliente/1/historial
-   * Response: { success: true, data: [...], total: 47 }
    */
   static async getHistorialByCliente(req: Request, res: Response): Promise<void> {
     try {
