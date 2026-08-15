@@ -45,18 +45,42 @@ export const AppDataSource = new DataSource({
   migrations: [],
 });
 
-// Validación de configuración en producción
+// ============================================
+// ✅ VALIDACIÓN DE CONFIGURACIÓN EN PRODUCCIÓN
+// ============================================
+
 if (process.env.NODE_ENV === 'production') {
+  // Validación crítica: DB_PASSWORD es obligatoria
   if (!process.env.DB_PASSWORD) {
     logger.error('❌ ERROR CRÍTICO: DB_PASSWORD no está configurada en .env');
     logger.error('   El servidor no puede iniciar sin una contraseña de base de datos segura.');
+    logger.error('   Por favor, configure DB_PASSWORD en el archivo .env');
     process.exit(1);
   }
 
-  if (!process.env.DB_USER || !process.env.DB_HOST) {
-    logger.warn('⚠️ ADVERTENCIA: DB_USER o DB_HOST no están configurados, usando valores por defecto.');
+  // Advertencias: otros parámetros con valores por defecto
+  if (!process.env.DB_USER) {
+    logger.warn('⚠️ ADVERTENCIA: DB_USER no está configurado, usando valor por defecto "admin".');
+    logger.warn('   Recomendamos configurar DB_USER en el archivo .env');
+  }
+
+  if (!process.env.DB_HOST) {
+    logger.warn('⚠️ ADVERTENCIA: DB_HOST no está configurado, usando valor por defecto "localhost".');
+    logger.warn('   Recomendamos configurar DB_HOST en el archivo .env');
+  }
+
+  // Validación de synchronize en producción (debe estar desactivado)
+  if (process.env.synchronize === 'true' || process.env.synchronize === '1') {
+    logger.warn('⚠️ ADVERTENCIA: synchronize está activado en producción.');
+    logger.warn('   Esto puede causar pérdida de datos. Use migraciones en su lugar.');
+    logger.warn('   Para desactivar, asegure que NODE_ENV=production');
   }
 }
 
+// ============================================
+// INFORMACIÓN DE CONEXIÓN
+// ============================================
+
 logger.info(`📦 Base de datos: ${process.env.DB_NAME || 'sigma_t'} en ${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || '5432'}`);
 logger.info(`🔧 Modo synchronize: ${process.env.NODE_ENV !== 'production' ? 'ACTIVADO (desarrollo)' : 'DESACTIVADO (producción)'}`);
+logger.info(`🔐 Entorno: ${process.env.NODE_ENV || 'development'}`);

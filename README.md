@@ -14,6 +14,13 @@ SIGMA-T es una plataforma de clase mundial diseñada para gestionar de forma int
 - **Integración con Aduana:** Consulta automática de costos en Aerovaradero
 - **Ficha de Costo:** Desglose completo de costos por ruta
 
+## 🆕 Funcionalidades Avanzadas (VRPTW v3.0)
+- **Optimización de Combustible:** Minimiza el consumo real de combustible considerando el tipo de vehículo y precio del combustible
+- **Prioridad de Entregas:** Los envíos urgentes se colocan automáticamente en las primeras 3 posiciones de la ruta
+- **Reoptimización Dinámica:** Ajuste de rutas en <5 segundos ante incidencias (cliente no encontrado, tráfico, nuevos pedidos)
+- **Sistema de IA:** Estimación de tiempos de entrega con precisión ≥85% usando regresión lineal
+- **Análisis Post-Ruta:** Métricas de eficiencia por chofer, vehículo y zona con comparativa planificado vs real
+
 ## 🛠️ Tecnologías
 - **Backend:** Node.js + TypeScript
 - **Frontend:** React + Vite + Tailwind CSS

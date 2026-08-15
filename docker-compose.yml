@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_DB: sigma_t
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-sigma2026}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}  # ✅ OBLIGATORIO - Sin valor por defecto
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -25,12 +25,36 @@ services:
     networks:
       - sigma-network
 
+  # ============================================
+  # OSRM - Motor de Rutas (MEJORADO)
+  # ============================================
   osrm:
     image: ghcr.io/project-osrm/osrm-backend:latest
     container_name: sigma-t-osrm
     volumes:
       - ./osrm_data:/data
-    command: "osrm-routed --algorithm mld /data/cuba-latest.osrm"
+    # ✅ Comando con verificación de datos de Cuba
+    entrypoint: |
+      sh -c "
+      if [ ! -f /data/cuba-latest.osrm ]; then
+        echo '⚠️ Datos de Cuba no encontrados.';
+        echo '';
+        echo '📌 Para usar OSRM, descargue los datos manualmente:';
+        echo '   1. Visite: https://download.geofabrik.de/south-america/cuba.html';
+        echo '   2. Descargue el archivo .osm.pbf (cuba-latest.osm.pbf)';
+        echo '   3. Colóquelo en ./osrm_data/cuba-latest.osm.pbf';
+        echo '   4. Procese los datos:';
+        echo '      docker-compose run --rm osrm osrm-extract -p /opt/car.lua /data/cuba-latest.osm.pbf';
+        echo '      docker-compose run --rm osrm osrm-partition /data/cuba-latest.osrm';
+        echo '      docker-compose run --rm osrm osrm-customize /data/cuba-latest.osrm';
+        echo '   5. Reinicie OSRM: docker-compose up -d osrm';
+        echo '';
+        echo '⏳ Mientras tanto, OSRM se ejecutará en modo de espera...';
+        sleep infinity;
+      else
+        echo '✅ Datos de Cuba encontrados. Iniciando OSRM con algoritmo MLD...';
+        osrm-routed --algorithm mld /data/cuba-latest.osrm;
+      fi"
     ports:
       - "5000:5000"
     restart: unless-stopped
@@ -44,14 +68,15 @@ services:
       DB_HOST: postgres
       DB_PORT: 5432
       DB_USER: admin
-      DB_PASSWORD: ${DB_PASSWORD:-sigma2026}
+      DB_PASSWORD: ${DB_PASSWORD}  # ✅ OBLIGATORIO - Sin valor por defecto
       DB_NAME: sigma_t
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      JWT_SECRET: ${JWT_SECRET:-sigma-t-secret-key-2026}
+      JWT_SECRET: ${JWT_SECRET}  # ✅ OBLIGATORIO - Sin valor por defecto
       OSRM_URL: http://osrm:5000
       NODE_ENV: development
       AEROVARADERO_URL: https://www.aerovaradero.com.cu/payment/
+      AUTOMATION_HOURS: "8,12,16,0"
     ports:
       - "3000:3000"
     depends_on:
