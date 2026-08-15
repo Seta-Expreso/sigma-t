@@ -3,7 +3,7 @@
  * @module components/envios/HistorialCliente
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { envioApi, Envio } from '../../api/envio.api';
 
 export interface HistorialClienteProps {
@@ -24,7 +24,7 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
   const [filtroFechaInicio, setFiltroFechaInicio] = useState<string>('');
   const [filtroFechaFin, setFiltroFechaFin] = useState<string>('');
 
-  const cargarHistorial = async () => {
+  const cargarHistorial = useCallback(async () => {
     try {
       setLoading(true);
       const data = await envioApi.getHistorialByCliente(clienteId);
@@ -35,11 +35,11 @@ export const HistorialCliente: React.FC<HistorialClienteProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [clienteId]);
 
   useEffect(() => {
     cargarHistorial();
-  }, [clienteId]);
+  }, [cargarHistorial]);
 
   const getEstadoColor = (estado: string) => {
     const colors: Record<string, string> = {

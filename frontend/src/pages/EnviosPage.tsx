@@ -3,7 +3,7 @@
  * @module pages/EnviosPage
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { envioApi, Envio, EnvioFilters } from '../api/envio.api';
 import { EnvioList } from '../components/envios/EnvioList';
 import { EnvioFilters as EnvioFiltersComponent } from '../components/envios/EnvioFilters';
@@ -30,7 +30,7 @@ export const EnviosPage: React.FC = () => {
     incidencias: number;
   } | null>(null);
 
-  const cargarEnvios = async () => {
+  const cargarEnvios = useCallback(async () => {
     try {
       setLoading(true);
       const data = await envioApi.getAll(filters);
@@ -42,21 +42,21 @@ export const EnviosPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
 
-  const cargarEstadisticas = async () => {
+  const cargarEstadisticas = useCallback(async () => {
     try {
       const data = await envioApi.getEstadisticas();
       setEstadisticas(data);
     } catch (err) {
       console.error('Error al cargar estadísticas:', err);
     }
-  };
+  }, []);
 
   useEffect(() => {
     cargarEnvios();
     cargarEstadisticas();
-  }, [filters]);
+  }, [cargarEnvios, cargarEstadisticas]);
 
   const handleFilterChange = (newFilters: EnvioFilters) => {
     setFilters(newFilters);
